@@ -10,5 +10,17 @@ module.exports = {
       .use('pug-html-loader')
       .loader('pug-html-loader')
       .end()
+  },
+  configureWebpack: {
+    resolve: {
+      alias: {
+        '@as': '@/assets',
+        '@c': '@/components',
+        '@v': '@/views',
+        '@img': '@/assets/img',
+        '@css': '@/assets/css',
+        '@api': '@/api'
+      }
+    }
   }
 }
