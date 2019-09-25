@@ -22,5 +22,12 @@ module.exports = {
         '@api': '@/api'
       }
     }
+  },
+  css: {
+    loaderOptions: {
+      sass: {
+        data: `@import "@css/mixins.sass";`
+      }
+    }
   }
 }
