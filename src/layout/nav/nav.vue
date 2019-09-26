@@ -1,6 +1,7 @@
-<template lang="pug">
-  #app
-    router-view
+<template>
+  <div>
+    nav
+  </div>
 </template>
 <script>
 export default {

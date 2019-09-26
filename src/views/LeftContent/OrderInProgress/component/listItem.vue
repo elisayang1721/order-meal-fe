@@ -1,10 +1,9 @@
-<template lang="pug">
-  .main
+<template>
+  <div>
+    listItem
+  </div>
 </template>
-
 <script>
-
 export default {
-  name: 'Main',
 }
 </script>
