@@ -28,7 +28,12 @@ module.exports = {
           resolve: {
             alias: {
               '@': path.resolve('./src'),
-              '@img': path.resolve('./src/assets')
+              '@img': path.resolve('./src/assets'),
+              '@as': path.resolve('./src/assets'),
+              '@c': path.resolve('./src/components'),
+              '@v': path.resolve('./src/views'),
+              '@css': path.resolve('./src/assets/css'),
+              '@api': path.resolve('./src/api'),
             },
             extensions: ['.js', '.vue']
           }
