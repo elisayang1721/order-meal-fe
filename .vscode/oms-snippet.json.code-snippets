@@ -1,0 +1,26 @@
+{
+	"Print to console": {
+		"prefix": "oms",
+		"body": [
+			"<template lang=\"pug\">",
+			"",
+			"</template>",
+			"<script>",
+			"export default {",
+			"\tname: '${name}',",
+			"\tcreated() {\t},",
+			"\tmounted() {\t},",
+			"\tcomputed: {},",
+			"\tmethods: {},",
+			"\twatch: {},",
+			"\tdata() {",
+			"\t\treturn {}",
+			"\t},",
+			"\tcomponents: {},",
+			"}",
+			"</script>",
+			""
+		],
+		"description": "Oms BaseTemplate"
+	}
+}

@@ -1,9 +1,17 @@
 <template lang="pug">
   #app
+    AppHeader
     router-view
 </template>
 <script>
-export default {
+// import Main from '@v/Main'
+import AppHeader from '@/layout/AppHeader'
 
+export default {
+  name: 'app',
+  components: {
+    AppHeader,
+    // Main,
+  },
 }
 </script>
