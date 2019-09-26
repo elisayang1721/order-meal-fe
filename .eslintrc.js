@@ -93,13 +93,6 @@ module.exports = {
     "import/extensions": [2, "never", {
       "vue": "never"
     }],
-    "comma-dangle": ["error", {
-      "arrays": "always-multiline",
-      "objects": "always-multiline",
-      "imports": "never",
-      "exports": "never",
-      "functions": "ignore"
-    }],
     "semi": ["error", "never"]
   }
 }
