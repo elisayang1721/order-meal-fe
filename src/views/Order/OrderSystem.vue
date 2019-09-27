@@ -1,7 +1,14 @@
 <template lang="pug">
-  p system
+  #orderSystem
+    .progressTitle 進行中的訂單 - {{progress.length}} 項進行中
+    VuePerfectScrollBar.listContainer
+      .contentViewFix
+        OrderInProgressItem(v-for="obj in progress" :key="obj" :listData="obj")
 </template>
 <script>
+import VuePerfectScrollBar from 'vue-perfect-scrollbar'
+import OrderInProgressItem from './component/orderInProgressItem'
+
 export default {
   name: 'OrderSystem',
   created() { },
@@ -10,8 +17,19 @@ export default {
   methods: {},
   watch: {},
   data() {
-    return {}
+    return {
+      progress: [
+        '1',
+        '2',
+        '3',
+        '4',
+        '5'
+      ]
+    }
   },
-  components: {},
+  components: {
+    VuePerfectScrollBar,
+    OrderInProgressItem
+  }
 }
 </script>

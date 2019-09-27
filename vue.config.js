@@ -1,6 +1,6 @@
 module.exports = {
   devServer: {
-    port: 2019,
+    port: 2019
   },
   chainWebpack: config => {
     // pug
@@ -19,15 +19,15 @@ module.exports = {
         '@v': '@/views',
         '@img': '@/assets/img',
         '@css': '@/assets/css',
-        '@api': '@/api',
-      },
-    },
+        '@api': '@/api'
+      }
+    }
   },
   css: {
     loaderOptions: {
       sass: {
-        data: '@import "@css/mixins.sass";',
-      },
-    },
-  },
+        data: '@import "@css/mixins.sass";'
+      }
+    }
+  }
 }

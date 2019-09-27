@@ -1,5 +1,5 @@
 <template lang="pug">
-  main 123
+  main
     router-view
 </template>
 <script>
@@ -13,6 +13,6 @@ export default {
   watch: {},
   data() {
     return {}
-  },
+  }
 }
 </script>
