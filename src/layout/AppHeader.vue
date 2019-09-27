@@ -1,6 +1,11 @@
 <template lang="pug">
   header
-    p AppHeader
+    .icon 訂餐系統
+    ul.navTabs
+      li
+        p 管理中心
+      li
+        p user info
 </template>
 <script>
 export default {
@@ -13,5 +18,5 @@ export default {
   data() {
     return {}
   },
-  components: {},
+  components: {}
 }
