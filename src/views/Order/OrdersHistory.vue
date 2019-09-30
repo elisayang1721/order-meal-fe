@@ -12,7 +12,7 @@ import MyOrdersFrame from './component/myOrdersFrame'
 import ordersHistoryFrame from './component/ordersHistoryFrame'
 
 export default {
-  name: 'OrderHistory',
+  name: 'OrdersHistory',
   created() { },
   mounted() { },
   computed: {
