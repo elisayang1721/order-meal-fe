@@ -10,8 +10,8 @@ import AppHeader from '@/layout/AppHeader'
 export default {
   name: 'app',
   components: {
-    AppHeader,
+    AppHeader
     // Main,
-  },
+  }
 }
 </script>

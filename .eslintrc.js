@@ -1,4 +1,4 @@
-const path = require("path");
+const path = require('path')
 
 module.exports = {
   root: true,
@@ -33,7 +33,7 @@ module.exports = {
               '@c': path.resolve('./src/components'),
               '@v': path.resolve('./src/views'),
               '@css': path.resolve('./src/assets/css'),
-              '@api': path.resolve('./src/api'),
+              '@api': path.resolve('./src/api')
             },
             extensions: ['.js', '.vue']
           }
@@ -90,9 +90,9 @@ module.exports = {
       ]
     }],
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    "import/extensions": [2, "never", {
-      "vue": "never"
+    'import/extensions': [2, 'never', {
+      'vue': 'never'
     }],
-    "semi": ["error", "never"]
+    'semi': ['error', 'never']
   }
 }

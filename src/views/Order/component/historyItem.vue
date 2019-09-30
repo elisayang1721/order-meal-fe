@@ -1,18 +1,17 @@
 <template lang="pug">
-  main
-    router-view
+  div history
 </template>
 <script>
-
 export default {
-  name: 'Main',
-  created() { },
-  mounted() { },
+  name: 'HistoryItem',
+  created() {	},
+  mounted() {	},
   computed: {},
   methods: {},
   watch: {},
   data() {
     return {}
-  }
+  },
+  components: {}
 }
 </script>
