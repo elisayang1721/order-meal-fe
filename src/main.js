@@ -9,6 +9,7 @@ Vue.use(ElementUI)
 // style
 import '@css/reset.sass'
 import '@css/main.sass'
+import '@css/admin.sass'
 
 import App from './App'
 import router from './router'
