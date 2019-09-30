@@ -18,15 +18,15 @@ export default new Router({
         {
           path: '',
           name: 'orderMain',
-          component: orderMain,
+          component: orderMain
         },
         {
           path: '/admin',
           name: 'admin',
-          component: Admin,
-        },
+          component: Admin
+        }
 
-      ],
-    },
-  ],
+      ]
+    }
+  ]
 })
