@@ -1,5 +1,5 @@
 <template lang="pug">
-  p(@click="showDailog({name:'DailogDetail',title:'123'})") store
+  p(@click="showDailog({name:'Detail',title:'123'})") store
 </template>
 <script>
 import { mapActions } from 'vuex'
