@@ -1,17 +1,14 @@
 <template lang="pug">
-  p(@click="showDailog({name:'DailogDetail',title:'123'})") store
+  div
+    p Order
 </template>
 <script>
-import { mapActions } from 'vuex'
-
 export default {
-  name: 'StoreManage',
+  name: 'DailogOrder',
   created() { },
   mounted() { },
   computed: {},
-  methods: {
-    ...mapActions(['showDailog'])
-  },
+  methods: {},
   watch: {},
   data() {
     return {}
