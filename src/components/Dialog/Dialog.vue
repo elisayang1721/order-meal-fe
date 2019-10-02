@@ -1,7 +1,7 @@
 <template lang="pug">
   transition(name="dailog-fade")
     .DailogFrame
-      .DailogBg
+      .DailogBg(@click="closeDailog")
       .DailogContent
         .DailogHeader
           .DailogTitle {{componentTitle}}
@@ -65,6 +65,7 @@ export default {
 .DailogFrame
   @extend %setWrapper
   .DailogBg
+    +size(100%)
   .DailogContent
     @extend %setCenter
     +Bgc($c1)

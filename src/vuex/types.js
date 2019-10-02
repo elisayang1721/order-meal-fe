@@ -1,2 +1,2 @@
-export const SHOW_Dailog = 'SHOW_Dailog' // 顯示 dailog
-export const CLOSE_Dailog = 'CLOSE_Dailog' // 關閉 dailog
+export const SHOW_DAILOG = 'SHOW_DAILOG' // 顯示 dailog
+export const CLOSE_DAILOG = 'CLOSE_DAILOG' // 關閉 dailog
