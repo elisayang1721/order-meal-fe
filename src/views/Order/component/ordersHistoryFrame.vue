@@ -1,23 +1,159 @@
 <template lang="pug">
-  div
-    HistoryItem(v-for="i in 5" :key="i")
+  ScrollBar.listContainer(id="OrdersHistoryFrame")
+    .contentViewFix
+      el-table(:data='orderHistoryList' border style='width: 100%' align="center")
+        el-table-column(prop='date' label='發起時間' width='180')
+        el-table-column(prop='restaurant' label='店家名稱' width='180')
+        el-table-column(prop='owner' label='負責人')
+        el-table-column(prop='status' label='狀態')
+        el-table-column(label="功能")
+          el-button(type="primary" icon="el-icon-setting") 訂單管理
 </template>
 <script>
-import HistoryItem from './historyItem'
+import ScrollBar from '@c/ScrollBar/ScrollBar'
 
 export default {
   name: 'ordersHistoryFrame',
-  props: ['data'],
-  created() {	},
-  mounted() {	},
+  created() {},
+  mounted() {},
   computed: {},
   methods: {},
   watch: {},
   data() {
-    return {}
+    return {
+      orderHistoryList: [
+        {
+          date: '2019/09/30 15:00',
+          restaurant: '八方雲集',
+          owner: '裕介',
+          status: '已結束'
+        },
+        {
+          date: '2019/09/30 15:00',
+          restaurant: '八方雲集',
+          owner: '裕介',
+          status: '已結束'
+        },
+        {
+          date: '2019/09/30 15:00',
+          restaurant: '八方雲集',
+          owner: '裕介',
+          status: '已結束'
+        },
+        {
+          date: '2019/09/30 15:00',
+          restaurant: '八方雲集',
+          owner: '裕介',
+          status: '已結束'
+        },
+        {
+          date: '2019/09/30 15:00',
+          restaurant: '八方雲集',
+          owner: '裕介',
+          status: '已結束'
+        },
+        {
+          date: '2019/09/30 15:00',
+          restaurant: '八方雲集',
+          owner: '裕介',
+          status: '已結束'
+        },
+        {
+          date: '2019/09/30 15:00',
+          restaurant: '八方雲集',
+          owner: '裕介',
+          status: '已結束'
+        },
+        {
+          date: '2019/09/30 15:00',
+          restaurant: '八方雲集',
+          owner: '裕介',
+          status: '已結束'
+        },
+        {
+          date: '2019/09/30 15:00',
+          restaurant: '八方雲集',
+          owner: '裕介',
+          status: '已結束'
+        },
+        {
+          date: '2019/09/30 15:00',
+          restaurant: '八方雲集',
+          owner: '裕介',
+          status: '已結束'
+        },
+        {
+          date: '2019/09/30 15:00',
+          restaurant: '八方雲集',
+          owner: '裕介',
+          status: '已結束'
+        },
+        {
+          date: '2019/09/30 15:00',
+          restaurant: '八方雲集',
+          owner: '裕介',
+          status: '已結束'
+        },
+        {
+          date: '2019/09/30 15:00',
+          restaurant: '八方雲集',
+          owner: '裕介',
+          status: '已結束'
+        },
+        {
+          date: '2019/09/30 15:00',
+          restaurant: '八方雲集',
+          owner: '裕介',
+          status: '已結束'
+        },
+        {
+          date: '2019/09/30 15:00',
+          restaurant: '八方雲集',
+          owner: '裕介',
+          status: '已結束'
+        },
+        {
+          date: '2019/09/30 15:00',
+          restaurant: '八方雲集',
+          owner: '裕介',
+          status: '已結束'
+        },
+        {
+          date: '2019/09/30 15:00',
+          restaurant: '八方雲集',
+          owner: '裕介',
+          status: '已結束'
+        },
+        {
+          date: '2019/09/30 15:00',
+          restaurant: '八方雲集',
+          owner: '裕介',
+          status: '已結束'
+        },
+        {
+          date: '2019/09/30 15:00',
+          restaurant: '八方雲集',
+          owner: '裕介',
+          status: '已結束'
+        },
+        {
+          date: '2019/09/30 15:00',
+          restaurant: '八方雲集',
+          owner: '裕介',
+          status: '已結束'
+        }
+      ]
+    }
   },
   components: {
-    HistoryItem
+    ScrollBar
   }
 }
 </script>
+<style lang="sass" scoped>
+  .listContainer
+    .contentViewFix
+      min-width: 800px
+      /deep/th,/deep/td
+        text-align: center
+</style>

@@ -1,13 +1,11 @@
 <template lang="pug">
   #ordersHistory
-    .progressTitle tab
-    VuePerfectScrollBar.listContainer
-      .contentViewFix
-        keep-alive
-          component(:is="view" :data="currentData")
+    Tab(:tabs="tabs")
+    keep-alive
+      component(:is="active")
 </template>
 <script>
-import VuePerfectScrollBar from 'vue-perfect-scrollbar'
+import Tab from '@c/Tab/Tab'
 import MyOrdersFrame from './component/myOrdersFrame'
 import ordersHistoryFrame from './component/ordersHistoryFrame'
 
@@ -15,38 +13,42 @@ export default {
   name: 'OrdersHistory',
   created() { },
   mounted() { },
-  computed: {
-    currentData() {
-      return this.view === 'MyOrdersFrame' ? this.myOrdersList : this.orderHistoryList
-    }
-  },
+  computed: {},
   methods: {},
   watch: {},
   data() {
     return {
-      settings: {
-        maxScrollbarLength: 60
-      },
-      view: 'MyOrdersFrame',
-      myOrdersList: [
-        '1',
-        '1',
-        '1',
-        '1'
+      tabs: [
+        {
+          name: 'MyOrdersFrame',
+          title: '我的點餐記錄'
+        },
+        {
+          name: 'ordersHistoryFrame',
+          title: '訂單歷史記錄'
+        }
       ],
-      orderHistoryList: [
-        'a',
-        'a',
-        'a',
-        'a',
-        'a'
-      ]
+      active: ''
     }
   },
   components: {
-    VuePerfectScrollBar,
+    Tab,
     MyOrdersFrame,
     ordersHistoryFrame
   }
 }
 </script>
+<style lang="sass" scoped>
+#ordersHistory
+  /deep/.commonTabs
+    padding-left: 10px
+    padding-bottom: 2px
+    height: 37px
+    &::before
+      content: unset
+    .commonTab
+      padding: .6rem 1.8rem
+      &.active
+        &::before
+          +Bgc(#8b8b8b)
+</style>

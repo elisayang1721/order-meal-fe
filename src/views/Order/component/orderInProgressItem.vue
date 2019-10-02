@@ -13,19 +13,19 @@
           span {{addComma}}
     .list.right
       .navHead
-        span MEEEE
+        span(:title="name.length > 5 ? name : ''") {{name}}
         span /
-        button 訂單管理
+        el-button(type="warning" icon="el-icon-setting") 訂單管理
       .content
-        el-button(type="info") 明細
-        el-button(type="primary") 點餐
+        el-button(icon="el-icon-edit") 明細
+        el-button(type="success" icon="el-icon-potato-strips") 點餐
 </template>
 <script>
 export default {
   name: 'name',
   props: ['listData'],
-  created() {	},
-  mounted() {	},
+  created() {},
+  mounted() {},
   computed: {
     addComma() {
       return '$' + this.amount.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
@@ -35,7 +35,8 @@ export default {
   watch: {},
   data() {
     return {
-      amount: 2000
+      amount: 2000,
+      name: '我是誰誰誰誰誰誰'
     }
   },
   components: {}

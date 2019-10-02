@@ -1,30 +1,24 @@
 <template lang="pug">
   .itemWrapper
-    .list.left
+    .list
       .navHead
-        .restaurantName 數字嵐
-        .deadLine 截止於:三分後
+        ul
+          li 09/30(一)
+          li 八方雲集
       .content
-        .amount
-          .amountTitle 總數
-          span 123
-        .amount
-          .amountTitle 金額
-          span 12345
-    .list.right
-      .navHead
-        span test
-        span /
-        button 訂單管理
-      .content
-        el-button(type="info") 明細
-        el-button(type="primary") 點餐
+        ul
+          li {{`酸辣湯餃 $70 x1 不加醋`}}
+          li {{`酸辣湯餃 $70 x1 不加醋`}}
+          li {{`酸辣湯餃 $70 x1 不加醋`}}
+          li {{`酸辣湯餃 $70 x1 不加醋`}}
+          li {{`酸辣湯餃 $70 x1 不加醋`}}
+        //- el-button(type="primary") 評比
 </template>
 <script>
 export default {
   name: 'ordersItem',
-  created() {	},
-  mounted() {	},
+  created() {},
+  mounted() {},
   computed: {},
   methods: {},
   watch: {},
@@ -34,3 +28,11 @@ export default {
   components: {}
 }
 </script>
+<style lang="sass" scoped>
+  .itemWrapper
+    height: unset
+    +BrdRad(8px,8px,0,0)
+    .list
+      .navHead
+        background-color: #8b8b8b
+</style>
