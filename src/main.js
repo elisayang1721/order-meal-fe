@@ -11,6 +11,14 @@ import '@css/reset.sass'
 import '@css/main.sass'
 import '@css/admin.sass'
 
+/** event bus */
+const eventBus = {
+  install() {
+    Vue.prototype.$bus = new Vue()
+  }
+}
+Vue.use(eventBus)
+
 import App from './App'
 import router from './router'
 import store from './vuex/store'
