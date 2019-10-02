@@ -1,6 +1,9 @@
 <template lang="pug">
   .commonTabs
-    .commonTab(v-for="(item,index) in tabs" @click="clickTabs(item.name)" :class="{'active' : active === item.name }" :style="(`z-index: ${ 98 - index} `)") {{item.title}}
+    .commonTab(v-for="(item,index) in tabs"
+      @click="clickTabs(item.name)"
+      :class="{'active' : active === item.name }"
+      :style="(`z-index: ${ 98 - index} `)") {{item.title}}
 
 </template>
 <script>

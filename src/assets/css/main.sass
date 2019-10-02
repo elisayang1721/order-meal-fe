@@ -1,43 +1,56 @@
 html,
 body
   position: relative
+  +size(100%,100%)
 
 #app
   position: relative
+  min-width: 1000px
+  height: 100%
+  min-height: 800px
+  overflow: auto
 
 header
-  display: flex
-  align-items: center
-  justify-content: space-between
-  background: #dd4814
-  border: 1px solid #bf3e11
+  +Flex(space-between,center)
+  background: #364b5b
+  border: 1px solid #364b5b
   color: #fff
   padding: 0 20px
   .icon
+    +Flex(flex-start,center)
     font-size: 30px
+    cursor: pointer
+    >img
+      +size(40px)
+    >span
+      margin-left: 10px
   .navTabs
-    display: flex
-    align-items: center
-    justify-content: flex-end
+    +Flex(flex-end,center)
     font-size: 12pt
     >li
       >p
         margin: 10px 0
         line-height: 22px
         padding: 8px 12px
+      &:first-child
+        cursor: pointer
 
 main
-  +size(100vw,calc(100vh - 60px))
-  display: flex
-  align-items: centet
-  justify-content: center
+  +size(100%,calc(100% - 60px))
+  +Flex(center,center)
+  background-image: url('~@img/main-bg.png')
   #orderMain
     +size(100%,100%)
     padding: 20px
     .orderContainer
+      +Flex(flex-start,center)
+      position: relative
       height: 100%
-      display: flex
-      align-items: center
+      .openOrder
+        position: absolute
+        right: 0
+        top: -10px
+        z-index: 10
 
 #orderSystem
   +size(50%,100%)
@@ -47,7 +60,9 @@ main
   .progressTitle
     font-size: 18pt
     font-weight: bold
-    margin-bottom: 10px
+    color: #626262
+    padding-top: 3px
+    padding-bottom: 10px
   
 #ordersHistory
   +size(50%,100%)
@@ -55,60 +70,75 @@ main
   flex-direction: column
   flex: 1
   padding-left: 8px
-  .progressTitle
-    font-size: 18pt
-    font-weight: bold
-    margin-bottom: 10px
+    
 
 .listContainer
   position: relative
-  +size(100%)
-  border-radius: 15px
-  border: 2px solid #d2691e
+  width: 100%
+  height: 100%
+  border-radius: 8px
+  border: 2px solid #c6c6c6
+  overflow: hidden
   .contentViewFix
+    +Flex(flex-start,center)
+    flex-direction: column
+    position: relative
     min-width: 600px
     padding: 10px
-    display: flex
-    flex-direction: column
-    align-items: center
 
 .itemWrapper
   +size(100%,120px)
   overflow: hidden
-  border: 1px solid #f5842e
-  border-radius: 15px
+  border: 1px solid #8b8b8b
+  border-radius: 8px
   margin-bottom: 10px
+  background: #fff
   display: flex
+  &:last-child
+    margin-bottom: unset
   .list
+    position: relative
     display: flex
     flex-direction: column
+    flex: 1
     .navHead
-      display: flex
-      align-items: center
-      justify-content: space-between
-      background: #47f5ec
+      +Flex(space-between,center)
+      background: #b24242
       font-size: 20px
-      line-height: 24px
-      padding: 5px 10px
+      line-height: 42px
+      color: #fff
+      padding: 0px 10px
+      .el-button
+        padding: 5px 10px
       .deadLine
-        color: red
+        color: #ffcc32
+      >ul
+        display: flex
+        align-items: center
+        >li
+          margin-right: 10px
     .content
       +size(100%)
-      display: flex
-      align-items: center
-      justify-content: flex-start
+      +Flex(flex-start,center)
       padding: 5px 10px
       .amount
-        width: 100px
-        display: flex
+        +Flex(center,flex-start)
         flex-direction: column
-        justify-content: center
+        width: 100px
         font-size: 20px
+        color: #626262
         .amountTitle
           margin-bottom: 10px
+      >ul
+        width: 100%
+        display: block
+        >li
+          line-height: 24px
+          color: #364b5b
+          list-style: disc
+          margin-left: 50px
   .left
-    position: relative
-    flex: 4
+    flex: 3
     &::before
       content: ''
       height: 100%
@@ -116,22 +146,29 @@ main
       right: 0
       border-right: 1px dashed #000
   .right
-    flex: 1
     .navHead
       font-size: 18px
-      justify-content: flex-start
+      justify-content: center
       >span
         margin-right: 5px
-      >button
-        width: 80px
-        height: 24px
-        font-size: 16px
-        line-height: 24px
-        border-radius: 3px
-        background: #eee
-        border: 1px solid #000
-        cursor: pointer
+        &:first-child
+          width: 90px
+          +ellipsis()
     .content
       justify-content: space-around
-#myOrderFrame
-  width: 100%
+
+// table css
+.el-table
+  table
+    thead
+      tr
+        th
+          color: #fff
+          background: #8b8b8b
+
+// element-ui css
+.el-button
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  width: 90px
