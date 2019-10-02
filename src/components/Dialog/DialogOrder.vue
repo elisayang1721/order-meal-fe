@@ -1,17 +1,14 @@
 <template lang="pug">
-  p(@click="showDialog({name:'Order',title:'123'})") admin
+  div
+    p Order
 </template>
 <script>
-import { mapActions } from 'vuex'
-
 export default {
-  name: 'UserAdmin',
+  name: 'DialogOrder',
   created() { },
   mounted() { },
   computed: {},
-  methods: {
-    ...mapActions(['showDialog'])
-  },
+  methods: {},
   watch: {},
   data() {
     return {}

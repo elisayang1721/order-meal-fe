@@ -7,7 +7,7 @@
 </template>
 <script>
 import ScrollBar from '@c/ScrollBar/ScrollBar'
-import OrderInProgressItem from './component/orderInProgressItem'
+import OrderInProgressItem from './component/OrderInProgressItem'
 
 export default {
   name: 'OrderSystem',

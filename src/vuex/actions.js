@@ -1,11 +1,11 @@
 import * as types from './types'
 
 const actions = {
-  showDailog: ({ commit }, payload, payload2) => {
-    commit(types.SHOW_DAILOG, payload, payload2)
+  showDialog: ({ commit }, payload) => {
+    commit(types.SHOW_DIALOG, payload)
   },
-  closeDailog: ({ commit }, close) => {
-    commit(types.CLOSE_DAILOG, close || '')
+  closeDialog: ({ commit }, close) => {
+    commit(types.CLOSE_DIALOG, close || '')
   }
 }
 

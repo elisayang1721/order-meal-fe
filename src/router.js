@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Main from './views/Main'
-import orderMain from './views/orderMain'
+import OrderMain from './views/OrderMain'
 import Admin from './views/Admin'
 
 Vue.use(Router)
@@ -16,8 +16,8 @@ export default new Router({
       children: [
         {
           path: '',
-          name: 'orderMain',
-          component: orderMain
+          name: 'OrderMain',
+          component: OrderMain
         },
         {
           path: '/admin',

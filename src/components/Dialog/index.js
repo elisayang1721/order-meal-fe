@@ -5,7 +5,7 @@ import Vue from 'vue'
 // import camelCase from 'lodash/camelCase'
 
 const requireComponent = require.context(
-  '@c/Dialog', false, /Dailog[A-Z]\w+\.vue$/
+  '@c/Dialog', false, /Dialog[A-Z]\w+\.vue$/
 )
 export default () => {
   requireComponent.keys().forEach(fileName => {

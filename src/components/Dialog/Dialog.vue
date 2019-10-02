@@ -1,14 +1,14 @@
 <template lang="pug">
-  transition(name="dailog-fade")
-    .DailogFrame
-      .DailogBg(@click="closeDailog")
-      .DailogContent
-        .DailogHeader
-          .DailogTitle {{componentTitle}}
-          .HeaderPanel
-            .close(@click="closeDailog")
+  transition(name="dialog-fade")
+    .dialogFrame
+      .dialogBg(@click="closeDialog")
+      .dialogContent
+        .dialogHeader
+          .dialogTitle {{componentTitle}}
+          .headerPanel
+            .close(@click="closeDialog")
               i.el-icon-close
-        .DailogComponent
+        .dialogComponent
           component(:is="componentName")
 
 
@@ -27,16 +27,16 @@ export default {
   created() { },
   mounted() { },
   computed: {
-    ...mapState(['dailog']),
+    ...mapState(['dialog']),
     componentName() {
-      return this.dailog.name
+      return this.dialog.name
     },
     componentTitle() {
-      return this.dailog.title
+      return this.dialog.title
     }
   },
   methods: {
-    ...mapActions(['closeDailog'])
+    ...mapActions(['closeDialog'])
   }
 }
 </script>
@@ -62,20 +62,20 @@ export default {
 .modal-zoom-leave-active
   transform: scale(1.1)
 
-.DailogFrame
+.dialogFrame
   @extend %setWrapper
-  .DailogBg
+  .dialogBg
     +size(100%)
-  .DailogContent
+  .dialogContent
     @extend %setCenter
     +Bgc($c1)
-  .DailogHeader
+  .dialogHeader
     +Bgc(#404040)
     +size(100%,4rem)
     +Flex(space-between)
     position: relative
     padding: 0 1rem
-    .DailogTitle
+    .dialogTitle
       line-height: 4rem
       color: $c1
     .close
@@ -84,6 +84,6 @@ export default {
       font-size: 1.5rem
       font-weight: 700
       color: #B3B3B3
-  .DailogComponent
+  .dialogComponent
     padding: 1rem
 </style>

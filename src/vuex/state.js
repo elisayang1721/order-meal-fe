@@ -1,5 +1,5 @@
 const state = {
-  dailog: {
+  dialog: {
     name: '',
     title: ''
   }

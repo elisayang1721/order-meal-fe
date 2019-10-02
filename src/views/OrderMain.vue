@@ -10,7 +10,7 @@ import OrdersHistory from '@v/Order/OrdersHistory'
 import OrderSystem from '@v/Order/OrderSystem'
 
 export default {
-  name: 'orderMain',
+  name: 'OrderMain',
   created() { },
   mounted() { },
   computed: {},
