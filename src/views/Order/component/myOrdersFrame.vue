@@ -1,15 +1,15 @@
 <template lang="pug">
   ScrollBar.listContainer(id="myOrdersFrame" @ps-y-reach-end="reachEnd")
     .contentViewFix
-      ordersItem(v-for="i in myOrdersList.length" :key="i")
+      OrdersItem(v-for="i in myOrdersList.length" :key="i")
     .loading(v-loading="loading")
 </template>
 <script>
 import ScrollBar from '@c/ScrollBar/ScrollBar'
-import ordersItem from './ordersItem'
+import OrdersItem from './OrdersItem'
 
 export default {
-  name: 'myOrdersFrame',
+  name: 'MyOrdersFrame',
   created() {},
   mounted() {},
   computed: {},
@@ -43,7 +43,7 @@ export default {
   },
   components: {
     ScrollBar,
-    ordersItem
+    OrdersItem
   }
 }
 </script>

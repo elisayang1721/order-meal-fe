@@ -6,8 +6,8 @@
 </template>
 <script>
 import Tab from '@c/Tab/Tab'
-import MyOrdersFrame from './component/myOrdersFrame'
-import ordersHistoryFrame from './component/ordersHistoryFrame'
+import MyOrdersFrame from './component/MyOrdersFrame'
+import OrdersHistoryFrame from './component/OrdersHistoryFrame'
 
 export default {
   name: 'OrdersHistory',
@@ -24,7 +24,7 @@ export default {
           title: '我的點餐記錄'
         },
         {
-          name: 'ordersHistoryFrame',
+          name: 'OrdersHistoryFrame',
           title: '訂單歷史記錄'
         }
       ],
@@ -34,7 +34,7 @@ export default {
   components: {
     Tab,
     MyOrdersFrame,
-    ordersHistoryFrame
+    OrdersHistoryFrame
   }
 }
 </script>

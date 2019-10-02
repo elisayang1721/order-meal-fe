@@ -16,7 +16,7 @@
 </template>
 <script>
 export default {
-  name: 'ordersItem',
+  name: 'OrdersItem',
   created() {},
   mounted() {},
   computed: {},

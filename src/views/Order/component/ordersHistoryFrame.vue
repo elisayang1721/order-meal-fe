@@ -13,7 +13,7 @@
 import ScrollBar from '@c/ScrollBar/ScrollBar'
 
 export default {
-  name: 'ordersHistoryFrame',
+  name: 'OrdersHistoryFrame',
   created() {},
   mounted() {},
   computed: {},

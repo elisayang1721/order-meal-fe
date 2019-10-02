@@ -24,7 +24,9 @@ export default {
   },
   methods: {
     update() {
-      this.ps.update()
+      if (this.ps) {
+        this.ps.update()
+      }
     },
 
     __init() {
@@ -71,7 +73,7 @@ export default {
 
   beforeDestroy() {
     this.__uninit()
-    window.removeEventListener('resize')
+    window.removeEventListener('resize', () => {})
   }
 }
 </script>

@@ -15,14 +15,18 @@
       .navHead
         span(:title="name.length > 5 ? name : ''") {{name}}
         span /
-        el-button(type="warning" icon="el-icon-setting") 訂單管理
+        el-button(type="warning"
+          icon="el-icon-setting"
+          @click="showDialog({name:'OrderManagement',title:'OrderManagement'})") 訂單管理
       .content
         el-button(icon="el-icon-edit") 明細
         el-button(type="success" icon="el-icon-potato-strips") 點餐
 </template>
 <script>
+import { mapActions } from 'vuex'
+
 export default {
-  name: 'name',
+  name: 'OrderInProgressItem',
   props: ['listData'],
   created() {},
   mounted() {},
@@ -31,7 +35,9 @@ export default {
       return '$' + this.amount.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
     }
   },
-  methods: {},
+  methods: {
+    ...mapActions(['showDialog'])
+  },
   watch: {},
   data() {
     return {
