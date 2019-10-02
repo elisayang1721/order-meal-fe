@@ -9,7 +9,6 @@ const requireComponent = require.context(
 )
 export default () => {
   requireComponent.keys().forEach(fileName => {
-    console.log(fileName)
     const componentConfig = requireComponent(fileName)
 
     const componentName = componentConfig.default.name

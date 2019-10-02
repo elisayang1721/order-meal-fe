@@ -1,14 +1,14 @@
 <template lang="pug">
   transition(name="dialog-fade")
-    .DialogFrame
-      .DialogBg(@click="closeDialog")
-      .DialogContent
-        .DialogHeader
-          .DialogTitle {{componentTitle}}
-          .HeaderPanel
+    .dialogFrame
+      .dialogBg(@click="closeDialog")
+      .dialogContent
+        .dialogHeader
+          .dialogTitle {{componentTitle}}
+          .headerPanel
             .close(@click="closeDialog")
               i.el-icon-close
-        .DialogComponent
+        .dialogComponent
           component(:is="componentName")
 
 
@@ -62,20 +62,20 @@ export default {
 .modal-zoom-leave-active
   transform: scale(1.1)
 
-.DialogFrame
+.dialogFrame
   @extend %setWrapper
-  .DialogBg
+  .dialogBg
     +size(100%)
-  .DialogContent
+  .dialogContent
     @extend %setCenter
     +Bgc($c1)
-  .DialogHeader
+  .dialogHeader
     +Bgc(#404040)
     +size(100%,4rem)
     +Flex(space-between)
     position: relative
     padding: 0 1rem
-    .DialogTitle
+    .dialogTitle
       line-height: 4rem
       color: $c1
     .close
@@ -84,6 +84,6 @@ export default {
       font-size: 1.5rem
       font-weight: 700
       color: #B3B3B3
-  .DialogComponent
+  .dialogComponent
     padding: 1rem
 </style>
