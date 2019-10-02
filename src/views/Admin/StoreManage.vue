@@ -1,5 +1,5 @@
 <template lang="pug">
-  p(@click="showDailog({name:'Detail',title:'123'})") store
+  p(@click="showDialog({name:'Detail',title:'123'})") store
 </template>
 <script>
 import { mapActions } from 'vuex'
@@ -10,7 +10,7 @@ export default {
   mounted() { },
   computed: {},
   methods: {
-    ...mapActions(['showDailog'])
+    ...mapActions(['showDialog'])
   },
   watch: {},
   data() {

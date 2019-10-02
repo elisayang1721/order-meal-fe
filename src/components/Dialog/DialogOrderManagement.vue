@@ -1,12 +1,11 @@
 <template lang="pug">
-  div
-    p Order
+  #orderManagement orderManagement
 </template>
 <script>
 export default {
-  name: 'DailogOrder',
-  created() { },
-  mounted() { },
+  name: 'DialogOrderManagement',
+  created() {},
+  mounted() {},
   computed: {},
   methods: {},
   watch: {},

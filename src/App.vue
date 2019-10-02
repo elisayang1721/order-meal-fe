@@ -2,7 +2,7 @@
   #app
     AppHeader
     router-view
-    Dialog(v-if="dailog.name")
+    Dialog(v-if="dialog.name")
 </template>
 <script>
 // import Main from '@v/Main'
@@ -17,7 +17,7 @@ export default {
     Dialog
   },
   computed: {
-    ...mapState(['dailog'])
+    ...mapState(['dialog'])
   }
 }
 </script>

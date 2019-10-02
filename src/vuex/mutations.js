@@ -2,13 +2,13 @@ import * as types from './types'
 
 
 const mutations = {
-  [types.SHOW_DAILOG](state, payload) {
-    state.dailog.name = 'Dailog' + payload.name
-    state.dailog.title = payload.title
+  [types.SHOW_DIALOG](state, payload) {
+    state.dialog.name = 'Dialog' + payload.name
+    state.dialog.title = payload.title
   },
-  [types.CLOSE_DAILOG](state) {
-    state.dailog.name = ''
-    state.dailog.title = ''
+  [types.CLOSE_DIALOG](state) {
+    state.dialog.name = ''
+    state.dialog.title = ''
   }
 }
 

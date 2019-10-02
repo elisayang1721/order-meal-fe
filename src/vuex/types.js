@@ -1,2 +1,2 @@
-export const SHOW_DAILOG = 'SHOW_DAILOG' // 顯示 dailog
-export const CLOSE_DAILOG = 'CLOSE_DAILOG' // 關閉 dailog
+export const SHOW_DIALOG = 'SHOW_DIALOG' // 顯示 dialog
+export const CLOSE_DIALOG = 'CLOSE_DIALOG' // 關閉 dialog
