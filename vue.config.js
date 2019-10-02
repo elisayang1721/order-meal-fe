@@ -19,6 +19,7 @@ module.exports = {
         '@v': '@/views',
         '@img': '@/assets/img',
         '@css': '@/assets/css',
+        '@mix': '@/assets/mixins',
         '@api': '@/api'
       }
     }

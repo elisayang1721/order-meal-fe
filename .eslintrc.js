@@ -33,6 +33,7 @@ module.exports = {
               '@c': path.resolve('./src/components'),
               '@v': path.resolve('./src/views'),
               '@css': path.resolve('./src/assets/css'),
+              '@mix': path.resolve('./src/assets/mixins'),
               '@api': path.resolve('./src/api')
             },
             extensions: ['.js', '.vue']
