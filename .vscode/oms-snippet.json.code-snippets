@@ -16,11 +16,72 @@
 			"\tdata() {",
 			"\t\treturn {}",
 			"\t},",
-			"\tcomponents: {},",
+			"\tcomponents: {}",
 			"}",
 			"</script>",
 			""
 		],
 		"description": "Oms BaseTemplate"
-	}
+	},
+	"pug El Table": {
+		"prefix": "pugTable",
+		"body": [
+			"el-table(style=\"width: 100%\")",
+			"\tel-table-column(",
+			"\t\tprop=\"prop\"",
+			"\t\tlabel=\"label\"",
+			"\t\twidth=\"200\")",
+		],
+		"description": "Oms pugTable BaseTemplate"
+	},
+	"pug El Input": {
+		"prefix": "pugInput",
+		"body": [
+			"el-inpute(",
+			"\tplaceholder=\"placeholder\"",
+			"\tv-model=\"\"",
+			"\tclearable)",
+		],
+		"description": "Oms pugTable BaseTemplate"
+	},
+	"pug El Btn": {
+		"prefix": "pugBtn",
+		"body": [
+			"el-button(",
+			"\ttype=\"primary\") 按鈕",
+		],
+		"description": "Oms pugTable BaseTemplate"
+	},
+	"pug El InputNumber": {
+		"prefix": "pugInputNumber",
+		"body": [
+			"el-input-number(",
+			"\tplaceholder=\"placeholder\"",
+			"\tv-model=\"\"",
+			"\t@change=\"\"",
+			"\t:min=\"1\"",
+			"\t:max=\"10\"",
+			"\tlabel=\"描述文字\")",
+		],
+		"description": "Oms pugTable BaseTemplate"
+	},
+	"pug El Switch": {
+		"prefix": "pugSwitch",
+		"body": [
+			"el-switch(",
+			"\tv-model=\"true\"",
+			"\tactive-color=\"#13ce66\"",
+			"\tinactive-color=\"#ff4949\")",
+		],
+		"description": "Oms pugTable BaseTemplate"
+	},
+	"pug El Radio": {
+		"prefix": "pugRadio",
+		"body": [
+			"el-radio(",
+			"\tv-model=\"true\"",
+			"\tlabel=\"1\") 單選框",
+		],
+		"description": "Oms pugTable BaseTemplate"
+	},
 }

@@ -50,6 +50,7 @@ export default {
     z-index: 2
     color: $c2
     padding: 1rem 3rem
+    white-space: nowrap
     &:before
       content: ''
       +PosAbs(0,0,0,0,-1)

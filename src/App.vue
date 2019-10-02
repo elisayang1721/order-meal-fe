@@ -2,14 +2,22 @@
   #app
     AppHeader
     router-view
+    Dialog(v-if="dailog.name")
 </template>
 <script>
+// import Main from '@v/Main'
+import Dialog from '@c/Dialog/Dialog'
+import { mapState } from 'vuex'
 import AppHeader from '@/layout/AppHeader'
 
 export default {
   name: 'app',
   components: {
-    AppHeader
+    AppHeader,
+    Dialog
+  },
+  computed: {
+    ...mapState(['dailog'])
   }
 }
 </script>
