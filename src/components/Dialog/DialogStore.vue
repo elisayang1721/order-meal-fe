@@ -41,6 +41,27 @@
       .menu
         .dialoItem
           .titile 菜單設定
+            el-tooltip(
+              effect="dark"
+              placement="bottom")
+              div(slot="content") {菜單分類}
+                br
+                | 菜單項目分類.價錢
+                br
+                | 菜單項目分類:菜單項目1.價錢,菜單項目2.價錢
+                br
+                br
+                | 範例
+                br
+                | {漢堡}}
+                br
+                | 大麥克.129
+                br
+                br
+                | {飲料類}
+                br
+                | 可樂:大杯.40,中杯.30,小杯.20
+              i.el-icon-question
           .content
             .contentItem
               el-input.formatForm(
