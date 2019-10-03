@@ -3,7 +3,7 @@
     .list
       .navHead
         ul
-          li 09/30(一)
+          li 09/30 (一)
           li 八方雲集
       .content
         ul

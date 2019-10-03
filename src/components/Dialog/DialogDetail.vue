@@ -1,19 +1,23 @@
 <template lang="pug">
-  el-table(
-    :data="tableData"
-    style="width: 100%")
-    el-table-column(
-      prop="date"
-      label="日期"
-      width="200")
-    el-table-column(
-      prop="name"
-      label="姓名"
-      width="200")
-    el-table-column(
-      prop="address"
-      label="地址"
-      width="250")
+  #detail
+    .row
+      .cell
+        span 品項
+      .cell
+        span 數量
+      .cell
+        span 單價
+      .cell
+        span 訂購者
+    .row(v-for="(item, idx) in Orders" :key="idx")
+      .cell
+        span {{item.mealName}}
+      .cell
+        span {{item.quantity}}
+      .cell
+        span {{item.amountPerPic}}
+      .cell.flexFix
+        .subscriberCell(v-for="name in item.subscribers" :key="name") {{name}}
 </template>
 <script>
 export default {
@@ -25,36 +29,219 @@ export default {
   watch: {},
   data() {
     return {
-      tableData: [
+      Orders: [
         {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
+          mealName: 'AAA',
+          quantity: 5,
+          amountPerPic: '$60',
+          subscribers: [
+            'AAA',
+            'BBB',
+            'CCC',
+            'DDD',
+            'EEE'
+          ]
         },
         {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
+          mealName: 'AAA',
+          quantity: 5,
+          amountPerPic: '$60',
+          subscribers: [
+            'AAA',
+            'BBB',
+            'CCC',
+            'DDD',
+            'EEE'
+          ]
         },
         {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
+          mealName: 'AAA',
+          quantity: 5,
+          amountPerPic: '$60',
+          subscribers: [
+            'AAA',
+            'BBB',
+            'CCC',
+            'DDD',
+            'EEE'
+          ]
         },
         {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          mealName: 'AAA',
+          quantity: 5,
+          amountPerPic: '$60',
+          subscribers: [
+            'AAA',
+            'BBB',
+            'CCC',
+            'DDD',
+            'EEE'
+          ]
         },
         {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
+          mealName: 'AAA',
+          quantity: 5,
+          amountPerPic: '$60',
+          subscribers: [
+            'AAA',
+            'BBB',
+            'CCC',
+            'DDD',
+            'EEE'
+          ]
         },
         {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          mealName: 'AAA',
+          quantity: 5,
+          amountPerPic: '$60',
+          subscribers: [
+            'AAA',
+            'BBB',
+            'CCC',
+            'DDD',
+            'EEE'
+          ]
+        },
+        {
+          mealName: 'AAA',
+          quantity: 5,
+          amountPerPic: '$60',
+          subscribers: [
+            'AAA',
+            'BBB',
+            'CCC',
+            'DDD',
+            'EEE'
+          ]
+        },
+        {
+          mealName: 'AAA',
+          quantity: 5,
+          amountPerPic: '$60',
+          subscribers: [
+            'AAA',
+            'BBB',
+            'CCC',
+            'DDD',
+            'EEE'
+          ]
+        },
+        {
+          mealName: 'AAA',
+          quantity: 5,
+          amountPerPic: '$60',
+          subscribers: [
+            'AAA',
+            'BBB',
+            'CCC',
+            'DDD',
+            'EEE'
+          ]
+        },
+        {
+          mealName: 'AAA',
+          quantity: 5,
+          amountPerPic: '$60',
+          subscribers: [
+            'AAA',
+            'BBB',
+            'CCC',
+            'DDD',
+            'EEE'
+          ]
+        },
+        {
+          mealName: 'AAA',
+          quantity: 5,
+          amountPerPic: '$60',
+          subscribers: [
+            'AAA',
+            'BBB',
+            'CCC',
+            'DDD',
+            'EEE'
+          ]
+        },
+        {
+          mealName: 'AAA',
+          quantity: 5,
+          amountPerPic: '$60',
+          subscribers: [
+            'AAA',
+            'BBB',
+            'CCC',
+            'DDD',
+            'EEE'
+          ]
+        },
+        {
+          mealName: 'AAA',
+          quantity: 5,
+          amountPerPic: '$60',
+          subscribers: [
+            'AAA',
+            'BBB',
+            'CCC',
+            'DDD',
+            'EEE'
+          ]
+        },
+        {
+          mealName: 'AAA',
+          quantity: 5,
+          amountPerPic: '$60',
+          subscribers: [
+            'AAA',
+            'BBB',
+            'CCC',
+            'DDD1',
+            'DDD2',
+            'DDD3',
+            'DDD4',
+            'DDD5',
+            'DDD6',
+            'DDD7',
+            'DDD8',
+            'DDD9',
+            'DDD0',
+            'EEE'
+          ]
+        },
+        {
+          mealName: 'AAA',
+          quantity: 5,
+          amountPerPic: '$60',
+          subscribers: [
+            'AAA',
+            'BBB',
+            'CCC',
+            'DDD',
+            'EEE'
+          ]
+        },
+        {
+          mealName: 'AAA',
+          quantity: 5,
+          amountPerPic: '$60',
+          subscribers: [
+            'AAA',
+            'BBB',
+            'CCC',
+            'DDD',
+            'EEE'
+          ]
+        },
+        {
+          mealName: 'AAA',
+          quantity: 5,
+          amountPerPic: '$60',
+          subscribers: [
+            'AAA',
+            'BBB',
+            'CCC',
+            'DDD',
+            'EEE'
+          ]
         }
       ]
     }

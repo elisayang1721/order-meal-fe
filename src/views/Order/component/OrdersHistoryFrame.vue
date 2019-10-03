@@ -7,17 +7,21 @@
         el-table-column(prop='owner' label='負責人')
         el-table-column(prop='status' label='狀態')
         el-table-column(label="功能")
-          el-button(type="primary" icon="el-icon-setting") 訂單管理
+          el-button(type="primary" icon="el-icon-setting"
+            @click="showDialog({name:'OrderManagement',title:'Owner - 店名(電話) - 訂單管理'})") 訂單管理
 </template>
 <script>
 import ScrollBar from '@c/ScrollBar/ScrollBar'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'OrdersHistoryFrame',
   created() {},
   mounted() {},
   computed: {},
-  methods: {},
+  methods: {
+    ...mapActions(['showDialog'])
+  },
   watch: {},
   data() {
     return {

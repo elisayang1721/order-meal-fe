@@ -10,6 +10,7 @@ Vue.use(ElementUI)
 import '@css/reset.sass'
 import '@css/main.sass'
 import '@css/admin.sass'
+import '@css/orderModal.sass'
 
 /** event bus */
 const eventBus = {
