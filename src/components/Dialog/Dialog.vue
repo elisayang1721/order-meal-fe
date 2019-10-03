@@ -1,6 +1,6 @@
 <template lang="pug">
   transition(name="dialog-fade")
-    .dialogFrame
+    .dialogFrame(v-if="componentName")
       .dialogBg(@click="closeDialog")
       .dialogContent
         .dialogHeader
@@ -10,7 +10,7 @@
               i.el-icon-close
         .dialogComponent
           ScrollBar.scroll
-            .viewFix
+            .viewFix(:class="sliceName()")
               component(:is="componentName")
 </template>
 <script>
@@ -27,10 +27,8 @@ export default {
   components: {
     ScrollBar
   },
-  created() {},
   mounted() {
-    const html = document.getElementsByTagName('html')
-    html[0].classList.add('noScroll')
+    this.dailogFixed(true)
   },
   computed: {
     ...mapState(['dialog']),
@@ -42,24 +40,36 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['closeDialog'])
+    ...mapActions(['closeDialog']),
+    dailogFixed(status) {
+      const html = document.getElementsByTagName('html')
+      if (status) {
+        html[0].classList.add('noScroll')
+      } else {
+        html[0].classList.remove('noScroll')
+      }
+    },
+    sliceName() {
+      const name = this.dialog.name
+      const className = name.toLowerCase().split('dialog')
+      return className
+    }
   },
   beforeDestroy() {
-    const html = document.getElementsByTagName('html')
-    html[0].classList.remove('noScroll')
+    this.dailogFixed()
   }
 }
 </script>
 <style lang="sass" scope>
-// .dialog-fade-enter-active
-// .dialog-fade-leave-active
-//   transition: opacity 2.3s ease
+.dialog-fade-enter-active
+.dialog-fade-leave-active
+  transition: opacity .3s ease
 
-// .dialog-fade-enter
-// .dialog-fade-leave-to
-//   opacity: 0
+.dialog-fade-enter
+.dialog-fade-leave-to
+  opacity: 0
 
-/* transition modal */
+/* transition dialog */
 // .dialog-zoom-enter-active
 // .dialog-zoom-leave-active
 //   transition opacity 0.3s ease
@@ -93,9 +103,12 @@ export default {
       position: relative
       font-size: 1.5rem
       font-weight: 700
-      color: #B3B3B3
+      color: $c1
   .dialogComponent
     padding: 1rem
+    overflow: hidden
+    .confirm, .admin
+      min-width: 250px
     .scroll
       max-width: 1000px
       max-height: 600px
