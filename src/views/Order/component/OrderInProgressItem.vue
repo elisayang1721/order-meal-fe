@@ -17,10 +17,12 @@
         span /
         el-button(type="warning"
           icon="el-icon-setting"
-          @click="showDialog({name:'OrderManagement',title:'OrderManagement'})") 訂單管理
+          @click="showDialog({name:'OrderManagement',title:'Owner - 店名(電話) - 訂單管理'})") 訂單管理
       .content
-        el-button(icon="el-icon-edit") 明細
-        el-button(type="success" icon="el-icon-potato-strips") 點餐
+        el-button(icon="el-icon-edit"
+          @click="showDialog({name:'Detail',title:'Owner - 店名(電話) - 訂單明細'})") 明細
+        el-button(type="success" icon="el-icon-potato-strips"
+          @click="showDialog({name:'Order',title:'Order'})") 點餐
 </template>
 <script>
 import { mapActions } from 'vuex'

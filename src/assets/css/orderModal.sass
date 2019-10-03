@@ -1,0 +1,61 @@
+// 限制最小內容寬  
+.viewFix
+  min-width: 800px
+  padding: 0 10px
+
+#detail
+  .row
+    display: flex
+    width: 100%
+    &:first-child
+      background: #8b8b8b
+      color: #fff
+      .cell
+        padding: 1rem 0
+    .cell
+      +Flex(center,center)
+      flex-wrap: wrap
+      border: 1px solid #000
+      &:first-child
+        flex: 1
+      &:nth-child(2),&:nth-child(3)
+        flex: .5
+      &:last-child
+        flex: 3
+      .subscriberCell
+        width: calc(100% / 3)
+        +Flex(center,center)
+        border: 1px solid #eee
+        padding: .6rem
+    .flexFix
+      +Flex(flex-start,flex-start)
+#orderManagement
+  .managementContent
+    width: 100%
+    display: flex
+    .contentBlock
+      display: flex
+      flex-direction: column
+      flex: 1
+      .contentNav
+        width: 100%
+        background: #8b8b8b
+        color: #fff
+        text-align: center
+        border: 1px solid #000
+        padding: 1rem 0
+      .content
+        height: 100%
+        +Flex(center,center)
+        flex-direction: column
+        border: 1px solid #000
+        padding: .6rem
+        >ul
+          width: 100%
+          >li
+            list-style: disc
+            margin-left: 30px
+            span:first-child
+              margin-right: 10px
+        .alignStart
+          align-self: flex-start

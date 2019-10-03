@@ -9,12 +9,12 @@
             .close(@click="closeDialog")
               i.el-icon-close
         .dialogComponent
-          component(:is="componentName")
-
-
+          ScrollBar.scroll
+            .viewFix
+              component(:is="componentName")
 </template>
 <script>
-
+import ScrollBar from '@c/ScrollBar/ScrollBar'
 // vuex
 import { mapActions, mapState } from 'vuex'
 
@@ -24,8 +24,14 @@ import componentIndex from './index'
 componentIndex()
 
 export default {
-  created() { },
-  mounted() { },
+  components: {
+    ScrollBar
+  },
+  created() {},
+  mounted() {
+    const html = document.getElementsByTagName('html')
+    html[0].classList.add('noScroll')
+  },
   computed: {
     ...mapState(['dialog']),
     componentName() {
@@ -37,30 +43,34 @@ export default {
   },
   methods: {
     ...mapActions(['closeDialog'])
+  },
+  beforeDestroy() {
+    const html = document.getElementsByTagName('html')
+    html[0].classList.remove('noScroll')
   }
 }
 </script>
 <style lang="sass" scope>
-.modal-fade-enter-active
-.modal-fade-leave-active
-  transition: opacity 0.3s ease
+// .dialog-fade-enter-active
+// .dialog-fade-leave-active
+//   transition: opacity 2.3s ease
 
-.modal-fade-enter
-.modal-fade-leave-to
-  opacity: 0
+// .dialog-fade-enter
+// .dialog-fade-leave-to
+//   opacity: 0
 
 /* transition modal */
-.modal-zoom-enter-active
-.modal-zoom-leave-active
-  transition opacity 0.3s ease
+// .dialog-zoom-enter-active
+// .dialog-zoom-leave-active
+//   transition opacity 0.3s ease
 
-.modal-zoom-enter
-.modal-zoom-leave-active
-  opacity: 0
+// .dialog-zoom-enter
+// .dialog-zoom-leave-active
+//   opacity: 0
 
-.modal-zoom-enter
-.modal-zoom-leave-active
-  transform: scale(1.1)
+// .dialog-zoom-enter
+// .dialog-zoom-leave-active
+//   transform: scale(3)
 
 .dialogFrame
   @extend %setWrapper
@@ -70,7 +80,7 @@ export default {
     @extend %setCenter
     +Bgc($c1)
   .dialogHeader
-    +Bgc(#404040)
+    +Bgc(#b24242)
     +size(100%,4rem)
     +Flex(space-between)
     position: relative
@@ -86,4 +96,7 @@ export default {
       color: #B3B3B3
   .dialogComponent
     padding: 1rem
+    .scroll
+      max-width: 1000px
+      max-height: 600px
 </style>
