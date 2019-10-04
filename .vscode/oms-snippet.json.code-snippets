@@ -37,7 +37,7 @@
 	"pug El Input": {
 		"prefix": "pugInput",
 		"body": [
-			"el-inpute(",
+			"el-input(",
 			"\tplaceholder=\"placeholder\"",
 			"\tv-model=\"\"",
 			"\tclearable)",

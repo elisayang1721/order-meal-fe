@@ -1,9 +1,27 @@
 .common
-  +Bgc(rgb(232,236,239))
-  +size(100%,100vh)
+  +size(100%)
   padding: 2rem
-  max-height: calc( 100vh - 60px )
 
 // tabContainer 
 .tabContainer
+  position: relative
   padding: 25px
+  height: 765px
+  .adminPanel
+    +Flex(space-between)
+    padding-bottom: 1rem
+    font-weight: 700
+    .input
+      .el-input__inner
+        border-radius: 24px
+  p 
+    width: 3.25rem
+    margin-right: 1rem
+  .search
+    +Flex
+  .type
+    +Flex
+
+.commonBtnGroup 
+  width: 100%
+  +Flex
