@@ -61,27 +61,6 @@ export default {
 }
 </script>
 <style lang="sass" scope>
-.dialog-fade-enter-active
-.dialog-fade-leave-active
-  transition: opacity .3s ease
-
-.dialog-fade-enter
-.dialog-fade-leave-to
-  opacity: 0
-
-/* transition dialog */
-// .dialog-zoom-enter-active
-// .dialog-zoom-leave-active
-//   transition opacity 0.3s ease
-
-// .dialog-zoom-enter
-// .dialog-zoom-leave-active
-//   opacity: 0
-
-// .dialog-zoom-enter
-// .dialog-zoom-leave-active
-//   transform: scale(3)
-
 .dialogFrame
   @extend %setWrapper
   .dialogBg

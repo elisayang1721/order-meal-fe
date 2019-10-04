@@ -3,7 +3,7 @@
     .list.left
       .navHead
         .restaurantName 數字嵐
-        .deadLine 截止於:三分後
+        .deadLine 截止於：三分後
       .content
         .amount
           .amountTitle 總數
@@ -22,7 +22,7 @@
         el-button(icon="el-icon-edit"
           @click="showDialog({name:'Detail',title:'Owner - 店名(電話) - 訂單明細'})") 明細
         el-button(type="success" icon="el-icon-potato-strips"
-          @click="showDialog({name:'Order',title:'Order'})") 點餐
+          @click="showDialog({name:'Order',title:'我也要訂 - ＸＸＸ'})") 點餐
 </template>
 <script>
 import { mapActions } from 'vuex'
