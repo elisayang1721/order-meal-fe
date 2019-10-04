@@ -1,9 +1,9 @@
 <template lang="pug">
   .commonTabs
-    .commonTab(v-for="(item,index) in tabs"
+    .commonTab(v-for="(item, index) in tabs"
       @click="clickTabs(item.name)"
       :class="{'active' : active === item.name }"
-      :style="(`z-index: ${ 98 - index} `)") {{item.title}}
+      :style="(`z-index: ${ 98 - index } `)") {{item.title}}
 
 </template>
 <script>
@@ -43,7 +43,7 @@ export default {
     content: ''
     +size(100%,5px)
     +PosAbs(null,0,-5px,0,99)
-    +Bgc($c2)
+    +Bgc(#8b8b8b)
   .commonTab
     cursor: pointer
     position: relative
@@ -63,8 +63,7 @@ export default {
       color: $c1
       z-index: 98 !important
       &:before
-        +Bgc($c2)
+        +Bgc(#8b8b8b)
     &:first-of-type
       margin-left: 1.5rem
-
 </style>

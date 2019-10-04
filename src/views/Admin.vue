@@ -1,8 +1,7 @@
 <template lang="pug">
   .common
     Tab(:tabs="tabs")
-    .tabContainer
-      component(:is="active")
+    component(:is="active")
 </template>
 <script>
 

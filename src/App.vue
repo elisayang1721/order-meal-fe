@@ -2,12 +2,11 @@
   #app
     AppHeader
     router-view
-    Dialog(v-if="dialog.name")
+    Dialog
 </template>
 <script>
 // import Main from '@v/Main'
 import Dialog from '@c/Dialog/Dialog'
-import { mapState } from 'vuex'
 import AppHeader from '@/layout/AppHeader'
 
 export default {
@@ -16,8 +15,6 @@ export default {
     AppHeader,
     Dialog
   },
-  computed: {
-    ...mapState(['dialog'])
-  }
+
 }
 </script>
