@@ -78,7 +78,7 @@ deploy-testing:
     - *init_rsync
     - *change_file_permissions
     - *change_file_owner
-    - rsync -av --delete --exclude=.git --password-file=/etc/rsync.secret ./dist/ root@${RSYNC_HOST_TESTING}::${RSYNC_MODULE_TESTING}
+    - rsync -av --delete --exclude=.git --password-file=/etc/rsync.secret --port=${RSYNC_HOST_PORT_TESTING} ./dist/ root@${RSYNC_HOST_TESTING}::${RSYNC_MODULE_TESTING}
   only:
     - testing
 
