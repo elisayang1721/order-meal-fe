@@ -21,6 +21,7 @@ module.exports = {
         '@img': '@/assets/img',
         '@css': '@/assets/css',
         '@mix': '@/assets/mixins',
+        '@js': '@/assets/js',
         '@api': '@/api'
       }
     }
