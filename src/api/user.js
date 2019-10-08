@@ -1,5 +1,4 @@
 import Axios from './service'
-// import store from '../vuex/store'
 
 export default {
   login() {
