@@ -7,16 +7,13 @@
           ul.alignStart
             li
               span 截止時間
-              el-date-picker(v-model="dateTime"
+              el-date-picker(v-model="orderInfo.finishedOn"
                 @change="checkDateTime"
                 type="datetime"
                 placeholder="选择日期时间")
             li
               span 截止金額
-              template(v-if="!orderInfo.limitedPrice")
-                span 無
-              template(v-else)
-                span {{orderInfo.limitedPrice}}
+              span {{orderInfo.limitedPrice || '無'}}
             li
               span 訂單狀態
               .switchBlock
@@ -38,8 +35,14 @@
       .contentBlock
         .contentNav 公告事項
         .content
-          textarea(maxlength="255" v-model="orderInfo.bulletin")
+          el-input(v-model="orderInfo.bulletin"
+            type="textarea"
+            maxlength="255"
+            show-word-limit)
     .confirmBlock
+      .phone
+        i.el-icon-phone
+        span {{orderInfo.storePhone}}
       el-button(type="danger") 取消
       el-button(type="success") 確認
     DialogDetail
@@ -112,4 +115,8 @@ export default {
   padding: 6px 10px
 /deep/.el-switch
   margin: 0 5px
+/deep/.el-textarea
+  .el-textarea__inner
+    height: 100%
+    resize: none
 </style>

@@ -48,7 +48,4 @@ export default {
       content: unset
     .commonTab
       padding: .6rem 1.8rem
-      &.active
-        &::before
-          +Bgc(#8b8b8b)
 </style>
