@@ -1,6 +1,8 @@
 <template lang="pug">
   #storeInfo
-    .row 店家資訊
+    .row
+      .cell
+        span 店家資訊
     .row
       .cell
         span 店家

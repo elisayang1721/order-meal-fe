@@ -1,7 +1,7 @@
 <template lang="pug">
   ScrollBar.listContainer(id="myOrdersFrame" @ps-y-reach-end="reachEnd")
     .contentViewFix
-      OrdersItem(v-for="i in myOrdersList.length" :key="i")
+      OrdersItem(v-for="obj in myOrdersList.list" :key="obj.storeName" :myOrderData="obj")
     .loading(v-loading="loading")
 </template>
 <script>
@@ -15,29 +15,57 @@ export default {
   computed: {},
   methods: {
     reachEnd() {
-      if (this.myOrdersList.length < 30) {
-        this.loading = true
-        setTimeout(() => {
-          for (let i = 0; i < 7; i++) {
-            this.myOrdersList.push('1')
-          }
-          this.loading = false
-        }, 2000)
-      }
+      // call API to get more orderList
     }
   },
   watch: {},
   data() {
     return {
-      myOrdersList: [
-        '1',
-        '1',
-        '1',
-        '1',
-        '1',
-        '1',
-        '1'
-      ],
+      myOrdersList: {
+        'totalSize': 30,
+        'list': [
+          {
+            'createdOn': '2018-08-07',
+            'storeName': '甲味屋',
+            'meals': [
+              {
+                'item': '炸雞排 小辣 60 x1',
+                'remark': null
+              },
+              {
+                'item': '炸雞排 小辣 60 x1',
+                'remark': null
+              },
+              {
+                'item': '炸雞排 小辣 60 x1',
+                'remark': null
+              },
+              {
+                'item': '炸雞排 小辣 60 x1',
+                'remark': null
+              },
+              {
+                'item': '炸雞排 小辣 60 x1',
+                'remark': null
+              },
+              {
+                'item': '炸雞排 小辣 60 x1',
+                'remark': null
+              }
+            ]
+          },
+          {
+            'createdOn': '2018-08-07',
+            'storeName': '條條有理',
+            'meals': [
+              {
+                'item': '炸雞排 小辣 60 x1',
+                'remark': null
+              }
+            ]
+          }
+        ]
+      },
       loading: false
     }
   },

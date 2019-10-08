@@ -1,14 +1,17 @@
 <template lang="pug">
   ScrollBar.listContainer(id="OrdersHistoryFrame")
     .contentViewFix
-      el-table(:data='orderHistoryList' border style='width: 100%' align="center")
-        el-table-column(prop='date' label='發起時間' width='180')
-        el-table-column(prop='restaurant' label='店家名稱' width='180')
-        el-table-column(prop='owner' label='負責人')
-        el-table-column(prop='status' label='狀態')
+      el-table(:data='orderHistoryList.list' border style='width: 100%' align="center")
+        el-table-column(prop='createdOn' label='發起時間' width='180')
+        el-table-column(prop='name' label='店家名稱' width='180')
+        el-table-column(prop='createdByName' label='負責人')
+        el-table-column(label='狀態')
+          template(slot-scope="scope")
+            span {{`${scope.row.status === 0 ? '已截止' : scope.row.status === 1 ? '進行中' : '重啟'}`}}
         el-table-column(label="功能")
-          el-button(type="primary" icon="el-icon-setting"
-            @click="showDialog({name:'OrderManagement',title:'Owner - 店名(電話) - 訂單管理'})") 訂單管理
+          template(slot-scope="scope")
+            el-button(type="primary" icon="el-icon-setting"
+              @click="orderManagement(scope.row.storeId, scope.row.createdByName,scope.row.name)") 訂單管理
 </template>
 <script>
 import ScrollBar from '@c/ScrollBar/ScrollBar'
@@ -20,133 +23,53 @@ export default {
   mounted() {},
   computed: {},
   methods: {
-    ...mapActions(['showDialog'])
+    ...mapActions(['showDialog']),
+    orderManagement(storeId, owner, storeName) {
+      const load = {
+        name: 'OrderManagement',
+        title: `${owner} - ${storeName} - 訂單管理`
+      }
+      this.showDialog(load)
+    }
   },
   watch: {},
   data() {
     return {
-      orderHistoryList: [
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        }
-      ]
+      orderHistoryList: {
+        'totalSize': 30,
+        'list': [
+          {
+            'id': 1,
+            'storeId': 3,
+            'status': 1,
+            'name': '條條有理',
+            'createdBy': 16,
+            'ownerId': 16,
+            'createdByName': '松庭',
+            'createdOn': '2018-08-07 15:00'
+          },
+          {
+            'id': 2,
+            'storeId': 4,
+            'status': 0,
+            'name': '麵麵俱到',
+            'createdBy': 16,
+            'ownerId': 16,
+            'createdByName': '松庭',
+            'createdOn': '2018-08-07 15:00'
+          },
+          {
+            'id': 3,
+            'storeId': 6,
+            'status': 2,
+            'name': '力大麵食',
+            'createdBy': 16,
+            'ownerId': 16,
+            'createdByName': '松庭',
+            'createdOn': '2018-08-07 15:00'
+          }
+        ]
+      }
     }
   },
   components: {

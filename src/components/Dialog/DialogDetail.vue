@@ -10,8 +10,8 @@
       .cell
         div
           span 訂購者
-          .explanationBlock ?
-            ul.explanation
+          el-tooltip(effect="light" placement="bottom")
+            ul.explanation(slot="content")
               li
                 span.bg-yellow
                 span － 黃底的項目表示第一次訂購
@@ -27,6 +27,7 @@
               li
                 span.font-blue 藍色文字
                 span － 藍色文字表示該項目的說明
+            i.el-icon-question
     .row(v-for="(item, idx) in ordersDetail[0].list" :key="idx")
       .cell
         span {{item.itemName}}
@@ -38,12 +39,12 @@
         .subscriberCell.border-grey(v-for="(obj, i) in item.orderRecords" :key="obj.id"
           :class="recordClass(obj)"
           @click="orderSubmit(idx, i , obj.status, $event)")
-          //- :class="{'bg-yellow': obj.status === 0, 'bg-green': obj.status === 1, 'bg-active': obj.status === 2, 'border-red': obj.name === role, 'hasPermission': checkPermission(obj.name)}"
-          span {{obj.name}}
+          span {{obj.memberName}}
           span.font-blue {{obj.remark}}
           .editBlock
-            el-button(type="success" @click.stop="showDialog({ name: 'Order', title: '我也要訂 - ＸＸＸ - 編輯' })") 編輯
-            el-button(type="danger" @click.stop="test") 刪除
+            el-button(type="success"
+              @click.stop="edit") 編輯
+            el-button(type="danger") 刪除
 </template>
 <script>
 import { mapActions, mapState } from 'vuex'
@@ -52,7 +53,7 @@ export default {
   name: 'DialogDetail',
   created() { },
   mounted() {
-    this.role = this.$store.state.id
+    this.role = this.$store.state.userData.memberName
   },
   computed: {
     ...mapState(['userData'])
@@ -61,16 +62,15 @@ export default {
     ...mapActions(['showDialog']),
     orderSubmit(idx, i, status, e) {
       const hasCell = e.target.className.includes('subscriberCell')
-      // 初始status是2，不做開關
-      // class不是subscriberCell，也不做開關
-      if (status === 2 || !hasCell) return
+      // class不是subscriberCell，不做開關
+      if (!hasCell) return
 
       e.target.classList.toggle('bg-active')
       const hasActive = e.target.className.includes('bg-active')
       if (hasActive) {
-        // console.log('2')
+        // do somthing
       } else {
-        // console.log(this.Orders[idx].subscribers[i].status)
+        // do other thing
       }
     },
     checkPermission(name) {
@@ -99,8 +99,14 @@ export default {
         // 訂購未訂購
         classNames.push(classList.status)
       }
-
+      // hover編輯區塊是否顯示
+      if (this.checkPermission(obj.memberName)) {
+        classNames.push('hasPermission')
+      }
       return classNames
+    },
+    edit() {
+      this.showDialog({ name: 'Order', title: '我也要訂 - ＸＸＸ - 編輯' })
     }
   },
   watch: {},
@@ -135,7 +141,23 @@ export default {
                 deptId: 8,
                 remark: '半飯謝謝',
                 status: 0,
-                id: 6,
+                id: 16,
+                isFirst: true
+              },
+              {
+                memberName: '裕智4',
+                deptId: 8,
+                remark: '半飯謝謝',
+                status: 0,
+                id: 26,
+                isFirst: true
+              },
+              {
+                memberName: '裕智4',
+                deptId: 8,
+                remark: '半飯謝謝',
+                status: 0,
+                id: 7,
                 isFirst: false
               }
             ]
