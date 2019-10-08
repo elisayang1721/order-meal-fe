@@ -6,7 +6,7 @@ const state = {
   userData: {
     memberId: null,
     deptId: null,
-    memberName: '',
+    memberName: '裕智4',
     account: '',
     companyCode: '',
     isAdmin: false,

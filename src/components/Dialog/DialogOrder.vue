@@ -10,8 +10,9 @@
       .cell
         span 說明
     template(v-for="obj in menu.list")
-      .row.typeBorder
-        span {{obj.menuType}}
+      .row
+        .cell
+          span {{obj.menuType}}
       .row(v-for="(item, i) in obj.items" :key="item.cate")
         .cell
           span {{item.cate}}
@@ -20,15 +21,13 @@
             span {{item.meals[0].price}}
           template(v-else)
             .radio(v-for="meal in item.meals" :key="meal.id")
-              input(type="radio" :value="meal.id" :id="meal.id" v-model="orderSet[obj.menuType][i].menuItemId")
-              //- input(type="radio" :value="meal.id" :id="meal.id" v-model="picked")
+              input(type="radio" :value="meal.id" :id="meal.id"
+                v-model="orderSet[obj.menuType][i].menuItemId")
               label(:for="meal.id") {{`${meal.name} ${meal.price}`}}
         .cell
           el-input-number(:min="0" v-model="orderSet[obj.menuType][i].amount")
-          //- el-input-number(:min="0" v-model="amount")
         .cell
           el-input(v-model="orderSet[obj.menuType][i].remark")
-          //- el-input(v-model="input")
     .confirmBlock
       el-button(type="danger") 取消
       el-button(type="success") 確認

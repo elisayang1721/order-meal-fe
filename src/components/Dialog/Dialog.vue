@@ -27,9 +27,7 @@ export default {
   components: {
     ScrollBar
   },
-  mounted() {
-    this.dailogFixed(true)
-  },
+  mounted() {},
   computed: {
     ...mapState(['dialog']),
     componentName() {
@@ -41,9 +39,9 @@ export default {
   },
   methods: {
     ...mapActions(['closeDialog']),
-    dailogFixed(status) {
+    dailogFixed(name) {
       const html = document.getElementsByTagName('html')
-      if (status) {
+      if (name) {
         html[0].classList.add('noScroll')
       } else {
         html[0].classList.remove('noScroll')
@@ -55,8 +53,13 @@ export default {
       return className
     }
   },
-  beforeDestroy() {
-    this.dailogFixed()
+  watch: {
+    'dialog': {
+      handler(val) {
+        this.dailogFixed(val.name)
+      },
+      deep: true
+    }
   }
 }
 </script>
