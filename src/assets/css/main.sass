@@ -2,7 +2,6 @@
 html,body
   position: relative
   +size(100%,100%)
-  overflow: hidden
 
 // 彈窗開啟隱藏背景scroll
 .noScroll
@@ -180,6 +179,12 @@ main
         color: #626262
         .amountTitle
           margin-bottom: 10px
+        &:last-child
+          flex: 1
+          span
+            +ellipsis()
+            width: 100%
+
       >ul
         width: 100%
         display: block
@@ -203,7 +208,8 @@ main
       >span
         margin-right: 5px
         &:first-child
-          width: 90px
           +ellipsis()
+          width: 90px
+          text-align: center
     .content
       justify-content: space-around

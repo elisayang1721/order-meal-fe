@@ -1,7 +1,6 @@
 <template lang="pug">
   header
     .icon(@click="switchRoute('/')")
-      //- img(:src="require('@img/oms-icon.png')")
       img(:src="require('@img/oms-icon.svg')")
       span 訂餐系統
     ul.navTabs
@@ -16,6 +15,11 @@ export default {
   created() {},
   mounted() {},
   computed: {},
+  sockets: {
+    connect() {
+      // console.log('socket connected')
+    }
+  },
   methods: {
     switchRoute(path) {
       if (this.$route.path !== path) {

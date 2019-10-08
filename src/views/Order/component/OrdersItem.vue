@@ -3,23 +3,31 @@
     .list
       .navHead
         ul
-          li 09/30 (一)
-          li 八方雲集
+          li {{dateFormatter}}
+          li {{myOrderData.storeName}}
       .content
         ul
-          li {{`酸辣湯餃 $70 x1 不加醋`}}
-          li {{`酸辣湯餃 $70 x1 不加醋`}}
-          li {{`酸辣湯餃 $70 x1 不加醋`}}
-          li {{`酸辣湯餃 $70 x1 不加醋`}}
-          li {{`酸辣湯餃 $70 x1 不加醋`}}
+          li(v-for="(meal, i) in myOrderData.meals"
+            :key="i") {{`${meal.item} ${meal.remark ? meal.remark: ''}`}}
         //- el-button(type="primary") 評比
 </template>
 <script>
 export default {
   name: 'OrdersItem',
+  props: ['myOrderData'],
   created() {},
   mounted() {},
-  computed: {},
+  computed: {
+    dateFormatter() {
+      const date = this.myOrderData.createdOn
+      const weekNum = ['日', '一', '二', '三', '四', '五', '六']
+      const d = new Date(date)
+      const mm = d.getMonth() + 1
+      const dd = d.getDate()
+      const day = d.getDay()
+      return `${mm.toString().padStart(2, '0')}/${dd.toString().padStart(2, '0')} (${weekNum[day]})`
+    }
+  },
   methods: {},
   watch: {},
   data() {
