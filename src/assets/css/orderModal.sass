@@ -1,6 +1,6 @@
 // 限制最小內容寬  
 .viewFix
-  min-width: 800px
+  min-width: 1000px
   padding: 0 10px
 
 .font-blue
@@ -16,6 +16,30 @@
 .border-red
   border: 2px solid red
 
+// tool tips
+.explanation
+  +Flex(flex-start,flex-start)
+  flex-direction: column
+  li
+    +Flex()
+    line-height: 24px
+    span
+      font-size: 14px
+    >span:first-child
+      display: inline-block
+      +size(60px,20px,null)
+
+
+.confirmBlock
+  +Flex(flex-end,center)
+  position: relative
+  padding: .6rem
+  border: 1px solid #000
+  .phone
+    position: absolute
+    left: 10px
+    >i
+      margin-right: 5px
 
 .row
   display: flex
@@ -55,44 +79,6 @@
     >div
       +Flex()
       position: relative
-      .explanationBlock
-        +PosAbs(-5px,-30px,null,null,null)
-        +size(24px,24px,null)
-        +Flex()
-        border-radius: 50%
-        background: #000
-        cursor: pointer
-        .explanation
-          display: none
-        &:hover
-          >ul
-            +Flex(flex-start,flex-start)
-            flex-direction: column
-            +PosAbs(null,null,-75px,50%,1)
-            transform: translate(-50%,50%)
-            width: 380px
-            border-radius: 5px
-            border: 1px solid #000
-            color: #000
-            background: #fff
-            padding: .6rem
-            &::after
-              content: ''
-              +size(0,0,null)
-              +PosAbs(-4px,null,null,50%,1)
-              transform: translate(-50%,-50%)
-              filter: drop-shadow(0px -1px 0px #8b8b8b)
-              border-style: solid
-              border-width: 0 10px 12px 10px
-              border-color: transparent transparent #fff transparent
-            li
-              +Flex()
-              line-height: 24px
-              span
-                font-size: 14px
-              >span:first-child
-                display: inline-block
-                +size(60px,20px,null)
   .flexFix
     +Flex(flex-start,flex-start)
 
@@ -110,10 +96,6 @@
     padding: .4rem
     border-left: 1px solid #000
     border-right: 1px solid #000
-  .confirmBlock
-    +Flex(flex-end,center)
-    padding: .6rem
-    border: 1px solid #000
 
 #orderManagement
   .managementContent
@@ -146,15 +128,8 @@
               margin-right: 10px
             .switchBlock
               display: inline-block
-        >textarea
-          +size(200px,90px,null)
-          resize: none
         .alignStart
           align-self: flex-start
-  .confirmBlock
-    +Flex(flex-end,center)
-    padding: .6rem
-    border: 1px solid #000
 
 #newOrder
   display: flex
@@ -174,3 +149,11 @@
     flex-direction: column
     flex: 1
     padding: 0 10px
+    .filterCondiction,.searchType,.subjectTitle
+      margin-bottom: 10px
+
+
+#addOrder,#storeInfo,#menuList
+  .row
+    .cell
+      padding: .4rem
