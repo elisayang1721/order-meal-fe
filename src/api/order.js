@@ -1,11 +1,12 @@
+import { assemblyParams } from '@js/model'
 import Axios from './service'
-// import store from '../vuex/store'
 
 export default {
-  getOrderRecordsList(id) {
+  getOrderRecordsList(id, data) {
+    const apiUrl = assemblyParams(data)
     // 取得點餐記錄列表
     return Axios({
-      url: `/orders/${id}/orderRecords?page=5`,
+      url: `/orders/${id}/orderRecords?${apiUrl}`,
       method: 'get'
     })
   },
@@ -23,20 +24,19 @@ export default {
       method: 'patch'
     })
   },
-  addOrder(id, data) {
+  addOrder(id) {
     // 新增點餐
     return Axios({
       url: `/orders/${id}/orderRecords`,
       method: 'post',
-      data
+  
     })
   },
-  updateOrderStatus(id, data) {
+  updateOrderStatus(id) {
     // 更新點餐狀態
     return Axios({
       url: `/orderRecords/${id}`,
       method: 'get',
-      data
     })
   }
 }
