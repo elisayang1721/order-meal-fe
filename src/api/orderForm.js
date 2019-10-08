@@ -1,5 +1,5 @@
+import { assemblyParams } from '@js/model'
 import Axios from './service'
-// import store from '../vuex/store'
 
 export default {
   getOrderForm() {
@@ -9,10 +9,11 @@ export default {
       method: 'get'
     })
   },
-  getStoreInfos() {
+  getStoreInfos(data) {
+    const apiUrl = assemblyParams(data)
     // 取得店家簡介列表
     return Axios({
-      url: '/storeInfos?page=5&pageSize=10',
+      url: `/storeInfos?${apiUrl}`,
       method: 'get'
     })
   },
