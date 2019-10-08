@@ -3,7 +3,6 @@ const state = {
     name: '',
     title: ''
   },
-  id: 'BBB',
   userData: {
     memberId: null,
     deptId: null,

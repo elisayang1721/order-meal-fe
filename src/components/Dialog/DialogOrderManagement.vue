@@ -13,7 +13,10 @@
                 placeholder="选择日期时间")
             li
               span 截止金額
-              span 無
+              template(v-if="!orderInfo.limitedPrice")
+                span 無
+              template(v-else)
+                span {{orderInfo.limitedPrice}}
             li
               span 訂單狀態
               .switchBlock
@@ -28,14 +31,14 @@
         .contentNav 訂單計算
         .content
           ul.alignStart
-            li 共 17 份
-            li 已訂購： X份
-            li 未訂購： X份
-            li 總價： $1390
+            li 共 {{orderInfo.totalAmount}} 份
+            li 已訂購： {{orderInfo.orderedAmount}}份
+            li 未訂購： {{orderInfo.paidAmount}}份
+            li 總價： ${{orderInfo.totalPrice}}
       .contentBlock
         .contentNav 公告事項
         .content
-          textarea(maxlength="255" v-model="bulletin")
+          textarea(maxlength="255" v-model="orderInfo.bulletin")
     .confirmBlock
       el-button(type="danger") 取消
       el-button(type="success") 確認
@@ -46,7 +49,7 @@ import DialogDetail from './DialogDetail'
 
 export default {
   name: 'DialogOrderManagement',
-  created() {},
+  created() { },
   mounted() {
     this.init_dateTime = 'native Date Thu Oct 03 2019 11:30:38 GMT+0800 (台北標準時間)'
     this.dateTime = this.init_dateTime
@@ -67,7 +70,25 @@ export default {
       init_dateTime: '',
       dateTime: '',
       status: true,
-      bulletin: 'test'
+      bulletin: 'test',
+      orderInfo: {
+        id: 1,
+        storeId: 25,
+        status: 1,
+        limitedPrice: null,
+        totalPrice: 380,
+        totalAmount: 8,
+        paidAmount: 3,
+        orderedAmount: 5,
+        finishedOn: '2019-09-25 10:20:00',
+        bulletin: '排骨沒有了，請點其它的~',
+        ownerId: 16,
+        createdBy: 16,
+        createdByName: '松庭',
+        storeName: 'ABC爌肉飯',
+        storePhone: '09987654321',
+        orderStatus: 1
+      }
     }
   },
   components: {

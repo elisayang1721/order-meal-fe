@@ -27,17 +27,18 @@
               li
                 span.font-blue 藍色文字
                 span － 藍色文字表示該項目的說明
-    .row(v-for="(item, idx) in Orders" :key="idx")
+    .row(v-for="(item, idx) in ordersDetail[0].list" :key="idx")
       .cell
-        span {{item.mealName}}
+        span {{item.itemName}}
       .cell
-        span {{item.quantity}}
+        span {{item.totalAmount}}
       .cell
-        span {{item.amountPerPic}}
+        span {{item.price}}
       .cell.flexFix
-        .subscriberCell.border-grey(v-for="(obj, i) in item.subscribers" :key="obj.name"
-          :class="{'bg-yellow': obj.status === 0, 'bg-green': obj.status === 1, 'bg-active': obj.status === 2, 'border-red': obj.name === role, 'hasPermission': checkPermission(obj.name)}"
+        .subscriberCell.border-grey(v-for="(obj, i) in item.orderRecords" :key="obj.id"
+          :class="recordClass(obj)"
           @click="orderSubmit(idx, i , obj.status, $event)")
+          //- :class="{'bg-yellow': obj.status === 0, 'bg-green': obj.status === 1, 'bg-active': obj.status === 2, 'border-red': obj.name === role, 'hasPermission': checkPermission(obj.name)}"
           span {{obj.name}}
           span.font-blue {{obj.remark}}
           .editBlock
@@ -45,7 +46,7 @@
             el-button(type="danger" @click.stop="test") 刪除
 </template>
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'DialogDetail',
@@ -53,7 +54,9 @@ export default {
   mounted() {
     this.role = this.$store.state.id
   },
-  computed: {},
+  computed: {
+    ...mapState(['userData'])
+  },
   methods: {
     ...mapActions(['showDialog']),
     orderSubmit(idx, i, status, e) {
@@ -73,463 +76,102 @@ export default {
     checkPermission(name) {
       return this.role === 'admin' || this.role === this.owner || this.role === name
     },
-    test() {
-      // console.log('test')
+    recordClass(obj) {
+      const classNames = []
+      const classList = {
+        isAdditional: 'bg-green',
+        isFirst: 'bg-yellow',
+        memberName: 'border-red',
+        status: 'bg-active'
+      }
+      if (obj.isFirst) {
+        // 第一次
+        classNames.push(classList.isFirst)
+      } else {
+        // 加購
+        classNames.push(classList.isAdditional)
+      }
+      if (obj.memberName === this.userData.memberName) {
+        // 自己
+        classNames.push(classList.memberName)
+      }
+      if (obj.status) {
+        // 訂購未訂購
+        classNames.push(classList.status)
+      }
+
+      return classNames
     }
   },
   watch: {},
   data() {
     return {
-      Orders: [
-        {
-          mealName: 'AAA',
-          quantity: 5,
-          amountPerPic: '$60',
-          subscribers: [
-            {
-              name: '資訊部： 裕介',
-              status: 1,
-              remark: '12345'
-            },
-            {
-              name: 'BBB',
-              status: 0,
-              remark: '123456'
-            },
-            {
-              name: 'admin',
-              status: 1,
-              remark: '555'
-            },
-            {
-              name: 'DDD',
-              status: 2,
-              remark: ''
-            },
-            {
-              name: 'EEE',
-              status: 0,
-              remark: ''
-            }
-          ]
-        },
-        {
-          mealName: 'AAA',
-          quantity: 5,
-          amountPerPic: '$60',
-          subscribers: [
-            {
-              name: 'AAA',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'BBB',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'CCC',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'DDD',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'EEE',
-              status: 1,
-              remark: ''
-            }
-          ]
-        },
-        {
-          mealName: 'AAA',
-          quantity: 5,
-          amountPerPic: '$60',
-          subscribers: [
-            {
-              name: 'AAA',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'BBB',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'CCC',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'DDD',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'EEE',
-              status: 1,
-              remark: ''
-            }
-          ]
-        },
-        {
-          mealName: 'AAA',
-          quantity: 5,
-          amountPerPic: '$60',
-          subscribers: [
-            {
-              name: 'AAA',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'BBB',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'CCC',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'DDD',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'EEE',
-              status: 1,
-              remark: ''
-            }
-          ]
-        },
-        {
-          mealName: 'AAA',
-          quantity: 5,
-          amountPerPic: '$60',
-          subscribers: [
-            {
-              name: 'AAA',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'BBB',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'CCC',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'DDD',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'EEE',
-              status: 1,
-              remark: ''
-            }
-          ]
-        },
-        {
-          mealName: 'AAA',
-          quantity: 5,
-          amountPerPic: '$60',
-          subscribers: [
-            {
-              name: 'AAA',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'BBB',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'CCC',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'DDD',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'EEE',
-              status: 1,
-              remark: ''
-            }
-          ]
-        },
-        {
-          mealName: 'AAA',
-          quantity: 5,
-          amountPerPic: '$60',
-          subscribers: [
-            {
-              name: 'AAA',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'BBB',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'CCC',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'DDD',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'EEE',
-              status: 1,
-              remark: ''
-            }
-          ]
-        },
-        {
-          mealName: 'AAA',
-          quantity: 5,
-          amountPerPic: '$60',
-          subscribers: [
-            {
-              name: 'AAA',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'BBB',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'CCC',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'DDD',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'EEE',
-              status: 1,
-              remark: ''
-            }
-          ]
-        },
-        {
-          mealName: 'AAA',
-          quantity: 5,
-          amountPerPic: '$60',
-          subscribers: [
-            {
-              name: 'AAA',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'BBB',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'CCC',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'DDD',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'EEE',
-              status: 1,
-              remark: ''
-            }
-          ]
-        },
-        {
-          mealName: 'AAA',
-          quantity: 5,
-          amountPerPic: '$60',
-          subscribers: [
-            {
-              name: 'AAA',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'BBB',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'CCC',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'DDD',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'EEE',
-              status: 1,
-              remark: ''
-            }
-          ]
-        },
-        {
-          mealName: 'AAA',
-          quantity: 5,
-          amountPerPic: '$60',
-          subscribers: [
-            {
-              name: 'AAA',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'BBB',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'CCC',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'DDD',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'EEE',
-              status: 1,
-              remark: ''
-            }
-          ]
-        },
-        {
-          mealName: 'AAA',
-          quantity: 5,
-          amountPerPic: '$60',
-          subscribers: [
-            {
-              name: 'AAA',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'BBB',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'CCC',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'DDD',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'EEE',
-              status: 1,
-              remark: ''
-            }
-          ]
-        },
-        {
-          mealName: 'AAA',
-          quantity: 5,
-          amountPerPic: '$60',
-          subscribers: [
-            {
-              name: 'AAA',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'BBB',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'CCC',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'DDD',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'EEE',
-              status: 1,
-              remark: ''
-            }
-          ]
-        },
-        {
-          mealName: 'AAA',
-          quantity: 5,
-          amountPerPic: '$60',
-          subscribers: [
-            {
-              name: 'AAA',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'BBB',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'CCC',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'DDD',
-              status: 1,
-              remark: ''
-            },
-            {
-              name: 'EEE',
-              status: 1,
-              remark: ''
-            }
-          ]
-        }
-      ],
+      ordersDetail: [{
+        totalSize: 3,
+        list: [
+          {
+            itemName: '咖哩便當-不辣',
+            totalAmount: 3,
+            price: 80,
+            orderRecords: [
+              {
+                memberName: '松庭',
+                deptId: 8,
+                remark: '我要加飯',
+                status: 1,
+                id: 1,
+                isFirst: false
+              },
+              {
+                memberName: '裕智4',
+                deptId: 8,
+                remark: '半飯謝謝',
+                status: 0,
+                id: 6,
+                isFirst: true
+              },
+              {
+                memberName: '裕智4',
+                deptId: 8,
+                remark: '半飯謝謝',
+                status: 0,
+                id: 6,
+                isFirst: false
+              }
+            ]
+          },
+          {
+            itemName: '泡菜-新韓式',
+            totalAmount: 2,
+            price: 40,
+            orderRecords: [
+              {
+                memberName: 'elic2',
+                deptId: 8,
+                remark: null,
+                status: 0,
+                id: 2,
+                isFirst: false
+              }
+            ]
+          },
+          {
+            itemName: '小黃瓜-韓式',
+            totalAmount: 3,
+            price: 20,
+            orderRecords: [
+              {
+                memberName: 'RAVEN3',
+                deptId: 8,
+                remark: null,
+                status: 0,
+                id: 3,
+                isFirst: true
+              }
+            ]
+          }
+        ]
+      }],
       owner: 'owner',
       role: ''
     }
