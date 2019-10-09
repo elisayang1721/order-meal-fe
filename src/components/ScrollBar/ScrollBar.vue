@@ -18,4 +18,6 @@ export default {
 <style lang="sass" scoped>
 .smooth-scroll
   position: relative
+  /deep/.scroll-content
+    +size(100%,100%,null)
 </style>
