@@ -5,7 +5,6 @@
     Dialog
 </template>
 <script>
-// import Main from '@v/Main'
 import Dialog from '@c/Dialog/Dialog'
 import AppHeader from '@/layout/AppHeader'
 
@@ -14,7 +13,6 @@ export default {
   components: {
     AppHeader,
     Dialog
-  },
-
+  }
 }
 </script>
