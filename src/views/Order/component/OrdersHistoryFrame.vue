@@ -2,8 +2,8 @@
   ScrollBar.listContainer(id="OrdersHistoryFrame")
     .contentViewFix
       el-table(:data='orderHistoryList.list' border style='width: 100%' align="center")
-        el-table-column(prop='createdOn' label='發起時間' width='180')
-        el-table-column(prop='name' label='店家名稱' width='180')
+        el-table-column(prop='createdOn' label='發起時間')
+        el-table-column(prop='name' label='店家名稱')
         el-table-column(prop='createdByName' label='負責人')
         el-table-column(label='狀態')
           template(slot-scope="scope")
@@ -80,7 +80,6 @@ export default {
 <style lang="sass" scoped>
   .listContainer
     .contentViewFix
-      min-width: 800px
       /deep/th,/deep/td
         text-align: center
 </style>

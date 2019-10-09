@@ -17,7 +17,6 @@
     .list.right
       .navHead
         span(:title="neededTitle") {{list.createdByName}}
-        span /
         el-button(type="warning"
           icon="el-icon-setting"
           @click="toggleDialog('OrderManagement',list.storeId,list.storeName,list.createdByName)") 訂單管理
