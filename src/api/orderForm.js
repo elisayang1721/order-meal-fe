@@ -5,7 +5,7 @@ export default {
   getOrderForm() {
     // 取得進行中訂單列表
     return Axios({
-      url: '/orders',
+      url: '/orders?isOpening=false',
       method: 'get'
     })
   },
@@ -25,7 +25,7 @@ export default {
     })
   },
   updateOrderForm(id, data) {
-    // 訂單更新
+    // 更新訂單
     return Axios({
       url: `/orders/${id}`,
       method: 'patch',
@@ -36,7 +36,7 @@ export default {
     // 新增訂單
     return Axios({
       url: '/orders',
-      method: 'get',
+      method: 'post',
       data
     })
   }

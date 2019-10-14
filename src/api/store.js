@@ -29,7 +29,7 @@ export default {
   getStoreId(id) {
     // 取得單筆店家(完整)
     return Axios({
-      url: `/stores/${id}`,
+      url: `/storeDetails/${id}`,
       method: 'get'
     })
   },
