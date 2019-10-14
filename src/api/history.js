@@ -19,7 +19,7 @@ export default {
   getRecordsId(id) {
     // 取得單筆訂單資訊
     return Axios({
-      url: `/orderRecords/${id}`,
+      url: `/orders/${id}`,
       method: 'get'
     })
   },
@@ -27,7 +27,7 @@ export default {
     const apiUrl = assemblyParams(data)
     // 取得訂單記錄列表
     return Axios({
-      url: `/orderRecords?${apiUrl}`,
+      url: `/orders?${apiUrl}`,
       method: 'get',
       data
     })

@@ -2,11 +2,11 @@ import { assemblyParams } from '@js/model'
 import Axios from './service'
 
 export default {
-  getOrderRecordsList(id, data) {
+  getOrderRecordsList(data) {
     const apiUrl = assemblyParams(data)
     // 取得點餐記錄列表
     return Axios({
-      url: `/orders/${id}/orderRecords?${apiUrl}`,
+      url: `/orderRecords?${apiUrl}`,
       method: 'get'
     })
   },
@@ -28,15 +28,14 @@ export default {
     // 新增點餐
     return Axios({
       url: `/orders/${id}/orderRecords`,
-      method: 'post',
-  
+      method: 'post'
     })
   },
   updateOrderStatus(id) {
     // 更新點餐狀態
     return Axios({
       url: `/orderRecords/${id}`,
-      method: 'get',
+      method: 'get'
     })
   }
 }
