@@ -1,5 +1,5 @@
 <template lang="pug">
-  #storeInfo
+  ScrollBar#storeInfo
     .row
       .cell
         span 店家資訊
@@ -40,6 +40,8 @@
         span {{store.updatedOn}}
 </template>
 <script>
+import ScrollBar from '@c/ScrollBar/ScrollBar'
+
 export default {
   name: 'StoreInfo',
   props: ['storeId'],
@@ -62,6 +64,8 @@ export default {
       }
     }
   },
-  components: {}
+  components: {
+    ScrollBar
+  }
 }
 </script>

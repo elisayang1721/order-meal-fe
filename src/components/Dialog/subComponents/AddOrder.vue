@@ -1,5 +1,5 @@
 <template lang="pug">
-  #addOrder
+  ScrollBar#addOrder
     .row
       .cell
         span 負責人
@@ -29,6 +29,8 @@
       el-button(type="success") 確認
 </template>
 <script>
+import ScrollBar from '@c/ScrollBar/ScrollBar'
+
 export default {
   name: 'AddOrder',
   props: ['storeId'],
@@ -46,7 +48,9 @@ export default {
       }
     }
   },
-  components: {}
+  components: {
+    ScrollBar
+  }
 }
 </script>
 <style lang="sass" scoped>

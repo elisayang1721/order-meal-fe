@@ -1,5 +1,5 @@
 <template lang="pug">
-  #menuList
+  ScrollBar#menuList
     .row
       .cell
         span 品名
@@ -9,7 +9,7 @@
       .row
         .cell
           span {{obj.menuType}}
-      .row(v-for="(item, i) in obj.items" :key="item.cate")
+      .row(v-for="(item, i) in obj.items" :key="i")
         .cell
           span {{item.cate}}
         .cell
@@ -19,6 +19,8 @@
             span(v-for="meal in item.meals" :key="meal.id") {{`${meal.name} ${meal.price}`}}
 </template>
 <script>
+import ScrollBar from '@c/ScrollBar/ScrollBar'
+
 export default {
   name: 'MenuList',
   props: ['storeId'],
@@ -35,6 +37,186 @@ export default {
           {
             'menuType': '便當類',
             'items': [
+              {
+                'cate': '雞腿便當',
+                'meals': [
+                  {
+                    'id': 205,
+                    'name': '雞腿便當',
+                    'price': 75
+                  }
+                ]
+              },
+              {
+                'cate': '雞腿便當',
+                'meals': [
+                  {
+                    'id': 205,
+                    'name': '雞腿便當',
+                    'price': 75
+                  }
+                ]
+              },
+              {
+                'cate': '雞腿便當',
+                'meals': [
+                  {
+                    'id': 205,
+                    'name': '雞腿便當',
+                    'price': 75
+                  }
+                ]
+              },
+              {
+                'cate': '雞腿便當',
+                'meals': [
+                  {
+                    'id': 205,
+                    'name': '雞腿便當',
+                    'price': 75
+                  }
+                ]
+              },
+              {
+                'cate': '雞腿便當',
+                'meals': [
+                  {
+                    'id': 205,
+                    'name': '雞腿便當',
+                    'price': 75
+                  }
+                ]
+              },
+              {
+                'cate': '雞腿便當',
+                'meals': [
+                  {
+                    'id': 205,
+                    'name': '雞腿便當',
+                    'price': 75
+                  }
+                ]
+              },
+              {
+                'cate': '雞腿便當',
+                'meals': [
+                  {
+                    'id': 205,
+                    'name': '雞腿便當',
+                    'price': 75
+                  }
+                ]
+              },
+              {
+                'cate': '雞腿便當',
+                'meals': [
+                  {
+                    'id': 205,
+                    'name': '雞腿便當',
+                    'price': 75
+                  }
+                ]
+              },
+              {
+                'cate': '雞腿便當',
+                'meals': [
+                  {
+                    'id': 205,
+                    'name': '雞腿便當',
+                    'price': 75
+                  }
+                ]
+              },
+              {
+                'cate': '雞腿便當',
+                'meals': [
+                  {
+                    'id': 205,
+                    'name': '雞腿便當',
+                    'price': 75
+                  }
+                ]
+              },
+              {
+                'cate': '雞腿便當',
+                'meals': [
+                  {
+                    'id': 205,
+                    'name': '雞腿便當',
+                    'price': 75
+                  }
+                ]
+              },
+              {
+                'cate': '雞腿便當',
+                'meals': [
+                  {
+                    'id': 205,
+                    'name': '雞腿便當',
+                    'price': 75
+                  }
+                ]
+              },
+              {
+                'cate': '雞腿便當',
+                'meals': [
+                  {
+                    'id': 205,
+                    'name': '雞腿便當',
+                    'price': 75
+                  }
+                ]
+              },
+              {
+                'cate': '雞腿便當',
+                'meals': [
+                  {
+                    'id': 205,
+                    'name': '雞腿便當',
+                    'price': 75
+                  }
+                ]
+              },
+              {
+                'cate': '雞腿便當',
+                'meals': [
+                  {
+                    'id': 205,
+                    'name': '雞腿便當',
+                    'price': 75
+                  }
+                ]
+              },
+              {
+                'cate': '雞腿便當',
+                'meals': [
+                  {
+                    'id': 205,
+                    'name': '雞腿便當',
+                    'price': 75
+                  }
+                ]
+              },
+              {
+                'cate': '雞腿便當',
+                'meals': [
+                  {
+                    'id': 205,
+                    'name': '雞腿便當',
+                    'price': 75
+                  }
+                ]
+              },
+              {
+                'cate': '雞腿便當',
+                'meals': [
+                  {
+                    'id': 205,
+                    'name': '雞腿便當',
+                    'price': 75
+                  }
+                ]
+              },
               {
                 'cate': '雞腿便當',
                 'meals': [
@@ -111,6 +293,8 @@ export default {
       }
     }
   },
-  components: {}
+  components: {
+    ScrollBar
+  }
 }
 </script>
