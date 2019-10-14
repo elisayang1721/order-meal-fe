@@ -56,7 +56,7 @@
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'StoreManage',
+  name: 'UserAdmin',
   created() { },
   mounted() { },
   computed: {},
