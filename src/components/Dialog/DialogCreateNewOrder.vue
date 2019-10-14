@@ -39,7 +39,7 @@
                 @click="toggleAside(scope.row.id, 'MenuList')")
               el-button(type="primary" icon="el-icon-info"
                 @click="toggleAside(scope.row.id, 'StoreInfo')")
-    ScrollBar.innerBlock
+    .innerBlock
       component(:is="subComponent" :storeId="currentId")
 </template>
 <script>
