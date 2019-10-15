@@ -1,8 +1,5 @@
 const state = {
-  dialog: {
-    name: '',
-    title: ''
-  },
+  dialog: [],
   userData: {}
 }
 
