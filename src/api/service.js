@@ -24,15 +24,14 @@ service.interceptors.request.use(
 /** 攔截器(response): 依據回傳的狀態碼，預先做對應處理 */
 service.interceptors.response.use(
   response => {
-    // token 過期
-    if (response.data.code === 401) {
-      localStorage.removeItem('apiToken')
-      return Promise.reject(response)
-    }
     return response.data
   },
   error => {
     const { response } = error
+    // token 過期
+    if (response.data.code === 401) {
+      localStorage.removeItem('apiToken')
+    }
     // eslint-disable-next-line prefer-promise-reject-errors
     return Promise.reject('（○′∀‵）ノ♡error', response)
   }

@@ -39,6 +39,7 @@ export default {
 <style lang="sass" scoped>
   .itemWrapper
     height: unset
+    min-height: 120px
     +BrdRad(8px,8px,0,0)
     .list
       .navHead

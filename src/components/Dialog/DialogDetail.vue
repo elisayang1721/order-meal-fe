@@ -1,5 +1,5 @@
 <template lang="pug">
-  #detail
+  #detail(v-loading="loading")
     .row
       .cell
         span 品項
@@ -28,9 +28,9 @@
                 span.font-blue 藍色文字
                 span － 藍色文字表示該項目的說明
             i.el-icon-question
-    .row(v-for="(item, idx) in ordersDetail[0].list" :key="idx")
+    .row(v-for="(item, idx) in ordersDetail" :key="idx")
       .cell
-        span {{item.itemName}}
+        span {{checkItemName(item.itemName)}}
       .cell
         span {{item.totalAmount}}
       .cell
@@ -47,12 +47,19 @@
             el-button(type="danger") 刪除
 </template>
 <script>
+import history from '@api/history'
 import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'DialogDetail',
   created() { },
   mounted() {
+    this.loading = true
+    history.getRecordsInfo(this.$store.state.prop.id).then(res => {
+      this.ordersDetail = res.list
+      this.loading = false
+    })
+    this.owner = this.$store.state.prop.owner
     this.role = this.$store.state.userData.memberName
   },
   computed: {
@@ -107,95 +114,19 @@ export default {
     },
     edit() {
       this.showDialog({ name: 'Order', title: '我也要訂 - ＸＸＸ - 編輯' })
+    },
+    checkItemName(name) {
+      const arr = name.split('-')
+      return arr[0] === arr[1] ? arr[0] : name
     }
   },
   watch: {},
   data() {
     return {
-      ordersDetail: [{
-        totalSize: 3,
-        list: [
-          {
-            itemName: '咖哩便當-不辣',
-            totalAmount: 3,
-            price: 80,
-            orderRecords: [
-              {
-                memberName: '松庭',
-                deptId: 8,
-                remark: '我要加飯',
-                status: 1,
-                id: 1,
-                isFirst: false
-              },
-              {
-                memberName: '裕智4',
-                deptId: 8,
-                remark: '半飯謝謝',
-                status: 0,
-                id: 6,
-                isFirst: true
-              },
-              {
-                memberName: '裕智4',
-                deptId: 8,
-                remark: '半飯謝謝',
-                status: 0,
-                id: 16,
-                isFirst: true
-              },
-              {
-                memberName: '裕智4',
-                deptId: 8,
-                remark: '半飯謝謝',
-                status: 0,
-                id: 26,
-                isFirst: true
-              },
-              {
-                memberName: '裕智4',
-                deptId: 8,
-                remark: '半飯謝謝',
-                status: 0,
-                id: 7,
-                isFirst: false
-              }
-            ]
-          },
-          {
-            itemName: '泡菜-新韓式',
-            totalAmount: 2,
-            price: 40,
-            orderRecords: [
-              {
-                memberName: 'elic2',
-                deptId: 8,
-                remark: null,
-                status: 0,
-                id: 2,
-                isFirst: false
-              }
-            ]
-          },
-          {
-            itemName: '小黃瓜-韓式',
-            totalAmount: 3,
-            price: 20,
-            orderRecords: [
-              {
-                memberName: 'RAVEN3',
-                deptId: 8,
-                remark: null,
-                status: 0,
-                id: 3,
-                isFirst: true
-              }
-            ]
-          }
-        ]
-      }],
-      owner: 'owner',
-      role: ''
+      ordersDetail: [],
+      owner: '',
+      role: '',
+      loading: false
     }
   },
   components: {}

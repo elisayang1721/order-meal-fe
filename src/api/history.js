@@ -10,7 +10,7 @@ export default {
     })
   },
   getRecordsInfo(id) {
-    // [未完成] 取得單筆訂單明細
+    // [M] 取得單筆訂單明細
     return Axios({
       url: `/orderRecords/${id}/details`,
       method: 'get'

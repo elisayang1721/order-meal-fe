@@ -18,7 +18,7 @@
               span 訂單狀態
               .switchBlock
                 span 截止
-                el-switch(v-model="status"
+                el-switch(v-model="orderInfo.status"
                   active-color="#13ce66"
                   inactive-color="#ff4949")
                 span 進行
@@ -48,21 +48,24 @@
     DialogDetail
 </template>
 <script>
+import history from '@api/history'
 import DialogDetail from './DialogDetail'
 
 export default {
   name: 'DialogOrderManagement',
   created() { },
   mounted() {
-    this.init_dateTime = 'native Date Thu Oct 03 2019 11:30:38 GMT+0800 (台北標準時間)'
-    this.dateTime = this.init_dateTime
+    history.getRecordsId(this.$store.state.prop.id).then(res => {
+      this.orderInfo = res
+      this.init_dateTime = this.orderInfo.finishedOn
+    })
   },
   computed: {},
   methods: {
     checkDateTime() {
-      if (!this.dateTime) {
+      if (!this.orderInfo.finishedOn) {
         this.$nextTick(() => {
-          this.dateTime = this.init_dateTime
+          this.orderInfo.finishedOn = this.init_dateTime
         })
       }
     }
@@ -71,27 +74,7 @@ export default {
   data() {
     return {
       init_dateTime: '',
-      dateTime: '',
-      status: true,
-      bulletin: 'test',
-      orderInfo: {
-        id: 1,
-        storeId: 25,
-        status: 1,
-        limitedPrice: null,
-        totalPrice: 380,
-        totalAmount: 8,
-        paidAmount: 3,
-        orderedAmount: 5,
-        finishedOn: '2019-09-25 10:20:00',
-        bulletin: '排骨沒有了，請點其它的~',
-        ownerId: 16,
-        createdBy: 16,
-        createdByName: '松庭',
-        storeName: 'ABC爌肉飯',
-        storePhone: '09987654321',
-        orderStatus: 1
-      }
+      orderInfo: {}
     }
   },
   components: {

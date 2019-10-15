@@ -1,7 +1,7 @@
 <template lang="pug">
-  ScrollBar.listContainer(id="OrdersHistoryFrame")
+  ScrollBar.listContainer(id="OrdersHistoryFrame" v-loading="loading")
     .contentViewFix
-      el-table(:data='orderHistoryList.list' border style='width: 100%' align="center")
+      el-table(:data='orderHistoryList' border style='width: 100%' align="center")
         el-table-column(prop='createdOn' label='發起時間')
         el-table-column(prop='name' label='店家名稱')
         el-table-column(prop='createdByName' label='負責人')
@@ -11,65 +11,46 @@
         el-table-column(label="功能")
           template(slot-scope="scope")
             el-button(type="primary" icon="el-icon-setting"
-              @click="orderManagement(scope.row.storeId, scope.row.createdByName,scope.row.name)") 訂單管理
+              @click="orderManagement(scope.row)") 訂單管理
 </template>
 <script>
+import history from '@api/history'
+import { injectState } from '@js/model'
 import ScrollBar from '@c/ScrollBar/ScrollBar'
 import { mapActions } from 'vuex'
 
 export default {
   name: 'OrdersHistoryFrame',
   created() {},
-  mounted() {},
+  mounted() {
+    this.loading = true
+    history.getRecordsList({ isOpening: true }).then(res => {
+      this.orderHistoryList = res.list
+      this.loading = false
+    })
+  },
   computed: {},
   methods: {
     ...mapActions(['showDialog']),
-    orderManagement(storeId, owner, storeName) {
+    orderManagement(row) {
       const load = {
         name: 'OrderManagement',
-        title: `${owner} - ${storeName} - 訂單管理`
+        title: `${row.createdByName} - ${row.name} - 訂單管理`
       }
+      const prop = {
+        id: row.id,
+        storeId: row.storeId,
+        owner: row.createByName
+      }
+      injectState(prop)
       this.showDialog(load)
     }
   },
   watch: {},
   data() {
     return {
-      orderHistoryList: {
-        'totalSize': 30,
-        'list': [
-          {
-            'id': 1,
-            'storeId': 3,
-            'status': 1,
-            'name': '條條有理',
-            'createdBy': 16,
-            'ownerId': 16,
-            'createdByName': '松庭',
-            'createdOn': '2018-08-07 15:00'
-          },
-          {
-            'id': 2,
-            'storeId': 4,
-            'status': 0,
-            'name': '麵麵俱到',
-            'createdBy': 16,
-            'ownerId': 16,
-            'createdByName': '松庭',
-            'createdOn': '2018-08-07 15:00'
-          },
-          {
-            'id': 3,
-            'storeId': 6,
-            'status': 2,
-            'name': '力大麵食',
-            'createdBy': 16,
-            'ownerId': 16,
-            'createdByName': '松庭',
-            'createdOn': '2018-08-07 15:00'
-          }
-        ]
-      }
+      orderHistoryList: [],
+      loading: false
     }
   },
   components: {

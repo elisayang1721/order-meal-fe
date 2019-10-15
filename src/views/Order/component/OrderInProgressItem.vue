@@ -2,7 +2,7 @@
   .itemWrapper
     .list.left
       .navHead
-        .restaurantName {{list.storeName}}
+        .restaurantName {{list.name}}
         .deadLine 截止於：三分後
       .content
         .amount
@@ -19,14 +19,15 @@
         span(:title="neededTitle") {{list.createdByName}}
         el-button(type="warning"
           icon="el-icon-setting"
-          @click="toggleDialog('OrderManagement',list.storeId,list.storeName,list.createdByName)") 訂單管理
+          @click="toggleDialog('OrderManagement')") 訂單管理
       .content
         el-button(icon="el-icon-edit"
-          @click="toggleDialog('Detail',list.storeId,list.storeName,list.createdByName)") 明細
+          @click="toggleDialog('Detail')") 明細
         el-button(type="success" icon="el-icon-potato-strips"
-          @click="toggleDialog('Order',list.storeId,list.storeName,list.createdByName)") 點餐
+          @click="toggleDialog('Order')") 點餐
 </template>
 <script>
+import { injectState } from '@js/model'
 import { mapActions } from 'vuex'
 
 export default {
@@ -44,19 +45,25 @@ export default {
   },
   methods: {
     ...mapActions(['showDialog']),
-    toggleDialog(cName, storeId, storeName, owner) {
+    toggleDialog(cName) {
       let title
       if (cName === 'OrderManagement') {
-        title = `${owner} - ${storeName} - 訂單管理`
+        title = `${this.list.createdByName} - ${this.list.name} - 訂單管理`
       } else if (cName === 'Detail') {
-        title = `${owner} - ${storeName} - 訂單明細`
+        title = `${this.list.createdByName} - ${this.list.name} - 訂單明細`
       } else {
-        title = `我也要訂 - ${storeName}`
+        title = `我也要訂 - ${this.list.name}`
       }
       const load = {
         name: cName,
         title
       }
+      const prop = {
+        id: this.list.id,
+        storeId: this.list.storeId,
+        owner: this.list.createdByName
+      }
+      injectState(prop)
       this.showDialog(load)
     }
   },

@@ -24,11 +24,12 @@ export default {
       method: 'patch'
     })
   },
-  addOrder(id) {
+  addOrder(id, data) {
     // 新增點餐
     return Axios({
       url: `/orders/${id}/orderRecords`,
-      method: 'post'
+      method: 'post',
+      data
     })
   },
   updateOrderStatus(id) {

@@ -1,5 +1,5 @@
 <template lang="pug">
-  #order(v-if="Object.keys(orderSet).length")
+  #order(v-loading="loading")
     .row
       .cell
         span 名稱
@@ -9,7 +9,7 @@
         span 數量
       .cell
         span 說明
-    template(v-for="obj in menu.list")
+    template(v-for="obj in menuList")
       .row
         .cell
           span {{obj.menuType}}
@@ -30,20 +30,30 @@
           el-input(v-model="orderSet[obj.menuType][i].remark")
     .confirmBlock
       el-button(type="danger") 取消
-      el-button(type="success") 確認
+      el-button(type="success" @click="confirm") 確認
 </template>
 <script>
+import store from '@api/store'
+import order from '@api/order'
+import { mapActions } from 'vuex'
+
 export default {
   name: 'DialogOrder',
   created() { },
   mounted() {
-    this.orderInfo()
+    this.loading = true
+    store.getStoreMenu(this.$store.state.prop.storeId).then(res => {
+      this.menuList = res.list
+      this.orderInfo()
+      this.loading = false
+    })
   },
   computed: {},
   methods: {
+    ...mapActions(['closeDialog']),
     orderInfo() {
       const orderSet = {}
-      this.menu.list.forEach(el => {
+      this.menuList.forEach(el => {
         orderSet[el.menuType] = orderSet[el.menuType] || []
         el.items.forEach(item => {
           const payLoad = {
@@ -55,110 +65,33 @@ export default {
         })
       })
       this.orderSet = orderSet
+    },
+    confirm() {
+      const load = {
+        orders: []
+      }
+      Object.keys(this.orderSet).forEach(key => {
+        this.orderSet[key].forEach(obj => {
+          if (obj.amount && obj.menuItemId) {
+            load.orders.push(obj)
+          }
+        })
+      })
+      if (load.orders.length) {
+        order.addOrder(this.$store.state.prop.id, load).then(res => {
+          console.log('新增成功')
+          this.closeDialog()
+          this.$bus.$emit('refreshMyOrderHistory')
+        })
+      }
     }
   },
   watch: {},
   data() {
     return {
-      menu: {
-        'totalSize': 30,
-        'list': [
-          {
-            'menuType': '便當類',
-            'items': [
-              {
-                'cate': '雞腿便當',
-                'meals': [
-                  {
-                    'id': 205,
-                    'name': '雞腿便當',
-                    'price': 75
-                  }
-                ]
-              },
-              {
-                'cate': '滷肉便當',
-                'meals': [
-                  {
-                    'id': 206,
-                    'name': '滷肉便當',
-                    'price': 80
-                  }
-                ]
-              },
-              {
-                'cate': '咖哩便當',
-                'meals': [
-                  {
-                    'id': 207,
-                    'name': '小小小辣',
-                    'price': 65
-                  },
-                  {
-                    'id': 227,
-                    'name': '小小辣',
-                    'price': 65
-                  },
-                  {
-                    'id': 228,
-                    'name': '小辣',
-                    'price': 65
-                  },
-                  {
-                    'id': 237,
-                    'name': '大辣',
-                    'price': 65
-                  },
-                  {
-                    'id': 238,
-                    'name': '大大辣',
-                    'price': 65
-                  },
-                  {
-                    'id': 208,
-                    'name': '不辣',
-                    'price': 65
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            'menuType': '小菜類',
-            'items': [
-              {
-                'cate': '滷蛋',
-                'meals': [
-                  {
-                    'id': 12,
-                    'name': '滷蛋',
-                    'price': 10
-                  }
-                ]
-              },
-              {
-                'cate': '泡菜',
-                'meals': [
-                  {
-                    'id': 13,
-                    'name': '台式',
-                    'price': 35
-                  },
-                  {
-                    'id': 14,
-                    'name': '韓式',
-                    'price': 35
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      picked: '',
-      amount: 0,
-      input: '',
-      orderSet: {}
+      menuList: [],
+      orderSet: {},
+      loading: false
     }
   },
   components: {}
