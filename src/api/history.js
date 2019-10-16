@@ -23,13 +23,11 @@ export default {
       method: 'get'
     })
   },
-  getRecordsList(data) {
-    const apiUrl = assemblyParams(data)
+  getRecordsList() {
     // 取得訂單記錄列表
     return Axios({
-      url: `/orders?${apiUrl}`,
-      method: 'get',
-      data
+      url: '/orders?isOpening=false',
+      method: 'get'
     })
   }
 }

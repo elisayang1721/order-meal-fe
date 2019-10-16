@@ -17,11 +17,12 @@ export default {
       method: 'delete'
     })
   },
-  updateOrder(id) {
+  updateOrder(orderId, orderRecordId, data) {
     // 更新點餐
     return Axios({
-      url: `/orderRecords/${id}`,
-      method: 'patch'
+      url: `/orderRecords/${orderId}/${orderRecordId}`,
+      method: 'patch',
+      data
     })
   },
   addOrder(id, data) {
@@ -32,8 +33,16 @@ export default {
       data
     })
   },
-  updateOrderStatus(id) {
+  updateOrderStatus(id, data) {
     // 更新點餐狀態
+    return Axios({
+      url: `/orderRecords/${id}`,
+      method: 'put',
+      data
+    })
+  },
+  getSingleOrderRecord(id) {
+    // 取得單筆點餐
     return Axios({
       url: `/orderRecords/${id}`,
       method: 'get'
