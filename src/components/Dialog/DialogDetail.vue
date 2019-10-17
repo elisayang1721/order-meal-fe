@@ -1,5 +1,5 @@
 <template lang="pug">
-  #detail
+  #detail(v-loading="loading")
     .row
       .cell
         span 品項
@@ -28,9 +28,9 @@
                 span.font-blue 藍色文字
                 span － 藍色文字表示該項目的說明
             i.el-icon-question
-    .row(v-for="(item, idx) in ordersDetail[0].list" :key="idx")
+    .row(v-for="(item, idx) in ordersDetail" :key="idx")
       .cell
-        span {{item.itemName}}
+        span {{checkItemName(item.itemName)}}
       .cell
         span {{item.totalAmount}}
       .cell
@@ -38,21 +38,29 @@
       .cell.flexFix
         .subscriberCell.border-grey(v-for="(obj, i) in item.orderRecords" :key="obj.id"
           :class="recordClass(obj)"
-          @click="orderSubmit(idx, i , obj.status, $event)")
-          span {{obj.memberName}}
+          @click="orderSubmit(obj, $event)")
+          span {{`${obj.memberName} x${obj.amount}`}}
           span.font-blue {{obj.remark}}
-          .editBlock
+          .editBlock(:class="{confirmDelete: isBtnShow}")
             el-button(type="success"
-              @click.stop="edit") 編輯
-            el-button(type="danger") 刪除
+              @click.stop="edit(obj.id)") 編輯
+            el-button(type="danger"
+              @click.stop="deleteOrder") 刪除
+            el-button(type="danger" icon="el-icon-warning-outline"
+              @click="confirmDelete(obj.id)") 確認刪除
 </template>
 <script>
+import history from '@api/history'
+import order from '@api/order'
+import { shallowClone, injectState } from '@js/model'
 import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'DialogDetail',
   created() { },
   mounted() {
+    this.getRecordsInfo()
+    this.owner = this.$store.state.prop.owner
     this.role = this.$store.state.userData.memberName
   },
   computed: {
@@ -60,18 +68,23 @@ export default {
   },
   methods: {
     ...mapActions(['showDialog']),
-    orderSubmit(idx, i, status, e) {
+    getRecordsInfo() {
+      this.loading = true
+      history.getRecordsInfo(this.$store.state.prop.id).then(res => {
+        this.ordersDetail = res.list
+        this.loading = false
+      })
+    },
+    orderSubmit(obj, e) {
       const hasCell = e.target.className.includes('subscriberCell')
       // class不是subscriberCell，不做開關
       if (!hasCell) return
 
       e.target.classList.toggle('bg-active')
       const hasActive = e.target.className.includes('bg-active')
-      if (hasActive) {
-        // do somthing
-      } else {
-        // do other thing
-      }
+      order.updateOrderStatus(obj.id, { status: hasActive }).then(res => {
+        this.$bus.$emit('updateOrderAmount', { status: hasActive, cal: obj.amount })
+      })
     },
     checkPermission(name) {
       return this.role === 'admin' || this.role === this.owner || this.role === name
@@ -105,97 +118,47 @@ export default {
       }
       return classNames
     },
-    edit() {
-      this.showDialog({ name: 'Order', title: '我也要訂 - ＸＸＸ - 編輯' })
+    edit(orderId) {
+      const load = {
+        name: 'Order',
+        title: `我也要訂 - ${this.$store.state.prop.storeName} - 編輯`
+      }
+      const prop = shallowClone(this.$store.state.prop)
+      prop.action = 'edit'
+      prop.orderId = orderId
+      injectState(prop)
+      this.showDialog(load)
+    },
+    checkItemName(name) {
+      const arr = name.split('-')
+      return arr[0] === arr[1] ? arr[0] : name
+    },
+    deleteOrder() {
+      this.isBtnShow = true
+      setTimeout(() => {
+        this.isBtnShow = false
+      }, 2000)
+    },
+    confirmDelete(id) {
+      order.delOrder(id).then(res => {
+        this.$message({
+          message: '刪除點餐',
+          type: 'success'
+        })
+        this.getRecordsInfo()
+        this.$bus.$emit('refreshOrderForm')
+        this.$bus.$emit('refreshMyorder')
+      })
     }
   },
   watch: {},
   data() {
     return {
-      ordersDetail: [{
-        totalSize: 3,
-        list: [
-          {
-            itemName: '咖哩便當-不辣',
-            totalAmount: 3,
-            price: 80,
-            orderRecords: [
-              {
-                memberName: '松庭',
-                deptId: 8,
-                remark: '我要加飯',
-                status: 1,
-                id: 1,
-                isFirst: false
-              },
-              {
-                memberName: '裕智4',
-                deptId: 8,
-                remark: '半飯謝謝',
-                status: 0,
-                id: 6,
-                isFirst: true
-              },
-              {
-                memberName: '裕智4',
-                deptId: 8,
-                remark: '半飯謝謝',
-                status: 0,
-                id: 16,
-                isFirst: true
-              },
-              {
-                memberName: '裕智4',
-                deptId: 8,
-                remark: '半飯謝謝',
-                status: 0,
-                id: 26,
-                isFirst: true
-              },
-              {
-                memberName: '裕智4',
-                deptId: 8,
-                remark: '半飯謝謝',
-                status: 0,
-                id: 7,
-                isFirst: false
-              }
-            ]
-          },
-          {
-            itemName: '泡菜-新韓式',
-            totalAmount: 2,
-            price: 40,
-            orderRecords: [
-              {
-                memberName: 'elic2',
-                deptId: 8,
-                remark: null,
-                status: 0,
-                id: 2,
-                isFirst: false
-              }
-            ]
-          },
-          {
-            itemName: '小黃瓜-韓式',
-            totalAmount: 3,
-            price: 20,
-            orderRecords: [
-              {
-                memberName: 'RAVEN3',
-                deptId: 8,
-                remark: null,
-                status: 0,
-                id: 3,
-                isFirst: true
-              }
-            ]
-          }
-        ]
-      }],
-      owner: 'owner',
-      role: ''
+      ordersDetail: [],
+      owner: '',
+      role: '',
+      loading: false,
+      isBtnShow: false
     }
   },
   components: {}

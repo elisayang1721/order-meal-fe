@@ -95,6 +95,7 @@ module.exports = {
     'import/extensions': [2, 'never', {
       'vue': 'never'
     }],
-    'semi': ['error', 'never']
+    'semi': ['error', 'never'],
+    'func-names': ["error", "never"]
   }
 }

@@ -5,7 +5,7 @@ export default {
   getOrderForm() {
     // 取得進行中訂單列表
     return Axios({
-      url: '/orders?isOpening=false',
+      url: '/orders?isOpening=true',
       method: 'get'
     })
   },

@@ -1,6 +1,6 @@
 <template lang="pug">
   transition(name="dialog-fade")
-    .dialogFrame(v-if="componentName")
+    .dialogFrame(v-if="dialog.length")
       .dialogBg(@click="closeDialog")
       .dialogContent
         .dialogHeader
@@ -27,14 +27,15 @@ export default {
   components: {
     ScrollBar
   },
-  mounted() {},
   computed: {
     ...mapState(['dialog']),
     componentName() {
-      return this.dialog.name
+      const maxlength = this.dialog.length - 1
+      return this.dialog[maxlength].name
     },
     componentTitle() {
-      return this.dialog.title
+      const maxlength = this.dialog.length - 1
+      return this.dialog[maxlength].title
     }
   },
   methods: {
@@ -48,7 +49,8 @@ export default {
       }
     },
     sliceName() {
-      const name = this.dialog.name
+      const maxlength = this.dialog.length - 1
+      const name = this.dialog[maxlength].name
       const className = name.toLowerCase().split('dialog')
       return className
     }
