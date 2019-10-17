@@ -1,11 +1,9 @@
 <template lang="pug">
-  main
-    router-view
+  main(v-loading="loading")
+    router-view(v-if="hasToken")
 </template>
 <script>
-
 import user from '@api/user'
-
 import axios from 'axios'
 
 export default {
@@ -37,15 +35,21 @@ export default {
       })
     },
     login() {
+      this.loading = true
       user.login().then(res => {
         localStorage.setItem('apiToken', res.token)
         this.$store.state.userData = res
+        this.hasToken = true
+        this.loading = false
       })
     }
   },
   watch: {},
   data() {
-    return {}
+    return {
+      hasToken: false,
+      loading: false
+    }
   }
 }
 </script>
