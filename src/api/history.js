@@ -1,4 +1,3 @@
-import { assemblyParams } from '@js/model'
 import Axios from './service'
 
 export default {
