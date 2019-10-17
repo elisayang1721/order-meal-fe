@@ -11,6 +11,9 @@ const mutations = {
   [types.CLOSE_DIALOG](state) {
     const closeId = state.dialog.length - 1
     state.dialog.splice(closeId, 1)
+    if (state.dialog.length === 0) {
+      delete state.prop
+    }
   }
 }
 

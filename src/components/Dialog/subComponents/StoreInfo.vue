@@ -17,7 +17,7 @@
       .cell
         span 地址
       .cell
-        span {{store.addrress}}
+        span {{store.address}}
     .row
       .cell
         span 簡介
@@ -41,27 +41,27 @@
 </template>
 <script>
 import ScrollBar from '@c/ScrollBar/ScrollBar'
+import orderForm from '@api/orderForm'
 
 export default {
   name: 'StoreInfo',
   props: ['storeId'],
   created() {},
-  mounted() {},
+  mounted() {
+    this.getStoreInfo()
+  },
   computed: {},
-  methods: {},
+  methods: {
+    getStoreInfo() {
+      orderForm.getStoreInfoId(this.storeId).then(res => {
+        this.store = res
+      })
+    }
+  },
   watch: {},
   data() {
     return {
-      store: {
-        'id': 1,
-        'name': '條條有理',
-        'phone': '0912345678',
-        'addrress': '台中市精誠路308號(近大墩11街口)',
-        'description': null,
-        'remark': null,
-        'updatedBy': '松庭',
-        'updatedOn': '2018-08-07 15:00'
-      }
+      store: {}
     }
   },
   components: {

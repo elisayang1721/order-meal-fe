@@ -1,20 +1,22 @@
 <template lang="pug">
-  main
-    router-view
+  main(v-loading="loading")
+    router-view(v-if="hasToken")
 </template>
 <script>
-
 import user from '@api/user'
-
 import axios from 'axios'
 
 export default {
   name: 'Main',
   created() { },
   mounted() {
-    if (process.env.NODE_ENV === 'development' && !localStorage.hasOwnProperty('emsToken')) return this.devApi()
+    if (process.env.NODE_ENV === 'development' && !localStorage.hasOwnProperty('emsToken')) {
+      this.devApi()
+    }
 
-    if (localStorage.hasOwnProperty('emsToken')) return this.login()
+    if (localStorage.hasOwnProperty('emsToken')) {
+      this.login()
+    }
   },
   computed: {},
   methods: {
@@ -28,26 +30,26 @@ export default {
         method: 'post',
         data
       }).then(res => {
-        if (res.data.code === 200) {
-          console.log('無emsToken')
-          localStorage.setItem('emsToken', res.data.data.apiToken)
-          this.login()
-        }
+        localStorage.setItem('emsToken', res.data.data.apiToken)
+        this.login()
       })
     },
     login() {
+      this.loading = true
       user.login().then(res => {
-        if (res.code === 401) {
-          this.devApi()
-        }
-        this.$store.state.userData = res
         localStorage.setItem('apiToken', res.token)
+        this.$store.state.userData = res
+        this.hasToken = true
+        this.loading = false
       })
     }
   },
   watch: {},
   data() {
-    return {}
+    return {
+      hasToken: false,
+      loading: false
+    }
   }
 }
 </script>

@@ -53,6 +53,8 @@
     +Flex(center,center)
     flex-wrap: wrap
     border: 1px solid #000
+    >span
+      text-align: center
     &:first-child
       flex: 1
     &:nth-child(2),&:nth-child(3)
@@ -72,10 +74,19 @@
       .editBlock
         display: none
       &.hasPermission:hover
-        span:nth-child(2)
+        >span:nth-child(2)
           display: none
         .editBlock
           +Flex(space-between,center)
+          >button:last-child
+            display: none
+          &.confirmDelete
+            >button
+              display: none
+              &:last-child
+                display: inline-flex
+                width: auto
+            
     >div
       +Flex()
       position: relative
