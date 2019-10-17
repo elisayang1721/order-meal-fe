@@ -1,5 +1,5 @@
 <template lang="pug">
-  #orderManagement
+  #orderManagement(v-loading="loading")
     .managementContent
       .contentBlock
         .contentNav 進度設定
@@ -10,7 +10,9 @@
               el-date-picker(v-model="orderInfo.finishedOn"
                 @change="checkDateTime"
                 type="datetime"
-                placeholder="选择日期时间")
+                placeholder="选择日期时间"
+                format="yyyy-MM-dd HH:mm"
+                value-format="yyyy-MM-dd HH:mm")
             li
               span 截止金額
               span {{orderInfo.limitedPrice || '無'}}
@@ -18,7 +20,7 @@
               span 訂單狀態
               .switchBlock
                 span 截止
-                el-switch(v-model="status"
+                el-switch(v-model="orderInfo.status"
                   active-color="#13ce66"
                   inactive-color="#ff4949")
                 span 進行
@@ -29,8 +31,8 @@
         .content
           ul.alignStart
             li 共 {{orderInfo.totalAmount}} 份
-            li 已訂購： {{orderInfo.orderedAmount}}份
-            li 未訂購： {{orderInfo.paidAmount}}份
+            li 已訂購： {{orderInfo.paidAmount}}份
+            li 未訂購： {{orderInfo.orderedAmount}}份
             li 總價： ${{orderInfo.totalPrice}}
       .contentBlock
         .contentNav 公告事項
@@ -43,59 +45,93 @@
       .phone
         i.el-icon-phone
         span {{orderInfo.storePhone}}
-      el-button(type="danger") 取消
-      el-button(type="success") 確認
+      el-button(type="danger" @click="reset") 取消
+      el-button(type="success" @click="updateForm") 確認
     DialogDetail
 </template>
 <script>
+import history from '@api/history'
+import orderForm from '@api/orderForm'
+import { deepClone } from '@js/model'
+import { mapActions } from 'vuex'
 import DialogDetail from './DialogDetail'
 
 export default {
   name: 'DialogOrderManagement',
   created() { },
   mounted() {
-    this.init_dateTime = 'native Date Thu Oct 03 2019 11:30:38 GMT+0800 (台北標準時間)'
-    this.dateTime = this.init_dateTime
+    this.getRecordsId()
+    this.$bus.$on('updateOrderAmount', data => {
+      if (data.status) {
+        this.orderInfo.paidAmount += data.cal
+        this.orderInfo.orderedAmount -= data.cal
+      } else {
+        this.orderInfo.paidAmount -= data.cal
+        this.orderInfo.orderedAmount += data.cal
+      }
+    })
+    this.$bus.$on('refreshOrderForm', () => {
+      this.getRecordsId()
+    })
   },
   computed: {},
   methods: {
+    ...mapActions(['closeDialog']),
+    getRecordsId() {
+      this.loading = true
+      history.getRecordsId(this.$store.state.prop.id).then(res => {
+        this.orderInfo = res
+        this.initData = deepClone(this.orderInfo)
+        this.loading = false
+      })
+    },
     checkDateTime() {
-      if (!this.dateTime) {
+      if (!this.orderInfo.finishedOn) {
         this.$nextTick(() => {
-          this.dateTime = this.init_dateTime
+          this.orderInfo.finishedOn = this.initData.finishedOn
         })
       }
+    },
+    reset() {
+      this.orderInfo = deepClone(this.initData)
+    },
+    updateForm() {
+      const load = {
+        storeId: this.orderInfo.storeId,
+        finishedOn: this.orderInfo.finishedOn,
+        limitedPrice: this.orderInfo.limitedPrice,
+        bulletin: this.orderInfo.bulletin,
+        status: this.orderInfo.status
+      }
+      orderForm.updateOrderForm(this.orderInfo.id, load).then(res => {
+        this.$message({
+          message: '訂單更新成功',
+          type: 'success'
+        })
+        if (this.orderInfo.status) {
+          this.getRecordsId()
+        } else {
+          this.closeDialog()
+        }
+        this.$bus.$emit('refreshSystem')
+        this.$bus.$emit('refreshRecordsList')
+      })
     }
   },
   watch: {},
   data() {
     return {
-      init_dateTime: '',
-      dateTime: '',
-      status: true,
-      bulletin: 'test',
-      orderInfo: {
-        id: 1,
-        storeId: 25,
-        status: 1,
-        limitedPrice: null,
-        totalPrice: 380,
-        totalAmount: 8,
-        paidAmount: 3,
-        orderedAmount: 5,
-        finishedOn: '2019-09-25 10:20:00',
-        bulletin: '排骨沒有了，請點其它的~',
-        ownerId: 16,
-        createdBy: 16,
-        createdByName: '松庭',
-        storeName: 'ABC爌肉飯',
-        storePhone: '09987654321',
-        orderStatus: 1
-      }
+      initData: {},
+      orderInfo: {},
+      loading: false
     }
   },
   components: {
     DialogDetail
+  },
+  beforeDestroy() {
+    this.$bus.$off('updateOrderAmount')
+    this.$bus.$off('refreshOrderForm')
   }
 }
 </script>

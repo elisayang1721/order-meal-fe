@@ -1,4 +1,3 @@
-import { assemblyParams } from '@js/model'
 import Axios from './service'
 
 export default {
@@ -10,7 +9,7 @@ export default {
     })
   },
   getRecordsInfo(id) {
-    // [未完成] 取得單筆訂單明細
+    // [M] 取得單筆訂單明細
     return Axios({
       url: `/orderRecords/${id}/details`,
       method: 'get'
@@ -23,13 +22,11 @@ export default {
       method: 'get'
     })
   },
-  getRecordsList(data) {
-    const apiUrl = assemblyParams(data)
+  getRecordsList() {
     // 取得訂單記錄列表
     return Axios({
-      url: `/orders?${apiUrl}`,
-      method: 'get',
-      data
+      url: '/orders?isOpening=false',
+      method: 'get'
     })
   }
 }

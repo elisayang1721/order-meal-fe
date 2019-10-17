@@ -12,9 +12,13 @@ export default {
   name: 'Main',
   created() { },
   mounted() {
-    if (process.env.NODE_ENV === 'development' && !localStorage.hasOwnProperty('emsToken')) return this.devApi()
+    if (process.env.NODE_ENV === 'development' && !localStorage.hasOwnProperty('emsToken')) {
+      this.devApi()
+    }
 
-    if (localStorage.hasOwnProperty('emsToken')) return this.login()
+    if (localStorage.hasOwnProperty('emsToken')) {
+      this.login()
+    }
   },
   computed: {},
   methods: {
@@ -28,18 +32,13 @@ export default {
         method: 'post',
         data
       }).then(res => {
-        if (res.data.code === 200) {
-          console.log('無emsToken')
-          localStorage.setItem('emsToken', res.data.data.apiToken)
-          this.login()
-        }
+        localStorage.setItem('emsToken', res.data.data.apiToken)
+        this.login()
       })
     },
     login() {
       user.login().then(res => {
-        if (res.data.code === 401) {
-          this.devApi()
-        }
+        localStorage.setItem('apiToken', res.token)
         this.$store.state.userData = res
       })
     }
