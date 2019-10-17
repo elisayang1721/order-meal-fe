@@ -30,7 +30,7 @@
           .titile 服務類型
           .content
             el-checkbox-group( v-model="checked")
-              el-checkbox( v-for="list in checkList" :label="list")
+              el-checkbox( v-for="list in storeType" :label="list.name")
         .dialoItem
           .titile 訂購說明
           .content
@@ -70,29 +70,59 @@
               .showForm
     .commonBtnGroup
       el-button(@click="closeDialog") 取消
-      el-button(type="primary") 儲存
+      el-button(
+        type="primary"
+        @click="save()") 儲存
 
 </template>
 <script>
 // vuex
 import { mapActions } from 'vuex'
 
+import { fetchState, isUndefined } from '@js/model'
+
+import store from '@api/store'
+
 export default {
   name: 'DialogStore',
-  created() { },
-  mounted() { },
+  mounted() {
+    this.init()
+    this.getStoreType()
+  },
   computed: {},
   methods: {
-    ...mapActions(['closeDialog'])
+    ...mapActions(['closeDialog']),
+    init() {
+      const initData = fetchState()
+      console.log('init', initData)
+      if (!isUndefined(initData)) {
+        this.getData(initData)
+      }
+    },
+    getData(id) {
+      console.log('edit', id)
+    },
+    save() {
+      const initData = fetchState()
+      if (!isUndefined(initData)) {
+        console.log('save')
+      }
+      console.log('add')
+    },
+    getStoreType() {
+      store.getStoreType().then(res => {
+        this.storeType = res.list
+      })
+    }
+
   },
   watch: {},
   data() {
     return {
-      checkList: ['便當', '素食', '麵食', '冰品', '速食', '點心', '其他', '健康餐'],
-      checked: []
+      checked: [],
+      storeType: []
     }
-  },
-  components: {}
+  }
 }
 </script>
 <style lang="sass" scope>

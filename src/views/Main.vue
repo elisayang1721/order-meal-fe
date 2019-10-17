@@ -37,10 +37,11 @@ export default {
     },
     login() {
       user.login().then(res => {
-        if (res.data.code === 401) {
+        if (res.code === 401) {
           this.devApi()
         }
         this.$store.state.userData = res
+        localStorage.setItem('apiToken', res.token)
       })
     }
   },

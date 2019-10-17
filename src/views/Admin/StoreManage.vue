@@ -16,11 +16,10 @@
       .type
         p 類型 ：
         el-radio(label="全部") 全部
-        el-checkbox(label="便當") 便當
-        el-checkbox(label="素食") 素食
-        el-checkbox(label="麵食") 麵食
+        el-checkbox(:label="type.name" v-for="type in storeType") {{type.name}}
+
     el-table(
-      :data="fakeData"
+      :data="storeData"
       border
       height="60vh"
       tyle="width: 100%")
@@ -41,6 +40,8 @@
       el-table-column(
         prop=""
         label="評價")
+        template(slot-scope="scope")
+          div Comming Soon
       el-table-column(
         prop="updatedOn"
         label="更新時間"
@@ -54,7 +55,7 @@
         width="250")
         template(slot-scope="scope")
           el-button(
-            @click.prevet="showDialog({name:'Store',title:`編輯店家 – ${scope.row.name}`})"
+            @click.prevet="editStore(scope)"
             type="info"
             icon="el-icon-edit") 編輯
           el-button(
@@ -62,6 +63,7 @@
             type="danger"
             icon="el-icon-close") 刪除
     el-pagination(
+      v-model="pageNum"
       layout="prev, pager, next"
       :total="50")
 
@@ -69,151 +71,51 @@
 <script>
 import { mapActions } from 'vuex'
 
+import { injectState } from '@js/model'
+
+import store from '@api/store'
+
+
 export default {
   name: 'StoreManage',
   created() { },
-  mounted() { },
+  mounted() {
+    this.getData()
+    this.getStoreType()
+  },
   computed: {},
   methods: {
-    ...mapActions(['showDialog'])
+    ...mapActions(['showDialog']),
+    getData() {
+      const init = {
+        name: '',
+        page: this.pageNum,
+        pageSize: 10,
+        sort: 'ASC',
+        sortName: '',
+        types: []
+      }
+      store.getStoreList(init).then(res => {
+        this.storeData = res.list
+      })
+    },
+    getStoreType() {
+      store.getStoreType().then(res => {
+        this.storeType = res.list
+      })
+    },
+    addStore() { },
+    editStore(scope) {
+      injectState(scope.row.id)
+      this.showDialog({ name: 'Store', title: `編輯店家 – ${scope.row.name}` })
+    },
+    delStore() { }
   },
-  watch: {},
   data() {
     return {
-      fakeData: [
-        {
-          name: '低GI',
-          phone: '0987654322',
-          address: '台中市西屯區河南路三段120號',
-          updatedOn: '2019-09-30 05:20',
-          updatedBy: '巧玲',
-          remark: '',
-          description: '',
-          isDeleted: false,
-          menuText: ''
-        },
-        {
-          name: '低GI',
-          phone: '0987654322',
-          address: '台中市西屯區河南路三段120號',
-          updatedOn: '2019-09-30 05:20',
-          updatedBy: '巧玲',
-          remark: '',
-          description: '',
-          isDeleted: false,
-          menuText: ''
-        },
-        {
-          name: '低GI',
-          phone: '0987654322',
-          address: '台中市西屯區河南路三段120號',
-          updatedOn: '2019-09-30 05:20',
-          updatedBy: '巧玲',
-          remark: '',
-          description: '',
-          isDeleted: false,
-          menuText: ''
-        },
-        {
-          name: '低GI',
-          phone: '0987654322',
-          address: '台中市西屯區河南路三段120號',
-          updatedOn: '2019-09-30 05:20',
-          updatedBy: '巧玲',
-          remark: '',
-          description: '',
-          isDeleted: false,
-          menuText: ''
-        },
-        {
-          name: '低GI',
-          phone: '0987654322',
-          address: '台中市西屯區河南路三段120號',
-          updatedOn: '2019-09-30 05:20',
-          updatedBy: '巧玲',
-          remark: '',
-          description: '',
-          isDeleted: false,
-          menuText: ''
-        },
-        {
-          name: '低GI',
-          phone: '0987654322',
-          address: '台中市西屯區河南路三段120號',
-          updatedOn: '2019-09-30 05:20',
-          updatedBy: '巧玲',
-          remark: '',
-          description: '',
-          isDeleted: false,
-          menuText: ''
-        }, {
-          name: '低GI',
-          phone: '0987654322',
-          address: '台中市西屯區河南路三段120號',
-          updatedOn: '2019-09-30 05:20',
-          updatedBy: '巧玲',
-          remark: '',
-          description: '',
-          isDeleted: false,
-          menuText: ''
-        },
-        {
-          name: '低GI',
-          phone: '0987654322',
-          address: '台中市西屯區河南路三段120號',
-          updatedOn: '2019-09-30 05:20',
-          updatedBy: '巧玲',
-          remark: '',
-          description: '',
-          isDeleted: false,
-          menuText: ''
-        },
-        {
-          name: '低GI',
-          phone: '0987654322',
-          address: '台中市西屯區河南路三段120號',
-          updatedOn: '2019-09-30 05:20',
-          updatedBy: '巧玲',
-          remark: '',
-          description: '',
-          isDeleted: false,
-          menuText: ''
-        },
-        {
-          name: '低GI',
-          phone: '0987654322',
-          address: '台中市西屯區河南路三段120號',
-          updatedOn: '2019-09-30 05:20',
-          updatedBy: '巧玲',
-          remark: '',
-          description: '',
-          isDeleted: false,
-          menuText: ''
-        },
-        {
-          name: '低GI',
-          phone: '0987654322',
-          address: '台中市西屯區河南路三段120號',
-          updatedOn: '2019-09-30 05:20',
-          updatedBy: '巧玲',
-          remark: '',
-          description: '',
-          isDeleted: false,
-          menuText: ''
-        },
-        {
-          name: '低GI',
-          phone: '0987654322',
-          address: '台中市西屯區河南路三段120號',
-          updatedOn: '2019-09-30 05:20',
-          updatedBy: '巧玲',
-          remark: '',
-          description: '',
-          isDeleted: false,
-          menuText: ''
-        }
-
-      ]
+      storeData: [],
+      storeType: [],
+      pageNum: 1
     }
   }
 }
