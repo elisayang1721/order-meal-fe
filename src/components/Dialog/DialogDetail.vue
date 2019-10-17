@@ -38,27 +38,28 @@
       .cell.flexFix
         .subscriberCell.border-grey(v-for="(obj, i) in item.orderRecords" :key="obj.id"
           :class="recordClass(obj)"
-          @click="orderSubmit(idx, i , obj.status, $event)")
-          span {{obj.memberName}}
+          @click="orderSubmit(obj, $event)")
+          span {{`${obj.memberName} x${obj.amount}`}}
           span.font-blue {{obj.remark}}
-          .editBlock
+          .editBlock(:class="{confirmDelete: isBtnShow}")
             el-button(type="success"
-              @click.stop="edit") 編輯
-            el-button(type="danger") 刪除
+              @click.stop="edit(obj.id)") 編輯
+            el-button(type="danger"
+              @click.stop="deleteOrder") 刪除
+            el-button(type="danger" icon="el-icon-warning-outline"
+              @click="confirmDelete(obj.id)") 確認刪除
 </template>
 <script>
 import history from '@api/history'
+import order from '@api/order'
+import { shallowClone, injectState } from '@js/model'
 import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'DialogDetail',
   created() { },
   mounted() {
-    this.loading = true
-    history.getRecordsInfo(this.$store.state.prop.id).then(res => {
-      this.ordersDetail = res.list
-      this.loading = false
-    })
+    this.getRecordsInfo()
     this.owner = this.$store.state.prop.owner
     this.role = this.$store.state.userData.memberName
   },
@@ -67,18 +68,23 @@ export default {
   },
   methods: {
     ...mapActions(['showDialog']),
-    orderSubmit(idx, i, status, e) {
+    getRecordsInfo() {
+      this.loading = true
+      history.getRecordsInfo(this.$store.state.prop.id).then(res => {
+        this.ordersDetail = res.list
+        this.loading = false
+      })
+    },
+    orderSubmit(obj, e) {
       const hasCell = e.target.className.includes('subscriberCell')
       // class不是subscriberCell，不做開關
       if (!hasCell) return
 
       e.target.classList.toggle('bg-active')
       const hasActive = e.target.className.includes('bg-active')
-      if (hasActive) {
-        // do somthing
-      } else {
-        // do other thing
-      }
+      order.updateOrderStatus(obj.id, { status: hasActive }).then(res => {
+        this.$bus.$emit('updateOrderAmount', { status: hasActive, cal: obj.amount })
+      })
     },
     checkPermission(name) {
       return this.role === 'admin' || this.role === this.owner || this.role === name
@@ -112,12 +118,37 @@ export default {
       }
       return classNames
     },
-    edit() {
-      this.showDialog({ name: 'Order', title: '我也要訂 - ＸＸＸ - 編輯' })
+    edit(orderId) {
+      const load = {
+        name: 'Order',
+        title: `我也要訂 - ${this.$store.state.prop.storeName} - 編輯`
+      }
+      const prop = shallowClone(this.$store.state.prop)
+      prop.action = 'edit'
+      prop.orderId = orderId
+      injectState(prop)
+      this.showDialog(load)
     },
     checkItemName(name) {
       const arr = name.split('-')
       return arr[0] === arr[1] ? arr[0] : name
+    },
+    deleteOrder() {
+      this.isBtnShow = true
+      setTimeout(() => {
+        this.isBtnShow = false
+      }, 2000)
+    },
+    confirmDelete(id) {
+      order.delOrder(id).then(res => {
+        this.$message({
+          message: '刪除點餐',
+          type: 'success'
+        })
+        this.getRecordsInfo()
+        this.$bus.$emit('refreshOrderForm')
+        this.$bus.$emit('refreshMyorder')
+      })
     }
   },
   watch: {},
@@ -126,7 +157,8 @@ export default {
       ordersDetail: [],
       owner: '',
       role: '',
-      loading: false
+      loading: false,
+      isBtnShow: false
     }
   },
   components: {}

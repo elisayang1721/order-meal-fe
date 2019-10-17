@@ -29,12 +29,13 @@
         .cell
           el-input(v-model="orderSet[obj.menuType][i].remark")
     .confirmBlock
-      el-button(type="danger") 取消
+      el-button(type="danger" @click="closeDialog") 取消
       el-button(type="success" @click="confirm") 確認
 </template>
 <script>
 import store from '@api/store'
 import order from '@api/order'
+import axios from 'axios'
 import { mapActions } from 'vuex'
 
 export default {
@@ -42,11 +43,24 @@ export default {
   created() { },
   mounted() {
     this.loading = true
-    store.getStoreMenu(this.$store.state.prop.storeId).then(res => {
-      this.menuList = res.list
-      this.orderInfo()
-      this.loading = false
-    })
+    if (this.$store.state.prop.action === 'order') {
+      store.getStoreMenu(this.$store.state.prop.storeId).then(res => {
+        this.menuList = res.list
+        this.orderInfo()
+        this.loading = false
+      })
+    }
+    if (this.$store.state.prop.action === 'edit') {
+      axios.all([
+        store.getStoreMenu(this.$store.state.prop.storeId),
+        order.getSingleOrderRecord(this.$store.state.prop.orderId)
+      ]).then(axios.spread((menu, item) => {
+        this.menuList = menu.list
+        this.orderItem = item
+        this.orderInfo()
+        this.loading = false
+      }))
+    }
   },
   computed: {},
   methods: {
@@ -60,6 +74,15 @@ export default {
             menuItemId: item.meals.length === 1 ? item.meals[0].id : null,
             amount: 0,
             remark: null
+          }
+          if (this.$store.state.prop.action === 'edit') {
+            item.meals.forEach(meal => {
+              if (meal.id === this.orderItem.menuItemId) {
+                payLoad.menuItemId = this.orderItem.menuItemId
+                payLoad.amount = this.orderItem.amount
+                payLoad.remark = this.orderItem.remark
+              }
+            })
           }
           orderSet[el.menuType].push(payLoad)
         })
@@ -78,11 +101,28 @@ export default {
         })
       })
       if (load.orders.length) {
-        order.addOrder(this.$store.state.prop.id, load).then(res => {
-          console.log('新增成功')
-          this.closeDialog()
-          this.$bus.$emit('refreshMyOrderHistory')
-        })
+        if (this.$store.state.prop.action === 'order') {
+          order.addOrder(this.$store.state.prop.id, load).then(res => {
+            this.$message({
+              message: '新增點餐成功',
+              type: 'success'
+            })
+            this.closeDialog()
+            this.$bus.$emit('refreshSystem')
+            this.$bus.$emit('refreshMyorder')
+          })
+        } else {
+          order.updateOrder(this.$store.state.prop.id, this.$store.state.prop.orderId, load)
+            .then(res => {
+              this.$message({
+                message: '點餐更新成功',
+                type: 'success'
+              })
+              this.closeDialog()
+              this.$bus.$emit('refreshSystem')
+              this.$bus.$emit('refreshMyorder')
+            })
+        }
       }
     }
   },
@@ -91,7 +131,8 @@ export default {
     return {
       menuList: [],
       orderSet: {},
-      loading: false
+      loading: false,
+      orderItem: {}
     }
   },
   components: {}

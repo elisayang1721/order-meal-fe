@@ -5,9 +5,7 @@
         el-table-column(prop='createdOn' label='發起時間')
         el-table-column(prop='name' label='店家名稱')
         el-table-column(prop='createdByName' label='負責人')
-        el-table-column(label='狀態')
-          template(slot-scope="scope")
-            span {{`${scope.row.status === 0 ? '已截止' : scope.row.status === 1 ? '進行中' : '重啟'}`}}
+        el-table-column(prop='status' label='狀態')
         el-table-column(label="功能")
           template(slot-scope="scope")
             el-button(type="primary" icon="el-icon-setting"
@@ -23,15 +21,21 @@ export default {
   name: 'OrdersHistoryFrame',
   created() {},
   mounted() {
-    this.loading = true
-    history.getRecordsList({ isOpening: true }).then(res => {
-      this.orderHistoryList = res.list
-      this.loading = false
+    this.getRecordsList()
+    this.$bus.$on('refreshRecordsList', () => {
+      this.getRecordsList()
     })
   },
   computed: {},
   methods: {
     ...mapActions(['showDialog']),
+    getRecordsList() {
+      this.loading = true
+      history.getRecordsList().then(res => {
+        this.orderHistoryList = res.list
+        this.loading = false
+      })
+    },
     orderManagement(row) {
       const load = {
         name: 'OrderManagement',
@@ -55,6 +59,9 @@ export default {
   },
   components: {
     ScrollBar
+  },
+  beforeDestroy() {
+    this.$bus.$off('refreshRecordsList')
   }
 }
 </script>

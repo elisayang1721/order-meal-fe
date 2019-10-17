@@ -6,13 +6,13 @@
           el-checkbox(v-model="condiction.searchAll") 全部
         .searchType
           .subjectTitle 按訂購時間：
-          el-radio-group(v-model="condiction.orderByTime" :disabled="condiction.searchAll")
-            el-radio(:label="1") 兩週內未訂過
-            el-radio(:label="2") 一個月內未訂過
-            el-radio(:label="3") 兩個月內未訂過
+          el-radio-group(v-model="condiction.searchByTime" :disabled="condiction.searchAll")
+            el-radio(:label="2") 兩週內未訂過
+            el-radio(:label="4") 一個月內未訂過
+            el-radio(:label="8") 兩個月內未訂過
         .searchType
           .subjectTitle 按服務類型：
-          el-checkbox-group(v-model="condiction.orderByType" :disabled="condiction.searchAll")
+          el-checkbox-group(v-model="condiction.searchByTypes" :disabled="condiction.searchAll")
             el-checkbox(v-for="type in storeTypes" :label="type.id" :key="type.id") {{type.name}}
       .filterBlock(v-loading="loading")
         el-table(:data="storeList" border style='width: 100%' align="center")
@@ -32,7 +32,9 @@
 <script>
 import ScrollBar from '@c/ScrollBar/ScrollBar'
 import store from '@api/store'
+import orderForm from '@api/orderForm'
 import axios from 'axios'
+import debounce from 'lodash/debounce'
 import AddOrder from './subComponents/AddOrder'
 import MenuList from './subComponents/MenuList'
 import StoreInfo from './subComponents/StoreInfo'
@@ -44,7 +46,7 @@ export default {
     this.loading = true
     axios.all([
       store.getStoreType(),
-      store.getStoreList('')
+      orderForm.getStoreInfos('')
     ]).then(axios.spread((storeTypes, storeList) => {
       this.storeTypes = storeTypes.list
       this.storeList = storeList.list
@@ -52,26 +54,6 @@ export default {
     }))
   },
   computed: {},
-  methods: {
-    toggleAside(id, component) {
-      this.currentId = id
-      this.subComponent = component
-    }
-  },
-  watch: {
-    'condiction': {
-      handler() {
-        // handle subComponent
-        this.subComponent = ''
-        // call API to refresh storeList
-        this.loading = true
-        setTimeout(() => {
-          this.loading = false
-        }, 1000)
-      },
-      deep: true
-    }
-  },
   data() {
     return {
       currentId: '',
@@ -80,10 +62,51 @@ export default {
       storeList: [],
       storeTypes: [],
       condiction: {
-        orderByTime: '',
-        orderByType: [],
+        searchByTime: '',
+        searchByTypes: [],
         searchAll: false
       }
+    }
+  },
+  methods: {
+    toggleAside(id, component) {
+      this.resetAll()
+      // wait till the data reset
+      this.$nextTick(() => {
+        this.currentId = id
+        this.subComponent = component
+      })
+    },
+    resetAll() {
+      this.currentId = null
+      this.subComponent = null
+    },
+    getStoreInfo: debounce(function () {
+      let load
+      if (this.condiction.searchAll) {
+        load = ''
+      } else {
+        load = {
+          inWeek: this.condiction.searchByTime,
+          types: this.condiction.searchByTypes.join(',')
+        }
+      }
+      this.loading = true
+      orderForm.getStoreInfos(load).then(res => {
+        this.storeList = res.list
+        this.loading = false
+      })
+    }, 500)
+  },
+  watch: {
+    'condiction': {
+      handler() {
+        // handle refresh
+        this.resetAll()
+        // call API to refresh storeList
+        this.getStoreInfo()
+      },
+      deep: true
     }
   },
   components: {

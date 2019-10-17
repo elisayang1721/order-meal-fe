@@ -1,6 +1,6 @@
 <template lang="pug">
   ScrollBar.listContainer(id="myOrdersFrame"
-    @ps-y-reach-end="reachEnd"
+    :overscroll="true"
     v-loading="loading")
     .contentViewFix
       OrdersItem(v-for="(obj, i) in myOrdersList" :key="i" :myOrderData="obj")
@@ -16,14 +16,32 @@ export default {
   created() {},
   mounted() {
     this.getList()
-    this.$bus.$on('refreshMyOrderHistory', () => {
+    this.$bus.$on('refreshMyorder', () => {
       this.refreshList()
+    })
+    window.addEventListener('reachEnd', () => {
+      this.reachEnd()
     })
   },
   computed: {},
   methods: {
     reachEnd() {
       // call API to get more orderList
+      if (this.listPage < 4) {
+        this.listPage++
+        // const data = {
+        //   createdOn: '2019-10-16',
+        //   storeName: '條條有理',
+        //   meals: [{
+        //     item: '乾麵 $60 X7',
+        //     remark: null
+        //   }]
+        // }
+        // for (let i = 0; i < 5; i++) {
+        //   this.myOrdersList.push(data)
+        // }
+        this.getList()
+      }
     },
     getList() {
       this.loading = true
@@ -41,10 +59,7 @@ export default {
     'myOrdersList': {
       handler(val, old) {
         if (val.length < 7) {
-          // if (this.listPage < 5) {
-          //   this.listPage++
-          // }
-          this.getList()
+          this.reachEnd()
         }
       }
     }
@@ -59,6 +74,10 @@ export default {
   components: {
     ScrollBar,
     OrdersItem
+  },
+  beforeDestroy() {
+    this.$bus.$off('refreshMyorder')
+    window.removeEventListener('reachEnd')
   }
 }
 </script>

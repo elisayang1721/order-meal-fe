@@ -11,7 +11,9 @@
       .cell
         el-date-picker(v-model="condiction.dateTime"
           type="datetime"
-          placeholder="选择日期时间")
+          placeholder="选择日期时间"
+          format="yyyy-MM-dd HH:mm"
+          value-format="yyyy-MM-dd HH:mm")
     .row
       .cell
         span 截止金額
@@ -26,9 +28,10 @@
           type="textarea")
     .confirmBlock
       el-button(type="danger") 取消
-      el-button(type="success") 確認
+      el-button(type="success" @click="createOrder") 確認
 </template>
 <script>
+import orderForm from '@api/orderForm'
 import ScrollBar from '@c/ScrollBar/ScrollBar'
 
 export default {
@@ -37,14 +40,31 @@ export default {
   created() {},
   mounted() {},
   computed: {},
-  methods: {},
+  methods: {
+    createOrder() {
+      const load = {
+        storeId: this.storeId,
+        finishedOn: this.condiction.dateTime,
+        limotedPrice: this.condiction.expiredAmount,
+        bulletin: this.condiction.bulletin,
+        status: true
+      }
+      orderForm.addOrderForm(load).then(res => {
+        this.$message({
+          message: '新增訂單成功',
+          type: 'success'
+        })
+        this.$bus.$emit('refreshSystem')
+      })
+    }
+  },
   watch: {},
   data() {
     return {
       condiction: {
-        dateTime: '',
-        expiredAmount: '',
-        bulletin: ''
+        dateTime: null,
+        expiredAmount: null,
+        bulletin: null
       }
     }
   },
