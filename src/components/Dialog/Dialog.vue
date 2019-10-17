@@ -11,8 +11,7 @@
         .dialogComponent
           ScrollBar.scroll
             .viewFix(:class="sliceName()")
-              keep-alive
-                component(:is="componentName")
+              component(:is="componentName")
 </template>
 <script>
 import ScrollBar from '@c/ScrollBar/ScrollBar'
