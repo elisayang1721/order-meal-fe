@@ -59,11 +59,9 @@ export default {
   name: 'DialogDetail',
   mounted() {
     this.getRecordsInfo()
+    const userData = JSON.parse(localStorage.getItem('userData'))
     this.owner = this.$store.state.prop.owner
-    this.role = this.$store.state.userData.memberName
-  },
-  computed: {
-    ...mapState(['userData'])
+    this.role = userData.memberName
   },
   methods: {
     ...mapActions(['showDialog']),
