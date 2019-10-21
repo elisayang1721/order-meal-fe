@@ -1,8 +1,8 @@
 <template lang="pug">
-  #app(v-loading="loading")
-    AppHeader(v-if="hasToken")
-    router-view( v-if="hasToken || $route.path === '/401'")
-    Dialog(v-if="hasToken")
+  #app(v-loading="loading" v-if="hasToken")
+    AppHeader
+    router-view
+    Dialog
 </template>
 <script>
 import Dialog from '@c/Dialog/Dialog'
