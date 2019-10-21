@@ -155,7 +155,7 @@ export default {
       const id = this.$store.state.prop.id
       store.updateStore(id, this.storeInfo).then(() => {
         this.$message({
-          message: '新增店家成功',
+          message: '編輯店家成功',
           type: 'success'
         })
         this.$bus.$emit('refresh')
