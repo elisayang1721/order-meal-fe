@@ -81,7 +81,7 @@ export default {
 
       e.target.classList.toggle('bg-active')
       const hasActive = e.target.className.includes('bg-active')
-      order.updateOrderStatus(obj.id, { status: hasActive }).then(res => {
+      order.updateOrderStatus(obj.id, { status: hasActive }).then(() => {
         this.$bus.$emit('updateOrderAmount', { status: hasActive, cal: obj.amount })
       })
     },
@@ -139,7 +139,7 @@ export default {
       }, 2000)
     },
     confirmDelete(id) {
-      order.delOrder(id).then(res => {
+      order.delOrder(id).then(() => {
         this.$message({
           message: '刪除點餐',
           type: 'success'
