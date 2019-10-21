@@ -20,7 +20,8 @@ export default {
           path: '/'
         })
       }
-    } else {
+    }
+    if (process.env.NODE_ENV === 'production' && !localStorage.apiToken) {
       const token = this.$route.query.token
       this.emsToken = token
     }

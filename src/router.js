@@ -8,7 +8,7 @@ import Page401 from './views/errorPage/Page401'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  // mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
