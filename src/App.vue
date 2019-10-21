@@ -1,7 +1,7 @@
 <template lang="pug">
   #app
     AppHeader
-    router-view(v-if="emsToken" :emsToken="emsToken")
+    router-view(v-if="checkToken" :emsToken="emsToken")
     Dialog
 </template>
 <script>
@@ -11,6 +11,11 @@ import AppHeader from '@/layout/AppHeader'
 
 export default {
   name: 'app',
+  computed: {
+    checkToken() {
+      return this.emsToken || localStorage.apiToken
+    }
+  },
   mounted() {
     if (process.env.NODE_ENV === 'development' && !localStorage.apiToken) {
       this.devApi()
