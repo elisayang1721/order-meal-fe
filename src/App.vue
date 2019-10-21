@@ -21,7 +21,7 @@ export default {
       }
     } else {
       if (!localStorage.apiToken) {
-        const token = window.location.href.replace(`http://${window.location.host}`, '').replace(/\W/g, '')
+        const token = this.$route.query.token
         this.emsToken = token
       }
       if (this.$route.path !== '/') {
