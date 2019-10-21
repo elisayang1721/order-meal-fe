@@ -4,21 +4,23 @@
       .search
         p 店名 ：
         el-input.input(
+          v-model="condition.searchByName"
           placeholder="請輸入店名"
           prefix-icon="el-icon-search")
 
       .add
         el-button(
-          @click.prevet="showDialog({name:'Store',title:'新增店家'})"
+          @click.prevet="toggleDialog('add')"
           type="success"
           icon="el-icon-plus") 新增
     .adminPanel
       .type
         p 類型 ：
-        el-radio(label="全部") 全部
-        el-checkbox(:label="type.name" v-for="type in storeType") {{type.name}}
-
+        el-checkbox(v-model="condition.searchAll") 全部
+        el-checkbox-group(v-model="condition.searchByTypes")
+          el-checkbox(v-for="type in storeType" :label="type.id" :key="type.id") {{type.name}}
     el-table(
+      v-loading="loading"
       :data="storeData"
       border
       height="60vh"
@@ -55,22 +57,24 @@
         width="250")
         template(slot-scope="scope")
           el-button(
-            @click.prevet="editStore(scope)"
+            @click.prevet="toggleDialog('edit',scope.row)"
             type="info"
             icon="el-icon-edit") 編輯
           el-button(
-            @click.prevet="showDialog({name:'Confirm',title:''})"
+            @click.prevet="toggleDialog('delete',scope.row)"
             type="danger"
             icon="el-icon-close") 刪除
     el-pagination(
       v-model="pageNum"
+      @current-change="getData"
+      :page-size="8"
       layout="prev, pager, next"
-      :total="50")
+      :total="totalSize")
 
 </template>
 <script>
 import { mapActions } from 'vuex'
-
+import debounce from 'lodash/debounce'
 import { injectState } from '@js/model'
 
 import store from '@api/store'
@@ -82,41 +86,94 @@ export default {
   mounted() {
     this.getData()
     this.getStoreType()
+    this.$bus.$on('refresh', () => {
+      this.condition.searchByTypes = []
+      this.getData()
+    })
   },
   computed: {},
   methods: {
     ...mapActions(['showDialog']),
-    getData() {
+    getData: debounce(function () {
       const init = {
-        name: '',
+        name: this.condition.searchByName,
         page: this.pageNum,
-        pageSize: 10,
+        pageSize: 8,
         sort: 'ASC',
-        sortName: '',
-        types: []
+        sortName: 'updatedOn',
+        types: this.condition.searchAll ? [] : this.condition.searchByTypes
       }
+      this.loading = true
       store.getStoreList(init).then(res => {
         this.storeData = res.list
+        this.totalSize = res.totalSize
+        this.loading = false
       })
-    },
+    }, 500),
     getStoreType() {
       store.getStoreType().then(res => {
         this.storeType = res.list
       })
     },
-    addStore() { },
-    editStore(scope) {
-      injectState(scope.row.id)
-      this.showDialog({ name: 'Store', title: `編輯店家 – ${scope.row.name}` })
-    },
-    delStore() { }
+    toggleDialog(action, row = null) {
+      let load
+      const prop = {
+        action
+      }
+      if (action === 'add') {
+        load = {
+          name: 'Store',
+          title: '新增店家'
+        }
+      }
+      if (action === 'edit' || action === 'delete') {
+        prop.id = row.id
+        if (action === 'edit') {
+          load = {
+            name: 'Store',
+            title: `編輯店家 – ${row.name}`
+          }
+        } else {
+          load = {
+            name: 'Confirm',
+            title: '確認刪除'
+          }
+        }
+      }
+      injectState(prop)
+      this.showDialog(load)
+    }
+  },
+  watch: {
+    'condition': {
+      handler() {
+        this.pageNum = 1
+        this.getData()
+      },
+      deep: true
+    }
   },
   data() {
     return {
       storeData: [],
       storeType: [],
-      pageNum: 1
+      totalSize: null,
+      pageNum: 1,
+      condition: {
+        searchByName: '',
+        searchByTypes: [],
+        searchAll: false
+      },
+      loading: false
     }
+  },
+  beforeDestroy() {
+    this.$bus.$off('refresh')
   }
 }
 </script>
+<style lang="sass" scoped>
+.tabContainer
+  /deep/.el-checkbox-group
+    margin-left: 30px
+</style>
