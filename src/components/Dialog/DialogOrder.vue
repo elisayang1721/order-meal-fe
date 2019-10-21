@@ -40,7 +40,6 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'DialogOrder',
-  created() { },
   mounted() {
     this.loading = true
     if (this.$store.state.prop.action === 'order') {
@@ -62,7 +61,6 @@ export default {
       }))
     }
   },
-  computed: {},
   methods: {
     ...mapActions(['closeDialog']),
     orderInfo() {
@@ -126,7 +124,6 @@ export default {
       }
     }
   },
-  watch: {},
   data() {
     return {
       menuList: [],
@@ -134,8 +131,7 @@ export default {
       loading: false,
       orderItem: {}
     }
-  },
-  components: {}
+  }
 }
 </script>
 <style lang="sass" scoped>

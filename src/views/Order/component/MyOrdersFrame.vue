@@ -13,7 +13,6 @@ import OrdersItem from './OrdersItem'
 
 export default {
   name: 'MyOrdersFrame',
-  created() {},
   mounted() {
     this.getList()
     this.$bus.$on('refreshMyorder', () => {
@@ -23,7 +22,6 @@ export default {
       this.reachEnd()
     })
   },
-  computed: {},
   methods: {
     reachEnd() {
       // call API to get more orderList

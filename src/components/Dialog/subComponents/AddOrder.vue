@@ -37,9 +37,6 @@ import ScrollBar from '@c/ScrollBar/ScrollBar'
 export default {
   name: 'AddOrder',
   props: ['storeId'],
-  created() {},
-  mounted() {},
-  computed: {},
   methods: {
     createOrder() {
       const load = {
@@ -58,7 +55,6 @@ export default {
       })
     }
   },
-  watch: {},
   data() {
     return {
       condition: {

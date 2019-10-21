@@ -82,7 +82,6 @@ import store from '@api/store'
 
 export default {
   name: 'StoreManage',
-  created() { },
   mounted() {
     this.getData()
     this.getStoreType()
@@ -91,7 +90,6 @@ export default {
       this.getData()
     })
   },
-  computed: {},
   methods: {
     ...mapActions(['showDialog']),
     getData: debounce(function () {

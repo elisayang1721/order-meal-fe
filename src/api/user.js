@@ -18,14 +18,11 @@ export default {
       method: 'get'
     })
   },
-  loginOut(data) {
+  logOut() {
     // 登出
     return Axios({
       url: '/logout',
-      method: 'post',
-      data: {
-        data
-      }
+      method: 'post'
     })
   }
 }

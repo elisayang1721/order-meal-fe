@@ -57,7 +57,6 @@ import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'DialogDetail',
-  created() { },
   mounted() {
     this.getRecordsInfo()
     this.owner = this.$store.state.prop.owner
@@ -151,7 +150,6 @@ export default {
       })
     }
   },
-  watch: {},
   data() {
     return {
       ordersDetail: [],
@@ -160,8 +158,7 @@ export default {
       loading: false,
       isBtnShow: false
     }
-  },
-  components: {}
+  }
 }
 </script>
 <style lang="sass" scoped>

@@ -1,21 +1,17 @@
 <template lang="pug">
-  #app
-    AppHeader
-    router-view(v-if="checkToken" :emsToken="emsToken")
-    Dialog
+  #app(v-loading="loading")
+    AppHeader(v-if="hasToken")
+    router-view( v-if="hasToken || $route.path === '/401'")
+    Dialog(v-if="hasToken")
 </template>
 <script>
 import Dialog from '@c/Dialog/Dialog'
 import axios from 'axios'
+import user from '@api/user'
 import AppHeader from '@/layout/AppHeader'
 
 export default {
   name: 'app',
-  computed: {
-    checkToken() {
-      return this.emsToken || localStorage.apiToken
-    }
-  },
   mounted() {
     if (process.env.NODE_ENV === 'development' && !localStorage.apiToken) {
       this.devApi()
@@ -29,6 +25,10 @@ export default {
       const token = this.$route.query.token
       this.emsToken = token
     }
+    this.$bus.$on('clearToken', () => {
+      this.hasToken = ''
+      this.emsToken = ''
+    })
   },
   methods: {
     devApi() {
@@ -37,6 +37,7 @@ export default {
         password: `${process.env.VUE_APP_PWD}`
       }
       localStorage.clear()
+      this.loading = true
       axios({
         url: 'http://larla.info/api/login',
         method: 'post',
@@ -51,18 +52,36 @@ export default {
           }
         }).then(resp => {
           this.emsToken = resp.data.data
+          this.login()
+        })
+      })
+    },
+    login() {
+      user.login(this.emsToken).then(res => {
+        localStorage.setItem('apiToken', res.token)
+        localStorage.setItem('userData', JSON.stringify(res))
+        this.hasToken = localStorage.apiToken
+        this.loading = false
+      }).catch(() => {
+        this.$router.push({
+          path: '/401'
         })
       })
     }
   },
   data() {
     return {
-      emsToken: ''
+      emsToken: '',
+      loading: false,
+      hasToken: localStorage.apiToken
     }
   },
   components: {
     AppHeader,
     Dialog
+  },
+  beforeDestroy() {
+    this.$bus.$off('clearToken')
   }
 }
 </script>

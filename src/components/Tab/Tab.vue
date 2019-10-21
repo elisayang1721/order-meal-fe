@@ -25,7 +25,6 @@ export default {
       this.active = item
     }
   },
-  watch: {},
   data() {
     return {
       active: ''
