@@ -1,6 +1,5 @@
 const state = {
-  dialog: [],
-  userData: {}
+  dialog: []
 }
 
 export default state
