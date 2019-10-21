@@ -58,7 +58,6 @@ import DialogDetail from './DialogDetail'
 
 export default {
   name: 'DialogOrderManagement',
-  created() { },
   mounted() {
     this.getRecordsId()
     this.$bus.$on('updateOrderAmount', data => {
@@ -74,7 +73,6 @@ export default {
       this.getRecordsId()
     })
   },
-  computed: {},
   methods: {
     ...mapActions(['closeDialog']),
     getRecordsId() {
@@ -118,7 +116,6 @@ export default {
       })
     }
   },
-  watch: {},
   data() {
     return {
       initData: {},

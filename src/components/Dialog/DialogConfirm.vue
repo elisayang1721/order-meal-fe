@@ -19,9 +19,6 @@ import store from '@api/store'
 
 export default {
   name: 'DialogConfirm',
-  created() { },
-  mounted() { },
-  computed: {},
   methods: {
     ...mapActions(['closeDialog']),
     confirm() {
@@ -35,12 +32,7 @@ export default {
         this.closeDialog()
       })
     }
-  },
-  watch: {},
-  data() {
-    return {}
-  },
-  components: {}
+  }
 }
 </script>
 <style lang="sass" scope>

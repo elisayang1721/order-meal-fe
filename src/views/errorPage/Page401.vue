@@ -3,15 +3,6 @@
 </template>
 <script>
 export default {
-  name: 'Page401',
-  created() {},
-  mounted() {},
-  computed: {},
-  methods: {},
-  watch: {},
-  data() {
-    return {}
-  },
-  components: {}
+  name: 'Page401'
 }
 </script>

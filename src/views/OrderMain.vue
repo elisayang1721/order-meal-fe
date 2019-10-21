@@ -15,15 +15,8 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'OrderMain',
-  created() { },
-  mounted() { },
-  computed: {},
   methods: {
     ...mapActions(['showDialog'])
-  },
-  watch: {},
-  data() {
-    return {}
   },
   components: {
     OrdersHistory,

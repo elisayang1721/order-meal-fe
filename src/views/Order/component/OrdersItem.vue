@@ -15,8 +15,6 @@
 export default {
   name: 'OrdersItem',
   props: ['myOrderData'],
-  created() {},
-  mounted() {},
   computed: {
     dateFormatter() {
       const date = this.myOrderData.createdOn
@@ -27,13 +25,7 @@ export default {
       const day = d.getDay()
       return `${mm.toString().padStart(2, '0')}/${dd.toString().padStart(2, '0')} (${weekNum[day]})`
     }
-  },
-  methods: {},
-  watch: {},
-  data() {
-    return {}
-  },
-  components: {}
+  }
 }
 </script>
 <style lang="sass" scoped>

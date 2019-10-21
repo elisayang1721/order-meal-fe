@@ -41,7 +41,6 @@ import StoreInfo from './subComponents/StoreInfo'
 
 export default {
   name: 'DialogCreateNewOrder',
-  created() {},
   mounted() {
     this.loading = true
     axios.all([
@@ -53,7 +52,6 @@ export default {
       this.loading = false
     }))
   },
-  computed: {},
   data() {
     return {
       currentId: '',
