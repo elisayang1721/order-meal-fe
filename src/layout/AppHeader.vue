@@ -7,14 +7,18 @@
       li(@click="switchRoute('/admin')")
         p 管理中心
       li
-        p user info
+        p {{`${userData.memberName} [${userData.account}]`}}
+      li
+        el-button(type='info' @click="logout") 登出
 </template>
 <script>
+import user from '@api/user'
+
 export default {
   name: 'AppHeader',
-  created() {},
-  mounted() {},
-  computed: {},
+  mounted() {
+    this.userData = JSON.parse(localStorage.getItem('userData'))
+  },
   sockets: {
     connect() {
       // console.log('socket connected')
@@ -27,12 +31,25 @@ export default {
           path
         })
       }
+    },
+    logout() {
+      user.logOut().then(() => {
+        localStorage.clear()
+        this.$bus.$emit('clearToken')
+        this.$message({
+          message: '登出成功',
+          type: 'success'
+        })
+        this.$router.push({
+          path: '/401'
+        })
+      })
     }
   },
-  watch: {},
   data() {
-    return {}
-  },
-  components: {}
+    return {
+      userData: {}
+    }
+  }
 }
 </script>
