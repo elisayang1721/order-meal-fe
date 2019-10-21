@@ -65,7 +65,7 @@
             type="danger"
             icon="el-icon-close") 刪除
     el-pagination(
-      v-model="pageNum"
+      :current-page.sync="pageNum"
       @current-change="getData"
       :page-size="8"
       layout="prev, pager, next"
