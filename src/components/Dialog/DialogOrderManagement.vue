@@ -101,7 +101,7 @@ export default {
         bulletin: this.orderInfo.bulletin,
         status: this.orderInfo.status
       }
-      orderForm.updateOrderForm(this.orderInfo.id, load).then(res => {
+      orderForm.updateOrderForm(this.orderInfo.id, load).then(() => {
         this.$message({
           message: '訂單更新成功',
           type: 'success'
