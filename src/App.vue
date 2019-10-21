@@ -1,8 +1,8 @@
 <template lang="pug">
-  #app(v-loading="loading" v-if="hasToken")
-    AppHeader
-    router-view
-    Dialog
+  #app(v-loading="loading")
+    AppHeader(v-if="hasToken")
+    router-view(v-if="hasToken || $route.path === '/401'")
+    Dialog(v-if="hasToken")
 </template>
 <script>
 import Dialog from '@c/Dialog/Dialog'
@@ -24,6 +24,7 @@ export default {
     if (process.env.NODE_ENV === 'production' && !localStorage.apiToken) {
       const token = this.$route.query.token
       this.emsToken = token
+      this.login()
     }
     this.$bus.$on('clearToken', () => {
       this.hasToken = ''
