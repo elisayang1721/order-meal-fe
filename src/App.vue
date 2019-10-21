@@ -19,16 +19,10 @@ export default {
           path: '/'
         })
       }
-    } else {
-      if (!localStorage.apiToken) {
-        const token = this.$route.query.token
-        this.emsToken = token
-      }
-      if (this.$route.path !== '/') {
-        this.$router.push({
-          path: '/'
-        })
-      }
+    }
+    if (process.env.NODE_ENV === 'production' && !localStorage.apiToken) {
+      const token = this.$route.query.token
+      this.emsToken = token
     }
   },
   methods: {
