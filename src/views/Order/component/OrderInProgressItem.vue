@@ -74,7 +74,6 @@ export default {
       this.showDialog(load)
     },
     timer() {
-      const my = this
       this.time = setInterval(() => {
         this.countDown = countDown(this.list.finishedOn)
       }, 3600)

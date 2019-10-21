@@ -1,54 +1,44 @@
 <template lang="pug">
   main(v-loading="loading")
-    router-view(v-if="hasToken")
+    router-view(v-if="checkToken")
 </template>
 <script>
 import user from '@api/user'
-import axios from 'axios'
 
 export default {
   name: 'Main',
+  props: ['emsToken'],
   created() { },
   mounted() {
-    if (process.env.NODE_ENV === 'development' && !localStorage.hasOwnProperty('emsToken')) {
-      this.devApi()
-    }
-
-    if (localStorage.hasOwnProperty('emsToken')) {
+    if (!localStorage.apiToken) {
       this.login()
     }
   },
-  computed: {},
+  computed: {
+    checkToken() {
+      return !!this.hasToken
+    }
+  },
   methods: {
-    devApi() {
-      const data = {
-        employee: `${process.env.VUE_APP_ACC}`,
-        password: `${process.env.VUE_APP_PWD}`
-      }
-      axios({
-        url: 'http://larla.info/api/login',
-        method: 'post',
-        data
-      }).then(res => {
-        localStorage.setItem('emsToken', res.data.data.apiToken)
-        this.login()
-      })
-    },
     login() {
       this.loading = true
-      user.login().then(res => {
+      user.login(this.emsToken).then(res => {
         localStorage.setItem('apiToken', res.token)
         this.$store.state.userData = res
-        this.hasToken = true
+        this.hasToken = localStorage.apiToken
         this.loading = false
+      }).catch(err => {
+        this.$router.push({
+          path: '/401'
+        })
       })
     }
   },
   watch: {},
   data() {
     return {
-      hasToken: false,
-      loading: false
+      loading: false,
+      hasToken: localStorage.apiToken
     }
   }
 }

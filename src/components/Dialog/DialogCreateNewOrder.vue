@@ -1,18 +1,18 @@
 <template lang="pug">
   #newOrder
     ScrollBar.innerBlock
-      .filterCondiction
+      .filterCondition
         .searchType
-          el-checkbox(v-model="condiction.searchAll") 全部
+          el-checkbox(v-model="condition.searchAll") 全部
         .searchType
           .subjectTitle 按訂購時間：
-          el-radio-group(v-model="condiction.searchByTime" :disabled="condiction.searchAll")
+          el-radio-group(v-model="condition.searchByTime" :disabled="condition.searchAll")
             el-radio(:label="2") 兩週內未訂過
             el-radio(:label="4") 一個月內未訂過
             el-radio(:label="8") 兩個月內未訂過
         .searchType
           .subjectTitle 按服務類型：
-          el-checkbox-group(v-model="condiction.searchByTypes" :disabled="condiction.searchAll")
+          el-checkbox-group(v-model="condition.searchByTypes" :disabled="condition.searchAll")
             el-checkbox(v-for="type in storeTypes" :label="type.id" :key="type.id") {{type.name}}
       .filterBlock(v-loading="loading")
         el-table(:data="storeList" border style='width: 100%' align="center")
@@ -61,7 +61,7 @@ export default {
       loading: false,
       storeList: [],
       storeTypes: [],
-      condiction: {
+      condition: {
         searchByTime: '',
         searchByTypes: [],
         searchAll: false
@@ -83,12 +83,12 @@ export default {
     },
     getStoreInfo: debounce(function () {
       let load
-      if (this.condiction.searchAll) {
+      if (this.condition.searchAll) {
         load = ''
       } else {
         load = {
-          inWeek: this.condiction.searchByTime,
-          types: this.condiction.searchByTypes.join(',')
+          inWeek: this.condition.searchByTime,
+          types: this.condition.searchByTypes.join(',')
         }
       }
       this.loading = true
@@ -99,7 +99,7 @@ export default {
     }, 500)
   },
   watch: {
-    'condiction': {
+    'condition': {
       handler() {
         // handle refresh
         this.resetAll()

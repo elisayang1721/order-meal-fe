@@ -1,14 +1,13 @@
 import Axios from './service'
 
 export default {
-  login() {
-    const emsToken = localStorage.getItem('emsToken')
+  login(data) {
     // Token 驗證
     return Axios({
       url: '/authToken',
       method: 'post',
       data: {
-        emsToken
+        emsToken: data
       }
     })
   },
