@@ -4,7 +4,7 @@
       .cell
         span 負責人
       .cell
-        span {{$store.state.userData.memberName}}
+        span {{memberName}}
     .row
       .cell
         span 截止時間
@@ -37,6 +37,10 @@ import ScrollBar from '@c/ScrollBar/ScrollBar'
 export default {
   name: 'AddOrder',
   props: ['storeId'],
+  mounted() {
+    const userData = JSON.parse(localStorage.getItem('userData'))
+    this.memberName = userData.memberName
+  },
   methods: {
     createOrder() {
       const load = {
@@ -61,7 +65,8 @@ export default {
         dateTime: null,
         expiredAmount: null,
         bulletin: null
-      }
+      },
+      memberName: ''
     }
   },
   components: {
