@@ -53,15 +53,14 @@
 import history from '@api/history'
 import order from '@api/order'
 import { shallowClone, injectState } from '@js/model'
-import { mapActions, mapState } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'DialogDetail',
   mounted() {
     this.getRecordsInfo()
-    const userData = JSON.parse(localStorage.getItem('userData'))
+    this.userData = JSON.parse(localStorage.getItem('userData'))
     this.owner = this.$store.state.prop.owner
-    this.role = userData.memberName
   },
   methods: {
     ...mapActions(['showDialog']),
@@ -84,7 +83,8 @@ export default {
       })
     },
     checkPermission(name) {
-      return this.role === 'admin' || this.role === this.owner || this.role === name
+      const role = this.userData.memberName
+      return role === 'admin' || role === this.owner || role === name
     },
     recordClass(obj) {
       const classNames = []
@@ -151,8 +151,8 @@ export default {
   data() {
     return {
       ordersDetail: [],
+      userData: {},
       owner: '',
-      role: '',
       loading: false,
       isBtnShow: false
     }
