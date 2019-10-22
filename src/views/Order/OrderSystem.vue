@@ -19,7 +19,6 @@ export default {
       this.getOrder()
     })
   },
-  computed: {},
   methods: {
     getOrder() {
       this.loading = true
@@ -29,7 +28,6 @@ export default {
       })
     }
   },
-  watch: {},
   data() {
     return {
       progressList: [],

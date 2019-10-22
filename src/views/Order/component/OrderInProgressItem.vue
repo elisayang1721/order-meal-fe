@@ -33,7 +33,6 @@ import { mapActions } from 'vuex'
 export default {
   name: 'OrderInProgressItem',
   props: ['list'],
-  created() {},
   mounted() {
     this.countDown = countDown(this.list.finishedOn)
     this.setTimer()
@@ -74,7 +73,6 @@ export default {
       this.showDialog(load)
     },
     timer() {
-      const my = this
       this.time = setInterval(() => {
         this.countDown = countDown(this.list.finishedOn)
       }, 3600)
@@ -88,13 +86,11 @@ export default {
       }
     }
   },
-  watch: {},
   data() {
     return {
       countDown: ''
     }
   },
-  components: {},
   beforeDestroy() {
     this.stopTimer()
   }

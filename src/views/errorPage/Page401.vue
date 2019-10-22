@@ -1,9 +1,8 @@
 <template lang="pug">
-  main
-    router-view
+  div 憑證過期
 </template>
 <script>
 export default {
-  name: 'Main'
+  name: 'Page401'
 }
 </script>

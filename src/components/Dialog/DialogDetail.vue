@@ -53,18 +53,14 @@
 import history from '@api/history'
 import order from '@api/order'
 import { shallowClone, injectState } from '@js/model'
-import { mapActions, mapState } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'DialogDetail',
-  created() { },
   mounted() {
     this.getRecordsInfo()
+    this.userData = JSON.parse(localStorage.getItem('userData'))
     this.owner = this.$store.state.prop.owner
-    this.role = this.$store.state.userData.memberName
-  },
-  computed: {
-    ...mapState(['userData'])
   },
   methods: {
     ...mapActions(['showDialog']),
@@ -82,12 +78,13 @@ export default {
 
       e.target.classList.toggle('bg-active')
       const hasActive = e.target.className.includes('bg-active')
-      order.updateOrderStatus(obj.id, { status: hasActive }).then(res => {
+      order.updateOrderStatus(obj.id, { status: hasActive }).then(() => {
         this.$bus.$emit('updateOrderAmount', { status: hasActive, cal: obj.amount })
       })
     },
     checkPermission(name) {
-      return this.role === 'admin' || this.role === this.owner || this.role === name
+      const role = this.userData.memberName
+      return role === 'admin' || role === this.owner || role === name
     },
     recordClass(obj) {
       const classNames = []
@@ -140,7 +137,7 @@ export default {
       }, 2000)
     },
     confirmDelete(id) {
-      order.delOrder(id).then(res => {
+      order.delOrder(id).then(() => {
         this.$message({
           message: '刪除點餐',
           type: 'success'
@@ -151,17 +148,15 @@ export default {
       })
     }
   },
-  watch: {},
   data() {
     return {
       ordersDetail: [],
+      userData: {},
       owner: '',
-      role: '',
       loading: false,
       isBtnShow: false
     }
-  },
-  components: {}
+  }
 }
 </script>
 <style lang="sass" scoped>

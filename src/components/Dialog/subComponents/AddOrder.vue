@@ -4,12 +4,12 @@
       .cell
         span 負責人
       .cell
-        span {{$store.state.userData.memberName}}
+        span {{memberName}}
     .row
       .cell
         span 截止時間
       .cell
-        el-date-picker(v-model="condiction.dateTime"
+        el-date-picker(v-model="condition.dateTime"
           type="datetime"
           placeholder="选择日期时间"
           format="yyyy-MM-dd HH:mm"
@@ -18,13 +18,13 @@
       .cell
         span 截止金額
       .cell
-        el-input(v-model="condiction.expiredAmount"
+        el-input(v-model="condition.expiredAmount"
           type="text")
     .row
       .cell
         span 公告事項
       .cell
-        el-input(v-model="condiction.bulletin"
+        el-input(v-model="condition.bulletin"
           type="textarea")
     .confirmBlock
       el-button(type="danger") 取消
@@ -37,19 +37,20 @@ import ScrollBar from '@c/ScrollBar/ScrollBar'
 export default {
   name: 'AddOrder',
   props: ['storeId'],
-  created() {},
-  mounted() {},
-  computed: {},
+  mounted() {
+    const userData = JSON.parse(localStorage.getItem('userData'))
+    this.memberName = userData.memberName
+  },
   methods: {
     createOrder() {
       const load = {
         storeId: this.storeId,
-        finishedOn: this.condiction.dateTime,
-        limotedPrice: this.condiction.expiredAmount,
-        bulletin: this.condiction.bulletin,
+        finishedOn: this.condition.dateTime,
+        limotedPrice: this.condition.expiredAmount,
+        bulletin: this.condition.bulletin,
         status: true
       }
-      orderForm.addOrderForm(load).then(res => {
+      orderForm.addOrderForm(load).then(() => {
         this.$message({
           message: '新增訂單成功',
           type: 'success'
@@ -58,14 +59,14 @@ export default {
       })
     }
   },
-  watch: {},
   data() {
     return {
-      condiction: {
+      condition: {
         dateTime: null,
         expiredAmount: null,
         bulletin: null
-      }
+      },
+      memberName: ''
     }
   },
   components: {

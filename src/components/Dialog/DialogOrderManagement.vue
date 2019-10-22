@@ -58,7 +58,6 @@ import DialogDetail from './DialogDetail'
 
 export default {
   name: 'DialogOrderManagement',
-  created() { },
   mounted() {
     this.getRecordsId()
     this.$bus.$on('updateOrderAmount', data => {
@@ -74,7 +73,6 @@ export default {
       this.getRecordsId()
     })
   },
-  computed: {},
   methods: {
     ...mapActions(['closeDialog']),
     getRecordsId() {
@@ -103,7 +101,7 @@ export default {
         bulletin: this.orderInfo.bulletin,
         status: this.orderInfo.status
       }
-      orderForm.updateOrderForm(this.orderInfo.id, load).then(res => {
+      orderForm.updateOrderForm(this.orderInfo.id, load).then(() => {
         this.$message({
           message: '訂單更新成功',
           type: 'success'
@@ -118,7 +116,6 @@ export default {
       })
     }
   },
-  watch: {},
   data() {
     return {
       initData: {},

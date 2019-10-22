@@ -46,11 +46,9 @@ import orderForm from '@api/orderForm'
 export default {
   name: 'StoreInfo',
   props: ['storeId'],
-  created() {},
   mounted() {
     this.getStoreInfo()
   },
-  computed: {},
   methods: {
     getStoreInfo() {
       orderForm.getStoreInfoId(this.storeId).then(res => {
@@ -58,7 +56,6 @@ export default {
       })
     }
   },
-  watch: {},
   data() {
     return {
       store: {}

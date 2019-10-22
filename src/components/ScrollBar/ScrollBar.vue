@@ -5,18 +5,21 @@
 <script>
 import ScrollBar from 'smooth-scrollbar'
 import OverscrollPlugin from 'smooth-scrollbar/plugins/overscroll'
-import { checkIfReachEnd } from './reachEnd'
 
 export default {
   name: 'ScrollBar',
   props: {
     overscroll: {
       default: undefined
+    },
+    dom: {
+      default: null
     }
   },
   data() {
     return {
-      scroll: null
+      scroll: null,
+      position: []
     }
   },
   mounted() {
@@ -24,6 +27,7 @@ export default {
   },
   methods: {
     init() {
+      const vue = this
       if (!this.scroll) {
         let option = {}
         if (this.overscroll) {
@@ -32,14 +36,22 @@ export default {
             plugins: {
               overscroll: {
                 onScroll(position) {
-                  checkIfReachEnd(position)
-                },
-                effect: 'glow'
+                  vue.checkIfReachEnd(position)
+                }
               }
             }
           }
         }
         this.scroll = ScrollBar.init(this.$el, option)
+      }
+    },
+    checkIfReachEnd(p) {
+      if (!p.y && this.position[this.position.length - 1] > 0) {
+        const event = new Event('reachEnd')
+        this.dom.dispatchEvent(event)
+        this.position = []
+      } else {
+        this.position.push(p.y)
       }
     },
     uninit() {

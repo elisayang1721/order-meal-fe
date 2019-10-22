@@ -40,7 +40,6 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'DialogOrder',
-  created() { },
   mounted() {
     this.loading = true
     if (this.$store.state.prop.action === 'order') {
@@ -62,7 +61,6 @@ export default {
       }))
     }
   },
-  computed: {},
   methods: {
     ...mapActions(['closeDialog']),
     orderInfo() {
@@ -102,7 +100,7 @@ export default {
       })
       if (load.orders.length) {
         if (this.$store.state.prop.action === 'order') {
-          order.addOrder(this.$store.state.prop.id, load).then(res => {
+          order.addOrder(this.$store.state.prop.id, load).then(() => {
             this.$message({
               message: '新增點餐成功',
               type: 'success'
@@ -113,7 +111,7 @@ export default {
           })
         } else {
           order.updateOrder(this.$store.state.prop.id, this.$store.state.prop.orderId, load)
-            .then(res => {
+            .then(() => {
               this.$message({
                 message: '點餐更新成功',
                 type: 'success'
@@ -126,7 +124,6 @@ export default {
       }
     }
   },
-  watch: {},
   data() {
     return {
       menuList: [],
@@ -134,8 +131,7 @@ export default {
       loading: false,
       orderItem: {}
     }
-  },
-  components: {}
+  }
 }
 </script>
 <style lang="sass" scoped>

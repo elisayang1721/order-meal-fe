@@ -11,11 +11,6 @@ import OrdersHistoryFrame from './component/OrdersHistoryFrame'
 
 export default {
   name: 'OrdersHistory',
-  created() { },
-  mounted() { },
-  computed: {},
-  methods: {},
-  watch: {},
   data() {
     return {
       tabs: [

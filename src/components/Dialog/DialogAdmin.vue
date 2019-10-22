@@ -41,9 +41,6 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'DialogAdmin',
-  created() { },
-  mounted() { },
-  computed: {},
   methods: {
     ...mapActions(['closeDialog'])
   },
@@ -56,8 +53,7 @@ export default {
       canDeleteStore: false
 
     }
-  },
-  components: {}
+  }
 }
 </script>
 <style lang="sass" scope>

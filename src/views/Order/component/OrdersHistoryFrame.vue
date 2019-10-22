@@ -26,7 +26,6 @@ export default {
       this.getRecordsList()
     })
   },
-  computed: {},
   methods: {
     ...mapActions(['showDialog']),
     getRecordsList() {
@@ -50,7 +49,6 @@ export default {
       this.showDialog(load)
     }
   },
-  watch: {},
   data() {
     return {
       orderHistoryList: [],

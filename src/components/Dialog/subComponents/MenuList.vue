@@ -25,11 +25,9 @@ import store from '@api/store'
 export default {
   name: 'MenuList',
   props: ['storeId'],
-  created() {},
   mounted() {
     this.getMenus()
   },
-  computed: {},
   methods: {
     getMenus() {
       store.getStoreMenu(this.storeId).then(res => {
@@ -37,7 +35,6 @@ export default {
       })
     }
   },
-  watch: {},
   data() {
     return {
       menu: []
