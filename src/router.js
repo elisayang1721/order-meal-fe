@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Main from './views/Main'
-import Admin from './views/Admin'
+import OrderMain from './views/OrderMain'
+import AdminWrapper from './views/AdminWrapper'
+import Page401 from './views/errorPage/Page401'
 
 Vue.use(Router)
 
@@ -16,19 +18,19 @@ export default new Router({
         {
           path: '',
           name: 'OrderMain',
-          component: () => import('./views/OrderMain')
+          component: OrderMain
         },
         {
           path: '/admin',
-          name: 'admin',
-          component: Admin
+          name: 'AdminWrapper',
+          component: AdminWrapper
         }
       ]
     },
     {
       path: '/401',
       name: 'Page401',
-      component: () => import('./views/errorPage/Page401')
+      component: Page401
     }
   ]
 })
