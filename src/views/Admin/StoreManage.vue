@@ -23,7 +23,7 @@
       v-loading="loading"
       :data="storeData"
       border
-      height="60vh"
+      height="75%"
       tyle="width: 100%")
       el-table-column(
         prop="name"
