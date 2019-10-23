@@ -4,16 +4,15 @@
     component(:is="active")
 </template>
 <script>
-
 import Tab from '@c/Tab/Tab'
-import { StoreManage, UserAdmin } from './Admin/index'
+import { StoreManage, UserAdmin, OrderMerge } from './Admin/index'
 
 
 export default {
   name: 'Admin',
   data() {
     return {
-      active: '',
+      active: 'StoreManage',
       tabs: [
         {
           name: 'StoreManage',
@@ -22,6 +21,10 @@ export default {
         {
           name: 'UserAdmin',
           title: '管理員權限'
+        },
+        {
+          name: 'OrderMerge',
+          title: '合併訂單'
         }
       ]
     }
@@ -29,7 +32,8 @@ export default {
   components: {
     Tab,
     StoreManage,
-    UserAdmin
+    UserAdmin,
+    OrderMerge
   }
 }
 </script>
