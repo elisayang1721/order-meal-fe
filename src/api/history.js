@@ -1,11 +1,12 @@
 import Axios from './service'
 
 export default {
-  exportRecords(id) {
-    // [未完成] 匯出訂單紀錄
+  exportOrderExcel(id) {
+    // 匯出訂單紀錄
     return Axios({
       url: `/orders/${id}/export`,
-      method: 'post'
+      method: 'post',
+      responseType: 'blob'
     })
   },
   getRecordsInfo(id) {

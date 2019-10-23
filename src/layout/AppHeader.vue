@@ -5,11 +5,11 @@
       span 訂餐系統
     ul.navTabs
       li(@click="switchRoute('/admin')")
-        p 管理中心
+        el-link(icon="el-icon-s-home") 管理中心
       li
-        p {{`${userData.memberName} [${userData.account}]`}}
-      li
-        el-button(type='info' @click="logout") 登出
+        el-link(icon="el-icon-user-solid") {{`${userData.memberName} [${userData.account}]`}}
+      li(@click="logout")
+        el-link(icon="el-icon-s-opportunity") 登出
 </template>
 <script>
 import user from '@api/user'
@@ -53,3 +53,12 @@ export default {
   }
 }
 </script>
+<style lang="sass" scoped>
+/deep/.el-link
+  margin: 10px 0 10px 10px
+  font-size: 12pt
+  &.el-link--default
+    color: #fff
+    &:hover
+      color: #409EFF
+</style>
