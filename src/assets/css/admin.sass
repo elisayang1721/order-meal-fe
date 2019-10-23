@@ -1,12 +1,18 @@
+#AdminWrapper
+  +size(100%,100%,null)
+  
 .common
   +size(100%)
+  min-width: 1200px
+  min-height: 600px
   padding: 2rem 0
 
 // tabContainer 
 .tabContainer
   position: relative
   padding: 25px
-  height: 765px
+  height: 100%
+  min-height: 800px
   .adminPanel
     +Flex(space-between)
     padding-bottom: 1rem
@@ -25,3 +31,46 @@
 .commonBtnGroup 
   width: 100%
   +Flex
+
+#OrderMerge
+  .infoBlock
+    width: 100%
+    +Flex()
+    margin-bottom: 10px
+    .checkBlock
+      flex: 4
+    .infoDetail
+      +Flex(space-between,center)
+      flex: 1
+  .listBlock
+    height: calc(100% - 50px)
+    overflow: hidden
+    .row
+      .cell
+        &:first-child,&:nth-child(2),&:last-child
+          flex: 1
+        flex: 1
+        >ul
+          >li
+            line-height: 24px
+    .listBody
+      height: 600px
+      .row
+        width: 50%
+        display: inline-flex
+        &:first-child
+          background: unset
+          color: unset
+        .cell
+          padding: .5rem 0
+    @media ( max-width: 1200px )
+      .row
+        .toggleHead
+          display: none
+      .listBody
+        .row
+          width: 100%
+          display: flex
+
+      
+            

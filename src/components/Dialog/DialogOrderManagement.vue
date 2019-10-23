@@ -25,7 +25,7 @@
                   inactive-color="#ff4949")
                 span 進行
             li
-              el-button(type="success") 匯出Excel
+              el-button(type="success" @click="exportExcel") 匯出Excel
       .contentBlock
         .contentNav 訂單計算
         .content
@@ -113,6 +113,21 @@ export default {
         }
         this.$bus.$emit('refreshSystem')
         this.$bus.$emit('refreshRecordsList')
+      })
+    },
+    exportExcel() {
+      history.exportOrderExcel(this.$store.state.prop.id).then(res => {
+        // 使用html a tag 將文本掛上a tag 執行download動作
+        const link = document.createElement('a')
+        link.style.display = 'none'
+        const blob = new Blob([res.data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        })
+        link.href = URL.createObjectURL(blob)
+        link.download = res.fileName
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
       })
     }
   },

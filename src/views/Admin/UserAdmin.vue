@@ -4,32 +4,33 @@
       .search
         p 狀態 ：
         el-select(
-          v-model="value"
+          v-model="isEnabled"
           placeholder="全部")
           el-option(
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value")
+            v-for="item in statusList"
+            :key="item.isEnabled"
+            :label="item.text"
+            :value="item.isEnabled")
       .add
         el-button(
-          @click.prevet="showDialog({name:'Admin',title:'新增管理員'})"
+          @click.prevet="toggleDialog('add')"
           type="success"
           icon="el-icon-plus") 新增
 
     el-table(
-      :data="fakeData"
+      v-loading="loading"
+      :data="adminData"
       border
       height="60vh"
       tyle="width: 100%")
       el-table-column(
-        prop="companyAccount"
+        prop="memberId"
         label="帳號")
       el-table-column(
-        prop="memberId"
+        prop="name"
         label="名稱")
       el-table-column(
-        prop=""
+        prop="isEnabled"
         label="狀態")
       el-table-column(
         prop="updatedOn"
@@ -44,96 +45,105 @@
         width="250")
         template(slot-scope="scope")
           el-button(
-            @click.prevet="showDialog({name:'Admin',title:`編輯管理員 – `})"
+            @click.prevet="toggleDialog('edit',scope.row)"
             type="info"
             icon="el-icon-edit") 編輯
     el-pagination(
+      v-model="pageNum"
+      :total="totalSize"
       layout="prev, pager, next"
-      :total="50")
+      :page-size="8")
 
 </template>
 <script>
 import { mapActions } from 'vuex'
+import debounce from 'lodash/debounce'
+import admin from '@api/admin'
+import { injectState } from '@js/model'
 
 export default {
   name: 'UserAdmin',
-  created() { },
-  mounted() { },
-  computed: {},
-  methods: {
-    ...mapActions(['showDialog'])
+  mounted() {
+    this.getData()
+    this.$bus.$on('refresh', () => {
+      this.getData()
+    })
   },
-  watch: {},
+  methods: {
+    ...mapActions(['showDialog']),
+    getData: debounce(function () {
+      const init = {
+        isEnabled: this.isEnabled,
+        page: this.pageNum,
+        pageSize: 10
+      }
+      this.loading = true
+      admin.getAdminList(init).then(res => {
+        const resData = res.list
+
+        this.loading = false
+        resData.forEach(list => {
+          list.memberId = list.companyCode + '_' + list.account
+        })
+        this.totalSize = res.totalSize
+        this.adminData = resData
+      })
+    }, 500),
+    toggleDialog(action, row = null) {
+      let load
+      const prop = {
+        action
+      }
+      if (action === 'add') {
+        load = {
+          name: 'Admin',
+          title: '新增管理員'
+        }
+      }
+      if (action === 'edit') {
+        prop.id = row.id
+        load = {
+          name: 'Admin',
+          title: `編輯管理員 – ${row.name}`
+        }
+      }
+      injectState(prop)
+      this.showDialog(load)
+    }
+  },
+  beforeDestroy() {
+    this.$bus.$off('refresh')
+  },
+  watch: {
+    isEnabled: {
+      handler() {
+        this.pageNum = 1
+        this.getData()
+      },
+      deep: true
+    }
+  },
   data() {
     return {
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶',
-        disabled: true
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
-      value: '',
-      fakeData: [
+      statusList: [
         {
-          memberId: '低GI',
-          companyAccount: '20190909',
-          phone: '0987654322',
-          address: '台中市西屯區河南路三段120號',
-          updatedOn: '2019-09-30 05:20',
-          updatedBy: '巧玲',
-          remark: '',
-          description: '',
-          isEbabled: false,
-          menuText: ''
+          isEnabled: null,
+          text: '全部'
         },
         {
-          memberId: '低GI',
-          companyAccount: '20190909',
-          phone: '0987654322',
-          address: '台中市西屯區河南路三段120號',
-          updatedOn: '2019-09-30 05:20',
-          updatedBy: '巧玲',
-          remark: '',
-          description: '',
-          isEbabled: false,
-          menuText: ''
+          isEnabled: true,
+          text: '啟用中'
         },
         {
-          memberId: '低GI',
-          phone: '0987654322',
-          companyAccount: '20190909',
-          address: '台中市西屯區河南路三段120號',
-          updatedOn: '2019-09-30 05:20',
-          updatedBy: '巧玲',
-          remark: '',
-          description: '',
-          isEbabled: false,
-          menuText: ''
-        },
-        {
-          memberId: '低GI',
-          companyAccount: '20190909',
-          phone: '0987654322',
-          address: '台中市西屯區河南路三段120號',
-          updatedOn: '2019-09-30 05:20',
-          updatedBy: '巧玲',
-          remark: '',
-          description: '',
-          isEbabled: false,
-          menuText: ''
+          isEnabled: false,
+          text: '停用'
         }
-      ]
+      ],
+      isEnabled: null,
+      totalSize: null,
+      pageNum: 1,
+      adminData: [],
+      loading: false
     }
   }
 }
