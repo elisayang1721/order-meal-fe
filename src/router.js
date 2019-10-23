@@ -1,9 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Main from './views/Main'
-import OrderMain from './views/OrderMain'
 import Admin from './views/Admin'
-import Page401 from './views/errorPage/Page401'
 
 Vue.use(Router)
 
@@ -18,7 +16,7 @@ export default new Router({
         {
           path: '',
           name: 'OrderMain',
-          component: OrderMain
+          component: () => import('./views/OrderMain')
         },
         {
           path: '/admin',
@@ -30,7 +28,7 @@ export default new Router({
     {
       path: '/401',
       name: 'Page401',
-      component: Page401
+      component: () => import('./views/errorPage/Page401')
     }
   ]
 })

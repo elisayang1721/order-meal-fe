@@ -25,16 +25,26 @@ service.interceptors.request.use(
 /** 攔截器(response): 依據回傳的狀態碼，預先做對應處理 */
 service.interceptors.response.use(
   response => {
-    return response.data
+    return response.data || response
   },
   error => {
     const { response } = error
+    let text = ''
     // token 過期
     if (response.status === 401) {
       localStorage.removeItem('apiToken')
+      text = '驗證錯誤/驗證已逾期，請重新登入驗證。'
+    }
+    // 無權限
+    if (response.status === 403) {
+      text = '您無此操作的權限，請聯絡系統管理員。'
+    }
+    // 500
+    if (response.status === 500) {
+      text = '系統發生內部錯誤，請聯絡系統管理員。'
     }
     Message({
-      message: response.data,
+      message: response.data || text,
       type: 'error'
     })
     // eslint-disable-next-line prefer-promise-reject-errors
