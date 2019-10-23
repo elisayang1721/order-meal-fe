@@ -29,7 +29,13 @@ export default {
     init() {
       const vue = this
       if (!this.scroll) {
-        let option = {}
+        let option = {
+          plugins: {
+            overscroll: {
+              effect: 'glow'
+            }
+          }
+        }
         if (this.overscroll) {
           ScrollBar.use(OverscrollPlugin)
           option = {
@@ -37,7 +43,8 @@ export default {
               overscroll: {
                 onScroll(position) {
                   vue.checkIfReachEnd(position)
-                }
+                },
+                effect: 'glow'
               }
             }
           }
