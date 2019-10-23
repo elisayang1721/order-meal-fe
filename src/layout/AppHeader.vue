@@ -8,7 +8,7 @@
         el-link(icon="el-icon-s-home") 管理中心
       li
         el-link(icon="el-icon-user-solid") {{`${userData.memberName} [${userData.account}]`}}
-      li
+      li(@click="logout")
         el-link(icon="el-icon-s-opportunity") 登出
 </template>
 <script>
