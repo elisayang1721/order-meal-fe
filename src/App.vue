@@ -13,15 +13,10 @@ import AppHeader from '@/layout/AppHeader'
 export default {
   name: 'app',
   mounted() {
-    if (process.env.NODE_ENV === 'development' && !localStorage.apiToken) {
+    if (process.env.NODE_ENV === 'development') {
       this.devApi()
-      if (this.$route.path !== '/') {
-        this.$router.push({
-          path: '/'
-        })
-      }
     }
-    if (process.env.NODE_ENV === 'production' && !localStorage.apiToken) {
+    if (process.env.NODE_ENV === 'production') {
       const token = this.$route.query.token
       this.emsToken = token
       this.login()
@@ -62,6 +57,11 @@ export default {
         localStorage.setItem('apiToken', res.token)
         localStorage.setItem('userData', JSON.stringify(res))
         this.hasToken = localStorage.apiToken
+        if (this.$route.path !== '/') {
+          this.$router.push({
+            path: '/'
+          })
+        }
         this.loading = false
       }).catch(() => {
         this.$router.push({
@@ -74,7 +74,7 @@ export default {
     return {
       emsToken: '',
       loading: false,
-      hasToken: localStorage.apiToken
+      hasToken: ''
     }
   },
   components: {
