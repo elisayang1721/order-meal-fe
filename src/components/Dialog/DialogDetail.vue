@@ -36,7 +36,7 @@
       .cell
         span {{item.price}}
       .cell.flexFix
-        .subscriberCell.border-grey(v-for="(obj, i) in item.orderRecords" :key="obj.id"
+        .subscriberCell(v-for="(obj, i) in item.orderRecords" :key="obj.id"
           :class="recordClass(obj)"
           @click="orderSubmit(obj, $event)")
           span {{`${obj.memberName} x${obj.amount}`}}
@@ -165,4 +165,9 @@ export default {
   width: 60px
 /deep/.el-tooltip
   margin-left: 5px
+/deep/.el-icon-question
+  margin-left: 5px
+#detail
+  border: 1px solid $tableLineColor
+  border-right: 0
 </style>

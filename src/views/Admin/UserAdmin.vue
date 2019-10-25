@@ -12,7 +12,7 @@
             :label="item.text"
             :value="item.isEnabled")
       .add
-        el-button(
+        el-button.addBtn(
           @click.prevet="toggleDialog('add')"
           type="success"
           icon="el-icon-plus") 新增
@@ -148,8 +148,16 @@ export default {
   }
 }
 </script>
+<<<<<<< HEAD
 <style lang="sass" scoped>
 .tabContainer
   .tableWrapper
     height: 650px
+=======
+<style lang="sass">
+.adminPanel
+  .addBtn
+    +Bgc($yelColor)
+    border-color: $yelColor
+>>>>>>> 191022_lorde_layout
 </style>

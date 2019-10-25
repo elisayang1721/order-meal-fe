@@ -8,7 +8,7 @@
         el-table-column(prop='status' label='狀態')
         el-table-column(label="功能")
           template(slot-scope="scope")
-            el-button(type="primary" icon="el-icon-setting"
+            el-button.orderManagementBtn(icon="el-icon-setting"
               @click="orderManagement(scope.row)") 訂單管理
 </template>
 <script>
