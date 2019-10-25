@@ -85,7 +85,7 @@ export default {
     }, 500),
     getDebounce() {
       const vm = this
-      this.exportExcel(vm)
+      this.exportMergeOrder(vm)
     },
     exportMergeOrder: debounce(vm => {
       const orderId = {
