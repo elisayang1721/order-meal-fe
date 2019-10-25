@@ -1,6 +1,8 @@
 <template lang="pug">
   transition(name="dialog-fade")
-    .dialogFrame(v-if="dialog.length" @click.self="closeDialog")
+    .dialogFrame(v-if="dialog.length"
+      @click.self="closeDialog"
+      :class="{'smallDialog': checkSmallDialog}")
       .dialogContent
         .dialogHeader
           .dialogTitle {{componentTitle}}
@@ -35,6 +37,10 @@ export default {
     componentTitle() {
       const maxlength = this.dialog.length - 1
       return this.dialog[maxlength].title
+    },
+    checkSmallDialog() {
+      const name = this.$store.state.dialog[0].name
+      return name === 'DialogConfirm' || name === 'DialogAdmin'
     }
   },
   methods: {
@@ -72,6 +78,11 @@ export default {
     +Bgc($c1)
     @media(max-width: 1200px),(max-height: 800px)
       +size(100%,100%,null)
+  &.smallDialog
+    .dialogContent
+      @media(max-width: 1200px),(max-height: 800px)
+        width: unset
+        height: unset
   .dialogHeader
     +Bgc($brownC1)
     +size(100%,3.5rem)

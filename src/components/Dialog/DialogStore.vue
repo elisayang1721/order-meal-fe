@@ -264,11 +264,13 @@ export default {
           +size(50%,100%)
         .formatForm
           margin-right: .5rem
-          .el-textarea__inner
-            border-radius: 0
-            height: 100%
+        .el-textarea__inner
+          resize: none
+          border-radius: 4px
+          height: 100%
         .showForm
           margin-left: .5rem
+          border-radius: 4px
           border: 1px solid #8b8b8b
           .formViewFix
             +size(100%,100%,null)
@@ -292,8 +294,5 @@ export default {
           height: 100%
           .contentItem
             height: 100%
-            .el-textarea__inner
-              resize: none
-              height: 100%
 
 </style>

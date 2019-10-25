@@ -75,16 +75,17 @@ export default {
       const hasCell = e.target.className.includes('subscriberCell')
       // class不是subscriberCell，不做開關
       if (!hasCell) return
-
-      e.target.classList.toggle('bg-active')
-      const hasActive = e.target.className.includes('bg-active')
-      order.updateOrderStatus(obj.id, { status: hasActive }).then(() => {
-        this.$bus.$emit('updateOrderAmount', { status: hasActive, cal: obj.amount })
-      })
+      if (this.userData.isAdmin || this.userData.memberName === this.owner) {
+        e.target.classList.toggle('bg-active')
+        const hasActive = e.target.className.includes('bg-active')
+        order.updateOrderStatus(obj.id, { status: hasActive }).then(() => {
+          this.$bus.$emit('updateOrderAmount', { status: hasActive, cal: obj.amount })
+        })
+      }
     },
     checkPermission(name) {
       const role = this.userData.memberName
-      return role === 'admin' || role === this.owner || role === name
+      return this.userData.isAdmin || role === this.owner || role === name
     },
     recordClass(obj) {
       const classNames = []
