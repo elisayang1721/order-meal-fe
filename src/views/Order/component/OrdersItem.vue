@@ -35,5 +35,5 @@ export default {
     +BrdRad(8px,8px,0,0)
     .list
       .navHead
-        background-color: #8b8b8b
+        background-color: $tableHeadColor
 </style>

@@ -8,13 +8,13 @@
           placeholder="請輸入店名"
           prefix-icon="el-icon-search")
       .add
-        el-button(
+        el-button.addBtn(
           @click.prevet="toggleDialog('add')"
           type="success"
           icon="el-icon-plus") 新增
     .adminPanel
       .type
-        p 類型 ：
+        p 類型:
         el-checkbox(v-model="condition.searchAll") 全部
         el-checkbox-group(v-model="condition.searchByTypes")
           el-checkbox(v-for="type in storeType" :label="type.id" :key="type.id") {{type.name}}
@@ -173,6 +173,7 @@ export default {
 .tabContainer
   /deep/.el-checkbox-group
     margin-left: 30px
+<<<<<<< HEAD
 .search
   /deep/.el-input
     .el-input__inner
@@ -182,4 +183,10 @@ export default {
     .el-input__prefix
       .el-input__icon
         line-height: 32px
+=======
+.adminPanel
+  .addBtn
+    +Bgc($yelColor)
+    border-color: $yelColor
+>>>>>>> 191022_lorde_layout
 </style>

@@ -32,7 +32,7 @@ html,body
 
 .el-table
   th
-    +Bgc(#8b8b8b)
+    +Bgc($tableHeadColor)
     color: #fff
   th,td
     text-align: center
@@ -57,11 +57,60 @@ html,body
   .el-input__prefix
     color: #8b8b8b
 
+// .el-button
+//   &:hover,
+//   &:active,
+//   &:focus
+//     +Bgc(#f7f3f3)
+//     color: #866e6c
+//     border-color: #c2b0af
+
+.el-button--success
+  +Bgc(#50a267)
+  border: 1px solid #50a267
+.el-button--success
+  &:hover,
+  &:active,
+  &:focus
+    +Bgc(#45925a)
+    color: #fff
+    border: 1px solid #45925a
+
+.el-button--danger
+  +Bgc(#c75656)
+  border: 1px solid #c75656
+
+.el-button--warning
+  +Bgc(#f4b55a)
+.el-button--warning
+  &:hover,
+  &:active,
+  &:focus
+    +Bgc(#eca951)
+    border: 1px solid #eca951
+
+.el-button--primary
+  +Bgc(#21a8d2)
+.el-button--primary
+  &:hover,
+  &:active,
+  &:focus
+    +Bgc(#1f95ba)
+
+.orderManagementBtn
+  +Bgc(#6e6d6b)
+  border-color: #6e6d6b
+  color: #fff
+  &:hover,
+  &:active,
+  &:focus
+    +Bgc(#f7f3f3)
+    border-color: #ab9694
+    color: #866e6c
 
 header
   +Flex(space-between,center)
-  background: #364b5b
-  border: 1px solid #364b5b
+  background: $brownC1
   color: #fff
   padding: 0 20px
   height: 60px
@@ -80,7 +129,7 @@ header
 main
   +size(100%,calc(100vh - 60px),null)
   +Flex(center,center)
-  background-image: url('~@img/main-bg.png')
+  +Bgc($ligntGray)
 
 #orderMain
   +size(100%,100%,null)
@@ -96,6 +145,9 @@ main
       right: 20px
       top: 10px
       z-index: 10
+      color: $c1
+      background: $yelColor
+      border-color: $yelColor
 
 #orderSystem
   +size(50%,calc(100vh - 60px),null)
@@ -104,7 +156,6 @@ main
   min-height: 800px
   flex: 1
   padding: 20px
-  padding-right: 8px
   @media ( max-width: 1200px )
     width: 100%
     height: 800px
@@ -112,7 +163,7 @@ main
   .progressTitle
     font-size: 18pt
     font-weight: bold
-    color: #626262
+    color: $darkGray
     padding-top: 3px
     padding-bottom: 10px
   
@@ -123,7 +174,7 @@ main
   flex-direction: column
   flex: 1
   padding: 20px
-  padding-left: 8px
+  box-shadow: 5px 0 10px rgba(0,0,0,.55)
   @media ( max-width: 1200px )
     width: 100%
     height: 800px
@@ -135,23 +186,24 @@ main
   width: 100%
   height: 100%
   border-radius: 8px
-  border: 2px solid #c6c6c6
   overflow: hidden
+  padding-top: 15px
   .contentViewFix
     +Flex(flex-start,center)
     flex-direction: column
     position: relative
     min-width: 600px
-    padding: 10px
+    padding: 0
 
 .itemWrapper
   +size(100%,120px)
   overflow: hidden
-  border: 1px solid #8b8b8b
+  border: 1px solid #f0f0f0
   border-radius: 8px
   margin-bottom: 10px
   background: #fff
   display: flex
+  box-shadow: 0 5px 5px rgba(230,230,230,.6)
   &:last-child
     margin-bottom: unset
   .list
@@ -161,15 +213,16 @@ main
     flex: 1
     .navHead
       +Flex(space-between,center)
-      background: #ae4f4f
-      font-size: 20px
+      background: $orangeColor
+      font-size: 18px
       line-height: 42px
       color: #fff
       padding: 0px 10px
       .el-button
         padding: 5px 10px
       .deadLine
-        color: #ffcc32
+        font-size: 18px
+        color: #fff
       >ul
         display: flex
         align-items: center
@@ -183,7 +236,7 @@ main
         +Flex(center,flex-start)
         flex-direction: column
         width: 100px
-        font-size: 20px
+        font-size: 18px
         color: #626262
         .amountTitle
           margin-bottom: 10px
@@ -198,17 +251,11 @@ main
         display: block
         >li
           line-height: 24px
-          color: #364b5b
+          color: #626262
           list-style: disc
           margin-left: 50px
   .left
-    flex: 3
-    &::before
-      content: ''
-      height: 100%
-      position: absolute
-      right: 0
-      border-right: 1px dashed #000
+    flex: 3    
   .right
     .navHead
       font-size: 18px
@@ -220,4 +267,11 @@ main
           width: 90px
           text-align: center
     .content
+      position: relative
       justify-content: space-around
+      &::before
+        content: ''
+        height: 100%
+        position: absolute
+        left: 0
+        border-left: 1px dashed #c6c6c6
