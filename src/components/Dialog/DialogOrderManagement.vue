@@ -160,8 +160,6 @@ export default {
       line-height: 24px
   .el-input__suffix
     right: 0
-/deep/.el-button
-  padding: 10px
 /deep/.el-switch
   margin: 0 5px
 /deep/.el-textarea

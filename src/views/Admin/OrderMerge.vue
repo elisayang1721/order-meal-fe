@@ -135,7 +135,7 @@ export default {
     +Flex()
     margin: .2rem
     padding: .2rem
-    box-shadow: 0px 4px rgba(#000, .2)
+    box-shadow: 0px 4px rgba(#000, .6)
     border-radius: 4px
     border: 1px solid #000
     .el-checkbox__input
