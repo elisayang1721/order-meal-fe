@@ -8,7 +8,7 @@
           placeholder="請輸入店名"
           prefix-icon="el-icon-search")
       .add
-        el-button.addBtn(
+        el-button.add-button(
           @click.prevet="toggleDialog('add')"
           type="success"
           icon="el-icon-plus") 新增
@@ -182,8 +182,4 @@ export default {
     .el-input__prefix
       .el-input__icon
         line-height: 32px
-.adminPanel
-  .addBtn
-    +Bgc($yelColor)
-    border-color: $yelColor
 </style>

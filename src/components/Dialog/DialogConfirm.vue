@@ -5,11 +5,11 @@
       span 是否刪除
     .btnGroup
       el-button(
-        type="success"
-        @click="confirm") 確定
-      el-button(
         type="danger"
         @click="closeDialog") 取消
+      el-button(
+        type="success"
+        @click="confirm") 確定
 
 </template>
 <script>
@@ -35,7 +35,7 @@ export default {
   }
 }
 </script>
-<style lang="sass" scope>
+<style lang="sass" scoped>
   .dialogConfirm
     text-align: center
     .msg

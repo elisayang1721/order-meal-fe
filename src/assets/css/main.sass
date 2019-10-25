@@ -51,7 +51,8 @@ html,body
   flex: 1
   .el-input__inner, .el-textarea__inner
     font-family: Microsoft JhengHei,Microsoft Yahei,Helvetica,Hiragino Sans GB,"\5FAE\8F6F\96C5\9ED1",Arial,"sans-serif"
-    border-color: #8b8b8b
+    border-color: $tableLineColor
+    +Bgc(#efebea)
     &::placeholder 
       color: #8b8b8b
   .el-input__prefix
@@ -67,14 +68,12 @@ html,body
 
 .el-button--success
   +Bgc(#50a267)
-  border: 1px solid #50a267
-.el-button--success
+  border-color: #50a267
   &:hover,
   &:active,
   &:focus
-    +Bgc(#45925a)
-    color: #fff
-    border: 1px solid #45925a
+    +Bgc(#6ab07e)
+    border-color: #50a267
 
 .el-button--danger
   +Bgc(#c75656)
@@ -97,16 +96,32 @@ html,body
   &:focus
     +Bgc(#1f95ba)
 
-.orderManagementBtn
-  +Bgc(#6e6d6b)
-  border-color: #6e6d6b
-  color: #fff
+.add-button  
+  +Bgc($yelColor)
+  color: $c1
+  border-color: $yelColor
   &:hover,
   &:active,
   &:focus
-    +Bgc(#f7f3f3)
+    +Bgc(#eab059)
+    border-color: $yelColor
+
+.orderManagementBtn
+  +Bgc(#f7f3f3)
+  border-color: #ab9694
+  color: #866e6c
+  &:hover,
+  &:active,
+  &:focus
+    +Bgc(#ab9694)
     border-color: #ab9694
-    color: #866e6c
+    color: $c1
+
+.tableFrame
+  +Bgc($c1)
+  border: 1px solid $tableLineColor
+  border-right: 0
+
 
 header
   +Flex(space-between,center)
@@ -140,14 +155,11 @@ main
     min-height: 800px
     @media ( max-width: 1200px )
       flex-direction: column
-    .openOrder
+    .add-button
       position: absolute
       right: 20px
       top: 10px
-      z-index: 10
-      color: $c1
-      background: $yelColor
-      border-color: $yelColor
+      z-index: 10      
 
 #orderSystem
   +size(50%,calc(100vh - 60px),null)
