@@ -1,7 +1,11 @@
-// 限制最小內容寬  
+// Dialog限制最小內容寬
 .viewFix
-  min-width: 1000px
+  min-width: 1200px
   padding: 0 10px
+  &.createneworder
+    padding: unset
+    @media(max-width: 1200px),(max-height: 800px)
+      height: 100%
 
 .font-blue
   color: #5A5AAD
@@ -55,6 +59,7 @@
     border: 1px solid #000
     >span
       text-align: center
+      margin: 0 5px
     &:first-child
       flex: 1
     &:nth-child(2),&:nth-child(3)
@@ -62,7 +67,7 @@
     &:last-child
       flex: 3
     .subscriberCell
-      width: calc(100% / 3)
+      width: calc(100% / 5)
       height: 60px
       +Flex(center,center)
       flex-direction: column
@@ -90,6 +95,8 @@
     >div
       +Flex()
       position: relative
+    .radio
+      line-height: 24px
   .flexFix
     +Flex(flex-start,flex-start)
 
@@ -144,7 +151,8 @@
 
 #newOrder
   display: flex
-  width: 100%
+  +size(100%,100%,null)
+  position: relative
   &::after
     content: ''
     +size(1px,100%,null)
@@ -154,12 +162,17 @@
     left: 50%
     transform: translateX(-50%)
   .innerBlock
-    +size(100%,600px,null)
+    +size(100%,800px,null)
     position: relative
     display: flex
     flex-direction: column
     flex: 1
-    padding: 0 10px
+    &:first-child
+      padding-right: 10px
+    &:last-child
+      padding-left: 10px
+    @media(max-width: 1200px),(max-height: 800px)
+      height: 100%
     .filterCondition,.searchType,.subjectTitle
       margin-bottom: 10px
 

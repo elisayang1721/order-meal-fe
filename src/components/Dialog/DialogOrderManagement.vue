@@ -10,7 +10,7 @@
               el-date-picker(v-model="orderInfo.finishedOn"
                 @change="checkDateTime"
                 type="datetime"
-                placeholder="选择日期时间"
+                placeholder="選擇日期時間"
                 format="yyyy-MM-dd HH:mm"
                 value-format="yyyy-MM-dd HH:mm")
             li
@@ -19,13 +19,14 @@
             li
               span 訂單狀態
               .switchBlock
-                span 截止
                 el-switch(v-model="orderInfo.status"
                   active-color="#13ce66"
-                  inactive-color="#ff4949")
-                span 進行
+                  inactive-color="#ff4949"
+                  active-text="進行"
+                  inactive-text="截止")
             li
-              el-button(type="success" @click="exportExcel") 匯出Excel
+              el-button(type="success"
+                @click="getDebounce('export')") 匯出Excel
       .contentBlock
         .contentNav 訂單計算
         .content
@@ -46,13 +47,14 @@
         i.el-icon-phone
         span {{orderInfo.storePhone}}
       el-button(type="danger" @click="reset") 取消
-      el-button(type="success" @click="updateForm") 確認
+      el-button(type="success" @click="getDebounce()") 確認
     DialogDetail
 </template>
 <script>
 import history from '@api/history'
 import orderForm from '@api/orderForm'
-import { deepClone } from '@js/model'
+import debounce from 'lodash/debounce'
+import { deepClone, exportExcel } from '@js/model'
 import { mapActions } from 'vuex'
 import DialogDetail from './DialogDetail'
 
@@ -93,49 +95,48 @@ export default {
     reset() {
       this.orderInfo = deepClone(this.initData)
     },
-    updateForm() {
+    updateForm: debounce(vm => {
       const load = {
-        storeId: this.orderInfo.storeId,
-        finishedOn: this.orderInfo.finishedOn,
-        limitedPrice: this.orderInfo.limitedPrice,
-        bulletin: this.orderInfo.bulletin,
-        status: this.orderInfo.status
+        storeId: vm.orderInfo.storeId,
+        finishedOn: vm.orderInfo.finishedOn,
+        limitedPrice: vm.orderInfo.limitedPrice,
+        bulletin: vm.orderInfo.bulletin,
+        status: vm.orderInfo.status
       }
-      orderForm.updateOrderForm(this.orderInfo.id, load).then(() => {
-        this.$message({
+      orderForm.updateOrderForm(vm.orderInfo.id, load).then(() => {
+        vm.$message({
           message: '訂單更新成功',
           type: 'success'
         })
-        if (this.orderInfo.status) {
-          this.getRecordsId()
+        if (vm.orderInfo.status) {
+          vm.getRecordsId()
         } else {
-          this.closeDialog()
+          vm.closeDialog()
         }
-        this.$bus.$emit('refreshSystem')
-        this.$bus.$emit('refreshRecordsList')
+        vm.$bus.$emit('refreshSystem')
+        vm.$bus.$emit('refreshRecordsList')
       })
-    },
-    exportExcel() {
-      history.exportOrderExcel(this.$store.state.prop.id).then(res => {
-        // 使用html a tag 將文本掛上a tag 執行download動作
-        const link = document.createElement('a')
-        link.style.display = 'none'
-        const blob = new Blob([res.data], {
-          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        })
-        link.href = URL.createObjectURL(blob)
-        link.download = res.fileName
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
+    }, 500),
+    exportExcel: debounce(vm => {
+      history.exportOrderExcel(vm.$store.state.prop.id).then(res => {
+        exportExcel(res)
       })
+    }, 500),
+    getDebounce(action = 'update') {
+      const vm = this
+      if (action === 'update') {
+        this.updateForm(vm)
+      } else {
+        this.exportExcel(vm)
+      }
     }
   },
   data() {
     return {
       initData: {},
       orderInfo: {},
-      loading: false
+      loading: false,
+      fn: null
     }
   },
   components: {
@@ -167,4 +168,14 @@ export default {
   .el-textarea__inner
     height: 100%
     resize: none
+/deep/.el-switch
+  flex: 1
+  +Flex(space-around)
+  .el-switch__label--left
+    color: #ff4949
+  &.is-checked
+    .el-switch__label--left
+      color: #000
+    .el-switch__label--right
+      color: #13ce66
 </style>

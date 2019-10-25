@@ -3,8 +3,12 @@ import Vue from 'vue'
 // ElementUI
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+// 使用繁體中文語言包
+import locale from 'element-ui/lib/locale/lang/zh-TW'
 
-Vue.use(ElementUI)
+Vue.use(ElementUI, {
+  locale
+})
 
 // style
 import '@css/reset.sass'

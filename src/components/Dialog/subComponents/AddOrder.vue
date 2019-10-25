@@ -11,7 +11,7 @@
       .cell
         el-date-picker(v-model="condition.dateTime"
           type="datetime"
-          placeholder="选择日期时间"
+          placeholder="選擇日期時間"
           format="yyyy-MM-dd HH:mm"
           value-format="yyyy-MM-dd HH:mm")
     .row
@@ -28,10 +28,11 @@
           type="textarea")
     .confirmBlock
       el-button(type="danger") 取消
-      el-button(type="success" @click="createOrder") 確認
+      el-button(type="success" @click="getDebounce") 確認
 </template>
 <script>
 import orderForm from '@api/orderForm'
+import debounce from 'lodash/debounce'
 import ScrollBar from '@c/ScrollBar/ScrollBar'
 
 export default {
@@ -41,8 +42,8 @@ export default {
     const userData = JSON.parse(localStorage.getItem('userData'))
     this.memberName = userData.memberName
   },
-  methods: {
-    createOrder() {
+  computed: {
+    getLoad() {
       const load = {
         storeId: this.storeId,
         finishedOn: this.condition.dateTime,
@@ -50,13 +51,22 @@ export default {
         bulletin: this.condition.bulletin,
         status: true
       }
-      orderForm.addOrderForm(load).then(() => {
-        this.$message({
+      return load
+    }
+  },
+  methods: {
+    createOrder: debounce(vm => {
+      orderForm.addOrderForm(vm.getLoad).then(() => {
+        vm.$message({
           message: '新增訂單成功',
           type: 'success'
         })
-        this.$bus.$emit('refreshSystem')
+        vm.$bus.$emit('refreshSystem')
       })
+    }, 500),
+    getDebounce() {
+      const vm = this
+      this.createOrder(vm)
     }
   },
   data() {

@@ -47,7 +47,7 @@
             el-button(type="danger"
               @click.stop="deleteOrder") 刪除
             el-button(type="danger" icon="el-icon-warning-outline"
-              @click="confirmDelete(obj.id)") 確認刪除
+              @click.once="confirmDelete(obj.id)") 確認刪除
 </template>
 <script>
 import history from '@api/history'
@@ -163,4 +163,6 @@ export default {
 /deep/.el-button
   padding: 6px 10px
   width: 60px
+/deep/.el-tooltip
+  margin-left: 5px
 </style>

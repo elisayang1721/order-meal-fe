@@ -20,7 +20,8 @@
           template(v-if="item.meals.length === 1")
             span {{item.meals[0].price}}
           template(v-else)
-            .radio(v-for="meal in item.meals" :key="meal.id")
+            .radio(v-for="meal in item.meals" :key="meal.id"
+              @click="setAmount(obj.menuType,i)")
               input(type="radio" :value="meal.id" :id="meal.id"
                 v-model="orderSet[obj.menuType][i].menuItemId")
               label(:for="meal.id") {{`${meal.name} ${meal.price}`}}
@@ -35,6 +36,7 @@
 <script>
 import store from '@api/store'
 import order from '@api/order'
+import debounce from 'lodash/debounce'
 import axios from 'axios'
 import { mapActions } from 'vuex'
 
@@ -48,8 +50,7 @@ export default {
         this.orderInfo()
         this.loading = false
       })
-    }
-    if (this.$store.state.prop.action === 'edit') {
+    } else {
       axios.all([
         store.getStoreMenu(this.$store.state.prop.storeId),
         order.getSingleOrderRecord(this.$store.state.prop.orderId)
@@ -59,6 +60,21 @@ export default {
         this.orderInfo()
         this.loading = false
       }))
+    }
+  },
+  computed: {
+    getLoad() {
+      const load = {
+        orders: []
+      }
+      Object.keys(this.orderSet).forEach(key => {
+        this.orderSet[key].forEach(obj => {
+          if (obj.amount && obj.menuItemId) {
+            load.orders.push(obj)
+          }
+        })
+      })
+      return load
     }
   },
   methods: {
@@ -87,41 +103,44 @@ export default {
       })
       this.orderSet = orderSet
     },
-    confirm() {
-      const load = {
-        orders: []
-      }
-      Object.keys(this.orderSet).forEach(key => {
-        this.orderSet[key].forEach(obj => {
-          if (obj.amount && obj.menuItemId) {
-            load.orders.push(obj)
-          }
-        })
+    addOrder: debounce(vm => {
+      order.addOrder(vm.$store.state.prop.id, vm.getLoad).then(() => {
+        vm.submitSuccess()
       })
-      if (load.orders.length) {
+    }, 500),
+    updateOrder: debounce(vm => {
+      order.updateOrder(vm.$store.state.prop.id, vm.$store.state.prop.orderId, vm.getLoad)
+        .then(() => {
+          vm.submitSuccess()
+        })
+    }, 500),
+    confirm() {
+      if (this.getLoad.orders.length) {
+        const vm = this
         if (this.$store.state.prop.action === 'order') {
-          order.addOrder(this.$store.state.prop.id, load).then(() => {
-            this.$message({
-              message: '新增點餐成功',
-              type: 'success'
-            })
-            this.closeDialog()
-            this.$bus.$emit('refreshSystem')
-            this.$bus.$emit('refreshMyorder')
-          })
+          this.addOrder(vm)
         } else {
-          order.updateOrder(this.$store.state.prop.id, this.$store.state.prop.orderId, load)
-            .then(() => {
-              this.$message({
-                message: '點餐更新成功',
-                type: 'success'
-              })
-              this.closeDialog()
-              this.$bus.$emit('refreshSystem')
-              this.$bus.$emit('refreshMyorder')
-            })
+          this.updateOrder(vm)
         }
       }
+    },
+    setAmount(type, i) {
+      this.orderSet[type][i].amount = 1
+    },
+    submitSuccess() {
+      let message = ''
+      if (this.$store.state.prop.action === 'order') {
+        message = '新增點餐成功'
+      } else {
+        message = '點餐更新成功'
+      }
+      this.$message({
+        message,
+        type: 'success'
+      })
+      this.$bus.$emit('refreshSystem')
+      this.$bus.$emit('refreshMyorder')
+      this.closeDialog()
     }
   },
   data() {
@@ -139,7 +158,14 @@ export default {
   width: 120px
   line-height: 25px
   .el-input-number__decrease,.el-input-number__increase
+    top: 0
+    height: 25px
     line-height: 25px
+    border: 1px solid #888
+  .el-input-number__decrease
+    left: 0
+  .el-input-number__increase
+    right: 0
 /deep/.el-input
   input
     height: 25px
