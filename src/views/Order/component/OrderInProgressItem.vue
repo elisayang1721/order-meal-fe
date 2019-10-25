@@ -17,7 +17,7 @@
     .list.right
       .navHead
         span(:title="neededTitle") {{list.createdByName}}
-        el-button(type="warning"
+        el-button.orderManagementBtn(
           icon="el-icon-setting"
           @click="toggleDialog('OrderManagement')") 訂單管理
       .content
@@ -96,3 +96,11 @@ export default {
   }
 }
 </script>
+<style lang="sass" scoped>
+  .orderManagementBtn
+    background: #7d6664
+    background: #71412c
+    background: #804c35
+    border-color: #804c35
+    color: #fff
+</style>

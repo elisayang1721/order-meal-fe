@@ -39,8 +39,4 @@ export default {
     padding-left: 10px
     padding-bottom: 2px
     height: 37px
-    &::before
-      content: unset
-    .commonTab
-      padding: .6rem 1.8rem
 </style>
