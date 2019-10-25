@@ -145,25 +145,30 @@ export default {
 }
 </script>
 <style lang="sass" scope>
-  .adminItem
-    +Flex(flex-start)
-    margin-bottom: 1rem
-    font-size: 1.125rem
-    p
-      width: 150px
-      margin-right: 1rem
-      text-align: right
-    .is-disabled
-      .el-input__inner
-        color: #000
-    .el-switch
-      flex: 1
-      +Flex(space-around)
+.adminItem
+  +Flex(flex-start)
+  margin-bottom: 1rem
+  font-size: 1.125rem
+  p
+    width: 150px
+    margin-right: 1rem
+    text-align: right
+  .is-disabled
+    .el-input__inner
+      color: #000
+  .el-switch
+    flex: 1
+    +Flex(space-around)
+    .el-switch__label--left
+      color: #ff4949
+    &.is-checked
       .el-switch__label--left
-        color: #ff4949
-      &.is-checked
-        .el-switch__label--left
-          color: #000
-        .el-switch__label--right
-          color: #13ce66
+        color: #000
+      .el-switch__label--right
+        color: #13ce66
+.dialogFrame
+  .dialogContent
+    @media (max-height: 800px), (max-width: 1200px)
+      width: unset
+      height: unset
 </style>
