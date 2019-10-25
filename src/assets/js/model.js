@@ -89,7 +89,8 @@ export function textToJson(data) {
         cate: item.split(':')[0],
         meals: []
       }
-      if (Number.isNaN(item.split(':')[1])) {
+      const patten = /\D/g
+      if (patten.test(item.split(':')[1])) {
         item.split(':')[1].split(',').forEach(sort => {
           const sorts = {
             name: sort.split('.')[0],
@@ -108,4 +109,29 @@ export function textToJson(data) {
     json.list.push(list)
   })
   return json
+}
+
+export function exportExcel(res) {
+  // 使用html a tag 將文本掛上a tag 執行download動作
+  // 新增一個a tag
+  const link = document.createElement('a')
+  // 設置display='none'
+  link.style.display = 'none'
+  // 創建 blob實例，並掛上content-type
+  const blob = new Blob([res.data], {
+    // MIME type
+    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  })
+  // 建立blob 連結，並掛上a tag
+  link.href = URL.createObjectURL(blob)
+  // 設定下載檔案的檔名
+  link.download = res.fileName
+  // 將a tag 掛上DOM
+  document.body.appendChild(link)
+  // js操作點擊a tag
+  link.click()
+  // 移除a tag
+  document.body.removeChild(link)
+  // 釋放URL
+  link.href = URL.revokeObjectURL(blob)
 }
