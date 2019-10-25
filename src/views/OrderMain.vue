@@ -3,7 +3,7 @@
     .scrollWrapper
         OrderSystem
         OrdersHistory
-        el-button.openOrder(type='primary'
+        el-button.add-button(type='primary'
           icon="el-icon-plus"
           @click="showDialog({name:'CreateNewOrder',title:'CreateNewOrder'})") 發起點餐
 </template>

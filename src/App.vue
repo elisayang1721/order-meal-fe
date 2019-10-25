@@ -21,8 +21,12 @@ export default {
         const token = this.$route.query.token
         this.emsToken = token
         this.login()
-      } else {
+      } else if (localStorage.apiToken) {
         this.hasToken = true
+      } else {
+        this.$router.push({
+          path: '/401'
+        })
       }
     }
 

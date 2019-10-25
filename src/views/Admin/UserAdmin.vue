@@ -12,7 +12,7 @@
             :label="item.text"
             :value="item.isEnabled")
       .add
-        el-button.addBtn(
+        el-button.add-button(
           @click.prevet="toggleDialog('add')"
           type="success"
           icon="el-icon-plus") 新增
@@ -152,8 +152,4 @@ export default {
 .tabContainer
   .tableWrapper
     height: 650px
-.adminPanel
-  .addBtn
-    +Bgc($yelColor)
-    border-color: $yelColor
 </style>
