@@ -7,6 +7,7 @@
         .searchType
           .subjectTitle 按訂購時間：
           el-radio-group(v-model="condition.searchByTime" :disabled="condition.searchAll")
+            el-radio(:label="0") 不限
             el-radio(:label="2") 兩週內未訂過
             el-radio(:label="4") 一個月內未訂過
             el-radio(:label="8") 兩個月內未訂過
@@ -16,7 +17,7 @@
             el-checkbox(v-for="type in storeTypes" :label="type.id" :key="type.id") {{type.name}}
       .filterBlock(v-loading="loading")
         el-table(:data="storeList" border style='width: 100%' align="center")
-          el-table-column(prop='name' label='店名' width="80")
+          el-table-column(prop='name' label='店名' width="120")
           el-table-column(prop='description' label='說明')
           el-table-column(label="功能")
             template(slot-scope="scope")
@@ -85,7 +86,7 @@ export default {
         load = ''
       } else {
         load = {
-          inWeek: this.condition.searchByTime,
+          inWeek: this.condition.searchByTime ? this.condition.searchByTime : '',
           types: this.condition.searchByTypes.join(',')
         }
       }
@@ -117,6 +118,10 @@ export default {
 </script>
 <style lang="sass" scoped>
 /deep/.el-button
-  width: 30px
+  +size(30px,30px,null)
   padding: 0 5px
+/deep/.el-checkbox
+  width: 5rem
+  font-size: 1rem
+  margin-right: 10px
 </style>

@@ -9,7 +9,7 @@
             placement="bottom")
             div(slot="content") {菜單分類}
               br
-              | 菜單項目分類.價錢
+              | 菜單項目分類:價錢
               br
               | 菜單項目分類:菜單項目1.價錢,菜單項目2.價錢
               br
@@ -18,7 +18,7 @@
               br
               | {漢堡}
               br
-              | 大麥克.129
+              | 大麥克:129
               br
               br
               | {飲料類}
@@ -72,37 +72,39 @@
               el-input.formatForm(
                 v-model="storeInfo.menuText"
                 type="textarea"
-                placeholder="請輸入菜單內容")
+                :placeholder="placeholder")
               .showForm
-                .menu(v-if="storeInfo.menuJson")
-                  .row
-                    .cell
-                      span 品名
-                    .cell
-                      span 價格
-                  template(v-for="obj in storeInfo.menuJson.list")
+                ScrollBar.formViewFix(v-if="storeInfo.menuJson")
+                  .menu
                     .row
                       .cell
-                        span {{obj.menuType}}
-                    .row(v-for="(item, i) in obj.items" :key="item.cate")
+                        span 品名
                       .cell
-                        span {{item.cate}}
-                      .cell
-                        template(v-if="item.meals.length === 1")
-                          span {{item.meals[0].price}}
-                        template(v-else)
-                          span(v-for="meal in item.meals"
-                          :key="meal.id") {{`${meal.name}${meal.price}`}}
+                        span 價格
+                    template(v-for="obj in storeInfo.menuJson.list")
+                      .row
+                        .cell
+                          span {{obj.menuType}}
+                      .row(v-for="(item, i) in obj.items" :key="item.cate")
+                        .cell
+                          span {{item.cate}}
+                        .cell
+                          template(v-if="item.meals.length === 1")
+                            span {{item.meals[0].price}}
+                          template(v-else)
+                            span(v-for="meal in item.meals"
+                            :key="meal.id") {{`${meal.name}${meal.price}`}}
 
     .commonBtnGroup
-      el-button(@click="closeDialog") 取消
+      el-button(type="danger" @click="closeDialog") 取消
       el-button(
-        type="primary"
+        type="success"
         @click="submit()") {{`${$store.state.prop.action === 'add' ? '新增' : '修改'}`}}
 </template>
 <script>
 // vuex
 import { mapActions } from 'vuex'
+import ScrollBar from '@c/ScrollBar/ScrollBar'
 import axios from 'axios'
 import debounce from 'lodash/debounce'
 import { textToJson, deepClone } from '@js/model'
@@ -141,33 +143,38 @@ export default {
         this.storeType = res.list
       })
     },
-    addStore() {
-      store.addStore(this.storeInfo).then(() => {
-        this.$message({
-          message: '新增店家成功',
-          type: 'success'
-        })
-        this.$bus.$emit('refresh')
-        this.closeDialog()
+    addStore: debounce(vm => {
+      store.addStore(vm.storeInfo).then(() => {
+        vm.submitSuccess()
       })
-    },
-    editStore() {
-      const id = this.$store.state.prop.id
-      store.updateStore(id, this.storeInfo).then(() => {
-        this.$message({
-          message: '編輯店家成功',
-          type: 'success'
-        })
-        this.$bus.$emit('refresh')
-        this.closeDialog()
+    }, 500),
+    updateStore: debounce(vm => {
+      const id = vm.$store.state.prop.id
+      store.updateStore(id, vm.storeInfo).then(() => {
+        vm.submitSuccess()
       })
-    },
+    }, 500),
     submit() {
+      const vm = this
       if (this.$store.state.prop.action === 'add') {
-        this.addStore()
+        this.addStore(vm)
       } else {
-        this.editStore()
+        this.updateStore(vm)
       }
+    },
+    submitSuccess() {
+      let message = ''
+      if (this.$store.state.prop.action === 'add') {
+        message = '新增店家成功'
+      } else {
+        message = '編輯店家成功'
+      }
+      this.$message({
+        message,
+        type: 'success'
+      })
+      this.$bus.$emit('refresh')
+      this.closeDialog()
     },
     errorMessage: debounce(vm => {
       vm.$message({
@@ -201,32 +208,38 @@ export default {
         menuText: null,
         menuJson: null
       },
-      loading: false
+      loading: false,
+      placeholder: '{菜單分類}\n菜單項目分類:價錢\n菜單項目分類:菜單項目1.價錢,菜單項目2.價錢'
     }
+  },
+  components: {
+    ScrollBar
   }
 }
 </script>
 <style lang="sass" scope>
-  .dialoStore
-    +Flex(center,center)
-    flex-direction: column
-    position: relative
-    .title
-      width: 100%
-      +Bgc(#8b8b8b)
-      color: $c1
-      font-size: 1.125rem
-      letter-spacing: 1px
-      text-align: center
-      padding: 1rem 0
-    .storeHead
-      display: flex
-      width: 100%
-      .title:first-child
-        flex: 2
-      .title:last-child
-        flex: 4
-    .storeContent
+.dialoStore
+  +Flex(center,center)
+  flex-direction: column
+  position: relative
+  .title
+    width: 100%
+    +Bgc(#8b8b8b)
+    color: $c1
+    font-size: 1.125rem
+    letter-spacing: 1px
+    text-align: center
+    padding: 1rem 0
+  .storeHead
+    display: flex
+    width: 100%
+    .title:first-child
+      flex: 2
+    .title:last-child
+      flex: 4
+      /deep/.el-tooltip
+        margin-left: 5px
+  .storeContent
       +Flex(center,stretch)
       padding: 1rem 0
       .content
@@ -242,6 +255,11 @@ export default {
           p
             width: 3.25rem
             margin-right: 1rem
+          /deep/.el-checkbox-group
+            padding-left: 20px
+            /deep/.el-checkbox
+              width: 5rem
+              font-size: 1rem
         .showForm, .formatForm
           +size(50%,100%)
         .formatForm
@@ -252,20 +270,23 @@ export default {
         .showForm
           margin-left: .5rem
           border: 1px solid #8b8b8b
-          .menu
-            width: 100%
-            padding: 10px
-            .cell
-              >span
-                margin: 0 5px
+          .formViewFix
+            +size(100%,100%,null)
+            .menu
+              width: 100%
+              padding: 10px
+              .cell
+                padding: .5rem
         .mTop
           margin-top: 1rem
         &:last-child
           margin-bottom: unset
       .contentLeft
         flex: 2
+        height: 620px
       .contentRight
         flex: 4
+        height: 620px
         padding-left: 1rem
         .content
           height: 100%
@@ -274,4 +295,5 @@ export default {
             .el-textarea__inner
               resize: none
               height: 100%
+
 </style>

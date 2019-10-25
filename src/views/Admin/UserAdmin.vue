@@ -16,43 +16,43 @@
           @click.prevet="toggleDialog('add')"
           type="success"
           icon="el-icon-plus") 新增
-
-    el-table(
-      v-loading="loading"
-      :data="adminData"
-      border
-      height="60vh"
-      tyle="width: 100%")
-      el-table-column(
-        prop="memberId"
-        label="帳號")
-      el-table-column(
-        prop="name"
-        label="名稱")
-      el-table-column(
-        prop="isEnabled"
-        label="狀態")
-      el-table-column(
-        prop="updatedOn"
-        label="更新時間"
-        width="300")
-      el-table-column(
-        prop="updatedBy"
-        label="更新者")
-      el-table-column(
-        prop=""
-        label="功能"
-        width="250")
-        template(slot-scope="scope")
-          el-button(
-            @click.prevet="toggleDialog('edit',scope.row)"
-            type="info"
-            icon="el-icon-edit") 編輯
+    .tableWrapper
+      el-table(
+        v-loading="loading"
+        :data="adminData"
+        border
+        tyle="width: 100%")
+        el-table-column(
+          prop="memberId"
+          label="帳號")
+        el-table-column(
+          prop="name"
+          label="名稱")
+        el-table-column(
+          prop="isEnabled"
+          label="狀態")
+        el-table-column(
+          prop="updatedOn"
+          label="更新時間"
+          width="300")
+        el-table-column(
+          prop="updatedBy"
+          label="更新者")
+        el-table-column(
+          prop=""
+          label="功能"
+          width="250")
+          template(slot-scope="scope")
+            el-button(
+              @click.prevet="toggleDialog('edit',scope.row)"
+              type="info"
+              icon="el-icon-edit") 編輯
     el-pagination(
-      v-model="pageNum"
+      :current-page.sync="pageNum"
+      @current-change="getData"
       :total="totalSize"
       layout="prev, pager, next"
-      :page-size="8")
+      :page-size="9")
 
 </template>
 <script>
@@ -75,15 +75,15 @@ export default {
       const init = {
         isEnabled: this.isEnabled,
         page: this.pageNum,
-        pageSize: 10
+        pageSize: 9
       }
       this.loading = true
       admin.getAdminList(init).then(res => {
         const resData = res.list
 
         this.loading = false
-        resData.forEach(list => {
-          list.memberId = list.companyCode + '_' + list.account
+        resData.forEach((list, i) => {
+          resData[i].memberId = list.companyCode + '_' + list.account
         })
         this.totalSize = res.totalSize
         this.adminData = resData
@@ -148,3 +148,8 @@ export default {
   }
 }
 </script>
+<style lang="sass" scoped>
+.tabContainer
+  .tableWrapper
+    height: 650px
+</style>

@@ -1,7 +1,6 @@
 <template lang="pug">
   transition(name="dialog-fade")
-    .dialogFrame(v-if="dialog.length")
-      .dialogBg(@click="closeDialog")
+    .dialogFrame(v-if="dialog.length" @click.self="closeDialog")
       .dialogContent
         .dialogHeader
           .dialogTitle {{componentTitle}}
@@ -68,11 +67,11 @@ export default {
 <style lang="sass" scope>
 .dialogFrame
   @extend %setWrapper
-  .dialogBg
-    +size(100%)
+  +Flex()
   .dialogContent
-    @extend %setCenter
     +Bgc($c1)
+    @media(max-width: 1200px),(max-height: 800px)
+      +size(100%,100%,null)
   .dialogHeader
     +Bgc(#b24242)
     +size(100%,4rem)
@@ -91,9 +90,14 @@ export default {
   .dialogComponent
     padding: 1rem
     overflow: hidden
+    @media(max-width: 1200px),(max-height: 800px)
+      height: calc(100% - 4rem)
     .confirm, .admin
       min-width: 250px
     .scroll
-      max-width: 1000px
-      max-height: 600px
+      max-width: 1200px
+      max-height: 800px
+      @media(max-width: 1200px),(max-height: 800px)
+        max-height: 100%
+        height: 100%
 </style>

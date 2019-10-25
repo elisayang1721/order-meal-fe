@@ -5,10 +5,10 @@
       span 是否刪除
     .btnGroup
       el-button(
-        type="danger"
+        type="success"
         @click="confirm") 確定
       el-button(
-        type="primary"
+        type="danger"
         @click="closeDialog") 取消
 
 </template>

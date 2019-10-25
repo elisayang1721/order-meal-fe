@@ -36,22 +36,23 @@ service.interceptors.response.use(
   },
   error => {
     const { response } = error
-    let text = ''
+    let errorMessage = ''
     // token 過期
     if (response.status === 401) {
       localStorage.removeItem('apiToken')
-      text = '驗證錯誤/驗證已逾期，請重新登入驗證。'
+      errorMessage = '驗證錯誤/驗證已逾期，請重新登入驗證。'
+      window.location.href = '/401'
     }
     // 無權限
     if (response.status === 403) {
-      text = '您無此操作的權限，請聯絡系統管理員。'
+      errorMessage = '您無此操作的權限，請聯絡系統管理員。'
     }
     // 500
     if (response.status === 500) {
-      text = '系統發生內部錯誤，請聯絡系統管理員。'
+      errorMessage = '系統發生內部錯誤，請聯絡系統管理員。'
     }
     Message({
-      message: response.data || text,
+      message: response.data || errorMessage,
       type: 'error'
     })
     // eslint-disable-next-line prefer-promise-reject-errors

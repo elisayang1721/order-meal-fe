@@ -19,10 +19,9 @@ html,body
   justify-content: center
   width: 90px
   
-.el-pagination 
-  +PosAbs(null,null,2rem,50%)
-  transform: translateX(-50%)
-  padding: 0 5px
+.el-pagination
+  +Flex()
+  margin-top: 10px
   .btn-prev, .btn-next
     &:hover
       color: #000
@@ -48,9 +47,10 @@ html,body
     border-color: #8b8b8b
 .el-checkbox__inner
   border-color: #8b8b8b
-.el-input, .el-textarea 
+.el-input, .el-textarea
   flex: 1
   .el-input__inner, .el-textarea__inner
+    font-family: Microsoft JhengHei,Microsoft Yahei,Helvetica,Hiragino Sans GB,"\5FAE\8F6F\96C5\9ED1",Arial,"sans-serif"
     border-color: #8b8b8b
     &::placeholder 
       color: #8b8b8b

@@ -11,15 +11,12 @@
 .tabContainer
   position: relative
   padding: 25px
-  height: 100%
-  min-height: 800px
+  height: calc(100% - 48px)
+  min-height: 700px
   .adminPanel
     +Flex(space-between)
     padding-bottom: 1rem
     font-weight: 700
-    .input
-      .el-input__inner
-        border-radius: 24px
   p 
     width: 3.25rem
     margin-right: 1rem
@@ -27,6 +24,8 @@
     +Flex
   .type
     +Flex
+  .tableWrapper
+    height: 600px
 
 .commonBtnGroup 
   width: 100%
@@ -43,8 +42,10 @@
       +Flex(space-between,center)
       flex: 1
   .listBlock
-    height: calc(100% - 50px)
     overflow: hidden
+    .listTable
+      height: 100%
+      margin-bottom: 20px
     .row
       .cell
         &:first-child,&:nth-child(2),&:last-child

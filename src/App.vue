@@ -17,9 +17,13 @@ export default {
       this.devApi()
     }
     if (process.env.NODE_ENV === 'production') {
-      const token = this.$route.query.token
-      this.emsToken = token
-      this.login()
+      if (this.$route.query.token) {
+        const token = this.$route.query.token
+        this.emsToken = token
+        this.login()
+      } else {
+        this.hasToken = true
+      }
     }
     this.$bus.$on('clearToken', () => {
       this.hasToken = ''
@@ -50,6 +54,8 @@ export default {
           this.emsToken = resp.data.data
           this.login()
         })
+      }).catch(() => {
+        this.loading = false
       })
     },
     login() {
@@ -64,6 +70,7 @@ export default {
         }
         this.loading = false
       }).catch(() => {
+        this.loading = false
         this.$router.push({
           path: '/401'
         })
