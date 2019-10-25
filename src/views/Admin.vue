@@ -35,7 +35,7 @@ export default {
   },
   computed: {
     checkAdmin() {
-      return this.userData || this.userData.isAdmin ? this.tabs : this.tabs.slice(0, -1)
+      return this.userData && this.userData.isAdmin ? this.tabs : this.tabs.slice(0, -1)
     }
   },
   components: {
