@@ -166,9 +166,4 @@ export default {
         color: #000
       .el-switch__label--right
         color: #13ce66
-.dialogFrame
-  .dialogContent
-    @media (max-height: 800px), (max-width: 1200px)
-      width: unset
-      height: unset
 </style>
