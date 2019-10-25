@@ -11,7 +11,7 @@
         ul
           li {{`全部共 ${getSummery.total} 項`}}
           li {{`全部共 ${getSummery.price} 元`}}
-        el-button(type="primary" @click="exportMergeOrder"
+        el-button(type="primary" @click="getDebounce"
           :disabled="checkDisable") 匯出合併訂單
     .listBlock(v-loading="loading")
       .listTable(v-if="checked.length")
@@ -83,18 +83,18 @@ export default {
         this.loading = false
       })
     }, 500),
-    exportMergeOrder() {
-      if (!this.checked.length) {
-        // 若無選擇合併訂單，則return
-        return
-      }
+    getDebounce() {
+      const vm = this
+      this.exportExcel(vm)
+    },
+    exportMergeOrder: debounce(vm => {
       const orderId = {
-        orderId: this.checked
+        orderId: vm.checked
       }
       mergeOrder.exportExcel(orderId).then(res => {
         exportExcel(res)
       })
-    }
+    }, 500)
   },
   watch: {
     'checked': {
