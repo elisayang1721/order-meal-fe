@@ -173,7 +173,6 @@ export default {
 .tabContainer
   /deep/.el-checkbox-group
     margin-left: 30px
-<<<<<<< HEAD
 .search
   /deep/.el-input
     .el-input__inner
@@ -183,10 +182,8 @@ export default {
     .el-input__prefix
       .el-input__icon
         line-height: 32px
-=======
 .adminPanel
   .addBtn
     +Bgc($yelColor)
     border-color: $yelColor
->>>>>>> 191022_lorde_layout
 </style>
