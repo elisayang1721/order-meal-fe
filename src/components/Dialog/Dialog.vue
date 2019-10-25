@@ -69,7 +69,7 @@ export default {
   @extend %setWrapper
   +Flex()
   .dialogContent
-    +Bgc($c1)
+    +Bgc($ligntGray)
     @media(max-width: 1200px),(max-height: 800px)
       +size(100%,100%,null)
   .dialogHeader

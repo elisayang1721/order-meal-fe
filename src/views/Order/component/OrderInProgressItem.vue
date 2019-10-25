@@ -21,7 +21,7 @@
           icon="el-icon-setting"
           @click="toggleDialog('OrderManagement')") 訂單管理
       .content
-        el-button(icon="el-icon-edit"
+        el-button.detailBtn(icon="el-icon-edit"
           @click="toggleDialog('Detail')") 明細
         el-button(type="success" icon="el-icon-potato-strips"
           @click="toggleDialog('Order')") 點餐
@@ -98,9 +98,19 @@ export default {
 </script>
 <style lang="sass" scoped>
   .orderManagementBtn
-    background: #7d6664
-    background: #71412c
-    background: #804c35
+    +Bgc(#804c35)
     border-color: #804c35
     color: #fff
+    &:hover,
+    &:active,
+    &:focus
+      +Bgc(#8c5e49)
+  .detailBtn
+    +Bgc(#999890)
+    border-color: #999890
+    color: #fff
+    &:hover,
+    &:active,
+    &:focus
+      +Bgc(#a8a7a1)
 </style>

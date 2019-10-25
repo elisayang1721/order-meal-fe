@@ -1,5 +1,5 @@
 <template lang="pug">
-  #detail(v-loading="loading")
+  #detail.tableFrame(v-loading="loading")
     .row
       .cell
         span 品項
