@@ -3,11 +3,10 @@
     .adminPanel
       .search
         p 店名 ：
-        el-input.input(
+        el-input(
           v-model="condition.searchByName"
           placeholder="請輸入店名"
           prefix-icon="el-icon-search")
-
       .add
         el-button(
           @click.prevet="toggleDialog('add')"
@@ -19,51 +18,51 @@
         el-checkbox(v-model="condition.searchAll") 全部
         el-checkbox-group(v-model="condition.searchByTypes")
           el-checkbox(v-for="type in storeType" :label="type.id" :key="type.id") {{type.name}}
-    el-table(
-      v-loading="loading"
-      :data="storeData"
-      border
-      height="75%"
-      tyle="width: 100%")
-      el-table-column(
-        prop="name"
-        label="店名")
-      el-table-column(
-        prop="phone"
-        label="電話")
-      el-table-column(
-        prop="address"
-        label="地址"
-        width="75")
-        template(slot-scope="scope")
-          el-tooltip( effect="dark" placement="bottom")
-            div( slot="content") {{scope.row.address}}
-            i.el-icon-location-outline.address
-      el-table-column(
-        prop=""
-        label="評價")
-        template(slot-scope="scope")
-          div Comming Soon
-      el-table-column(
-        prop="updatedOn"
-        label="更新時間"
-        width="300")
-      el-table-column(
-        prop="updatedBy"
-        label="更新者")
-      el-table-column(
-        prop=""
-        label="功能"
-        width="250")
-        template(slot-scope="scope")
-          el-button(
-            @click.prevet="toggleDialog('edit',scope.row)"
-            type="info"
-            icon="el-icon-edit") 編輯
-          el-button(
-            @click.prevet="toggleDialog('delete',scope.row)"
-            type="danger"
-            icon="el-icon-close") 刪除
+    .tableWrapper
+      el-table(
+        v-loading="loading"
+        :data="storeData"
+        border
+        tyle="width: 100%")
+        el-table-column(
+          prop="name"
+          label="店名")
+        el-table-column(
+          prop="phone"
+          label="電話")
+        el-table-column(
+          prop="address"
+          label="地址"
+          width="75")
+          template(slot-scope="scope")
+            el-tooltip( effect="dark" placement="bottom")
+              div( slot="content") {{scope.row.address}}
+              i.el-icon-location-outline.address
+        el-table-column(
+          prop=""
+          label="評價")
+          template(slot-scope="scope")
+            div Comming Soon
+        el-table-column(
+          prop="updatedOn"
+          label="更新時間"
+          width="300")
+        el-table-column(
+          prop="updatedBy"
+          label="更新者")
+        el-table-column(
+          prop=""
+          label="功能"
+          width="250")
+          template(slot-scope="scope")
+            el-button(
+              @click.prevet="toggleDialog('edit',scope.row)"
+              type="info"
+              icon="el-icon-edit") 編輯
+            el-button(
+              @click.prevet="toggleDialog('delete',scope.row)"
+              type="danger"
+              icon="el-icon-close") 刪除
     el-pagination(
       :current-page.sync="pageNum"
       @current-change="getData"
@@ -174,4 +173,13 @@ export default {
 .tabContainer
   /deep/.el-checkbox-group
     margin-left: 30px
+.search
+  /deep/.el-input
+    .el-input__inner
+      height: 32px
+      line-height: 32px
+      border-radius: 4px
+    .el-input__prefix
+      .el-input__icon
+        line-height: 32px
 </style>

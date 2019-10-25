@@ -11,9 +11,10 @@
         ul
           li {{`全部共 ${getSummery.total} 項`}}
           li {{`全部共 ${getSummery.price} 元`}}
-        el-button(type="primary" @click="exportMergeOrder") 匯出合併訂單
+        el-button(type="primary" @click="exportMergeOrder"
+          :disabled="checkDisable") 匯出合併訂單
     .listBlock(v-loading="loading")
-      .listTable
+      .listTable(v-if="checked.length")
         .row
           .cell
             span 訂購人
@@ -40,6 +41,7 @@
 </template>
 <script>
 import ScrollBar from '@c/ScrollBar/ScrollBar'
+import { exportExcel } from '@js/model'
 import mergeOrder from '@api/mergeOrder'
 import debounce from 'lodash/debounce'
 
@@ -61,6 +63,9 @@ export default {
         })
       })
       return { total, price }
+    },
+    checkDisable() {
+      return !this.checked.length
     }
   },
   methods: {
@@ -87,25 +92,7 @@ export default {
         orderId: this.checked
       }
       mergeOrder.exportExcel(orderId).then(res => {
-        // 使用html a tag 將文本掛上a tag 執行download動作
-        // 新增一個a tag
-        const link = document.createElement('a')
-        // 設置display='none'
-        link.style.display = 'none'
-        // 創建 blob實例，並掛上content-type
-        const blob = new Blob([res.data], {
-          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        })
-        // 建立blob 連結，並掛上a tag
-        link.href = URL.createObjectURL(blob)
-        // 設定下載檔案的檔名
-        link.download = res.fileName
-        // 將a tag 掛上DOM
-        document.body.appendChild(link)
-        // js操作點擊a tag
-        link.click()
-        // 移除a tag
-        document.body.removeChild(link)
+        exportExcel(res)
       })
     }
   },

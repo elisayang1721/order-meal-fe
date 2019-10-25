@@ -33,14 +33,15 @@
           active-text="是"
           inactive-text="否")
     .commonBtnGroup
-      el-button(@click="closeDialog") 取消
+      el-button(type="danger" @click="closeDialog") 取消
       el-button(
         @click="sendData"
-        type="primary") 儲存
+        type="success") {{this.$store.state.prop.action === 'add' ? '新增' : '儲存'}}
 </template>
 <script>
 // vuex
 import { mapActions } from 'vuex'
+import debounce from 'lodash/debounce'
 import admin from '@api/admin'
 
 export default {
@@ -67,70 +68,69 @@ export default {
         }
       })
     },
-    sendData() {
-      const action = this.$store.state.prop.action
-      const params = {}
-      const apiData = { ...this.adminData }
-      const id = apiData.id
-      if (action === 'add') {
-        for (const prop in apiData) {
-          params[prop] = apiData[prop]
-        }
-        if (!params.companyAccount.length) {
-          return this.$message({
-            showClose: true,
-            message: '請輸入管理員帳號',
-            type: 'error'
-          })
-        }
-        if (!this.regExpId(params.companyAccount)) {
-          return this.$message({
-            showClose: true,
-            message: '帳號格式有誤，請輸入"公司代號"_"員工編號"',
-            type: 'error'
-          })
-        }
-        admin.addAdmin(params).then(res => {
-          if (res.status === 201) {
-            this.$bus.$emit('refresh')
-            this.closeDialog()
-            return this.$message({
-              showClose: true,
-              message: '帳號新增成功。',
-              type: 'success'
-            })
-          }
-          if (res.status === 400) {
-            return this.$message({
-              showClose: true,
-              message: ' 新增失敗。',
-              type: 'error'
-            })
-          }
-        })
-      } else {
-        for (const prop in apiData) {
-          if (typeof apiData[prop] !== 'boolean') {
-            continue
-          }
-          params[prop] = apiData[prop]
-        }
-        admin.updateAdmin(id, params).then(res => {
-          this.$message({
-            message: '更新成功',
-            type: 'success'
-          })
-          this.$bus.$emit('refresh')
-          this.closeDialog()
+    addAdmin: debounce(vm => {
+      let message = ''
+      let shouldIAdd = true
+      const params = vm.adminData
+      if (!params.companyAccount.length) {
+        message = '請輸入管理員帳號'
+        shouldIAdd = false
+      }
+      if (!vm.regExpId(params.companyAccount)) {
+        message = '帳號格式有誤，請輸入"公司代號"_"員工編號"'
+        shouldIAdd = false
+      }
+      vm.$message({
+        showClose: true,
+        message,
+        type: 'error'
+      })
+      if (shouldIAdd) {
+        admin.addAdmin(params).then(() => {
+          vm.submitSuccess()
         })
       }
+    }, 500),
+    updateAdmin: debounce(vm => {
+      const load = {}
+      const id = vm.adminData.id
+      for (const prop in vm.adminData) {
+        if (typeof vm.adminData[prop] === 'boolean') {
+          load[prop] = vm.adminData[prop]
+        }
+      }
+      admin.updateAdmin(id, load).then(() => {
+        vm.submitSuccess()
+      })
+    }, 500),
+    sendData() {
+      const action = this.$store.state.prop.action
+      const vm = this
+      if (action === 'add') {
+        this.addAdmin(vm)
+      } else {
+        this.updateAdmin(vm)
+      }
+    },
+    submitSuccess() {
+      let message = ''
+      if (this.$store.state.prop.action === 'add') {
+        message = '帳號新增成功'
+      } else {
+        message = '更新成功'
+      }
+      this.$message({
+        message,
+        type: 'success'
+      })
+      this.$bus.$emit('refresh')
+      this.closeDialog()
     },
     regExpId(text) {
       const regex = /_/g
       return regex.test(text)
     }
   },
-  watch: {},
   data() {
     return {
       adminData: {

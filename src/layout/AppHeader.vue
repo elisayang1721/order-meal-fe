@@ -4,12 +4,15 @@
       img(:src="require('@img/oms-icon.svg')")
       span 訂餐系統
     ul.navTabs
-      li(@click="switchRoute('/admin')")
-        el-link(icon="el-icon-s-home") 管理中心
       li
-        el-link(icon="el-icon-user-solid") {{`${userData.memberName} [${userData.account}]`}}
-      li(@click="logout")
-        el-link(icon="el-icon-s-opportunity") 登出
+        el-link(icon="el-icon-s-home"
+          @click="switchRoute('/admin')") 管理中心
+      li
+        el-link.user(icon="el-icon-user-solid"
+          :underline="false") {{`${userData.memberName} [${userData.account}]`}}
+      li
+        el-link(icon="el-icon-s-opportunity"
+          @click.once="logout") 登出
 </template>
 <script>
 import user from '@api/user'
@@ -61,4 +64,7 @@ export default {
     color: #fff
     &:hover
       color: #409EFF
+    &.user:hover
+      cursor: default
+      color: #fff
 </style>
