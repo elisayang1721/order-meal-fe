@@ -2,20 +2,20 @@
   .tabContainer
     .adminPanel
       .search
-        p 店名 ：
+        p 店名:
         el-input.input(
           v-model="condition.searchByName"
           placeholder="請輸入店名"
           prefix-icon="el-icon-search")
 
       .add
-        el-button(
+        el-button.addBtn(
           @click.prevet="toggleDialog('add')"
           type="success"
           icon="el-icon-plus") 新增
     .adminPanel
       .type
-        p 類型 ：
+        p 類型:
         el-checkbox(v-model="condition.searchAll") 全部
         el-checkbox-group(v-model="condition.searchByTypes")
           el-checkbox(v-for="type in storeType" :label="type.id" :key="type.id") {{type.name}}
@@ -174,4 +174,8 @@ export default {
 .tabContainer
   /deep/.el-checkbox-group
     margin-left: 30px
+.adminPanel
+  .addBtn
+    +Bgc($yelColor)
+    border-color: $yelColor
 </style>

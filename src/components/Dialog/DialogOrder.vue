@@ -11,7 +11,7 @@
         span 說明
     template(v-for="obj in menuList")
       .row
-        .cell
+        .cell.menuType
           span {{obj.menuType}}
       .row(v-for="(item, i) in obj.items" :key="item.cate")
         .cell
@@ -140,8 +140,14 @@ export default {
   line-height: 25px
   .el-input-number__decrease,.el-input-number__increase
     line-height: 25px
+/deep/.el-input__inner
+  padding: 0 10px
 /deep/.el-input
   input
-    height: 25px
-    line-height: 25px
+    height: 28px
+    line-height: 28px
+    background: #f7f7f7
+    border-color: $tableLineColor
+#order
+  border-left: 1px solid $tableLineColor
 </style>

@@ -145,11 +145,17 @@ export default {
   .el-input__suffix
     right: 0
 /deep/.el-button
-  padding: 6px 10px
+  padding: 10px
 /deep/.el-switch
   margin: 0 5px
 /deep/.el-textarea
   .el-textarea__inner
+    color: $darkGray
     height: 100%
     resize: none
+    background: #f7f7f7
+    border: 1px solid #efebea
+  .el-input__count
+    color: $darkGray
+    background: #efebea
 </style>

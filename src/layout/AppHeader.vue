@@ -8,8 +8,8 @@
         p 管理中心
       li
         p {{`${userData.memberName} [${userData.account}]`}}
-      li
-        el-button(type='info' @click="logout") 登出
+      //- li
+      //-   el-button(type='info' @click="logout") 登出
 </template>
 <script>
 import user from '@api/user'

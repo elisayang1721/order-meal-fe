@@ -12,7 +12,7 @@
             :label="item.label"
             :value="item.value")
       .add
-        el-button(
+        el-button.addBtn(
           @click.prevet="showDialog({name:'Admin',title:'新增管理員'})"
           type="success"
           icon="el-icon-plus") 新增
@@ -138,3 +138,9 @@ export default {
   }
 }
 </script>
+<style lang="sass">
+.adminPanel
+  .addBtn
+    +Bgc($yelColor)
+    border-color: $yelColor
+</style>

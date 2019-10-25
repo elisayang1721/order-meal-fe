@@ -26,6 +26,7 @@ export default {
       this.emsToken = token
       this.login()
     }
+
     this.$bus.$on('clearToken', () => {
       this.hasToken = ''
       this.emsToken = ''

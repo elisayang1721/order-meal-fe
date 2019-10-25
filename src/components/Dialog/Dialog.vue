@@ -74,14 +74,15 @@ export default {
     @extend %setCenter
     +Bgc($c1)
   .dialogHeader
-    +Bgc(#b24242)
-    +size(100%,4rem)
+    +Bgc($brownC1)
+    +size(100%,3.5rem)
     +Flex(space-between)
     position: relative
     padding: 0 1rem
     .dialogTitle
-      line-height: 4rem
+      line-height: 3.5rem
       color: $c1
+      font-size: 18px
     .close
       cursor: pointer
       position: relative

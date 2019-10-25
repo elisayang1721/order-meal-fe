@@ -34,7 +34,8 @@
   +Flex(flex-end,center)
   position: relative
   padding: .6rem
-  border: 1px solid #000
+  border: 1px solid $tableLineColor
+  color: $darkGray
   .phone
     position: absolute
     left: 10px
@@ -44,15 +45,17 @@
 .row
   display: flex
   width: 100%
+  color: $darkGray
   &:first-child
-    background: #8b8b8b
+    background: $tableHeadColor
     color: #fff
     .cell
-      padding: 1rem 0
+      padding: 0.8rem 0
   .cell
     +Flex(center,center)
     flex-wrap: wrap
-    border: 1px solid #000
+    border-right: 1px solid $tableLineColor
+    border-bottom: 1px solid $tableLineColor
     >span
       text-align: center
     &:first-child
@@ -67,6 +70,9 @@
       +Flex(center,center)
       flex-direction: column
       padding: .6rem
+      // border-left: 1px solid $tableLineColor
+      // &:first-child
+      //   border-left: 0
       >span
         pointer-events: none
       >span:first-child
@@ -103,6 +109,9 @@
         flex: 1
       &:last-child
         flex: 2
+      &.menuType
+        font-weight: 700
+        background: #efebea
   .typeBorder
     padding: .4rem
     border-left: 1px solid #000
@@ -112,23 +121,26 @@
   .managementContent
     width: 100%
     display: flex
+    border: 1px solid $tableLineColor
+    border-right: 0
     .contentBlock
       display: flex
       flex-direction: column
       flex: 1
       .contentNav
         width: 100%
-        background: #8b8b8b
+        background: $tableHeadColor
         color: #fff
         text-align: center
-        border: 1px solid #000
-        padding: 1rem 0
+        border-right: 1px solid $tableLineColor
+        padding: 0.8rem 0
       .content
         height: 100%
         +Flex(center,center)
         flex-direction: column
-        border: 1px solid #000
+        border-right: 1px solid $tableLineColor
         padding: .6rem
+        color: $darkGray
         >ul
           width: 100%
           >li
