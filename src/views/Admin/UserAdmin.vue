@@ -148,16 +148,12 @@ export default {
   }
 }
 </script>
-<<<<<<< HEAD
 <style lang="sass" scoped>
 .tabContainer
   .tableWrapper
     height: 650px
-=======
-<style lang="sass">
 .adminPanel
   .addBtn
     +Bgc($yelColor)
     border-color: $yelColor
->>>>>>> 191022_lorde_layout
 </style>
