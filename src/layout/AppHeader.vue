@@ -6,6 +6,7 @@
     ul.navTabs
       li
         el-link(icon="el-icon-s-home"
+          v-if="checkPermission"
           @click="switchRoute('/admin')") 管理中心
       li
         el-link.user(icon="el-icon-user-solid"
@@ -21,6 +22,12 @@ export default {
   name: 'AppHeader',
   mounted() {
     this.userData = JSON.parse(localStorage.getItem('userData'))
+  },
+  computed: {
+    checkPermission() {
+      const userData = JSON.parse(localStorage.userData)
+      return userData.isAdmin
+    }
   },
   sockets: {
     connect() {
