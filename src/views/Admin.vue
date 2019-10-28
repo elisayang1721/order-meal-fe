@@ -10,13 +10,9 @@ import { StoreManage, UserAdmin, OrderMerge } from './Admin/index'
 
 export default {
   name: 'Admin',
-  mounted() {
-    this.userData = JSON.parse(localStorage.getItem('userData'))
-  },
   data() {
     return {
       active: 'StoreManage',
-      userData: {},
       tabs: [
         {
           name: 'StoreManage',
