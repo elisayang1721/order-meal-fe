@@ -59,7 +59,10 @@ export default {
         this.orderItem = item
         this.orderInfo()
         this.loading = false
-      }))
+      })).catch(() => {
+        // handle 資料不同步問題
+        this.closeDialog()
+      })
     }
   },
   computed: {

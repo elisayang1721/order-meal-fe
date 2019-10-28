@@ -30,6 +30,9 @@ export default {
         })
         this.$bus.$emit('refresh')
         this.closeDialog()
+      }).catch(() => {
+        this.$bus.$emit('refresh')
+        this.closeDialog()
       })
     }
   }
