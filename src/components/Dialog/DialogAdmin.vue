@@ -80,14 +80,16 @@ export default {
         message = '帳號格式有誤，請輸入"公司代號"_"員工編號"'
         shouldIAdd = false
       }
-      vm.$message({
-        showClose: true,
-        message,
-        type: 'error'
-      })
+
       if (shouldIAdd) {
         admin.addAdmin(params).then(() => {
           vm.submitSuccess()
+        })
+      } else {
+        vm.$message({
+          showClose: true,
+          message,
+          type: 'error'
         })
       }
     }, 500),

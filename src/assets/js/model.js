@@ -59,17 +59,14 @@ export function fetchState() {
   return state.prop
 }
 
-export function countDown(date) {
-  const expiredDate = Date.parse(date)
-  const nowDate = Date.parse(new Date())
-  const count = (expiredDate - nowDate) / 1000
-  if (count > 86400) {
-    return Math.ceil(count / 86400) + '天後'
+export function countDown(timestamp) {
+  if (timestamp > 86400) {
+    return Math.ceil(timestamp / 86400) + '天後'
   }
-  if (count > 3600) {
-    return Math.ceil(count / 3600) + '小時後'
+  if (timestamp > 3600) {
+    return Math.ceil(timestamp / 3600) + '小時後'
   }
-  return Math.ceil(count / 60) + '分後'
+  return Math.ceil(timestamp / 60) + '分後'
 }
 
 export function textToJson(data) {

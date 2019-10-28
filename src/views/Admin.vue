@@ -1,6 +1,6 @@
 <template lang="pug">
   .common
-    Tab(:tabs="checkAdmin")
+    Tab(:tabs="tabs")
     component(:is="active")
 </template>
 <script>
@@ -31,11 +31,6 @@ export default {
           title: '管理員權限'
         }
       ]
-    }
-  },
-  computed: {
-    checkAdmin() {
-      return this.userData || this.userData.isAdmin ? this.tabs : this.tabs.slice(0, -1)
     }
   },
   components: {
