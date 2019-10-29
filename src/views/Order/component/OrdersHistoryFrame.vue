@@ -9,6 +9,7 @@
         el-table-column(label="功能")
           template(slot-scope="scope")
             el-button.orderManagementBtn(icon="el-icon-setting"
+              v-if="checkPermission(scope.row.createdByName)"
               @click="orderManagement(scope.row)") 訂單管理
 </template>
 <script>
@@ -19,7 +20,6 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'OrdersHistoryFrame',
-  created() {},
   mounted() {
     this.getRecordsList()
     this.$bus.$on('refreshRecordsList', () => {
@@ -47,6 +47,10 @@ export default {
       }
       injectState(prop)
       this.showDialog(load)
+    },
+    checkPermission(name) {
+      const userData = JSON.parse(localStorage.userData)
+      return name === userData.memberName || userData.isAdmin
     }
   },
   data() {

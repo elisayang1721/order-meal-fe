@@ -18,6 +18,7 @@
       .navHead
         span(:title="neededTitle") {{list.createdByName}}
         el-button.orderManagementBtn(
+          v-if="checkPermission"
           icon="el-icon-setting"
           @click="toggleDialog('OrderManagement')") 訂單管理
       .content
@@ -34,7 +35,8 @@ export default {
   name: 'OrderInProgressItem',
   props: ['list'],
   mounted() {
-    this.countDown = countDown(this.list.finishedOn)
+    this.timestamp = this.list.finishedTime
+    this.countDown = countDown(this.timestamp)
     this.setTimer()
   },
   computed: {
@@ -43,6 +45,10 @@ export default {
     },
     neededTitle() {
       return this.list.createdByName.length > 5 ? this.list.createdByName.length : ''
+    },
+    checkPermission() {
+      const userData = JSON.parse(localStorage.userData)
+      return this.list.createdByName === userData.memberName || userData.isAdmin
     }
   },
   methods: {
@@ -74,8 +80,14 @@ export default {
     },
     timer() {
       this.time = setInterval(() => {
-        this.countDown = countDown(this.list.finishedOn)
-      }, 3600)
+        this.timestamp -= 60
+        if (this.timestamp <= 0) {
+          this.$bus.$emit('refreshSystem')
+          this.stopTimer()
+        } else {
+          this.countDown = countDown(this.timestamp)
+        }
+      }, 60000)
     },
     setTimer() {
       this.timer()
@@ -88,7 +100,8 @@ export default {
   },
   data() {
     return {
-      countDown: ''
+      countDown: null,
+      timestamp: null
     }
   },
   beforeDestroy() {

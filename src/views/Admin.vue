@@ -1,6 +1,6 @@
 <template lang="pug">
   .common
-    Tab(:tabs="checkAdmin")
+    Tab(:tabs="tabs")
     component(:is="active")
 </template>
 <script>
@@ -10,13 +10,9 @@ import { StoreManage, UserAdmin, OrderMerge } from './Admin/index'
 
 export default {
   name: 'Admin',
-  mounted() {
-    this.userData = JSON.parse(localStorage.getItem('userData'))
-  },
   data() {
     return {
       active: 'StoreManage',
-      userData: {},
       tabs: [
         {
           name: 'StoreManage',
@@ -31,11 +27,6 @@ export default {
           title: '管理員權限'
         }
       ]
-    }
-  },
-  computed: {
-    checkAdmin() {
-      return this.userData && this.userData.isAdmin ? this.tabs : this.tabs.slice(0, -1)
     }
   },
   components: {

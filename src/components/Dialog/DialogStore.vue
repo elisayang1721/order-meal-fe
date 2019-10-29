@@ -128,7 +128,10 @@ export default {
         this.storeType = type.list
         this.storeInfo = info
         this.loading = false
-      }))
+      })).catch(() => {
+        this.$bus.$emit('refresh')
+        this.closeDialog()
+      })
     }
   },
   computed: {

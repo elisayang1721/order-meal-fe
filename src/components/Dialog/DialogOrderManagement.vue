@@ -108,11 +108,7 @@ export default {
           message: '訂單更新成功',
           type: 'success'
         })
-        if (vm.orderInfo.status) {
-          vm.getRecordsId()
-        } else {
-          vm.closeDialog()
-        }
+        vm.closeDialog()
         vm.$bus.$emit('refreshSystem')
         vm.$bus.$emit('refreshRecordsList')
       })
