@@ -2,7 +2,7 @@
   .tabContainer
     .adminPanel
       .search
-        p 店名 ：
+        p 店名
         el-input(
           v-model="condition.searchByName"
           placeholder="請輸入店名"
@@ -14,7 +14,7 @@
           icon="el-icon-plus") 新增
     .adminPanel
       .type
-        p 類型:
+        p 類型
         el-checkbox(v-model="condition.searchAll") 全部
         el-checkbox-group(v-model="condition.searchByTypes")
           el-checkbox(v-for="type in storeType" :label="type.id" :key="type.id") {{type.name}}
@@ -170,16 +170,16 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.tabContainer
-  /deep/.el-checkbox-group
-    margin-left: 30px
 .search
   /deep/.el-input
     .el-input__inner
-      height: 32px
-      line-height: 32px
+      height: 36px
+      line-height: 36px
       border-radius: 4px
+      background: $c1
     .el-input__prefix
       .el-input__icon
         line-height: 32px
+/deep/.el-checkbox
+  // margin-right: 20px
 </style>

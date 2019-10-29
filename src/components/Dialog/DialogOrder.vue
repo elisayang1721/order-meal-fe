@@ -1,5 +1,5 @@
 <template lang="pug">
-  #order(v-loading="loading")
+  #order.tableFrame(v-loading="loading")
     .row
       .cell
         span 名稱
@@ -159,13 +159,25 @@ export default {
   line-height: 25px
   .el-input-number__decrease,.el-input-number__increase
     top: 0
-    height: 25px
+    height: 28px
     line-height: 25px
-    border: 1px solid #888
+    background: #efebea
+    &:hover
+      color: $c1
+      background: $tableHeadColor
+  .el-input-number__decrease.is-disabled, .el-input-number__increase.is-disabled
+    color: #C0C4CC
+    background: #efebea
   .el-input-number__decrease
     left: 0
+    border-right: 1px solid $tableLineColor
+    &:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled)
+      border-color: $tableLineColor
   .el-input-number__increase
     right: 0
+    border-left: 1px solid $tableLineColor
+    &:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled)
+      border-color: $tableLineColor
 /deep/.el-input__inner
   padding: 0 10px
 /deep/.el-input
@@ -174,6 +186,4 @@ export default {
     line-height: 28px
     background: #f7f7f7
     border-color: $tableLineColor
-#order
-  border-left: 1px solid $tableLineColor
 </style>

@@ -121,7 +121,12 @@ export default {
   +size(30px,30px,null)
   padding: 0 5px
 /deep/.el-checkbox
-  width: 5rem
+  width: 6rem
   font-size: 1rem
   margin-right: 10px
+  margin-bottom: 2px
+/deep/.el-table
+  td,
+  th
+    padding: .45rem
 </style>

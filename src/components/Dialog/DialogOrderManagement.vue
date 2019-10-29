@@ -1,6 +1,6 @@
 <template lang="pug">
   #orderManagement(v-loading="loading")
-    .managementContent.tableFrame
+    .managementContent
       .contentBlock
         .contentNav 進度設定
         .content
@@ -160,6 +160,8 @@ export default {
       line-height: 24px
   .el-input__suffix
     right: 0
+/deep/.el-button
+  padding: 10px
 /deep/.el-switch
   margin: 0 5px
 /deep/.el-textarea
@@ -167,9 +169,6 @@ export default {
     color: $darkGray
     height: 100%
     resize: none
-  .el-input__count
-    color: $txtGray
-    background: #efebea
 /deep/.el-switch
   flex: 1
   +Flex(space-around)
@@ -180,4 +179,9 @@ export default {
       color: #000
     .el-switch__label--right
       color: #13ce66
+    background: #f7f7f7
+    border: 1px solid #efebea
+  .el-input__count
+    color: $darkGray
+    background: #efebea
 </style>

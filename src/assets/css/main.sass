@@ -42,11 +42,7 @@ html,body
     transition: all .2s 
     &:hover 
       padding-bottom: 1rem
-.el-radio
-  .el-radio__inner
-    border-color: #8b8b8b
-.el-checkbox__inner
-  border-color: #8b8b8b
+
 .el-input, .el-textarea
   flex: 1
   .el-input__inner, .el-textarea__inner
@@ -122,6 +118,41 @@ html,body
   border: 1px solid $tableLineColor
   border-right: 0
 
+// raido checkout 樣式
+.el-checkbox__inner
+  border-color: #e1d8d4
+  background: #efebea
+  background: #fff
+  &:hover
+    border-color: $tableHeadColor
+.el-checkbox__label
+  color: #766f6f
+
+.el-radio
+  .el-radio__inner
+    border-color: #e1d8d4
+    background: #efebea
+    background: #fff
+.el-radio__label
+  color: #766f6f
+
+.el-radio__input.is-checked
+  .el-radio__inner
+    background-color: $tableHeadColor
+    border-color: $tableHeadColor
+  &+.el-radio__label
+    color: $tableHeadColor
+
+.el-checkbox__input.is-checked
+  .el-checkbox__inner
+    background-color: $tableHeadColor
+    border-color: $tableHeadColor
+  &+.el-checkbox__label
+    color: $tableHeadColor
+
+.el-checkbox__input.is-focus
+  .el-checkbox__inner
+    border-color: $tableHeadColor
 
 header
   +Flex(space-between,center)

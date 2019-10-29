@@ -98,13 +98,13 @@ export default {
 </script>
 <style lang="sass" scoped>
   .orderManagementBtn
-    +Bgc(#804c35)
-    border-color: #804c35
+    +Bgc(#94593f)
+    border-color: #94593f
     color: #fff
     &:hover,
     &:active,
     &:focus
-      +Bgc(#8c5e49)
+      +Bgc(#9e6952)
   .detailBtn
     +Bgc(#999890)
     border-color: #999890

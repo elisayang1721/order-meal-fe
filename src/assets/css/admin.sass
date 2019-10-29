@@ -7,25 +7,30 @@
   min-height: 600px
   padding: 20px 0
 
-// tabContainer 
 .tabContainer
   position: relative
-  padding: 25px
-  height: calc(100% - 48px)
+  padding: 20px 25px
+  height: calc(100% - 45px)
   min-height: 700px
   .adminPanel
     +Flex(space-between)
-    padding-bottom: 1rem
+    padding-bottom: 0.85rem
     font-weight: 700
   p 
-    width: 4rem
+    color: $darkGray
+    width: 3rem
     margin-right: 0.5rem
+    font-size: 15px
   .search
     +Flex
   .type
     +Flex
   .tableWrapper
     height: 600px
+  .el-checkbox-group
+    margin-left: 20px
+    .el-checkbox
+      margin-right: 20px
 
 .commonBtnGroup 
   width: 100%
@@ -74,4 +79,6 @@
           display: flex
 
       
-            
+.el-pagination li
+  &.active
+    background-color: $tableHeadColor       
