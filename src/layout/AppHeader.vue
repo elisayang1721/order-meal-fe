@@ -22,11 +22,6 @@ export default {
   mounted() {
     this.userData = JSON.parse(localStorage.getItem('userData'))
   },
-  sockets: {
-    connect() {
-      // console.log('socket connected')
-    }
-  },
   methods: {
     switchRoute(path) {
       if (this.$route.path !== path) {

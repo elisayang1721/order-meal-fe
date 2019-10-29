@@ -35,6 +35,11 @@ export default {
       this.emsToken = ''
     })
   },
+  sockets: {
+    connect() {
+      console.log('socket connected123')
+    }
+  },
   methods: {
     devApi() {
       const data = {
