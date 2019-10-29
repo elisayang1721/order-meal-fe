@@ -29,11 +29,6 @@ export default {
       return userData.isAdmin
     }
   },
-  sockets: {
-    connect() {
-      // console.log('socket connected')
-    }
-  },
   methods: {
     switchRoute(path) {
       if (this.$route.path !== path) {
