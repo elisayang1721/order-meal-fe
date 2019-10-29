@@ -27,6 +27,7 @@ export default {
       // handle 訂單狀態、截止時間更動
       this.$bus.$emit('refreshRecordsList')
       this.$bus.$emit('refreshOrderForm')
+      this.$bus.$emit('refreshSystem')
     }
   },
   methods: {
