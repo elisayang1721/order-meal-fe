@@ -22,6 +22,13 @@ export default {
   mounted() {
     this.userData = JSON.parse(localStorage.getItem('userData'))
   },
+  sockets: {
+    bck_oms() {
+      // handle 訂單狀態、截止時間更動
+      this.$bus.$emit('refreshRecordsList')
+      this.$bus.$emit('refreshOrderForm')
+    }
+  },
   methods: {
     switchRoute(path) {
       if (this.$route.path !== path) {
