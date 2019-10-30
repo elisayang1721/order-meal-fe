@@ -189,4 +189,7 @@ export default {
     line-height: 28px
     background: #f7f7f7
     border-color: $tableLineColor
+#order
+  .confirmBlock
+    border-left: none
 </style>

@@ -32,9 +32,14 @@
     .el-checkbox
       margin-right: 20px
 
-.commonBtnGroup 
+.commonBtnGroup  
+  +Flex(flex-end,center)
+  position: relative
+  padding: .6rem
   width: 100%
-  +Flex
+  background: $c1
+  border-right: 1px solid $tableLineColor
+  border-left: 1px solid $tableLineColor
 
 #OrderMerge
   .infoBlock
@@ -79,6 +84,22 @@
           display: flex
 
       
-.el-pagination li
-  &.active
-    background-color: $tableHeadColor       
+.el-pagination
+  .btn-next,
+  .btn-prev
+    border: 1px solid $tableLineColor
+  .btn-next
+    margin-left: 10px
+  .btn-prev
+    margin-right: 10px
+  button
+    &:disabled
+      // background: #efebea
+  .el-pager
+    border: 1px solid $tableLineColor
+    li
+      &.active
+        background-color: $tableHeadColor  
+      &:hover
+        background-color: #ab9694
+

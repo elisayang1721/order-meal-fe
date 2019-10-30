@@ -1,7 +1,7 @@
 // Dialog限制最小內容寬
 .viewFix
   min-width: 1200px
-  padding: 0 10px
+  // padding: 0 10px
   &.createneworder
     padding: unset
     @media(max-width: 1200px),(max-height: 800px)
@@ -38,7 +38,9 @@
   +Flex(flex-end,center)
   position: relative
   padding: .6rem
+  background: $c1
   border-right: 1px solid $tableLineColor
+  border-left: 1px solid $tableLineColor
   color: $darkGray
   .phone
     position: absolute
@@ -189,6 +191,8 @@
       color: $darkGray
       font-weight: 700
       margin-bottom: 8px
+    .confirmBlock
+      border-left: none
 
 
 #addOrder,#storeInfo,#menuList

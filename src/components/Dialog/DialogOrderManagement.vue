@@ -1,6 +1,6 @@
 <template lang="pug">
   #orderManagement(v-loading="loading")
-    .managementContent
+    .managementContent.tableFrame
       .contentBlock
         .contentNav 進度設定
         .content
@@ -20,8 +20,8 @@
               span 訂單狀態
               .switchBlock
                 el-switch(v-model="orderInfo.status"
-                  active-color="#13ce66"
-                  inactive-color="#ff4949"
+                  active-color="#47975e"
+                  inactive-color="#c75656"
                   active-text="進行"
                   inactive-text="截止")
             li
@@ -165,19 +165,19 @@ export default {
     color: $darkGray
     height: 100%
     resize: none
+  .el-input__count
+    color: $darkGray
+    background: #efebea
 /deep/.el-switch
   flex: 1
   +Flex(space-around)
   .el-switch__label--left
-    color: #ff4949
+    color: #c75656
   &.is-checked
     .el-switch__label--left
-      color: #000
+      color: #766f6f
     .el-switch__label--right
-      color: #13ce66
-    background: #f7f7f7
-    border: 1px solid #efebea
-  .el-input__count
-    color: $darkGray
-    background: #efebea
+      color: #47975e
+/deep/.el-switch__label
+  color: #766f6f
 </style>

@@ -70,8 +70,12 @@ export default {
   &.el-link--default
     color: #fff
     &:hover
-      color: #409EFF
+      color: $yelColor
     &.user:hover
       cursor: default
-      color: #fff
+      color: $c1
+  &.is-underline
+    &:hover
+    &:after
+      border-color: $yelColor
 </style>

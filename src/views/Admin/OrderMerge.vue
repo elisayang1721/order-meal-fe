@@ -9,9 +9,10 @@
             span {{list.orderName.split(',')[1]}}
       .infoDetail
         ul
-          li {{`全部共 ${getSummery.total} 項`}}
-          li {{`全部共 ${getSummery.price} 元`}}
-        el-button(type="primary" @click="getDebounce"
+          li 全部：
+          li {{`共 ${getSummery.total} 項，`}}
+          li {{`共 ${getSummery.price} 元`}}
+        el-button.add-button(type="success" @click="getDebounce"
           :disabled="checkDisable") 匯出合併訂單
     .listBlock(v-loading="loading")
       .listTable(v-if="checked.length")
@@ -126,20 +127,33 @@ export default {
     +Flex(flex-start,strech)
     flex-wrap: wrap
     height: unset
+  .add-button
+    width: 100px
+  .infoDetail
+    ul
+      li
+        display: inline-block
+        &+li
+          margin-left: 8px
 /deep/.el-checkbox-group
   display: flex
   justify-content: flex-start
   flex-wrap: wrap
+  margin-left: 0
   .el-checkbox
     width: 200px
     +Flex()
     margin: .2rem
     padding: .2rem
-    box-shadow: 0px 4px rgba(#000, .6)
+    box-shadow: 0px 4px $brownC2
     border-radius: 4px
-    border: 1px solid #000
+    border: 1px solid $brownC2
+    background: #fff
     .el-checkbox__input
       display: none
+      &.is-checked
+        &+.el-checkbox__label
+          color: $c1
     .el-checkbox__label
       +Flex()
       flex-direction: column
@@ -147,5 +161,6 @@ export default {
     &.is-checked
       box-shadow: unset
       transform: translateY(4px)
-      border-color: #409EFF
+      border-color: $brownC2
+      background: $brownC2
 </style>

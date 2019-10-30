@@ -21,11 +21,11 @@
           el-table-column(prop='description' label='說明')
           el-table-column(label="功能")
             template(slot-scope="scope")
-              el-button(type="primary" icon="el-icon-plus"
+              el-button(type="info" icon="el-icon-plus"
                 @click="toggleAside(scope.row.id, 'AddOrder')")
-              el-button(type="primary" icon="el-icon-potato-strips"
+              el-button(type="info" icon="el-icon-potato-strips"
                 @click="toggleAside(scope.row.id, 'MenuList')")
-              el-button(type="primary" icon="el-icon-info"
+              el-button(type="info" icon="el-icon-info"
                 @click="toggleAside(scope.row.id, 'StoreInfo')")
     .innerBlock
       component(:is="subComponent" :storeId="currentId")
@@ -118,15 +118,20 @@ export default {
 </script>
 <style lang="sass" scoped>
 /deep/.el-button
-  +size(30px,30px,null)
+  +size(30px,28px,null)
   padding: 0 5px
 /deep/.el-checkbox
   width: 6rem
   font-size: 1rem
   margin-right: 10px
-  margin-bottom: 2px
+  margin-bottom: 0.35rem
 /deep/.el-table
   td,
   th
     padding: .45rem
+    font-size: 16px
+  th
+    font-weight: 400
+    >.cell
+      line-height: inherit
 </style>

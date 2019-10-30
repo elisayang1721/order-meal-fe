@@ -47,7 +47,7 @@ export default {
     cursor: pointer
     position: relative
     z-index: 2
-    color: $c2
+    color: $darkGray
     padding: .6rem 1.8rem
     white-space: nowrap
     &:before
@@ -55,7 +55,7 @@ export default {
       +PosAbs(0,0,0,0,-1)
       +Bgc($c1)
       border-radius: 0.5em .5em 0 0
-      box-shadow: 0px 0 10px rgba(0,0,0,.25)
+      box-shadow: 0px 0 8px rgba(0,0,0,.2)
       transform: perspective(12px) rotateX(5deg)
       transition: all .25s ease
     &.active
