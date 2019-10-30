@@ -3,36 +3,37 @@
     .list
       .navHead
         ul
-          li 09/30 (一)
-          li 八方雲集
+          li {{dateFormatter}}
+          li {{myOrderData.storeName}}
       .content
         ul
-          li {{`酸辣湯餃 $70 x1 不加醋`}}
-          li {{`酸辣湯餃 $70 x1 不加醋`}}
-          li {{`酸辣湯餃 $70 x1 不加醋`}}
-          li {{`酸辣湯餃 $70 x1 不加醋`}}
-          li {{`酸辣湯餃 $70 x1 不加醋`}}
+          li(v-for="(meal, i) in myOrderData.meals"
+            :key="i") {{`${meal.item} ${meal.remark ? meal.remark: ''}`}}
         //- el-button(type="primary") 評比
 </template>
 <script>
 export default {
   name: 'OrdersItem',
-  created() {},
-  mounted() {},
-  computed: {},
-  methods: {},
-  watch: {},
-  data() {
-    return {}
-  },
-  components: {}
+  props: ['myOrderData'],
+  computed: {
+    dateFormatter() {
+      const date = this.myOrderData.createdOn
+      const weekNum = ['日', '一', '二', '三', '四', '五', '六']
+      const d = new Date(date)
+      const mm = d.getMonth() + 1
+      const dd = d.getDate()
+      const day = d.getDay()
+      return `${mm.toString().padStart(2, '0')}/${dd.toString().padStart(2, '0')} (${weekNum[day]})`
+    }
+  }
 }
 </script>
 <style lang="sass" scoped>
   .itemWrapper
     height: unset
+    min-height: 120px
     +BrdRad(8px,8px,0,0)
     .list
       .navHead
-        background-color: #8b8b8b
+        background-color: $tableHeadColor
 </style>

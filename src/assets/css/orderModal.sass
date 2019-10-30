@@ -1,7 +1,11 @@
-// 限制最小內容寬  
+// Dialog限制最小內容寬
 .viewFix
-  min-width: 800px
+  min-width: 1200px
   padding: 0 10px
+  &.createneworder
+    padding: unset
+    @media(max-width: 1200px),(max-height: 800px)
+      height: 100%
 
 .font-blue
   color: #5A5AAD
@@ -16,19 +20,49 @@
 .border-red
   border: 2px solid red
 
+// tool tips
+.explanation
+  +Flex(flex-start,flex-start)
+  flex-direction: column
+  li
+    +Flex()
+    line-height: 24px
+    span
+      font-size: 14px
+    >span:first-child
+      display: inline-block
+      +size(60px,20px,null)
+
+
+.confirmBlock
+  +Flex(flex-end,center)
+  position: relative
+  padding: .6rem
+  border: 1px solid $tableLineColor
+  color: $darkGray
+  .phone
+    position: absolute
+    left: 10px
+    >i
+      margin-right: 5px
 
 .row
   display: flex
   width: 100%
+  color: $darkGray
   &:first-child
-    background: #8b8b8b
+    background: $tableHeadColor
     color: #fff
     .cell
-      padding: 1rem 0
+      padding: 0.8rem 0
   .cell
     +Flex(center,center)
     flex-wrap: wrap
-    border: 1px solid #000
+    border-right: 1px solid $tableLineColor
+    border-bottom: 1px solid $tableLineColor
+    >span
+      text-align: center
+      margin: 0 5px
     &:first-child
       flex: 1
     &:nth-child(2),&:nth-child(3)
@@ -36,11 +70,14 @@
     &:last-child
       flex: 3
     .subscriberCell
-      width: calc(100% / 3)
+      width: calc(100% / 5)
       height: 60px
       +Flex(center,center)
       flex-direction: column
       padding: .6rem
+      // border-left: 1px solid $tableLineColor
+      // &:first-child
+      //   border-left: 0
       >span
         pointer-events: none
       >span:first-child
@@ -48,51 +85,24 @@
       .editBlock
         display: none
       &.hasPermission:hover
-        span:nth-child(2)
+        >span:nth-child(2)
           display: none
         .editBlock
           +Flex(space-between,center)
+          >button:last-child
+            display: none
+          &.confirmDelete
+            >button
+              display: none
+              &:last-child
+                display: inline-flex
+                width: auto
+            
     >div
       +Flex()
       position: relative
-      .explanationBlock
-        +PosAbs(-5px,-30px,null,null,null)
-        +size(24px,24px,null)
-        +Flex()
-        border-radius: 50%
-        background: #000
-        cursor: pointer
-        .explanation
-          display: none
-        &:hover
-          >ul
-            +Flex(flex-start,flex-start)
-            flex-direction: column
-            +PosAbs(null,null,-75px,50%,1)
-            transform: translate(-50%,50%)
-            width: 380px
-            border-radius: 5px
-            border: 1px solid #000
-            color: #000
-            background: #fff
-            padding: .6rem
-            &::after
-              content: ''
-              +size(0,0,null)
-              +PosAbs(-4px,null,null,50%,1)
-              transform: translate(-50%,-50%)
-              filter: drop-shadow(0px -1px 0px #8b8b8b)
-              border-style: solid
-              border-width: 0 10px 12px 10px
-              border-color: transparent transparent #fff transparent
-            li
-              +Flex()
-              line-height: 24px
-              span
-                font-size: 14px
-              >span:first-child
-                display: inline-block
-                +size(60px,20px,null)
+    .radio
+      line-height: 24px
   .flexFix
     +Flex(flex-start,flex-start)
 
@@ -106,14 +116,13 @@
         flex: 1
       &:last-child
         flex: 2
+      &.menuType
+        font-weight: 700
+        background: #efebea
   .typeBorder
     padding: .4rem
     border-left: 1px solid #000
     border-right: 1px solid #000
-  .confirmBlock
-    +Flex(flex-end,center)
-    padding: .6rem
-    border: 1px solid #000
 
 #orderManagement
   .managementContent
@@ -125,17 +134,18 @@
       flex: 1
       .contentNav
         width: 100%
-        background: #8b8b8b
+        background: $tableHeadColor
         color: #fff
         text-align: center
-        border: 1px solid #000
-        padding: 1rem 0
+        border-right: 1px solid $tableLineColor
+        padding: 0.8rem 0
       .content
         height: 100%
         +Flex(center,center)
         flex-direction: column
-        border: 1px solid #000
+        border-right: 1px solid $tableLineColor
         padding: .6rem
+        color: $txtGray
         >ul
           width: 100%
           >li
@@ -146,19 +156,13 @@
               margin-right: 10px
             .switchBlock
               display: inline-block
-        >textarea
-          +size(200px,90px,null)
-          resize: none
         .alignStart
           align-self: flex-start
-  .confirmBlock
-    +Flex(flex-end,center)
-    padding: .6rem
-    border: 1px solid #000
 
 #newOrder
   display: flex
-  width: 100%
+  +size(100%,100%,null)
+  position: relative
   &::after
     content: ''
     +size(1px,100%,null)
@@ -168,9 +172,22 @@
     left: 50%
     transform: translateX(-50%)
   .innerBlock
-    +size(100%,600px,null)
+    +size(100%,800px,null)
     position: relative
     display: flex
     flex-direction: column
     flex: 1
-    padding: 0 10px
+    &:first-child
+      padding-right: 10px
+    &:last-child
+      padding-left: 10px
+    @media(max-width: 1200px),(max-height: 800px)
+      height: 100%
+    .filterCondition,.searchType,.subjectTitle
+      margin-bottom: 10px
+
+
+#addOrder,#storeInfo,#menuList
+  .row
+    .cell
+      padding: .4rem

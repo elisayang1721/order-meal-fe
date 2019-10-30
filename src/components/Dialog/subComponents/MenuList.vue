@@ -1,18 +1,47 @@
 <template lang="pug">
- #menuList MenuList {{storeId}}
+  ScrollBar#menuList(v-if="menu.length")
+    .row
+      .cell
+        span 品名
+      .cell
+        span 價格
+    template(v-for="obj in menu")
+      .row
+        .cell
+          span {{obj.menuType}}
+      .row(v-for="(item, i) in obj.items" :key="item.cate")
+        .cell
+          span {{item.cate}}
+        .cell
+          template(v-if="item.meals.length === 1")
+            span {{item.meals[0].price}}
+          template(v-else)
+            span(v-for="meal in item.meals" :key="meal.id") {{`${meal.name} ${meal.price}`}}
 </template>
 <script>
+import ScrollBar from '@c/ScrollBar/ScrollBar'
+import store from '@api/store'
+
 export default {
   name: 'MenuList',
   props: ['storeId'],
-  created() {},
-  mounted() {},
-  computed: {},
-  methods: {},
-  watch: {},
-  data() {
-    return {}
+  mounted() {
+    this.getMenus()
   },
-  components: {}
+  methods: {
+    getMenus() {
+      store.getStoreMenu(this.storeId).then(res => {
+        this.menu = res.list
+      })
+    }
+  },
+  data() {
+    return {
+      menu: []
+    }
+  },
+  components: {
+    ScrollBar
+  }
 }
 </script>

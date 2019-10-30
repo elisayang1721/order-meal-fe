@@ -1,83 +1,81 @@
 <template lang="pug">
-  section.ps-container(:is="$props.tagname" @mouseover.once="update" v-on="$listeners")
+  section.smooth-scroll
     slot
 </template>
 <script>
-import PerfectScrollbar from 'perfect-scrollbar'
-import 'perfect-scrollbar/css/perfect-scrollbar.css'
+import ScrollBar from 'smooth-scrollbar'
+import OverscrollPlugin from 'smooth-scrollbar/plugins/overscroll'
 
 export default {
   name: 'ScrollBar',
   props: {
-    settings: {
+    overscroll: {
       default: undefined
     },
-    tagname: {
-      type: String,
-      default: 'section'
+    dom: {
+      default: null
     }
   },
   data() {
     return {
-      ps: null
+      scroll: null,
+      position: []
     }
+  },
+  mounted() {
+    this.init()
   },
   methods: {
-    update() {
-      if (this.ps) {
-        this.ps.update()
+    init() {
+      const vue = this
+      if (!this.scroll) {
+        let option = {
+          plugins: {
+            overscroll: {
+              effect: 'glow'
+            }
+          }
+        }
+        if (this.overscroll) {
+          ScrollBar.use(OverscrollPlugin)
+          option = {
+            plugins: {
+              overscroll: {
+                onScroll(position) {
+                  vue.checkIfReachEnd(position)
+                },
+                effect: 'glow'
+              }
+            }
+          }
+        }
+        this.scroll = ScrollBar.init(this.$el, option)
       }
     },
-
-    __init() {
-      if (!this.ps) {
-        this.ps = new PerfectScrollbar(this.$el, this.settings)
+    checkIfReachEnd(p) {
+      if (!p.y && this.position[this.position.length - 1] > 0) {
+        const event = new Event('reachEnd')
+        this.dom.dispatchEvent(event)
+        this.position = []
+      } else {
+        this.position.push(p.y)
       }
     },
-
-    __uninit() {
-      if (this.ps) {
-        this.ps.destroy()
-        this.ps = null
+    uninit() {
+      if (this.scroll) {
+        this.scroll.destroy()
+        this.scroll = null
       }
     }
   },
-
-  watch: {
-    $route() {
-      this.update()
-    }
-  },
-
-  mounted() {
-    // for support ssr
-    if (!this.$isServer) {
-      this.__init()
-    }
-    window.addEventListener('resize', () => {
-      this.update()
-    })
-  },
-
-  updated() {
-    this.$nextTick(this.update)
-  },
-
-  activated() {
-    this.__init()
-  },
-
-  deactivated() {
-    this.__uninit()
-  },
-
   beforeDestroy() {
-    this.__uninit()
-    window.removeEventListener('resize', () => {})
+    this.uninit()
   }
 }
 </script>
-<style lang="sass">
-.ps-container
+<style lang="sass" scoped>
+.smooth-scroll
   position: relative
+  /deep/.scroll-content
+    +size(100%,100%,null)
 </style>

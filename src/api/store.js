@@ -1,3 +1,4 @@
+import { assemblyParams } from '@js/model'
 import Axios from './service'
 // import store from '../vuex/store'
 
@@ -17,10 +18,10 @@ export default {
       data
     })
   },
-  addStore(id, data) {
+  addStore(data) {
     // 新增店家
     return Axios({
-      url: `/stores/${id}`,
+      url: '/stores',
       method: 'post',
       data
     })
@@ -28,14 +29,15 @@ export default {
   getStoreId(id) {
     // 取得單筆店家(完整)
     return Axios({
-      url: `/stores/${id}`,
+      url: `/storeDetails/${id}`,
       method: 'get'
     })
   },
-  getStoreList() {
+  getStoreList(data) {
+    const apiUrl = assemblyParams(data)
     // 取得店家列表
     return Axios({
-      url: '/stores?name=炒麵&page=5&pageSize=10&sort=DESC&sortName=id&types=1,2,9',
+      url: `/stores?${apiUrl}`,
       method: 'get'
     })
   },

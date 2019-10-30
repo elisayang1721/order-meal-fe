@@ -1,7 +1,8 @@
 <template lang="pug">
   transition(name="dialog-fade")
-    .dialogFrame(v-if="componentName")
-      .dialogBg(@click="closeDialog")
+    .dialogFrame(v-if="dialog.length"
+      @click.self="closeDialog"
+      :class="{'smallDialog': checkSmallDialog}")
       .dialogContent
         .dialogHeader
           .dialogTitle {{componentTitle}}
@@ -27,56 +28,71 @@ export default {
   components: {
     ScrollBar
   },
-  mounted() {
-    this.dailogFixed(true)
-  },
   computed: {
     ...mapState(['dialog']),
     componentName() {
-      return this.dialog.name
+      const maxlength = this.dialog.length - 1
+      return this.dialog[maxlength].name
     },
     componentTitle() {
-      return this.dialog.title
+      const maxlength = this.dialog.length - 1
+      return this.dialog[maxlength].title
+    },
+    checkSmallDialog() {
+      const name = this.$store.state.dialog[0].name
+      return name === 'DialogConfirm' || name === 'DialogAdmin'
     }
   },
   methods: {
     ...mapActions(['closeDialog']),
-    dailogFixed(status) {
+    dailogFixed(name) {
       const html = document.getElementsByTagName('html')
-      if (status) {
+      if (name) {
         html[0].classList.add('noScroll')
       } else {
         html[0].classList.remove('noScroll')
       }
     },
     sliceName() {
-      const name = this.dialog.name
+      const maxlength = this.dialog.length - 1
+      const name = this.dialog[maxlength].name
       const className = name.toLowerCase().split('dialog')
       return className
     }
   },
-  beforeDestroy() {
-    this.dailogFixed()
+  watch: {
+    'dialog': {
+      handler(val) {
+        this.dailogFixed(val.name)
+      },
+      deep: true
+    }
   }
 }
 </script>
 <style lang="sass" scope>
 .dialogFrame
   @extend %setWrapper
-  .dialogBg
-    +size(100%)
+  +Flex()
   .dialogContent
-    @extend %setCenter
-    +Bgc($c1)
+    +Bgc($ligntGray)
+    @media(max-width: 1200px),(max-height: 800px)
+      +size(100%,100%,null)
+  &.smallDialog
+    .dialogContent
+      @media(max-width: 1200px),(max-height: 800px)
+        width: unset
+        height: unset
   .dialogHeader
-    +Bgc(#b24242)
-    +size(100%,4rem)
+    +Bgc($brownC1)
+    +size(100%,3.5rem)
     +Flex(space-between)
     position: relative
     padding: 0 1rem
     .dialogTitle
-      line-height: 4rem
+      line-height: 3.5rem
       color: $c1
+      font-size: 18px
     .close
       cursor: pointer
       position: relative
@@ -86,9 +102,14 @@ export default {
   .dialogComponent
     padding: 1rem
     overflow: hidden
+    @media(max-width: 1200px),(max-height: 800px)
+      height: calc(100% - 4rem)
     .confirm, .admin
       min-width: 250px
     .scroll
-      max-width: 1000px
-      max-height: 600px
+      max-width: 1200px
+      max-height: 800px
+      @media(max-width: 1200px),(max-height: 800px)
+        max-height: 100%
+        height: 100%
 </style>

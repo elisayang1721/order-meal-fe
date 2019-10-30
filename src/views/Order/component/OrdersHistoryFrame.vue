@@ -1,163 +1,71 @@
 <template lang="pug">
-  ScrollBar.listContainer(id="OrdersHistoryFrame")
+  ScrollBar.listContainer(id="OrdersHistoryFrame" v-loading="loading")
     .contentViewFix
       el-table(:data='orderHistoryList' border style='width: 100%' align="center")
-        el-table-column(prop='date' label='發起時間' width='180')
-        el-table-column(prop='restaurant' label='店家名稱' width='180')
-        el-table-column(prop='owner' label='負責人')
+        el-table-column(prop='createdOn' label='發起時間')
+        el-table-column(prop='name' label='店家名稱')
+        el-table-column(prop='createdByName' label='負責人')
         el-table-column(prop='status' label='狀態')
         el-table-column(label="功能")
-          el-button(type="primary" icon="el-icon-setting"
-            @click="showDialog({name:'OrderManagement',title:'Owner - 店名(電話) - 訂單管理'})") 訂單管理
+          template(slot-scope="scope")
+            el-button.orderManagementBtn(icon="el-icon-setting"
+              @click="orderManagement(scope.row)") 訂單管理
 </template>
 <script>
+import history from '@api/history'
+import { injectState } from '@js/model'
 import ScrollBar from '@c/ScrollBar/ScrollBar'
 import { mapActions } from 'vuex'
 
 export default {
   name: 'OrdersHistoryFrame',
   created() {},
-  mounted() {},
-  computed: {},
-  methods: {
-    ...mapActions(['showDialog'])
+  mounted() {
+    this.getRecordsList()
+    this.$bus.$on('refreshRecordsList', () => {
+      this.getRecordsList()
+    })
   },
-  watch: {},
+  methods: {
+    ...mapActions(['showDialog']),
+    getRecordsList() {
+      this.loading = true
+      history.getRecordsList().then(res => {
+        this.orderHistoryList = res.list
+        this.loading = false
+      })
+    },
+    orderManagement(row) {
+      const load = {
+        name: 'OrderManagement',
+        title: `${row.createdByName} - ${row.name} - 訂單管理`
+      }
+      const prop = {
+        id: row.id,
+        storeId: row.storeId,
+        owner: row.createByName
+      }
+      injectState(prop)
+      this.showDialog(load)
+    }
+  },
   data() {
     return {
-      orderHistoryList: [
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        },
-        {
-          date: '2019/09/30 15:00',
-          restaurant: '八方雲集',
-          owner: '裕介',
-          status: '已結束'
-        }
-      ]
+      orderHistoryList: [],
+      loading: false
     }
   },
   components: {
     ScrollBar
+  },
+  beforeDestroy() {
+    this.$bus.$off('refreshRecordsList')
   }
 }
 </script>
 <style lang="sass" scoped>
   .listContainer
     .contentViewFix
-      min-width: 800px
       /deep/th,/deep/td
         text-align: center
 </style>

@@ -34,6 +34,7 @@ module.exports = {
               '@v': path.resolve('./src/views'),
               '@css': path.resolve('./src/assets/css'),
               '@mix': path.resolve('./src/assets/mixins'),
+              '@js': path.resolve('./src/assets/js'),
               '@api': path.resolve('./src/api')
             },
             extensions: ['.js', '.vue']
@@ -94,6 +95,7 @@ module.exports = {
     'import/extensions': [2, 'never', {
       'vue': 'never'
     }],
-    'semi': ['error', 'never']
+    'semi': ['error', 'never'],
+    'func-names': ["error", "never"]
   }
 }

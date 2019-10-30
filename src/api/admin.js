@@ -1,11 +1,12 @@
+import { assemblyParams } from '@js/model'
 import Axios from './service'
-// import store from '../vuex/store'
 
 export default {
-  getAdminList() {
+  getAdminList(data) {
+    const apiUrl = assemblyParams(data)
     // 取得管理員列表
     return Axios({
-      url: '/admins?isEnabled=true&page=5&pageSize=10',
+      url: `/admins?${apiUrl}`,
       method: 'get'
     })
   },
@@ -22,7 +23,6 @@ export default {
       url: '/admins',
       method: 'post',
       data
-
     })
   },
   updateAdmin(id, data) {

@@ -25,7 +25,6 @@ export default {
       this.active = item
     }
   },
-  watch: {},
   data() {
     return {
       active: ''
@@ -41,29 +40,29 @@ export default {
   z-index: 5
   &:before
     content: ''
-    +size(100%,5px)
-    +PosAbs(null,0,-5px,0,99)
-    +Bgc(#8b8b8b)
+    +size(100%,3px)
+    +PosAbs(null,0,-3px,0,99)
+    +Bgc($brownC2)
   .commonTab
     cursor: pointer
     position: relative
     z-index: 2
     color: $c2
-    padding: 1rem 3rem
+    padding: .6rem 1.8rem
     white-space: nowrap
     &:before
       content: ''
       +PosAbs(0,0,0,0,-1)
       +Bgc($c1)
       border-radius: 0.5em .5em 0 0
-      box-shadow: 0px -5px 10px 1px rgba(0,0,0,.25)
+      box-shadow: 0px 0 10px rgba(0,0,0,.25)
       transform: perspective(12px) rotateX(5deg)
       transition: all .25s ease
     &.active
       color: $c1
       z-index: 98 !important
       &:before
-        +Bgc(#8b8b8b)
+        +Bgc($brownC2)
     &:first-of-type
       margin-left: 1.5rem
 </style>

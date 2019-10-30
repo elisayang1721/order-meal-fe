@@ -1,6 +1,8 @@
 <template lang="pug">
-  #storeInfo
-    .row 店家資訊
+  ScrollBar#storeInfo
+    .row
+      .cell
+        span 店家資訊
     .row
       .cell
         span 店家
@@ -15,7 +17,7 @@
       .cell
         span 地址
       .cell
-        span {{store.addrress}}
+        span {{store.address}}
     .row
       .cell
         span 簡介
@@ -38,28 +40,29 @@
         span {{store.updatedOn}}
 </template>
 <script>
+import ScrollBar from '@c/ScrollBar/ScrollBar'
+import orderForm from '@api/orderForm'
+
 export default {
   name: 'StoreInfo',
   props: ['storeId'],
-  created() {},
-  mounted() {},
-  computed: {},
-  methods: {},
-  watch: {},
-  data() {
-    return {
-      store: {
-        'id': 1,
-        'name': '條條有理',
-        'phone': '0912345678',
-        'addrress': '台中市精誠路308號(近大墩11街口)',
-        'description': null,
-        'remark': null,
-        'updatedBy': '松庭',
-        'updatedOn': '2018-08-07 15:00'
-      }
+  mounted() {
+    this.getStoreInfo()
+  },
+  methods: {
+    getStoreInfo() {
+      orderForm.getStoreInfoId(this.storeId).then(res => {
+        this.store = res
+      })
     }
   },
-  components: {}
+  data() {
+    return {
+      store: {}
+    }
+  },
+  components: {
+    ScrollBar
+  }
 }
 </script>

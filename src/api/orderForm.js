@@ -1,18 +1,19 @@
+import { assemblyParams } from '@js/model'
 import Axios from './service'
-// import store from '../vuex/store'
 
 export default {
   getOrderForm() {
     // 取得進行中訂單列表
     return Axios({
-      url: '/orders',
+      url: '/orders?isOpening=true',
       method: 'get'
     })
   },
-  getStoreInfos() {
+  getStoreInfos(data) {
+    const apiUrl = assemblyParams(data)
     // 取得店家簡介列表
     return Axios({
-      url: '/storeInfos?page=5&pageSize=10',
+      url: `/storeInfos?${apiUrl}`,
       method: 'get'
     })
   },
@@ -24,7 +25,7 @@ export default {
     })
   },
   updateOrderForm(id, data) {
-    // 訂單更新
+    // 更新訂單
     return Axios({
       url: `/orders/${id}`,
       method: 'patch',
@@ -35,7 +36,7 @@ export default {
     // 新增訂單
     return Axios({
       url: '/orders',
-      method: 'get',
+      method: 'post',
       data
     })
   }

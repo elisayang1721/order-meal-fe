@@ -2,51 +2,115 @@
   .itemWrapper
     .list.left
       .navHead
-        .restaurantName 數字嵐
-        .deadLine 截止於：三分後
+        .restaurantName {{list.name}}
+        .deadLine 截止於：{{countDown}}
       .content
         .amount
           .amountTitle 總數
-          span 123
+          span {{list.totalAmount}}
         .amount
           .amountTitle 金額
           span {{addComma}}
+        .amount(v-if="list.bulletin")
+          .amountTitle 公告事項
+          span(:title="list.bulletin") {{list.bulletin}}
     .list.right
       .navHead
-        span(:title="name.length > 5 ? name : ''") {{name}}
-        span /
-        el-button(type="warning"
+        span(:title="neededTitle") {{list.createdByName}}
+        el-button.orderManagementBtn(
           icon="el-icon-setting"
-          @click="showDialog({name:'OrderManagement',title:'Owner - 店名(電話) - 訂單管理'})") 訂單管理
+          @click="toggleDialog('OrderManagement')") 訂單管理
       .content
-        el-button(icon="el-icon-edit"
-          @click="showDialog({name:'Detail',title:'Owner - 店名(電話) - 訂單明細'})") 明細
+        el-button.detailBtn(icon="el-icon-edit"
+          @click="toggleDialog('Detail')") 明細
         el-button(type="success" icon="el-icon-potato-strips"
-          @click="showDialog({name:'Order',title:'我也要訂 - ＸＸＸ'})") 點餐
+          @click="toggleDialog('Order')") 點餐
 </template>
 <script>
+import { injectState, countDown } from '@js/model'
 import { mapActions } from 'vuex'
 
 export default {
   name: 'OrderInProgressItem',
-  props: ['listData'],
-  created() {},
-  mounted() {},
+  props: ['list'],
+  mounted() {
+    this.countDown = countDown(this.list.finishedOn)
+    this.setTimer()
+  },
   computed: {
     addComma() {
-      return '$' + this.amount.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+      return '$' + this.list.totalPrice.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+    },
+    neededTitle() {
+      return this.list.createdByName.length > 5 ? this.list.createdByName.length : ''
     }
   },
   methods: {
-    ...mapActions(['showDialog'])
-  },
-  watch: {},
-  data() {
-    return {
-      amount: 2000,
-      name: '我是誰誰誰誰誰誰'
+    ...mapActions(['showDialog']),
+    toggleDialog(cName) {
+      let title
+      if (cName === 'OrderManagement') {
+        title = `${this.list.createdByName} - ${this.list.name} - 訂單管理`
+      } else if (cName === 'Detail') {
+        title = `${this.list.createdByName} - ${this.list.name} - 訂單明細`
+      } else {
+        title = `我也要訂 - ${this.list.name}`
+      }
+      const load = {
+        name: cName,
+        title
+      }
+      const prop = {
+        id: this.list.id,
+        storeId: this.list.storeId,
+        storeName: this.list.name,
+        owner: this.list.createdByName
+      }
+      if (cName === 'Order') {
+        prop.action = 'order'
+      }
+      injectState(prop)
+      this.showDialog(load)
+    },
+    timer() {
+      this.time = setInterval(() => {
+        this.countDown = countDown(this.list.finishedOn)
+      }, 3600)
+    },
+    setTimer() {
+      this.timer()
+    },
+    stopTimer() {
+      if (this.time) {
+        clearInterval(this.time)
+      }
     }
   },
-  components: {}
+  data() {
+    return {
+      countDown: ''
+    }
+  },
+  beforeDestroy() {
+    this.stopTimer()
+  }
 }
 </script>
+<style lang="sass" scoped>
+  .orderManagementBtn
+    +Bgc(#804c35)
+    border-color: #804c35
+    color: #fff
+    &:hover,
+    &:active,
+    &:focus
+      +Bgc(#8c5e49)
+  .detailBtn
+    +Bgc(#999890)
+    border-color: #999890
+    color: #fff
+    &:hover,
+    &:active,
+    &:focus
+      +Bgc(#a8a7a1)
+</style>

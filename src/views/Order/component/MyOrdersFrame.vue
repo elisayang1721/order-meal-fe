@@ -1,49 +1,70 @@
 <template lang="pug">
-  ScrollBar.listContainer(id="myOrdersFrame" @ps-y-reach-end="reachEnd")
+  ScrollBar.listContainer(id="myOrdersFrame"
+    :overscroll="true",
+    :dom="$el")
     .contentViewFix
-      OrdersItem(v-for="i in myOrdersList.length" :key="i")
+      OrdersItem(v-for="(obj, i) in myOrdersList" :key="i" :myOrderData="obj")
     .loading(v-loading="loading")
 </template>
 <script>
+import order from '@api/order'
 import ScrollBar from '@c/ScrollBar/ScrollBar'
 import OrdersItem from './OrdersItem'
 
 export default {
   name: 'MyOrdersFrame',
-  created() {},
-  mounted() {},
-  computed: {},
+  mounted() {
+    this.getList()
+    this.$bus.$on('refreshMyorder', () => {
+      this.refreshList()
+    })
+    this.$el.addEventListener('reachEnd', () => {
+      this.reachEnd()
+    })
+  },
   methods: {
     reachEnd() {
-      if (this.myOrdersList.length < 30) {
-        this.loading = true
-        setTimeout(() => {
-          for (let i = 0; i < 7; i++) {
-            this.myOrdersList.push('1')
-          }
-          this.loading = false
-        }, 2000)
+      // call API to get more orderList
+      if (this.listPage < 4) {
+        this.listPage++
+        this.getList()
+      }
+    },
+    getList() {
+      this.loading = true
+      order.getOrderRecordsList({ page: this.listPage }).then(res => {
+        this.myOrdersList = this.myOrdersList ? [...this.myOrdersList, ...res.list] : res.list
+        this.loading = false
+      })
+    },
+    refreshList() {
+      this.listPage = 1
+      this.myOrdersList = []
+    }
+  },
+  watch: {
+    'myOrdersList': {
+      handler(val) {
+        if (val.length < 7) {
+          this.reachEnd()
+        }
       }
     }
   },
-  watch: {},
   data() {
     return {
-      myOrdersList: [
-        '1',
-        '1',
-        '1',
-        '1',
-        '1',
-        '1',
-        '1'
-      ],
-      loading: false
+      myOrdersList: [],
+      loading: false,
+      listPage: 1
     }
   },
   components: {
     ScrollBar,
     OrdersItem
+  },
+  beforeDestroy() {
+    this.$bus.$off('refreshMyorder')
+    this.$el.removeEventListener('reachEnd', () => {})
   }
 }
 </script>

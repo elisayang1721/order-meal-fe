@@ -1,28 +1,29 @@
+import { assemblyParams } from '@js/model'
 import Axios from './service'
-// import store from '../vuex / store'
 
 export default {
-  getMergeTotal() {
-    // [未完成] 取得合併訂單總計
+  getMergeTotal(data) {
+    const apiUrl = assemblyParams(data)
+    // [C-22] 取得合併訂單總計
     return Axios({
-      url: '/mergeOrderOptions/sum',
-      method: 'post'
+      url: `/mergeOrderOptions/sum?${apiUrl}`,
+      method: 'get'
     })
   },
-  exportExcel(id, data) {
-    // [未完成] 匯出合併訂單 Excel
+  exportExcel(data) {
+    // [C-22] 匯出合併訂單 Excel
     return Axios({
-      url: `/orders/${id}/orderRecords`,
+      url: '/mergeOrderOptions/export',
       method: 'post',
-      data
+      data,
+      responseType: 'blob'
     })
   },
-  updateMergeOptions(id, data) {
-    // [請確認] 取得合併訂單選項
+  updateMergeOptions() {
+    // [c-22] 取得合併訂單選項
     return Axios({
-      url: `/orderRecords/${id}`,
-      method: 'get',
-      data
+      url: '/mergeOrderOptions',
+      method: 'get'
     })
   }
 }

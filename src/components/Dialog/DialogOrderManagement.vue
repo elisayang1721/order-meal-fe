@@ -1,98 +1,150 @@
 <template lang="pug">
-  #orderManagement
-    .managementContent
+  #orderManagement(v-loading="loading")
+    .managementContent.tableFrame
       .contentBlock
         .contentNav 進度設定
         .content
           ul.alignStart
             li
               span 截止時間
-              el-date-picker(v-model="dateTime"
+              el-date-picker(v-model="orderInfo.finishedOn"
                 @change="checkDateTime"
                 type="datetime"
-                placeholder="选择日期时间")
+                placeholder="選擇日期時間"
+                format="yyyy-MM-dd HH:mm"
+                value-format="yyyy-MM-dd HH:mm")
             li
               span 截止金額
-              template(v-if="!orderInfo.limitedPrice")
-                span 無
-              template(v-else)
-                span {{orderInfo.limitedPrice}}
+              span {{orderInfo.limitedPrice || '無'}}
             li
               span 訂單狀態
               .switchBlock
-                span 截止
-                el-switch(v-model="status"
+                el-switch(v-model="orderInfo.status"
                   active-color="#13ce66"
-                  inactive-color="#ff4949")
-                span 進行
+                  inactive-color="#ff4949"
+                  active-text="進行"
+                  inactive-text="截止")
             li
-              el-button(type="success") 匯出Excel
+              el-button(type="success"
+                @click="getDebounce('export')") 匯出Excel
       .contentBlock
         .contentNav 訂單計算
         .content
           ul.alignStart
             li 共 {{orderInfo.totalAmount}} 份
-            li 已訂購： {{orderInfo.orderedAmount}}份
-            li 未訂購： {{orderInfo.paidAmount}}份
+            li 已訂購： {{orderInfo.paidAmount}}份
+            li 未訂購： {{orderInfo.orderedAmount}}份
             li 總價： ${{orderInfo.totalPrice}}
       .contentBlock
         .contentNav 公告事項
         .content
-          textarea(maxlength="255" v-model="orderInfo.bulletin")
+          el-input(v-model="orderInfo.bulletin"
+            type="textarea"
+            maxlength="255"
+            show-word-limit)
     .confirmBlock
-      el-button(type="danger") 取消
-      el-button(type="success") 確認
+      .phone
+        i.el-icon-phone
+        span {{orderInfo.storePhone}}
+      el-button(type="danger" @click="reset") 取消
+      el-button(type="success" @click="getDebounce()") 確認
     DialogDetail
 </template>
 <script>
+import history from '@api/history'
+import orderForm from '@api/orderForm'
+import debounce from 'lodash/debounce'
+import { deepClone, exportExcel } from '@js/model'
+import { mapActions } from 'vuex'
 import DialogDetail from './DialogDetail'
 
 export default {
   name: 'DialogOrderManagement',
-  created() { },
   mounted() {
-    this.init_dateTime = 'native Date Thu Oct 03 2019 11:30:38 GMT+0800 (台北標準時間)'
-    this.dateTime = this.init_dateTime
+    this.getRecordsId()
+    this.$bus.$on('updateOrderAmount', data => {
+      if (data.status) {
+        this.orderInfo.paidAmount += data.cal
+        this.orderInfo.orderedAmount -= data.cal
+      } else {
+        this.orderInfo.paidAmount -= data.cal
+        this.orderInfo.orderedAmount += data.cal
+      }
+    })
+    this.$bus.$on('refreshOrderForm', () => {
+      this.getRecordsId()
+    })
   },
-  computed: {},
   methods: {
+    ...mapActions(['closeDialog']),
+    getRecordsId() {
+      this.loading = true
+      history.getRecordsId(this.$store.state.prop.id).then(res => {
+        this.orderInfo = res
+        this.initData = deepClone(this.orderInfo)
+        this.loading = false
+      })
+    },
     checkDateTime() {
-      if (!this.dateTime) {
+      if (!this.orderInfo.finishedOn) {
         this.$nextTick(() => {
-          this.dateTime = this.init_dateTime
+          this.orderInfo.finishedOn = this.initData.finishedOn
         })
+      }
+    },
+    reset() {
+      this.orderInfo = deepClone(this.initData)
+    },
+    updateForm: debounce(vm => {
+      const load = {
+        storeId: vm.orderInfo.storeId,
+        finishedOn: vm.orderInfo.finishedOn,
+        limitedPrice: vm.orderInfo.limitedPrice,
+        bulletin: vm.orderInfo.bulletin,
+        status: vm.orderInfo.status
+      }
+      orderForm.updateOrderForm(vm.orderInfo.id, load).then(() => {
+        vm.$message({
+          message: '訂單更新成功',
+          type: 'success'
+        })
+        if (vm.orderInfo.status) {
+          vm.getRecordsId()
+        } else {
+          vm.closeDialog()
+        }
+        vm.$bus.$emit('refreshSystem')
+        vm.$bus.$emit('refreshRecordsList')
+      })
+    }, 500),
+    exportExcel: debounce(vm => {
+      history.exportOrderExcel(vm.$store.state.prop.id).then(res => {
+        exportExcel(res)
+      })
+    }, 500),
+    getDebounce(action = 'update') {
+      const vm = this
+      if (action === 'update') {
+        this.updateForm(vm)
+      } else {
+        this.exportExcel(vm)
       }
     }
   },
-  watch: {},
   data() {
     return {
-      init_dateTime: '',
-      dateTime: '',
-      status: true,
-      bulletin: 'test',
-      orderInfo: {
-        id: 1,
-        storeId: 25,
-        status: 1,
-        limitedPrice: null,
-        totalPrice: 380,
-        totalAmount: 8,
-        paidAmount: 3,
-        orderedAmount: 5,
-        finishedOn: '2019-09-25 10:20:00',
-        bulletin: '排骨沒有了，請點其它的~',
-        ownerId: 16,
-        createdBy: 16,
-        createdByName: '松庭',
-        storeName: 'ABC爌肉飯',
-        storePhone: '09987654321',
-        orderStatus: 1
-      }
+      initData: {},
+      orderInfo: {},
+      loading: false,
+      fn: null
     }
   },
   components: {
     DialogDetail
+  },
+  beforeDestroy() {
+    this.$bus.$off('updateOrderAmount')
+    this.$bus.$off('refreshOrderForm')
   }
 }
 </script>
@@ -108,8 +160,24 @@ export default {
       line-height: 24px
   .el-input__suffix
     right: 0
-/deep/.el-button
-  padding: 6px 10px
 /deep/.el-switch
   margin: 0 5px
+/deep/.el-textarea
+  .el-textarea__inner
+    color: $darkGray
+    height: 100%
+    resize: none
+  .el-input__count
+    color: $txtGray
+    background: #efebea
+/deep/.el-switch
+  flex: 1
+  +Flex(space-around)
+  .el-switch__label--left
+    color: #ff4949
+  &.is-checked
+    .el-switch__label--left
+      color: #000
+    .el-switch__label--right
+      color: #13ce66
 </style>

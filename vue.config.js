@@ -1,3 +1,15 @@
+
+const CompressionPlugin = require('compression-webpack-plugin')
+
+const compress = new CompressionPlugin({
+  filename: '[path].gz[query]',
+  algorithm: 'gzip',
+  minRatio: 0.8,
+  test: /\.(js|css)$/, // 符合的檔名
+  threshold: 10240, // 對超過 10k的檔案進行壓縮
+  deleteOriginalAssets: false // 不刪除原本檔案
+})
+
 module.exports = {
   publicPath: './',
   devServer: {
@@ -21,10 +33,13 @@ module.exports = {
         '@img': '@/assets/img',
         '@css': '@/assets/css',
         '@mix': '@/assets/mixins',
+        '@js': '@/assets/js',
         '@api': '@/api'
       }
-    }
+    },
+    plugins: [compress]
   },
+  productionSourceMap: false,
   css: {
     loaderOptions: {
       sass: {
