@@ -74,6 +74,8 @@ export default {
 .dialogFrame
   @extend %setWrapper
   +Flex()
+  .commonBtnGroup
+    border-bottom: 1px solid $tableLineColor
   .dialogContent
     +Bgc($ligntGray)
     @media(max-width: 1200px),(max-height: 800px)
@@ -102,6 +104,7 @@ export default {
   .dialogComponent
     padding: 1rem
     overflow: hidden
+    background: $ligntGray
     @media(max-width: 1200px),(max-height: 800px)
       height: calc(100% - 4rem)
     .confirm, .admin

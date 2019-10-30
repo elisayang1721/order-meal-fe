@@ -37,7 +37,7 @@ export default {
   },
   sockets: {
     connect() {
-      console.log('socket connected123')
+      console.log('Your socket  has connected!')
     }
   },
   methods: {

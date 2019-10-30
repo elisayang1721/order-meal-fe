@@ -1,5 +1,5 @@
 <template lang="pug">
-  ScrollBar#addOrder
+  ScrollBar#addOrder.tableFrame
     .row
       .cell
         span 負責人

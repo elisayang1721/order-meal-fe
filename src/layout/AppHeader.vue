@@ -29,6 +29,14 @@ export default {
       return userData.isAdmin
     }
   },
+  sockets: {
+    bck_oms() {
+      // handle 訂單狀態、截止時間更動
+      this.$bus.$emit('refreshRecordsList')
+      this.$bus.$emit('refreshOrderForm')
+      this.$bus.$emit('refreshSystem')
+    }
+  },
   methods: {
     switchRoute(path) {
       if (this.$route.path !== path) {
@@ -65,8 +73,12 @@ export default {
   &.el-link--default
     color: #fff
     &:hover
-      color: #409EFF
+      color: $yelColor
     &.user:hover
       cursor: default
-      color: #fff
+      color: $c1
+  &.is-underline
+    &:hover
+    &:after
+      border-color: $yelColor
 </style>

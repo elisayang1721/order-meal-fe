@@ -1,5 +1,5 @@
 <template lang="pug">
-  ScrollBar#storeInfo
+  ScrollBar#storeInfo.tableFrame
     .row
       .cell
         span 店家資訊

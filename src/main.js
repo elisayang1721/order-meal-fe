@@ -21,7 +21,7 @@ import VueSocketio from 'vue-socket.io'
 import socketio from 'socket.io-client'
 
 Vue.use(new VueSocketio({
-  connection: socketio('http://www.socket.bckplat.info:60006')
+  connection: socketio('http://www.socket.bckplat.info')
 }))
 
 /** event bus */
