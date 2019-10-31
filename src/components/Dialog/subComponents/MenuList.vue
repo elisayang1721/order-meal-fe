@@ -1,5 +1,5 @@
 <template lang="pug">
-  ScrollBar#menuList(v-if="menu.length")
+  ScrollBar#menuList.tableFrame(v-if="menu.length")
     .row
       .cell
         span 品名
@@ -7,7 +7,7 @@
         span 價格
     template(v-for="obj in menu")
       .row
-        .cell
+        .cell.menuType
           span {{obj.menuType}}
       .row(v-for="(item, i) in obj.items" :key="item.cate")
         .cell
