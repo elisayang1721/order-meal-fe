@@ -1,7 +1,7 @@
 // Dialog限制最小內容寬
 .viewFix
   min-width: 1200px
-  padding: 0 10px
+  // padding: 0 10px
   &.createneworder
     padding: unset
     @media(max-width: 1200px),(max-height: 800px)
@@ -38,7 +38,9 @@
   +Flex(flex-end,center)
   position: relative
   padding: .6rem
-  border: 1px solid $tableLineColor
+  background: $c1
+  border-right: 1px solid $tableLineColor
+  border-left: 1px solid $tableLineColor
   color: $darkGray
   .phone
     position: absolute
@@ -69,6 +71,9 @@
       flex: .5
     &:last-child
       flex: 3
+    &.menuType
+      font-weight: 700
+      background: #efebea
     .subscriberCell
       width: calc(100% / 5)
       height: 60px
@@ -115,10 +120,7 @@
       &:nth-child(3)
         flex: 1
       &:last-child
-        flex: 2
-      &.menuType
-        font-weight: 700
-        background: #efebea
+        flex: 2      
   .typeBorder
     padding: .4rem
     border-left: 1px solid #000
@@ -183,11 +185,17 @@
       padding-left: 10px
     @media(max-width: 1200px),(max-height: 800px)
       height: 100%
-    .filterCondition,.searchType,.subjectTitle
-      margin-bottom: 10px
+    .filterCondition,.searchType,
+      margin-bottom: 15px
+    .subjectTitle
+      color: $darkGray
+      font-weight: 700
+      margin-bottom: 8px
+    .confirmBlock
+      border-left: none
 
 
 #addOrder,#storeInfo,#menuList
   .row
     .cell
-      padding: .4rem
+      padding: .45rem

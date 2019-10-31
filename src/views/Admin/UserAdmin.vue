@@ -2,7 +2,7 @@
   .tabContainer
     .adminPanel
       .search
-        p 狀態 ：
+        p 狀態
         el-select(
           v-model="isEnabled"
           placeholder="全部")
@@ -149,7 +149,25 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.tabContainer
+/deep/.el-input
+  .el-input__inner
+    background-color: $c1
+::v-deep.el-select
+  .el-input
+    .el-select__caret
+      color: $tableHeadColor
+    &.is-focus, &:hover
+      .el-input__inner
+        border-color: #a59796
+  .el-input__inner
+    &:focus
+      border-color: #a59796
+::v-deep.el-select-dropdown__item
+  &.hover, &:hover
+    background-color: #f7f3f3
+  &.selected
+    color: $brownC2
   .tableWrapper
     height: 650px
+
 </style>

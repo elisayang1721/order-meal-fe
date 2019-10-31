@@ -20,8 +20,8 @@
               span 訂單狀態
               .switchBlock
                 el-switch(v-model="orderInfo.status"
-                  active-color="#13ce66"
-                  inactive-color="#ff4949"
+                  active-color="#47975e"
+                  inactive-color="#c75656"
                   active-text="進行"
                   inactive-text="截止")
             li
@@ -108,11 +108,7 @@ export default {
           message: '訂單更新成功',
           type: 'success'
         })
-        if (vm.orderInfo.status) {
-          vm.getRecordsId()
-        } else {
-          vm.closeDialog()
-        }
+        vm.closeDialog()
         vm.$bus.$emit('refreshSystem')
         vm.$bus.$emit('refreshRecordsList')
       })
@@ -160,6 +156,8 @@ export default {
       line-height: 24px
   .el-input__suffix
     right: 0
+/deep/.el-button
+  padding: 10px
 /deep/.el-switch
   margin: 0 5px
 /deep/.el-textarea
@@ -168,16 +166,18 @@ export default {
     height: 100%
     resize: none
   .el-input__count
-    color: $txtGray
+    color: $darkGray
     background: #efebea
 /deep/.el-switch
   flex: 1
   +Flex(space-around)
   .el-switch__label--left
-    color: #ff4949
+    color: #c75656
   &.is-checked
     .el-switch__label--left
-      color: #000
+      color: #766f6f
     .el-switch__label--right
-      color: #13ce66
+      color: #47975e
+/deep/.el-switch__label
+  color: #766f6f
 </style>

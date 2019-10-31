@@ -6,6 +6,7 @@
     ul.navTabs
       li
         el-link(icon="el-icon-s-home"
+          v-if="checkPermission"
           @click="switchRoute('/admin')") 管理中心
       li
         el-link.user(icon="el-icon-user-solid"
@@ -22,9 +23,18 @@ export default {
   mounted() {
     this.userData = JSON.parse(localStorage.getItem('userData'))
   },
+  computed: {
+    checkPermission() {
+      const userData = JSON.parse(localStorage.userData)
+      return userData.isAdmin
+    }
+  },
   sockets: {
-    connect() {
-      // console.log('socket connected')
+    bck_oms() {
+      // handle 訂單狀態、截止時間更動
+      this.$bus.$emit('refreshRecordsList')
+      this.$bus.$emit('refreshOrderForm')
+      this.$bus.$emit('refreshSystem')
     }
   },
   methods: {
@@ -63,8 +73,12 @@ export default {
   &.el-link--default
     color: #fff
     &:hover
-      color: #409EFF
+      color: $yelColor
     &.user:hover
       cursor: default
-      color: #fff
+      color: $c1
+  &.is-underline
+    &:hover
+    &:after
+      border-color: $yelColor
 </style>
