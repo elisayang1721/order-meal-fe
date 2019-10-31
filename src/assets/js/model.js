@@ -61,12 +61,15 @@ export function fetchState() {
 
 export function countDown(timestamp) {
   if (timestamp > 86400) {
-    return Math.ceil(timestamp / 86400) + '天後'
+    return Math.ceil(timestamp / 86400) + ' 天後'
   }
   if (timestamp > 3600) {
-    return Math.ceil(timestamp / 3600) + '小時後'
+    return Math.ceil(timestamp / 3600) + ' 小時後'
   }
-  return Math.ceil(timestamp / 60) + '分後'
+  if (timestamp > 60) {
+    return Math.ceil(timestamp / 60) + ' 分鐘後'
+  }
+  return timestamp + ' 秒後'
 }
 
 export function textToJson(data) {
