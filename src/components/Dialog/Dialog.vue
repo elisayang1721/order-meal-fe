@@ -10,7 +10,7 @@
             .close(@click="closeDialog")
               i.el-icon-close
         .dialogComponent
-          ScrollBar.scroll
+          ScrollBar.scroll(:needGoTop="goTop")
             .viewFix(:class="sliceName()")
               component(:is="componentName")
 </template>
@@ -25,6 +25,11 @@ import componentIndex from './index'
 componentIndex()
 
 export default {
+  data() {
+    return {
+      goTop: false
+    }
+  },
   components: {
     ScrollBar
   },
@@ -64,6 +69,11 @@ export default {
     'dialog': {
       handler(val) {
         this.dailogFixed(val.name)
+        if (val.length) {
+          if (val[0].name === 'DialogRating') {
+            this.goTop = true
+          }
+        }
       },
       deep: true
     }
