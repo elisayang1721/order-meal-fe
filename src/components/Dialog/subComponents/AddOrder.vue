@@ -34,6 +34,7 @@
 import orderForm from '@api/orderForm'
 import debounce from 'lodash/debounce'
 import ScrollBar from '@c/ScrollBar/ScrollBar'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'AddOrder',
@@ -55,6 +56,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['closeDialog']),
     createOrder: debounce(vm => {
       orderForm.addOrderForm(vm.getLoad).then(() => {
         vm.$message({
@@ -62,6 +64,8 @@ export default {
           type: 'success'
         })
         vm.$bus.$emit('refreshSystem')
+        vm.$bus.$emit('refreshRecordsList')
+        vm.closeDialog()
       })
     }, 500),
     getDebounce() {

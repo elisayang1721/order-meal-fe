@@ -19,6 +19,9 @@
         el-table(:data="storeList" border style='width: 100%' align="center")
           el-table-column(prop='name' label='店名' width="120")
           el-table-column(prop='description' label='說明')
+          el-table-column(prop='avgScore' label='評分' width="80")
+            //- template(slot-scope="scope")
+            //-   RatingBar(:score="scope.row.avgScore" :isSelectable="false")
           el-table-column(label="功能")
             template(slot-scope="scope")
               el-button(type="primary" icon="el-icon-plus"
@@ -27,6 +30,8 @@
                 @click="toggleAside(scope.row.id, 'MenuList')")
               el-button(type="primary" icon="el-icon-info"
                 @click="toggleAside(scope.row.id, 'StoreInfo')")
+              el-button(type="primary" icon="el-icon-star-on"
+                @click="toggleAside(scope.row.id, 'AllEvaluation')")
     .innerBlock
       component(:is="subComponent" :storeId="currentId")
 </template>
@@ -36,9 +41,11 @@ import store from '@api/store'
 import orderForm from '@api/orderForm'
 import axios from 'axios'
 import debounce from 'lodash/debounce'
+import RatingBar from '@c/RatingBar/RatingBar'
 import AddOrder from './subComponents/AddOrder'
 import MenuList from './subComponents/MenuList'
 import StoreInfo from './subComponents/StoreInfo'
+import AllEvaluation from './subComponents/AllEvaluation'
 
 export default {
   name: 'DialogCreateNewOrder',
@@ -112,7 +119,9 @@ export default {
     ScrollBar,
     AddOrder,
     MenuList,
-    StoreInfo
+    StoreInfo,
+    AllEvaluation,
+    RatingBar
   }
 }
 </script>
