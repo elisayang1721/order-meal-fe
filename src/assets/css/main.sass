@@ -247,17 +247,26 @@ main
       .amount
         +Flex(center,flex-start)
         flex-direction: column
-        width: 100px
+        flex: .5
+        height: 100%
         font-size: 18px
         color: #626262
         .amountTitle
           margin-bottom: 10px
-        &:last-child
-          flex: 1
+        &:nth-child(3)
+          flex: 2
           span
             +ellipsis()
             width: 100%
-
+        &:last-child
+          flex: 1
+          .amountTitle
+            width: 100%
+            margin-bottom: 5px
+            +Flex(space-between,center)
+            .el-button
+              width: 50px
+              padding: 5px
       >ul
         width: 100%
         display: block
@@ -267,7 +276,7 @@ main
           list-style: disc
           margin-left: 50px
   .left
-    flex: 3    
+    flex: 3
   .right
     .navHead
       font-size: 18px
@@ -287,3 +296,13 @@ main
         position: absolute
         left: 0
         border-left: 1px dashed #c6c6c6
+
+
+.backToTop
+  display: block
+  z-index: 10
+  position: absolute
+  right: 10px
+  bottom: 10px
+  &.goTopHide
+    display: none
