@@ -4,7 +4,7 @@
       div {{`${item.meals} - ${item.commentedBy}`}}
       RatingBar(:score="item.score" :isSelectable="false")
     .section
-      span Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      span {{item.comment}}
     .date
       span {{item.commentedOn}}
 </template>
