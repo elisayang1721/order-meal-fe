@@ -6,7 +6,11 @@
     ul.navTabs
       li
         el-link(icon="el-icon-s-home"
-          v-if="checkPermission"
+          v-if="checkPermission && $route.path === '/admin'"
+          @click="switchRoute('/')") 點餐首頁
+      li
+        el-link(icon="el-icon-s-home"
+          v-if="checkPermission && $route.path === '/'"
           @click="switchRoute('/admin')") 管理中心
       li
         el-link.user(icon="el-icon-user-solid"

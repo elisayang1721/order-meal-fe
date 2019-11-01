@@ -236,11 +236,18 @@
   .date
     align-self: flex-end
 #myComment
+  .head
+    .submitBlock
+      +Flex()
+      .el-button
+        margin-left: 10px
   .section
     width: 100%
-    +Flex(space-between,center)
+    +Flex()
+    padding: unset
+    padding-top: 1rem
     .el-textarea
-      width: 70%
+      width: 100%
       flex: unset
       >textarea
         height: 75px

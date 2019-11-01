@@ -49,14 +49,18 @@ html,body
   border-color: #8b8b8b
 .el-input, .el-textarea
   flex: 1
-  .el-input__inner, .el-textarea__inner
-    font-family: Microsoft JhengHei,Microsoft Yahei,Helvetica,Hiragino Sans GB,"\5FAE\8F6F\96C5\9ED1",Arial,"sans-serif"
+  .el-input__inner, .el-textarea__inner,.el-time-panel__footer,.el-picker-panel__footer
     border-color: $tableLineColor
     +Bgc(#efebea)
     &::placeholder 
       color: #8b8b8b
   .el-input__prefix
     color: #8b8b8b
+
+.el-input__inner,
+.el-textarea__inner,
+.el-time-panel__btn
+  font-family: Microsoft JhengHei,Microsoft Yahei,Helvetica,Hiragino Sans GB,"\5FAE\8F6F\96C5\9ED1",Arial,"sans-serif"
 
 // .el-button
 //   &:hover,

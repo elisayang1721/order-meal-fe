@@ -2,9 +2,7 @@
   ScrollBar#addOrder
     .row
       .cell
-        span 負責人
-      .cell
-        span {{memberName}}
+        span {{`發起 ${storeName} 點餐`}}
     .row
       .cell
         span 截止時間
@@ -27,7 +25,6 @@
         el-input(v-model="condition.bulletin"
           type="textarea")
     .confirmBlock
-      el-button(type="danger") 取消
       el-button(type="success" @click="getDebounce") 確認
 </template>
 <script>
@@ -38,7 +35,7 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'AddOrder',
-  props: ['storeId'],
+  props: ['storeId', 'storeName'],
   mounted() {
     const userData = JSON.parse(localStorage.getItem('userData'))
     this.memberName = userData.memberName
