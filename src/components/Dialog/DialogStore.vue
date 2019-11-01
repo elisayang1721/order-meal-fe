@@ -2,7 +2,7 @@
   div(v-loading="loading")
     .dialoStore.tableFrame
       .storeHead
-        .title 基本資料
+        .title 基本資料：
         .title 菜單設定
           el-tooltip(
             effect="dark"
@@ -212,7 +212,7 @@ export default {
         menuJson: null
       },
       loading: false,
-      placeholder: '{菜單分類}\n菜單項目分類:價錢\n菜單項目分類:菜單項目1.價錢,菜單項目2.價錢'
+      placeholder: '{菜單分類}\n菜單項目分類:價錢\n菜單項目分類:菜單項目1.價錢,菜單項目2.價錢\n\n{漢堡}\n大麥克:123\n\n{飲料類}\n可樂:大杯.40,中杯.30,小杯.20'
     }
   },
   components: {

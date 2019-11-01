@@ -14,12 +14,17 @@ export default {
     },
     dom: {
       default: null
+    },
+    needGoTop: {
+      type: Boolean,
+      default: null
     }
   },
   data() {
     return {
       scroll: null,
-      position: []
+      position: [],
+      goTopButton: null
     }
   },
   mounted() {
@@ -27,7 +32,7 @@ export default {
   },
   methods: {
     init() {
-      const vue = this
+      const vm = this
       if (!this.scroll) {
         let option = {
           plugins: {
@@ -42,7 +47,7 @@ export default {
             plugins: {
               overscroll: {
                 onScroll(position) {
-                  vue.checkIfReachEnd(position)
+                  vm.checkIfReachEnd(position)
                 },
                 effect: 'glow'
               }
@@ -50,6 +55,32 @@ export default {
           }
         }
         this.scroll = ScrollBar.init(this.$el, option)
+        if (this.needGoTop) {
+          this.init_GoTop()
+        }
+      }
+    },
+    uninit() {
+      if (this.scroll) {
+        this.scroll.destroy()
+        this.scroll = null
+      }
+    },
+    init_GoTop() {
+      const button = document.createElement('button')
+      const text = document.createTextNode('backToTop')
+      button.appendChild(text)
+      button.classList.add('backToTop')
+      this.goTopButton = button
+      this.$el.appendChild(this.goTopButton)
+      this.goTopButton.addEventListener('click', () => {
+        this.scroll.scrollTop = 0
+      })
+    },
+    uninit_GoTop() {
+      if (this.goTopButton) {
+        this.goTopButton.removeEventListener('click', () => {})
+        this.goTopButton = null
       }
     },
     checkIfReachEnd(p) {
@@ -60,16 +91,25 @@ export default {
       } else {
         this.position.push(p.y)
       }
-    },
-    uninit() {
-      if (this.scroll) {
-        this.scroll.destroy()
-        this.scroll = null
-      }
+    }
+  },
+  watch: {
+    'scroll.scrollTop': {
+      handler(val) {
+        if (this.goTopButton) {
+          if (!val) {
+            this.goTopButton.classList.add('goTopHide')
+          } else {
+            this.goTopButton.classList.remove('goTopHide')
+          }
+        }
+      },
+      deep: true
     }
   },
   beforeDestroy() {
     this.uninit()
+    this.uninit_GoTop()
   }
 }
 </script>

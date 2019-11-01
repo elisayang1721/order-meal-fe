@@ -1,5 +1,6 @@
 <template lang="pug">
-  ScrollBar.listContainer(id="OrdersHistoryFrame" v-loading="loading")
+  ScrollBar.listContainer(id="OrdersHistoryFrame"
+    v-loading="loading")
     .contentViewFix
       el-table(:data='orderHistoryList' border style='width: 100%' align="center")
         el-table-column(prop='createdOn' label='發起時間')

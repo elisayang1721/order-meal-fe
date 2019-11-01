@@ -9,9 +9,13 @@
         ul
           li(v-for="(meal, i) in myOrderData.meals"
             :key="i") {{`${meal.item} ${meal.remark ? meal.remark: ''}`}}
-        //- el-button(type="primary") 評比
+        el-tooltip(effect="dark" content="評比" placement="top-start")
+          i.el-icon-s-comment(@click="toggleDialog('Rating')")
 </template>
 <script>
+import { injectState } from '@js/model'
+import { mapActions } from 'vuex'
+
 export default {
   name: 'OrdersItem',
   props: ['myOrderData'],
@@ -25,6 +29,21 @@ export default {
       const day = d.getDay()
       return `${mm.toString().padStart(2, '0')}/${dd.toString().padStart(2, '0')} (${weekNum[day]})`
     }
+  },
+  methods: {
+    ...mapActions(['showDialog']),
+    toggleDialog(cName) {
+      const load = {
+        name: cName,
+        title: `${this.myOrderData.storeName} 的店家評價`
+      }
+      const prop = {
+        id: this.myOrderData.orderId,
+        storeId: this.myOrderData.storeId
+      }
+      injectState(prop)
+      this.showDialog(load)
+    }
   }
 }
 </script>
@@ -36,4 +55,8 @@ export default {
     .list
       .navHead
         background-color: $tableHeadColor
+  /deep/.el-icon-s-comment
+    cursor: pointer
+    font-size: 30px
+    margin-right: 30px
 </style>
