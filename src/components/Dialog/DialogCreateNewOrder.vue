@@ -159,6 +159,7 @@ export default {
   th
     padding: .5rem .3rem
     font-size: 16px
+    line-height: 1
   th
     font-weight: 400
     >.cell
