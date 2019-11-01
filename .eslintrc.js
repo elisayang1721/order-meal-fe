@@ -88,7 +88,8 @@ module.exports = {
         'request',
         'config',   // for request config settings
         'Vue',      // for vue plugins define
-        'editor'    // for froala
+        'editor',   // for froala
+        'vm'        // for vue component 
       ]
     }],
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
