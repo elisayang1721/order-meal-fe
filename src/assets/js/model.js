@@ -1,10 +1,8 @@
 import state from '@/vuex/state'
 /* eslint-disable import/prefer-default-export */
-export function thousands(num) {
+export function addComma(num) {
   // 千分位
-  const parts = num.toString().split('.')
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  return parts.join('.')
+  return '$' + num.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
 }
 
 export function assemblyParams(params) {
