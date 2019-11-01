@@ -13,6 +13,7 @@
           i.el-icon-s-comment(@click="toggleDialog('Rating')")
 </template>
 <script>
+import { injectState } from '@js/model'
 import { mapActions } from 'vuex'
 
 export default {
@@ -36,6 +37,11 @@ export default {
         name: cName,
         title: `${this.myOrderData.storeName} 的店家評價`
       }
+      const prop = {
+        id: this.myOrderData.orderId,
+        storeId: this.myOrderData.storeId
+      }
+      injectState(prop)
       this.showDialog(load)
     }
   }

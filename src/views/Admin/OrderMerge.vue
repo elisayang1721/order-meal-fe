@@ -66,6 +66,12 @@ export default {
     },
     checkDisable() {
       return !this.checked.length
+    },
+    getOrderId() {
+      const orderId = {
+        orderId: this.checked
+      }
+      return orderId
     }
   },
   methods: {
@@ -76,11 +82,11 @@ export default {
       })
       return price
     },
-    getMergeOrder: debounce(function (orderId) {
-      this.loading = true
-      mergeOrder.getMergeTotal(orderId).then(res => {
-        this.listTotal = res.list
-        this.loading = false
+    getMergeOrder: debounce(vm => {
+      vm.loading = true
+      mergeOrder.getMergeTotal(vm.getOrderId).then(res => {
+        vm.listTotal = res.list
+        vm.loading = false
       })
     }, 500),
     getDebounce() {
@@ -88,22 +94,17 @@ export default {
       this.exportMergeOrder(vm)
     },
     exportMergeOrder: debounce(vm => {
-      const orderId = {
-        orderId: vm.checked
-      }
-      mergeOrder.exportExcel(orderId).then(res => {
+      mergeOrder.exportExcel(vm.getOrderId).then(res => {
         exportExcel(res)
       })
     }, 500)
   },
   watch: {
     'checked': {
-      handler(val) {
+      handler() {
         this.listTotal = []
-        const orderId = {
-          orderId: val
-        }
-        this.getMergeOrder(orderId)
+        const vm = this
+        this.getMergeOrder(vm)
       }
     }
   },

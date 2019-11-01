@@ -64,29 +64,35 @@ import { injectState } from '@js/model'
 export default {
   name: 'UserAdmin',
   mounted() {
-    this.getData()
+    const vm = this
+    this.getData(vm)
     this.$bus.$on('refresh', () => {
-      this.getData()
+      this.getData(vm)
     })
   },
-  methods: {
-    ...mapActions(['showDialog']),
-    getData: debounce(function () {
-      const init = {
+  computed: {
+    getPayLoad() {
+      const load = {
         isEnabled: this.isEnabled,
         page: this.pageNum,
         pageSize: 9
       }
-      this.loading = true
-      admin.getAdminList(init).then(res => {
+      return load
+    }
+  },
+  methods: {
+    ...mapActions(['showDialog']),
+    getData: debounce(vm => {
+      vm.loading = true
+      admin.getAdminList(vm.getPayLoad).then(res => {
         const resData = res.list
 
-        this.loading = false
+        vm.loading = false
         resData.forEach((list, i) => {
           resData[i].memberId = list.companyCode + '_' + list.account
         })
-        this.totalSize = res.totalSize
-        this.adminData = resData
+        vm.totalSize = res.totalSize
+        vm.adminData = resData
       })
     }, 500),
     toggleDialog(action, row = null) {
@@ -97,14 +103,14 @@ export default {
       if (action === 'add') {
         load = {
           name: 'Admin',
-          title: '新增管理員'
+          title: '新增管理員：'
         }
       }
       if (action === 'edit') {
         prop.id = row.id
         load = {
           name: 'Admin',
-          title: `編輯管理員 – ${row.name}`
+          title: `編輯管理員： ${row.name}`
         }
       }
       injectState(prop)
@@ -118,7 +124,8 @@ export default {
     isEnabled: {
       handler() {
         this.pageNum = 1
-        this.getData()
+        const vm = this
+        this.getData(vm)
       },
       deep: true
     }
@@ -136,7 +143,7 @@ export default {
         },
         {
           isEnabled: false,
-          text: '停用'
+          text: '已停用'
         }
       ],
       isEnabled: null,

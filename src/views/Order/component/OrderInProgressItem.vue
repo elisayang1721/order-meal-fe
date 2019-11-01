@@ -37,7 +37,7 @@
           @click="toggleDialog('Order')") 點餐
 </template>
 <script>
-import { injectState, countDown } from '@js/model'
+import { injectState, countDown, addComma } from '@js/model'
 import RatingBar from '@c/RatingBar/RatingBar'
 import { mapActions } from 'vuex'
 
@@ -54,7 +54,7 @@ export default {
   },
   computed: {
     addComma() {
-      return '$' + this.list.totalPrice.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+      return addComma(this.list.totalPrice)
     },
     neededTitle() {
       return this.list.createdByName.length > 5 ? this.list.createdByName.length : ''
