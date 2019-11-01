@@ -115,4 +115,10 @@ export default {
       @media(max-width: 1200px),(max-height: 800px)
         max-height: 100%
         height: 100%
+    /deep/.el-button
+      width: 80px
+    .editBlock
+      /deep/.el-button
+        width: auto
+        padding: 6px 10px
 </style>

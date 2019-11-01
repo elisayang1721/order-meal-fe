@@ -18,6 +18,7 @@ html,body
   align-items: center
   justify-content: center
   width: 90px
+  padding: 10px 20px
   
 .el-pagination
   +Flex()
@@ -34,6 +35,10 @@ html,body
   th
     +Bgc($tableHeadColor)
     color: #fff
+    padding: 0
+    line-height: 42px
+    .cell
+      line-height: 1
   th,td
     text-align: center
   .address
@@ -48,7 +53,7 @@ html,body
   .el-input__inner, .el-textarea__inner
     font-family: Microsoft JhengHei,Microsoft Yahei,Helvetica,Hiragino Sans GB,"\5FAE\8F6F\96C5\9ED1",Arial,"sans-serif"
     border-color: $tableLineColor
-    +Bgc(#efebea)
+    +Bgc(#f7f5f5)
     &::placeholder 
       color: #8b8b8b
   .el-input__prefix
@@ -184,10 +189,10 @@ header
   height: 60px
   .icon
     +Flex(flex-start,center)
-    font-size: 30px
+    font-size: 28px
     cursor: pointer
     >img
-      +size(40px)
+      +size(38px)
     >span
       margin-left: 10px
   .navTabs
@@ -226,10 +231,10 @@ main
     height: 800px
     padding: 20px
   .progressTitle
-    font-size: 18pt
+    font-size: 17pt
     font-weight: bold
     color: $darkGray
-    padding-top: 3px
+    padding-top: 5px
     padding-bottom: 10px
   
 #ordersHistory
@@ -282,7 +287,7 @@ main
       font-size: 18px
       line-height: 42px
       color: #fff
-      padding: 0px 10px
+      padding: 0px 15px
       .el-button
         padding: 5px 10px
       .deadLine
@@ -296,12 +301,12 @@ main
     .content
       +size(100%)
       +Flex(flex-start,center)
-      padding: 5px 10px
+      padding: 5px 15px
       .amount
         +Flex(center,flex-start)
         flex-direction: column
         width: 100px
-        font-size: 18px
+        font-size: 17px
         color: #626262
         .amountTitle
           margin-bottom: 10px
@@ -325,8 +330,9 @@ main
     .navHead
       font-size: 18px
       justify-content: center
+      padding: 0 10px
       >span
-        margin-right: 5px
+        margin-right: 1px
         &:first-child
           +ellipsis()
           width: 90px

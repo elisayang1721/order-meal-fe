@@ -126,4 +126,12 @@ export default {
     &:active,
     &:focus
       +Bgc(#a8a7a1)
+  .itemWrapper
+    .list
+      .content
+        /deep/.el-button
+          padding: 10px
+          width: 80px
+          &+.el-button
+            margin-left: 0
 </style>

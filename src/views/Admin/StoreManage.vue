@@ -182,4 +182,6 @@ export default {
         line-height: 32px
 /deep/.el-checkbox
   // margin-right: 20px
+.add-button
+  width: 80px
 </style>

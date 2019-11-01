@@ -117,9 +117,6 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-/deep/.el-button
-  +size(30px,28px,null)
-  padding: 0 5px
 /deep/.el-checkbox
   width: 6rem
   font-size: 1rem
@@ -128,10 +125,17 @@ export default {
 /deep/.el-table
   td,
   th
-    padding: .45rem
+    padding: .5rem .3rem
     font-size: 16px
   th
     font-weight: 400
     >.cell
       line-height: inherit
+#newOrder
+  /deep/.el-button
+    +size(28px,26px,null)
+    padding: 0 5px
+  #addOrder
+    /deep/.el-button
+      +size(60px,32px,null)
 </style>
