@@ -8,7 +8,8 @@
       .content
         ul
           li(v-for="(meal, i) in myOrderData.meals"
-            :key="i") {{`${meal.item} ${meal.remark ? meal.remark: ''}`}}
+            :key="i"
+          ) {{`${meal.item} ${meal.remark ? meal.remark: ''} ${meal.isEvaluated ? '已評論' : '未評論'}`}}
         el-tooltip(effect="dark" content="評比" placement="top-start")
           i.el-icon-s-comment(@click="toggleDialog('Rating')")
 </template>
