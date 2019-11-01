@@ -1,10 +1,8 @@
 import state from '@/vuex/state'
 /* eslint-disable import/prefer-default-export */
-export function thousands(num) {
+export function addComma(num) {
   // 千分位
-  const parts = num.toString().split('.')
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  return parts.join('.')
+  return '$' + num.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
 }
 
 export function assemblyParams(params) {
@@ -61,12 +59,15 @@ export function fetchState() {
 
 export function countDown(timestamp) {
   if (timestamp > 86400) {
-    return Math.ceil(timestamp / 86400) + '天後'
+    return Math.ceil(timestamp / 86400) + ' 天後'
   }
   if (timestamp > 3600) {
-    return Math.ceil(timestamp / 3600) + '小時後'
+    return Math.ceil(timestamp / 3600) + ' 小時後'
   }
-  return Math.ceil(timestamp / 60) + '分後'
+  if (timestamp > 60) {
+    return Math.ceil(timestamp / 60) + ' 分鐘後'
+  }
+  return timestamp + ' 秒後'
 }
 
 export function textToJson(data) {

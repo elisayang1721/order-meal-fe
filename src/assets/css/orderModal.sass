@@ -198,4 +198,65 @@
 #addOrder,#storeInfo,#menuList
   .row
     .cell
-      padding: .45rem
+      padding: .4rem
+
+#rating,#allEvaluation
+  +size(100%,100%,null)
+  +Flex(center,flex-start)
+  .ratingInner
+    +Flex()
+    flex-direction: column
+    flex: 1
+    .innerHead
+      position: relative
+      width: 100%
+      font-size: 18px
+      line-height: 32px
+      text-align: center
+      color: #fff
+      border-radius: 8px 8px 0 0
+      background: #7d6664
+      padding: 10px
+      .avgScore
+        position: absolute
+        font-size: 50px
+        opacity: .8
+        right: 20px
+        top: 10px
+        color: #fff
+    &:first-child
+      padding-right: 5px
+    &:last-child
+      padding-left: 5px
+
+#totalComment,#myComment
+  width: 100%
+  +Flex()
+  flex-direction: column
+  border: 1px solid #ddd
+  border-top: unset
+  padding: 10px
+  .head
+    width: 100%
+    +Flex(space-between,center)
+  .section
+    padding: 1rem
+  .date
+    align-self: flex-end
+#myComment
+  .head
+    .submitBlock
+      +Flex()
+      .el-button
+        margin-left: 10px
+  .section
+    width: 100%
+    +Flex()
+    padding: unset
+    padding-top: 1rem
+    .el-textarea
+      width: 100%
+      flex: unset
+      >textarea
+        height: 75px
+        resize: none
