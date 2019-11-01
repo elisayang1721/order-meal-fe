@@ -180,6 +180,7 @@ export default {
     height: 28px
     line-height: 25px
     background: #efebea
+    color: #4e3636
     &:hover
       color: $c1
       background: $tableHeadColor

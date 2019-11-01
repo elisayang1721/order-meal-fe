@@ -52,7 +52,6 @@ export default {
   .itemWrapper
     height: unset
     min-height: 120px
-    +BrdRad(8px,8px,0,0)
     .list
       .navHead
         background-color: $tableHeadColor

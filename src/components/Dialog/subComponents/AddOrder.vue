@@ -86,7 +86,4 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-#addOrder
-  /deep/.el-button
-    width: 50px
 </style>
