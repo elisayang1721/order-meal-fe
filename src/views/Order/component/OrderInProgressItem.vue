@@ -11,9 +11,16 @@
         .amount
           .amountTitle 金額
           span {{addComma}}
-        .amount(v-if="list.bulletin")
-          .amountTitle 公告事項
-          span(:title="list.bulletin") {{list.bulletin}}
+        .amount
+          .amountTitle(v-if="list.bulletin") 公告事項
+          span(v-if="list.bulletin" :title="list.bulletin") {{list.bulletin}}
+        .amount
+          .amountTitle
+            span 評分
+            span {{list.avgScore}}
+            el-badge(:value="list.totalComment" :max="99" @click.native="toggleDialog('Rating')")
+              i(class="el-icon-s-comment")
+          RatingBar(:score="list.avgScore" :isSelectable="false")
     .list.right
       .navHead
         span(:title="neededTitle") {{list.createdByName}}
@@ -23,17 +30,23 @@
           @click="toggleDialog('OrderManagement')") 訂單管理
       .content
         el-button.detailBtn(icon="el-icon-edit"
+          :disabled="countDown === '已截止'"
           @click="toggleDialog('Detail')") 明細
         el-button(type="success" icon="el-icon-potato-strips"
+          :disabled="countDown === '已截止'"
           @click="toggleDialog('Order')") 點餐
 </template>
 <script>
-import { injectState, countDown } from '@js/model'
+import { injectState, countDown, addComma } from '@js/model'
+import RatingBar from '@c/RatingBar/RatingBar'
 import { mapActions } from 'vuex'
 
 export default {
   name: 'OrderInProgressItem',
   props: ['list'],
+  components: {
+    RatingBar
+  },
   mounted() {
     this.timestamp = this.list.finishedTime
     this.countDown = countDown(this.timestamp)
@@ -41,7 +54,7 @@ export default {
   },
   computed: {
     addComma() {
-      return '$' + this.list.totalPrice.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+      return addComma(this.list.totalPrice)
     },
     neededTitle() {
       return this.list.createdByName.length > 5 ? this.list.createdByName.length : ''
@@ -55,12 +68,19 @@ export default {
     ...mapActions(['showDialog']),
     toggleDialog(cName) {
       let title
-      if (cName === 'OrderManagement') {
-        title = `${this.list.createdByName} - ${this.list.name} - 訂單管理`
-      } else if (cName === 'Detail') {
-        title = `${this.list.createdByName} - ${this.list.name} - 訂單明細`
-      } else {
-        title = `我也要訂 - ${this.list.name}`
+      switch (cName) {
+        case 'OrderManagement':
+          title = `${this.list.createdByName} - ${this.list.name} - 訂單管理`
+          break
+        case 'Detail':
+          title = `${this.list.createdByName} - ${this.list.name} - 訂單明細`
+          break
+        case 'Rating':
+          title = `${this.list.name} 的店家評價`
+          break
+        default:
+          title = `我也要訂 - ${this.list.name}`
+          break
       }
       const load = {
         name: cName,
@@ -79,15 +99,27 @@ export default {
       this.showDialog(load)
     },
     timer() {
-      this.time = setInterval(() => {
-        this.timestamp -= 60
-        if (this.timestamp <= 0) {
-          this.$bus.$emit('refreshSystem')
-          this.stopTimer()
-        } else {
-          this.countDown = countDown(this.timestamp)
-        }
-      }, 60000)
+      if (this.timestamp > 120) {
+        this.time = setInterval(() => {
+          this.timestamp -= 60
+          if (this.timestamp <= 60) {
+            this.stopTimer()
+            this.setTimer()
+          } else {
+            this.countDown = countDown(this.timestamp)
+          }
+        }, 60000)
+      } else {
+        this.time = setInterval(() => {
+          this.timestamp -= 1
+          if (this.timestamp === 0) {
+            this.countDown = '已截止'
+            this.stopTimer()
+          } else {
+            this.countDown = countDown(this.timestamp)
+          }
+        }, 1000)
+      }
     },
     setTimer() {
       this.timer()
@@ -102,6 +134,17 @@ export default {
     return {
       countDown: null,
       timestamp: null
+    }
+  },
+  watch: {
+    'list': {
+      handler(val) {
+        this.timestamp = val.finishedTime
+        this.countDown = countDown(this.timestamp)
+        this.stopTimer()
+        this.setTimer()
+      },
+      deep: true
     }
   },
   beforeDestroy() {
@@ -126,4 +169,21 @@ export default {
     &:active,
     &:focus
       +Bgc(#a8a7a1)
+  /deep/.el-rate
+    width: 100%
+  /deep/.el-badge
+    cursor: pointer
+    font-size: 24px
+    left: -20px
+    .el-badge__content
+      display: inline-flex
+      align-items: center
+  .itemWrapper
+    .list
+      .content
+        /deep/.el-button
+          padding: 10px
+          width: 80px
+          &+.el-button
+            margin-left: 0
 </style>

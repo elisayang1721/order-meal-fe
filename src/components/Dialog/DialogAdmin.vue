@@ -176,5 +176,7 @@ export default {
         color: #47975e
   .el-switch__label
     color: #766f6f
+    *
+      font-size: 16px
 
 </style>

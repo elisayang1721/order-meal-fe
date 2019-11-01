@@ -2,9 +2,7 @@
   ScrollBar#menuList.tableFrame(v-if="menu.length")
     .row
       .cell
-        span 品名
-      .cell
-        span 價格
+        span {{`${storeName} 菜單`}}
     template(v-for="obj in menu")
       .row
         .cell.menuType
@@ -14,9 +12,9 @@
           span {{item.cate}}
         .cell
           template(v-if="item.meals.length === 1")
-            span {{item.meals[0].price}}
+            span {{`$${item.meals[0].price}`}}
           template(v-else)
-            span(v-for="meal in item.meals" :key="meal.id") {{`${meal.name} ${meal.price}`}}
+            span(v-for="meal in item.meals" :key="meal.id") {{`${meal.name} $${meal.price}`}}
 </template>
 <script>
 import ScrollBar from '@c/ScrollBar/ScrollBar'
@@ -24,7 +22,7 @@ import store from '@api/store'
 
 export default {
   name: 'MenuList',
-  props: ['storeId'],
+  props: ['storeId', 'storeName'],
   mounted() {
     this.getMenus()
   },

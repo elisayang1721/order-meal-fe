@@ -6,7 +6,7 @@
         .content
           ul.alignStart
             li
-              span 截止時間
+              span 截止時間：
               el-date-picker(v-model="orderInfo.finishedOn"
                 @change="checkDateTime"
                 type="datetime"
@@ -14,10 +14,10 @@
                 format="yyyy-MM-dd HH:mm"
                 value-format="yyyy-MM-dd HH:mm")
             li
-              span 截止金額
+              span 截止金額：
               span {{orderInfo.limitedPrice || '無'}}
             li
-              span 訂單狀態
+              span 訂單狀態：
               .switchBlock
                 el-switch(v-model="orderInfo.status"
                   active-color="#47975e"
@@ -25,7 +25,7 @@
                   active-text="進行"
                   inactive-text="截止")
             li
-              el-button(type="success"
+              el-button.export-btn(type="success"
                 @click="getDebounce('export')") 匯出Excel
       .contentBlock
         .contentNav 訂單計算
@@ -34,7 +34,7 @@
             li 共 {{orderInfo.totalAmount}} 份
             li 已訂購： {{orderInfo.paidAmount}}份
             li 未訂購： {{orderInfo.orderedAmount}}份
-            li 總價： ${{orderInfo.totalPrice}}
+            li 總價： {{addComma}}
       .contentBlock
         .contentNav 公告事項
         .content
@@ -46,7 +46,7 @@
       .phone
         i.el-icon-phone
         span {{orderInfo.storePhone}}
-      el-button(type="danger" @click="reset") 取消
+      el-button(type="danger" @click="reset") 復原
       el-button(type="success" @click="getDebounce()") 確認
     DialogDetail
 </template>
@@ -54,7 +54,7 @@
 import history from '@api/history'
 import orderForm from '@api/orderForm'
 import debounce from 'lodash/debounce'
-import { deepClone, exportExcel } from '@js/model'
+import { deepClone, exportExcel, addComma } from '@js/model'
 import { mapActions } from 'vuex'
 import DialogDetail from './DialogDetail'
 
@@ -74,6 +74,11 @@ export default {
     this.$bus.$on('refreshOrderForm', () => {
       this.getRecordsId()
     })
+  },
+  computed: {
+    addComma() {
+      return Object.keys(this.orderInfo).length ? addComma(this.orderInfo.totalPrice) : 0
+    }
   },
   methods: {
     ...mapActions(['closeDialog']),
@@ -165,12 +170,14 @@ export default {
     color: $darkGray
     height: 100%
     resize: none
+    padding: 5px 10px
   .el-input__count
     color: $darkGray
     background: #efebea
 /deep/.el-switch
   flex: 1
   +Flex(space-around)
+  margin: 0
   .el-switch__label--left
     color: #c75656
   &.is-checked
@@ -180,4 +187,8 @@ export default {
       color: #47975e
 /deep/.el-switch__label
   color: #766f6f
+  *
+    font-size: 16px
+.export-btn
+  padding: 6px 10px
 </style>

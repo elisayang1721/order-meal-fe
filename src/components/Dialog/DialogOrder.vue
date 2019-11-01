@@ -18,15 +18,17 @@
           span {{item.cate}}
         .cell
           template(v-if="item.meals.length === 1")
-            span {{item.meals[0].price}}
+            span {{`$${item.meals[0].price}`}}
           template(v-else)
             .radio(v-for="meal in item.meals" :key="meal.id"
               @click="setAmount(obj.menuType,i)")
               input(type="radio" :value="meal.id" :id="meal.id"
                 v-model="orderSet[obj.menuType][i].menuItemId")
-              label(:for="meal.id") {{`${meal.name} ${meal.price}`}}
+              label(:for="meal.id") {{`${meal.name} $${meal.price}`}}
         .cell
-          el-input-number(:min="0" v-model="orderSet[obj.menuType][i].amount")
+          el-input-number(v-model="orderSet[obj.menuType][i].amount"
+            :min="0" :disabled="!orderSet[obj.menuType][i].menuItemId"
+            @change="checkAmount(obj.menuType, i,item.meals.length)")
         .cell
           el-input(v-model="orderSet[obj.menuType][i].remark")
     .confirmBlock
@@ -82,6 +84,11 @@ export default {
   },
   methods: {
     ...mapActions(['closeDialog']),
+    checkAmount(type, i, length) {
+      if (length !== 1 && !this.orderSet[type][i].amount) {
+        this.orderSet[type][i].menuItemId = null
+      }
+    },
     orderInfo() {
       const orderSet = {}
       this.menuList.forEach(el => {
@@ -117,14 +124,22 @@ export default {
           vm.submitSuccess()
         })
     }, 500),
+    errorMessage: debounce(vm => {
+      vm.$message({
+        message: '請至少點選一樣',
+        type: 'error'
+      })
+    }, 500),
     confirm() {
+      const vm = this
       if (this.getLoad.orders.length) {
-        const vm = this
         if (this.$store.state.prop.action === 'order') {
           this.addOrder(vm)
         } else {
           this.updateOrder(vm)
         }
+      } else {
+        this.errorMessage(vm)
       }
     },
     setAmount(type, i) {
@@ -165,6 +180,7 @@ export default {
     height: 28px
     line-height: 25px
     background: #efebea
+    color: #4e3636
     &:hover
       color: $c1
       background: $tableHeadColor

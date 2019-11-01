@@ -14,10 +14,11 @@
           icon="el-icon-plus") 新增
     .adminPanel
       .type
-        p 類型
-        el-checkbox(v-model="condition.searchAll") 全部
-        el-checkbox-group(v-model="condition.searchByTypes")
-          el-checkbox(v-for="type in storeType" :label="type.id" :key="type.id") {{type.name}}
+        p 類型:
+        el-checkbox(v-model="condition.searchAll" @change="searchAll") 全部
+        el-checkbox-group(v-model="condition.searchByTypes" :disabled="condition.searchAll")
+          el-checkbox(v-for="type in storeTypes" :key="type.id"
+             :label="type.id" @click.native="triggerDebounce") {{type.name}}
     .tableWrapper
       el-table(
         v-loading="loading"
@@ -39,10 +40,15 @@
               div( slot="content") {{scope.row.address}}
               i.el-icon-location-outline.address
         el-table-column(
-          prop=""
+          prop="avgScore"
           label="評價")
           template(slot-scope="scope")
-            div Comming Soon
+            template(v-if="scope.row.avgScore")
+              .score {{scope.row.avgScore}}
+              .face(:data-score="getScore(scope.row.avgScore)")
+                img(:src="require(`@img/score${getScore(scope.row.avgScore) + 1}.svg`)")
+            template(v-else)
+              div —
         el-table-column(
           prop="updatedOn"
           label="更新時間"
@@ -75,24 +81,38 @@
 import { mapActions } from 'vuex'
 import debounce from 'lodash/debounce'
 import { injectState } from '@js/model'
-
+import RatingBar from '@c/RatingBar/RatingBar'
 import store from '@api/store'
 
 
 export default {
   name: 'StoreManage',
   mounted() {
-    this.getData()
+    const vm = this
+    this.getData(vm)
     this.getStoreType()
     this.$bus.$on('refresh', () => {
       this.condition.searchByTypes = []
       this.getData()
     })
   },
-  methods: {
-    ...mapActions(['showDialog']),
-    getData: debounce(function () {
-      const init = {
+  data() {
+    return {
+      storeData: [],
+      storeTypes: [],
+      totalSize: null,
+      pageNum: 1,
+      condition: {
+        searchByName: '',
+        searchByTypes: [],
+        searchAll: false
+      },
+      loading: false
+    }
+  },
+  computed: {
+    getPayLoad() {
+      const load = {
         name: this.condition.searchByName,
         page: this.pageNum,
         pageSize: 8,
@@ -100,16 +120,29 @@ export default {
         sortName: 'updatedOn',
         types: this.condition.searchAll ? [] : this.condition.searchByTypes
       }
-      this.loading = true
-      store.getStoreList(init).then(res => {
-        this.storeData = res.list
-        this.totalSize = res.totalSize
-        this.loading = false
-      })
-    }, 500),
+      return load
+    }
+  },
+  methods: {
+    ...mapActions(['showDialog']),
+    getScore(score) {
+      let idx
+      if (score <= 1.8) {
+        idx = 0
+      } else if (score <= 2.6) {
+        idx = 1
+      } else if (score <= 3.4) {
+        idx = 2
+      } else if (score <= 4.2) {
+        idx = 3
+      } else {
+        idx = 4
+      }
+      return idx
+    },
     getStoreType() {
       store.getStoreType().then(res => {
-        this.storeType = res.list
+        this.storeTypes = res.list
       })
     },
     toggleDialog(action, row = null) {
@@ -139,30 +172,45 @@ export default {
       }
       injectState(prop)
       this.showDialog(load)
+    },
+    pushAllTypes() {
+      this.storeTypes.forEach(type => {
+        this.condition.searchByTypes.push(type.id)
+      })
+    },
+    getData: debounce(vm => {
+      vm.loading = true
+      store.getStoreList(vm.getPayLoad).then(res => {
+        vm.storeData = res.list
+        vm.totalSize = res.totalSize
+        vm.loading = false
+      })
+    }, 500),
+    triggerDebounce() {
+      const vm = this
+      this.getData(vm)
+    },
+    searchAll() {
+      if (this.condition.searchAll) {
+        this.pushAllTypes()
+      } else {
+        this.condition.searchByTypes = []
+      }
+      this.triggerDebounce()
     }
   },
   watch: {
     'condition': {
       handler() {
+        const vm = this
         this.pageNum = 1
-        this.getData()
+        this.getData(vm)
       },
       deep: true
     }
   },
-  data() {
-    return {
-      storeData: [],
-      storeType: [],
-      totalSize: null,
-      pageNum: 1,
-      condition: {
-        searchByName: '',
-        searchByTypes: [],
-        searchAll: false
-      },
-      loading: false
-    }
+  components: {
+    RatingBar
   },
   beforeDestroy() {
     this.$bus.$off('refresh')
@@ -170,6 +218,32 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+.tabContainer
+  /deep/.el-checkbox-group
+    margin-left: 30px
+  /deep/.el-table
+    .cell
+      +Flex()
+  .score
+    width: 50px
+    font-size: 30px
+    margin-right: 20px
+  .face
+    +size(25px,25px,null)
+    border-radius: 50%
+    border: 1px solid #000
+    margin-right: 5px
+    background: #eee
+    &[data-score="0"]
+      background: #f15354
+    &[data-score="1"]
+      background: #f68937
+    &[data-score="2"]
+      background: #ffcc28
+    &[data-score="3"]
+      background: #49bb7d
+    &[data-score="4"]
+      background: #16b6d6
 .search
   /deep/.el-input
     .el-input__inner
@@ -182,4 +256,6 @@ export default {
         line-height: 32px
 /deep/.el-checkbox
   // margin-right: 20px
+.add-button
+  width: 80px
 </style>

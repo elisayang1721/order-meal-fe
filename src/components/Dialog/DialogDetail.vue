@@ -47,7 +47,7 @@
             el-button(type="danger"
               @click.stop="deleteOrder") 刪除
             el-button(type="danger" icon="el-icon-warning-outline"
-              @click.once="confirmDelete(obj.id)") 確認刪除
+              @click.once="confirmDelete(obj.id)") 確認刪除？
 </template>
 <script>
 import history from '@api/history'

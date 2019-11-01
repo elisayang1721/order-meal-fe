@@ -2,9 +2,7 @@
   ScrollBar#addOrder.tableFrame
     .row
       .cell
-        span 負責人
-      .cell
-        span {{memberName}}
+        span {{`發起 ${storeName} 點餐`}}
     .row
       .cell
         span 截止時間
@@ -27,17 +25,17 @@
         el-input(v-model="condition.bulletin"
           type="textarea")
     .confirmBlock
-      el-button(type="danger") 取消
       el-button(type="success" @click="getDebounce") 確認
 </template>
 <script>
 import orderForm from '@api/orderForm'
 import debounce from 'lodash/debounce'
 import ScrollBar from '@c/ScrollBar/ScrollBar'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'AddOrder',
-  props: ['storeId'],
+  props: ['storeId', 'storeName'],
   mounted() {
     const userData = JSON.parse(localStorage.getItem('userData'))
     this.memberName = userData.memberName
@@ -55,6 +53,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['closeDialog']),
     createOrder: debounce(vm => {
       orderForm.addOrderForm(vm.getLoad).then(() => {
         vm.$message({
@@ -62,6 +61,8 @@ export default {
           type: 'success'
         })
         vm.$bus.$emit('refreshSystem')
+        vm.$bus.$emit('refreshRecordsList')
+        vm.closeDialog()
       })
     }, 500),
     getDebounce() {
@@ -85,7 +86,4 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-#addOrder
-  /deep/.el-button
-    width: 50px
 </style>
