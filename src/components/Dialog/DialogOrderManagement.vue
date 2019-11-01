@@ -6,7 +6,7 @@
         .content
           ul.alignStart
             li
-              span 截止時間
+              span 截止時間：
               el-date-picker(v-model="orderInfo.finishedOn"
                 @change="checkDateTime"
                 type="datetime"
@@ -14,10 +14,10 @@
                 format="yyyy-MM-dd HH:mm"
                 value-format="yyyy-MM-dd HH:mm")
             li
-              span 截止金額
+              span 截止金額：
               span {{orderInfo.limitedPrice || '無'}}
             li
-              span 訂單狀態
+              span 訂單狀態：
               .switchBlock
                 el-switch(v-model="orderInfo.status"
                   active-color="#47975e"
@@ -25,7 +25,7 @@
                   active-text="進行"
                   inactive-text="截止")
             li
-              el-button(type="success"
+              el-button.export-btn(type="success"
                 @click="getDebounce('export')") 匯出Excel
       .contentBlock
         .contentNav 訂單計算
@@ -170,12 +170,14 @@ export default {
     color: $darkGray
     height: 100%
     resize: none
+    padding: 5px 10px
   .el-input__count
     color: $darkGray
     background: #efebea
 /deep/.el-switch
   flex: 1
   +Flex(space-around)
+  margin: 0
   .el-switch__label--left
     color: #c75656
   &.is-checked
@@ -185,4 +187,8 @@ export default {
       color: #47975e
 /deep/.el-switch__label
   color: #766f6f
+  *
+    font-size: 16px
+.export-btn
+  padding: 6px 10px
 </style>

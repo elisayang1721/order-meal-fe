@@ -178,4 +178,12 @@ export default {
     .el-badge__content
       display: inline-flex
       align-items: center
+  .itemWrapper
+    .list
+      .content
+        /deep/.el-button
+          padding: 10px
+          width: 80px
+          &+.el-button
+            margin-left: 0
 </style>
