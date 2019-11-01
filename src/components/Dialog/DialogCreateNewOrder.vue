@@ -3,37 +3,40 @@
     ScrollBar.innerBlock
       .filterCondition
         .searchType
-          el-checkbox(v-model="condition.searchAll") 全部
+          el-checkbox(v-model="condition.searchAll" @change="searchAll") 全部
         .searchType
           .subjectTitle 按訂購時間：
           el-radio-group(v-model="condition.searchByTime" :disabled="condition.searchAll")
-            el-radio(:label="0") 不限
-            el-radio(:label="2") 兩週內未訂過
-            el-radio(:label="4") 一個月內未訂過
-            el-radio(:label="8") 兩個月內未訂過
+            el-radio(:label="0" @click.native="triggerDebounce") 不限
+            el-radio(:label="2" @click.native="triggerDebounce") 兩週內未訂過
+            el-radio(:label="4" @click.native="triggerDebounce") 一個月內未訂過
+            el-radio(:label="8" @click.native="triggerDebounce") 兩個月內未訂過
         .searchType
           .subjectTitle 按服務類型：
           el-checkbox-group(v-model="condition.searchByTypes" :disabled="condition.searchAll")
-            el-checkbox(v-for="type in storeTypes" :label="type.id" :key="type.id") {{type.name}}
+            el-checkbox(v-for="type in storeTypes" :key="type.id"
+              :label="type.id" @click.native="triggerDebounce") {{type.name}}
       .filterBlock(v-loading="loading")
         el-table(:data="storeList" border style='width: 100%' align="center")
           el-table-column(prop='name' label='店名' width="120")
           el-table-column(prop='description' label='說明')
           el-table-column(prop='avgScore' label='評分' width="80")
-            //- template(slot-scope="scope")
-            //-   RatingBar(:score="scope.row.avgScore" :isSelectable="false")
           el-table-column(label="功能")
             template(slot-scope="scope")
-              el-button(type="primary" icon="el-icon-plus"
-                @click="toggleAside(scope.row.id, 'AddOrder')")
-              el-button(type="primary" icon="el-icon-potato-strips"
-                @click="toggleAside(scope.row.id, 'MenuList')")
-              el-button(type="primary" icon="el-icon-info"
-                @click="toggleAside(scope.row.id, 'StoreInfo')")
-              el-button(type="primary" icon="el-icon-star-on"
-                @click="toggleAside(scope.row.id, 'AllEvaluation')")
+              el-tooltip(effect="dark" content="新增訂單" placement="top-start")
+                el-button(type="primary" icon="el-icon-plus"
+                  @click="toggleAside(scope.row.id, 'AddOrder',scope.row.name)")
+              el-tooltip(effect="dark" content="菜單" placement="top-start")
+                el-button(type="primary" icon="el-icon-potato-strips"
+                  @click="toggleAside(scope.row.id, 'MenuList',scope.row.name)")
+              el-tooltip(effect="dark" content="店家資訊" placement="top-start")
+                el-button(type="primary" icon="el-icon-info"
+                  @click="toggleAside(scope.row.id, 'StoreInfo')")
+              el-tooltip(effect="dark" content="店家評價" placement="top-start")
+                el-button(type="primary" icon="el-icon-star-on"
+                  @click="toggleAside(scope.row.id, 'AllEvaluation')")
     .innerBlock
-      component(:is="subComponent" :storeId="currentId")
+      component(:is="subComponent" :storeId="currentId" :storeName="currentName")
 </template>
 <script>
 import ScrollBar from '@c/ScrollBar/ScrollBar'
@@ -63,6 +66,7 @@ export default {
   data() {
     return {
       currentId: '',
+      currentName: '',
       subComponent: '',
       loading: false,
       storeList: [],
@@ -74,20 +78,8 @@ export default {
       }
     }
   },
-  methods: {
-    toggleAside(id, component) {
-      this.resetAll()
-      // wait till the data reset
-      this.$nextTick(() => {
-        this.currentId = id
-        this.subComponent = component
-      })
-    },
-    resetAll() {
-      this.currentId = null
-      this.subComponent = null
-    },
-    getStoreInfo: debounce(function () {
+  computed: {
+    getPayLoad() {
       let load
       if (this.condition.searchAll) {
         load = ''
@@ -97,22 +89,53 @@ export default {
           types: this.condition.searchByTypes.join(',')
         }
       }
-      this.loading = true
-      orderForm.getStoreInfos(load).then(res => {
-        this.storeList = res.list
-        this.loading = false
-      })
-    }, 500)
+      return load
+    }
   },
-  watch: {
-    'condition': {
-      handler() {
-        // handle refresh
-        this.resetAll()
-        // call API to refresh storeList
-        this.getStoreInfo()
-      },
-      deep: true
+  methods: {
+    toggleAside(id, component, name = null) {
+      this.resetAll()
+      // wait till the data reset
+      this.$nextTick(() => {
+        this.currentName = name
+        this.currentId = id
+        this.subComponent = component
+      })
+    },
+    resetAll() {
+      this.currentName = null
+      this.currentId = null
+      this.subComponent = null
+    },
+    pushAllTypes() {
+      this.storeTypes.forEach(type => {
+        this.condition.searchByTypes.push(type.id)
+      })
+    },
+    getStoreInfo: debounce(vm => {
+      vm.loading = true
+      orderForm.getStoreInfos(vm.getPayLoad).then(res => {
+        vm.storeList = res.list
+        vm.loading = false
+      })
+    }, 500),
+    triggerDebounce() {
+      this.resetAll()
+      const vm = this
+      this.getStoreInfo(vm)
+    },
+    searchAll() {
+      if (this.condition.searchAll) {
+        this.condition.searchByTime = 0
+        this.pushAllTypes()
+      } else {
+        this.condition = {
+          searchByTime: '',
+          searchByTypes: [],
+          searchAll: false
+        }
+      }
+      this.triggerDebounce()
     }
   },
   components: {
