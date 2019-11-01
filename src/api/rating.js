@@ -9,17 +9,17 @@ export default {
       data
     })
   },
-  getMyEvaluations(orderRecordId) {
+  getMyEvaluations(orderId) {
     // 取得單筆餐點評價
     return Axios({
-      url: `/orderRecords/${orderRecordId}/evaluations`,
+      url: `/orderRecords/${orderId}/evaluations`,
       method: 'get'
     })
   },
-  getAllEvaluations(orderId) {
+  getAllEvaluations(storeId) {
     // 取得店家訂單評價
     return Axios({
-      url: `/stores/${orderId}/evaluations`,
+      url: `/stores/${storeId}/evaluations`,
       method: 'get'
     })
   }
