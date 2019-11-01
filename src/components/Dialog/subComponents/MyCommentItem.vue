@@ -38,6 +38,8 @@ export default {
           message: '評論成功',
           type: 'success'
         })
+        vm.$bus.$emit('refreshMyorder')
+        vm.$bus.$emit('refreshSystem')
         vm.closeDialog()
       })
     }, 500),
