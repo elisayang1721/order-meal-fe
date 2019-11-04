@@ -20,7 +20,7 @@
         el-table(:data="storeList" border style='width: 100%' align="center")
           el-table-column(prop='name' label='店名' width="120")
           el-table-column(prop='description' label='說明')
-          el-table-column(prop='avgScore' label='評分' width="80")
+          el-table-column(prop='avgScore' label='評分' width="100" sortable)
           el-table-column(label="功能")
             template(slot-scope="scope")
               el-tooltip(effect="dark" content="新增訂單" placement="top-start")
