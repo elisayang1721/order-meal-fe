@@ -221,15 +221,14 @@ export default {
 .tabContainer
   /deep/.el-checkbox-group
     margin-left: 30px
-  /deep/.el-table
-    .cell
-      +Flex()
   .score
+    display: inline-block
     width: 50px
     font-size: 30px
     margin-right: 20px
   .face
     +size(25px,25px,null)
+    display: inline-block
     border-radius: 50%
     border: 1px solid #000
     margin-right: 5px
