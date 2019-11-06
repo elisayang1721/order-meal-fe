@@ -71,7 +71,7 @@
               icon="el-icon-close") 刪除
     el-pagination(
       :current-page.sync="pageNum"
-      @current-change="getData"
+      @current-change="triggerDebounce"
       :page-size="8"
       layout="prev, pager, next"
       :total="totalSize")
@@ -88,12 +88,11 @@ import store from '@api/store'
 export default {
   name: 'StoreManage',
   mounted() {
-    const vm = this
-    this.getData(vm)
+    this.triggerDebounce()
     this.getStoreType()
     this.$bus.$on('refresh', () => {
       this.condition.searchByTypes = []
-      this.getData()
+      this.triggerDebounce()
     })
   },
   data() {
@@ -202,9 +201,8 @@ export default {
   watch: {
     'condition': {
       handler() {
-        const vm = this
         this.pageNum = 1
-        this.getData(vm)
+        this.triggerDebounce()
       },
       deep: true
     }
