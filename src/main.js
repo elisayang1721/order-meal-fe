@@ -10,6 +10,9 @@ Vue.use(ElementUI, {
   locale
 })
 
+// prototype
+import '@js/proto'
+
 // style
 import '@css/reset.sass'
 import '@css/main.sass'
