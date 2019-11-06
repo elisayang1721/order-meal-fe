@@ -18,9 +18,7 @@ export default {
     this.$bus.$on('refreshMyorder', () => {
       this.refreshList()
     })
-    this.$el.addEventListener('reachEnd', () => {
-      this.reachEnd()
-    })
+    this.$el.addEventListener('reachEnd', this.reachEnd)
   },
   methods: {
     reachEnd() {
@@ -64,7 +62,7 @@ export default {
   },
   beforeDestroy() {
     this.$bus.$off('refreshMyorder')
-    this.$el.removeEventListener('reachEnd', () => {})
+    this.$el.removeEventListener('reachEnd', this.reachEnd)
   }
 }
 </script>

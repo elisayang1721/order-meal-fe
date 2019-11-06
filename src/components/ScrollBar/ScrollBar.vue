@@ -66,6 +66,9 @@ export default {
         this.scroll = null
       }
     },
+    setScrollTop() {
+      this.scroll.scrollTop = 0
+    },
     init_GoTop() {
       const button = document.createElement('button')
       const text = document.createTextNode('backToTop')
@@ -73,13 +76,11 @@ export default {
       button.classList.add('backToTop')
       this.goTopButton = button
       this.$el.appendChild(this.goTopButton)
-      this.goTopButton.addEventListener('click', () => {
-        this.scroll.scrollTop = 0
-      })
+      this.goTopButton.addEventListener('click', this.setScrollTop)
     },
     uninit_GoTop() {
       if (this.goTopButton) {
-        this.goTopButton.removeEventListener('click', () => {})
+        this.goTopButton.removeEventListener('click', this.setScrollTop)
         this.goTopButton = null
       }
     },
