@@ -2,7 +2,7 @@
   div(v-loading="loading")
     .dialoStore.tableFrame
       .storeHead
-        .title 基本資料：
+        .title 基本資料
         .title 菜單設定
           el-tooltip(
             effect="dark"
@@ -29,25 +29,31 @@
         .contentLeft
           .content
             .contentItem
-              p 店名
+              p
+                span *
+                | 店名：
               el-input(
                 v-model="storeInfo.name"
                 placeholder="請輸入店家名稱"
                 clearable)
             .contentItem
-              p 電話
+              p
+                span *
+                | 電話：
               el-input(
                 v-model="storeInfo.phone"
                 placeholder="請輸入店家電話"
                 clearable)
             .contentItem
-              p 地址
+              p
+                span *
+                | 地址：
               el-input(
                 v-model="storeInfo.address"
                 placeholder="請輸入店家地址"
                 clearable)
             .contentItem
-              p 簡介
+              p 簡介：
               el-input(
                 v-model="storeInfo.description"
                 type="textarea"
@@ -55,6 +61,7 @@
                 placeholder="請輸入店家簡介")
           .content
             .title 服務類型
+              span (請至少選擇一項)
             .contentItem.mTop
               el-checkbox-group(v-model="storeInfo.types")
                 el-checkbox(v-for="type in storeType" :label="type.id" :key="type.id") {{type.name}}
@@ -90,10 +97,10 @@
                           span {{item.cate}}
                         .cell
                           template(v-if="item.meals.length === 1")
-                            span {{item.meals[0].price}}
+                            span {{formatPrice(item.meals[0].price)}}
                           template(v-else)
                             span(v-for="meal in item.meals"
-                            :key="meal.id") {{`${meal.name}${meal.price}`}}
+                            :key="meal.id") {{`${meal.name}  ${formatPrice(meal.price)}`}}
 
     .commonBtnGroup
       el-button(type="danger" @click="closeDialog") 取消
@@ -158,11 +165,23 @@ export default {
       })
     }, 500),
     submit() {
-      const vm = this
-      if (this.$store.state.prop.action === 'add') {
-        this.addStore(vm)
-      } else {
-        this.updateStore(vm)
+      try {
+        const vm = this
+        if (this.storeInfo.menuJson.list[0].items[0].meals[0].price) {
+          if (this.$store.state.prop.action === 'add') {
+            this.addStore(vm)
+          } else {
+            this.updateStore(vm)
+          }
+        } else {
+          this.$message({
+            message: '請輸入菜單',
+            type: 'warning'
+          })
+        }
+      } catch (e) {
+        const vm = this
+        this.errorMessage(vm)
       }
     },
     submitSuccess() {
@@ -184,7 +203,10 @@ export default {
         message: '格式錯誤',
         type: 'error'
       })
-    }, 500)
+    }, 500),
+    formatPrice(price) {
+      return parseInt(price, 0).format()
+    }
   },
   watch: {
     'storeInfo.menuText': {
@@ -235,6 +257,9 @@ export default {
     letter-spacing: 1px
     text-align: center
     padding: 0.6rem 0
+    >span
+      margin-left: 5px
+      font-size: .9rem
   .storeHead
     display: flex
     width: 100%
@@ -258,10 +283,13 @@ export default {
           &:last-child
             margin-bottom: unset
           p
-            width: 3rem
+            width: 4rem
             margin-right: 0.5rem
             font-size: 15px
             color: $darkGray
+            >span
+              margin-right: 5px
+              color: red
           /deep/.el-checkbox-group
             padding-left: 20px
             /deep/.el-checkbox

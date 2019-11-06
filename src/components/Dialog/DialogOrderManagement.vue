@@ -1,6 +1,6 @@
 <template lang="pug">
   #orderManagement(v-loading="loading")
-    .managementContent.tableFrame
+    .managementContent.tableFrame(v-if="Object.keys(orderInfo).length")
       .contentBlock
         .contentNav 進度設定
         .content
@@ -15,7 +15,7 @@
                 value-format="yyyy-MM-dd HH:mm")
             li
               span 截止金額：
-              span {{orderInfo.limitedPrice || '無'}}
+              span {{orderInfo.limitedPrice ? orderInfo.limitedPrice.format() : '無'}}
             li
               span 訂單狀態：
               .switchBlock
@@ -34,7 +34,7 @@
             li 共 {{orderInfo.totalAmount}} 份
             li 已訂購： {{orderInfo.paidAmount}}份
             li 未訂購： {{orderInfo.orderedAmount}}份
-            li 總價： {{addComma}}
+            li 總價： {{orderInfo.totalPrice.format()}}
       .contentBlock
         .contentNav 公告事項
         .content
@@ -54,7 +54,7 @@
 import history from '@api/history'
 import orderForm from '@api/orderForm'
 import debounce from 'lodash/debounce'
-import { deepClone, exportExcel, addComma } from '@js/model'
+import { deepClone, exportExcel } from '@js/model'
 import { mapActions } from 'vuex'
 import DialogDetail from './DialogDetail'
 
@@ -74,11 +74,6 @@ export default {
     this.$bus.$on('refreshOrderForm', () => {
       this.getRecordsId()
     })
-  },
-  computed: {
-    addComma() {
-      return Object.keys(this.orderInfo).length ? addComma(this.orderInfo.totalPrice) : 0
-    }
   },
   methods: {
     ...mapActions(['closeDialog']),

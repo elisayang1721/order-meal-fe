@@ -34,7 +34,7 @@
       .cell
         span {{item.totalAmount}}
       .cell
-        span {{item.price}}
+        span {{item.price.format()}}
       .cell.flexFix
         .subscriberCell(v-for="(obj, i) in item.orderRecords" :key="obj.id"
           :class="recordClass(obj)"

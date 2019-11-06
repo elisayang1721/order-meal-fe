@@ -19,10 +19,6 @@ export default {
           title: '店家管理'
         },
         {
-          name: 'OrderMerge',
-          title: '合併訂單'
-        },
-        {
           name: 'UserAdmin',
           title: '管理員權限'
         }

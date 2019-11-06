@@ -12,9 +12,10 @@
           span {{item.cate}}
         .cell
           template(v-if="item.meals.length === 1")
-            span {{`$${item.meals[0].price}`}}
+            span {{item.meals[0].price.format()}}
           template(v-else)
-            span(v-for="meal in item.meals" :key="meal.id") {{`${meal.name} $${meal.price}`}}
+            span(v-for="meal in item.meals"
+              :key="meal.id") {{`${meal.name} ${meal.price.format()}`}}
 </template>
 <script>
 import ScrollBar from '@c/ScrollBar/ScrollBar'

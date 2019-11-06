@@ -50,9 +50,13 @@
     margin-bottom: 10px
     .checkBlock
       flex: 4
+      .ellipsis
+        +ellipsis()
+        width: 10rem
+        font-size: 1rem
     .infoDetail
       +Flex(space-between,center)
-      flex: 1
+      flex: 1.5
   .listBlock
     overflow: hidden
     .listTable

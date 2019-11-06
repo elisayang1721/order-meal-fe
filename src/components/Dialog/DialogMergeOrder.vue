@@ -1,12 +1,14 @@
 <template lang="pug">
-  #OrderMerge.tabContainer
+  #OrderMerge
     .infoBlock
       .checkBlock
         el-checkbox-group(v-model="checked")
           el-checkbox(v-for="list in orderList.list" :key="list.id"
             :label="list.id")
             span {{list.orderName.split(',')[0]}}
-            span {{list.orderName.split(',')[1]}}
+            span.ellipsis(
+              :title="neededTitle(list.orderName.split(',')[1])"
+            ) {{list.orderName.split(',')[1]}}
       .infoDetail
         ul
           li 全部：
@@ -38,7 +40,7 @@
                 li(v-for="(order, idx) in obj.meals"
                   :key="idx") {{`${order.cate} ${order.price}元 x${order.amount}`}}
             .cell
-              span {{`${getOrderPrice(obj.meals)}元`}}
+              span {{getOrderPrice(obj.meals)}}
 </template>
 <script>
 import ScrollBar from '@c/ScrollBar/ScrollBar'
@@ -47,7 +49,7 @@ import mergeOrder from '@api/mergeOrder'
 import debounce from 'lodash/debounce'
 
 export default {
-  name: 'OrderMerge',
+  name: 'DialogMergeOrder',
   mounted() {
     mergeOrder.updateMergeOptions().then(res => {
       this.orderList = res
@@ -81,7 +83,7 @@ export default {
       order.forEach(el => {
         price += el.price * el.amount
       })
-      return price
+      return price.format()
     },
     getMergeOrder: debounce(vm => {
       vm.loading = true
@@ -98,7 +100,10 @@ export default {
       mergeOrder.exportExcel(vm.getOrderId).then(res => {
         exportExcel(res)
       })
-    }, 500)
+    }, 500),
+    neededTitle(info) {
+      return info.length > 10 ? info : ''
+    }
   },
   watch: {
     'checked': {

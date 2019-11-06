@@ -18,7 +18,10 @@
           .amountTitle
             span 評分
             span {{list.avgScore}}
-            el-badge(:value="list.totalComment" :max="99" @click.native="toggleDialog('Rating')")
+            el-badge(:value="list.totalComment"
+              :max="99"
+              :class="{pointerEvent: !list.totalComment}"
+              @click.native="toggleDialog('Rating')")
               i(class="el-icon-s-comment")
           RatingBar(:score="list.avgScore" :isSelectable="false")
     .list.right

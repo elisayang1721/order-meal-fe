@@ -5,6 +5,9 @@
       span 訂餐系統
     ul.navTabs
       li
+        el-link(icon="el-icon-s-order"
+          @click="toggleDialog") 匯出訂單
+      li
         el-link(icon="el-icon-s-home"
           v-if="checkPermission && $route.path === '/admin'"
           @click="switchRoute('/')") 點餐首頁
@@ -21,6 +24,7 @@
 </template>
 <script>
 import user from '@api/user'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'AppHeader',
@@ -42,12 +46,22 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['showDialog']),
     switchRoute(path) {
       if (this.$route.path !== path) {
         this.$router.push({
           path
         })
+      } else {
+        window.location.reload()
       }
+    },
+    toggleDialog() {
+      const load = {
+        name: 'MergeOrder',
+        title: '合併訂單'
+      }
+      this.showDialog(load)
     },
     logout() {
       user.logOut().then(() => {
