@@ -21,8 +21,15 @@
     width: 3rem
     margin-right: 0.5rem
     font-size: 15px
-  .search
-    +Flex
+  .searchBlock
+    +Flex(flex-start,center)
+    .search
+      +Flex
+      &:last-child
+        width: 350px
+        margin-left: 3rem
+        >p
+          width: 5rem
   .type
     +Flex
   .tableWrapper

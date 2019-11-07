@@ -32,7 +32,7 @@
           icon="el-icon-setting"
           @click="toggleDialog('OrderManagement')") 訂單管理
       .content
-        el-button.detailBtn(icon="el-icon-edit"
+        el-button.detailBtn(icon="el-icon-document"
           :disabled="countDown === '已截止'"
           @click="toggleDialog('Detail')") 明細
         el-button(type="success" icon="el-icon-potato-strips"

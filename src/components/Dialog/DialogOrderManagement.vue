@@ -26,7 +26,7 @@
                   inactive-text="截止")
             li
               el-button.export-btn(type="success"
-                @click="getDebounce('export')") 匯出Excel
+                @click="getDebounce($event,'export')") 匯出Excel
       .contentBlock
         .contentNav 訂單計算
         .content
@@ -46,8 +46,9 @@
       .phone
         i.el-icon-phone
         span {{orderInfo.storePhone}}
-      el-button(type="danger" @click="reset") 復原
-      el-button(type="success" @click="getDebounce()") 確認
+      el-button(type="danger"
+        @click="reset") 復原
+      el-button(type="success" @click="getDebounce($event)") 確認
     DialogDetail
 </template>
 <script>
@@ -85,6 +86,9 @@ export default {
         this.loading = false
       })
     },
+    blur(e) {
+      e.currentTarget.blur()
+    },
     checkDateTime() {
       if (!this.orderInfo.finishedOn) {
         this.$nextTick(() => {
@@ -92,8 +96,9 @@ export default {
         })
       }
     },
-    reset() {
+    reset(e) {
       this.orderInfo = deepClone(this.initData)
+      this.blur(e)
     },
     updateForm: debounce(vm => {
       const load = {
@@ -118,13 +123,14 @@ export default {
         exportExcel(res)
       })
     }, 500),
-    getDebounce(action = 'update') {
+    getDebounce(e, action = 'update') {
       const vm = this
       if (action === 'update') {
         this.updateForm(vm)
       } else {
         this.exportExcel(vm)
       }
+      this.blur(e)
     }
   },
   data() {

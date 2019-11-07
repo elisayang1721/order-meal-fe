@@ -12,14 +12,14 @@
           v-if="checkPermission && $route.path === '/admin'"
           @click="switchRoute('/')") 點餐首頁
       li
-        el-link(icon="el-icon-s-home"
+        el-link(icon="el-icon-s-tools"
           v-if="checkPermission && $route.path === '/'"
           @click="switchRoute('/admin')") 管理中心
       li
         el-link.user(icon="el-icon-user-solid"
           :underline="false") {{`${userData.memberName} [${userData.account}]`}}
       li
-        el-link(icon="el-icon-s-opportunity"
+        el-link(icon="el-icon-switch-button"
           @click.once="logout") 登出
 </template>
 <script>
