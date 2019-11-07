@@ -165,8 +165,8 @@ export default {
       })
     }, 500),
     submit() {
+      const vm = this
       try {
-        const vm = this
         if (this.storeInfo.menuJson.list[0].items[0].meals[0].price) {
           if (this.$store.state.prop.action === 'add') {
             this.addStore(vm)
@@ -180,7 +180,6 @@ export default {
           })
         }
       } catch (e) {
-        const vm = this
         this.errorMessage(vm)
       }
     },
