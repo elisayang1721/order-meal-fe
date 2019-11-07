@@ -18,13 +18,13 @@
           span {{item.cate}}
         .cell
           template(v-if="item.meals.length === 1")
-            span {{`$${item.meals[0].price}`}}
+            span {{`${item.meals[0].price.format()}`}}
           template(v-else)
             .radio(v-for="meal in item.meals" :key="meal.id"
               @click="setAmount(obj.menuType,i)")
               input(type="radio" :value="meal.id" :id="meal.id"
                 v-model="orderSet[obj.menuType][i].menuItemId")
-              label(:for="meal.id") {{`${meal.name} $${meal.price}`}}
+              label(:for="meal.id") {{`${meal.name} ${meal.price.format()}`}}
         .cell
           el-input-number(v-model="orderSet[obj.menuType][i].amount"
             :min="0" :disabled="!orderSet[obj.menuType][i].menuItemId"

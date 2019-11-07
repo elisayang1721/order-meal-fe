@@ -5,22 +5,26 @@
       span 訂餐系統
     ul.navTabs
       li
+        el-link(icon="el-icon-s-order"
+          @click="toggleDialog") 匯出訂單
+      li
         el-link(icon="el-icon-s-home"
           v-if="checkPermission && $route.path === '/admin'"
           @click="switchRoute('/')") 點餐首頁
       li
-        el-link(icon="el-icon-s-home"
+        el-link(icon="el-icon-s-tools"
           v-if="checkPermission && $route.path === '/'"
           @click="switchRoute('/admin')") 管理中心
       li
         el-link.user(icon="el-icon-user-solid"
           :underline="false") {{`${userData.memberName} [${userData.account}]`}}
       li
-        el-link(icon="el-icon-s-opportunity"
+        el-link(icon="el-icon-switch-button"
           @click.once="logout") 登出
 </template>
 <script>
 import user from '@api/user'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'AppHeader',
@@ -42,12 +46,22 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['showDialog']),
     switchRoute(path) {
       if (this.$route.path !== path) {
         this.$router.push({
           path
         })
+      } else {
+        window.location.reload()
       }
+    },
+    toggleDialog() {
+      const load = {
+        name: 'MergeOrder',
+        title: '合併訂單'
+      }
+      this.showDialog(load)
     },
     logout() {
       user.logOut().then(() => {

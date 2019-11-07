@@ -76,6 +76,13 @@ export default {
         }
       },
       deep: true
+    },
+    '$store.state.dialog': {
+      handler(val) {
+        if (!val.length) {
+          this.goTop = false
+        }
+      }
     }
   }
 }

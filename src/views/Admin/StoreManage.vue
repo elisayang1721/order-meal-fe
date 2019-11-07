@@ -1,12 +1,19 @@
 <template lang="pug">
   .tabContainer
     .adminPanel
-      .search
-        p 店名
-        el-input(
-          v-model="condition.searchByName"
-          placeholder="請輸入店名"
-          prefix-icon="el-icon-search")
+      .searchBlock
+        .search
+          p 店名：
+          el-input(
+            v-model="condition.searchByName"
+            placeholder="請輸入店名"
+            prefix-icon="el-icon-search")
+        .search
+          p 餐點名稱：
+          el-input(
+            v-model="condition.searchByMeals"
+            placeholder="請輸入餐點名稱,如：可樂,雞腿便當"
+            prefix-icon="el-icon-search")
       .add
         el-button.add-button(
           @click.prevet="toggleDialog('add')"
@@ -14,7 +21,7 @@
           icon="el-icon-plus") 新增
     .adminPanel
       .type
-        p 類型:
+        p 類型：
         el-checkbox(v-model="condition.searchAll" @change="searchAll") 全部
         el-checkbox-group(v-model="condition.searchByTypes" :disabled="condition.searchAll")
           el-checkbox(v-for="type in storeTypes" :key="type.id"
@@ -71,7 +78,7 @@
               icon="el-icon-close") 刪除
     el-pagination(
       :current-page.sync="pageNum"
-      @current-change="getData"
+      @current-change="triggerDebounce"
       :page-size="8"
       layout="prev, pager, next"
       :total="totalSize")
@@ -88,12 +95,11 @@ import store from '@api/store'
 export default {
   name: 'StoreManage',
   mounted() {
-    const vm = this
-    this.getData(vm)
+    this.triggerDebounce()
     this.getStoreType()
     this.$bus.$on('refresh', () => {
       this.condition.searchByTypes = []
-      this.getData()
+      this.triggerDebounce()
     })
   },
   data() {
@@ -104,6 +110,7 @@ export default {
       pageNum: 1,
       condition: {
         searchByName: '',
+        searchByMeals: '',
         searchByTypes: [],
         searchAll: false
       },
@@ -114,6 +121,7 @@ export default {
     getPayLoad() {
       const load = {
         name: this.condition.searchByName,
+        meals: this.reformString(this.condition.searchByMeals),
         page: this.pageNum,
         pageSize: 8,
         sort: 'ASC',
@@ -197,14 +205,16 @@ export default {
         this.condition.searchByTypes = []
       }
       this.triggerDebounce()
+    },
+    reformString(str) {
+      return str.replace(' ', ',').replace(/,+/g, ',')
     }
   },
   watch: {
     'condition': {
       handler() {
-        const vm = this
         this.pageNum = 1
-        this.getData(vm)
+        this.triggerDebounce()
       },
       deep: true
     }

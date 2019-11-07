@@ -25,7 +25,7 @@
           active-text="是"
           inactive-text="否")
       .adminItem
-        p 狀態
+        p 是否啟用
         el-switch(
           v-model="adminData.isEnabled"
           active-color="#47975e"
