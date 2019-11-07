@@ -63,7 +63,6 @@ export default {
       subComponent: '',
       loading: false,
       isFinishLoaded: false,
-      totalSize: null,
       storeList: [],
       storeTypes: [],
       condition: {
@@ -83,7 +82,6 @@ export default {
       orderForm.getStoreInfos(this.getPayLoad)
     ]).then(axios.spread((storeTypes, storeList) => {
       this.storeTypes = storeTypes.list
-      this.totalSize = storeList.totalSize
       if (storeList.list.length >= 13) {
         this.isFinishLoaded = true
       }
@@ -155,7 +153,6 @@ export default {
         if (res.list.length < 13) {
           vm.isFinishLoaded = false
         }
-        vm.totalSize = res.totalSize
         vm.storeList = vm.storeList ? [...vm.storeList, ...res.list] : res.list
         vm.loading = false
       })
