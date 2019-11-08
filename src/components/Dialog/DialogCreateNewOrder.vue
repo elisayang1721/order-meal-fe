@@ -1,6 +1,6 @@
 <template lang="pug">
   #newOrder
-    ScrollBar.innerBlock(:overscroll="true" :dom="$el")
+    ScrollBar.innerBlock(:overscroll="true" @reachEnd="reachEnd")
       .filterCondition
         .searchType
           el-checkbox(v-model="condition.searchAll" @change="searchAll") 全部
@@ -88,7 +88,6 @@ export default {
       this.storeList = storeList.list
       this.loading = false
     }))
-    this.$el.addEventListener('reachEnd', this.reachEnd)
   },
   computed: {
     getPayLoad() {
@@ -213,9 +212,6 @@ export default {
     StoreInfo,
     AllEvaluation,
     RatingBar
-  },
-  beforeDestroy() {
-    this.$el.removeEventListener('reachEnd', this.reachEnd)
   }
 }
 </script>
