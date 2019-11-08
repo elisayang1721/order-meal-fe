@@ -12,9 +12,6 @@ export default {
     overscroll: {
       default: undefined
     },
-    dom: {
-      default: null
-    },
     needGoTop: {
       type: Boolean,
       default: null
