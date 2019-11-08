@@ -241,9 +241,15 @@
     width: 100%
     +Flex(space-between,center)
   .section
+    width: 100%
     padding: 1rem
   .date
     align-self: flex-end
+#totalComment
+  .section
+    >span
+      line-height: 24px
+      word-break: break-all
 #myComment
   .head
     .submitBlock
@@ -251,7 +257,6 @@
       .el-button
         margin-left: 10px
   .section
-    width: 100%
     +Flex()
     padding: unset
     padding-top: 1rem
@@ -261,4 +266,3 @@
       >textarea
         height: 75px
         resize: none
-      padding: .5rem .45rem

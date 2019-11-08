@@ -49,7 +49,7 @@
               icon="el-icon-edit") 編輯
     el-pagination(
       :current-page.sync="pageNum"
-      @current-change="getData"
+      @current-change="triggerDebounce"
       :total="totalSize"
       layout="prev, pager, next"
       :page-size="9")
@@ -64,10 +64,9 @@ import { injectState } from '@js/model'
 export default {
   name: 'UserAdmin',
   mounted() {
-    const vm = this
-    this.getData(vm)
+    this.triggerDebounce()
     this.$bus.$on('refresh', () => {
-      this.getData(vm)
+      this.triggerDebounce()
     })
   },
   computed: {
@@ -95,6 +94,10 @@ export default {
         vm.adminData = resData
       })
     }, 500),
+    triggerDebounce() {
+      const vm = this
+      this.getData(vm)
+    },
     toggleDialog(action, row = null) {
       let load
       const prop = {
@@ -124,8 +127,7 @@ export default {
     isEnabled: {
       handler() {
         this.pageNum = 1
-        const vm = this
-        this.getData(vm)
+        this.triggerDebounce()
       },
       deep: true
     }

@@ -1,11 +1,11 @@
 <template lang="pug">
   .common
-    Tab(:tabs="tabs")
+    Tab(:tabs="checkTabs")
     component(:is="active")
 </template>
 <script>
 import Tab from '@c/Tab/Tab'
-import { StoreManage, UserAdmin, OrderMerge } from './Admin/index'
+import { StoreManage, UserAdmin } from './Admin/index'
 
 
 export default {
@@ -19,21 +19,22 @@ export default {
           title: '店家管理'
         },
         {
-          name: 'OrderMerge',
-          title: '合併訂單'
-        },
-        {
           name: 'UserAdmin',
           title: '管理員權限'
         }
       ]
     }
   },
+  computed: {
+    checkTabs() {
+      const userData = JSON.parse(localStorage.userData)
+      return userData.canModifyAdmin ? this.tabs : this.tabs.slice(0, 1)
+    }
+  },
   components: {
     Tab,
     StoreManage,
-    UserAdmin,
-    OrderMerge
+    UserAdmin
   }
 }
 </script>

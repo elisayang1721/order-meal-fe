@@ -1,6 +1,6 @@
 <template lang="pug">
   #newOrder
-    ScrollBar.innerBlock
+    ScrollBar.innerBlock(:overscroll="true" @reachEnd="reachEnd")
       .filterCondition
         .searchType
           el-checkbox(v-model="condition.searchAll" @change="searchAll") 全部
@@ -16,18 +16,21 @@
           el-checkbox-group(v-model="condition.searchByTypes" :disabled="condition.searchAll")
             el-checkbox(v-for="type in storeTypes" :key="type.id"
               :label="type.id" @click.native="triggerDebounce") {{type.name}}
-      .filterBlock(v-loading="loading")
-        el-table(:data="storeList" border style='width: 100%' align="center")
-          el-table-column(prop='name' label='店名' width="120")
+      .filterBlock
+        el-table(:data="storeList" border
+          style='width: 100%'
+          align="center"
+          @sort-change="sortChange")
+          el-table-column(prop='name' label='店名' width="120" sortable="custom")
           el-table-column(prop='description' label='說明')
-          el-table-column(prop='avgScore' label='評分' width="100" sortable)
+          el-table-column(prop='avgScore' label='評分' width="100" sortable="custom")
           el-table-column(label="功能")
             template(slot-scope="scope")
               el-tooltip(effect="dark" content="新增訂單" placement="top-start")
                 el-button(type="primary" icon="el-icon-plus"
                   @click="toggleAside(scope.row.id, 'AddOrder',scope.row.name)")
               el-tooltip(effect="dark" content="菜單" placement="top-start")
-                el-button(type="primary" icon="el-icon-potato-strips"
+                el-button(type="primary" icon="el-icon-s-order"
                   @click="toggleAside(scope.row.id, 'MenuList',scope.row.name)")
               el-tooltip(effect="dark" content="店家資訊" placement="top-start")
                 el-button(type="primary" icon="el-icon-info"
@@ -35,6 +38,7 @@
               el-tooltip(effect="dark" content="店家評價" placement="top-start")
                 el-button(type="primary" icon="el-icon-star-on"
                   @click="toggleAside(scope.row.id, 'AllEvaluation')")
+        div(v-loading="loading")
     .innerBlock
       component(:is="subComponent" :storeId="currentId" :storeName="currentName")
 </template>
@@ -52,41 +56,71 @@ import AllEvaluation from './subComponents/AllEvaluation'
 
 export default {
   name: 'DialogCreateNewOrder',
-  mounted() {
-    this.loading = true
-    axios.all([
-      store.getStoreType(),
-      orderForm.getStoreInfos('')
-    ]).then(axios.spread((storeTypes, storeList) => {
-      this.storeTypes = storeTypes.list
-      this.storeList = storeList.list
-      this.loading = false
-    }))
-  },
   data() {
     return {
       currentId: '',
       currentName: '',
       subComponent: '',
       loading: false,
+      isFinishLoaded: false,
       storeList: [],
       storeTypes: [],
       condition: {
+        searchAll: false,
         searchByTime: '',
         searchByTypes: [],
-        searchAll: false
+        sort: null,
+        sortName: null,
+        page: 1
       }
     }
+  },
+  mounted() {
+    this.loading = true
+    axios.all([
+      store.getStoreType(),
+      orderForm.getStoreInfos(this.getPayLoad)
+    ]).then(axios.spread((storeTypes, storeList) => {
+      this.storeTypes = storeTypes.list
+      if (storeList.list.length >= 13) {
+        this.isFinishLoaded = true
+      }
+      this.storeList = storeList.list
+      this.loading = false
+    }))
   },
   computed: {
     getPayLoad() {
       let load
-      if (this.condition.searchAll) {
-        load = ''
+      if (!this.condition.sort) {
+        if (this.condition.searchAll) {
+          load = {
+            page: this.condition.page,
+            pageSize: 13
+          }
+        } else {
+          load = {
+            inWeek: this.condition.searchByTime ? this.condition.searchByTime : '',
+            types: this.condition.searchByTypes.join(','),
+            page: this.condition.page,
+            pageSize: 13
+          }
+        }
+      } else if (this.condition.searchAll) {
+        load = {
+          sortName: this.condition.sortName,
+          sort: this.condition.sort,
+          page: this.condition.page,
+          pageSize: 13
+        }
       } else {
         load = {
+          sortName: this.condition.sortName,
+          sort: this.condition.sort,
           inWeek: this.condition.searchByTime ? this.condition.searchByTime : '',
-          types: this.condition.searchByTypes.join(',')
+          types: this.condition.searchByTypes.join(','),
+          page: this.condition.page,
+          pageSize: 13
         }
       }
       return load
@@ -115,14 +149,19 @@ export default {
     getStoreInfo: debounce(vm => {
       vm.loading = true
       orderForm.getStoreInfos(vm.getPayLoad).then(res => {
-        vm.storeList = res.list
+        if (res.list.length < 13) {
+          vm.isFinishLoaded = false
+        }
+        vm.storeList = vm.storeList ? [...vm.storeList, ...res.list] : res.list
         vm.loading = false
       })
     }, 500),
     triggerDebounce() {
       this.resetAll()
-      const vm = this
-      this.getStoreInfo(vm)
+      this.isFinishLoaded = true
+      this.storeList = []
+      this.condition.page = 0
+      this.reachEnd()
     },
     searchAll() {
       if (this.condition.searchAll) {
@@ -130,12 +169,40 @@ export default {
         this.pushAllTypes()
       } else {
         this.condition = {
+          searchAll: false,
           searchByTime: '',
           searchByTypes: [],
-          searchAll: false
+          sort: null,
+          sortName: null,
+          page: 1
         }
       }
       this.triggerDebounce()
+    },
+    sortChange(e) {
+      this.condition.sortName = e.prop
+      if (e.order) {
+        this.condition.sort = e.order === 'descending' ? 'DESC' : 'ASC'
+      } else {
+        this.condition.sort = null
+      }
+      this.triggerDebounce()
+    },
+    reachEnd() {
+      if (this.isFinishLoaded) {
+        this.condition.page++
+        const vm = this
+        this.getStoreInfo(vm)
+      }
+    }
+  },
+  watch: {
+    'storeList': {
+      handler() {
+        if (!this.isFinishLoaded) {
+          this.reachEnd()
+        }
+      }
     }
   },
   components: {

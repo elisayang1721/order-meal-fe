@@ -1,7 +1,7 @@
 <template lang="pug">
   ScrollBar.listContainer(id="myOrdersFrame"
-    :overscroll="true",
-    :dom="$el")
+    :overscroll="true"
+    @reachEnd="reachEnd")
     .contentViewFix
       OrdersItem(v-for="(obj, i) in myOrdersList" :key="i" :myOrderData="obj")
     .loading(v-loading="loading")
@@ -17,9 +17,6 @@ export default {
     this.getList()
     this.$bus.$on('refreshMyorder', () => {
       this.refreshList()
-    })
-    this.$el.addEventListener('reachEnd', () => {
-      this.reachEnd()
     })
   },
   methods: {
@@ -38,7 +35,7 @@ export default {
       })
     },
     refreshList() {
-      this.listPage = 1
+      this.listPage = 0
       this.myOrdersList = []
     }
   },
@@ -64,7 +61,6 @@ export default {
   },
   beforeDestroy() {
     this.$bus.$off('refreshMyorder')
-    this.$el.removeEventListener('reachEnd', () => {})
   }
 }
 </script>

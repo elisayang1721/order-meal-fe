@@ -49,13 +49,13 @@ export default {
       localStorage.clear()
       this.loading = true
       axios({
-        url: 'http://larla.info/api/login',
+        url: 'http://pub.bck.bckplat.info/api/login',
         method: 'post',
         data
       }).then(res => {
         const loginToken = res.data.data.apiToken
         axios({
-          url: 'http://larla.info/api/redirect/206',
+          url: 'http://pub.bck.bckplat.info/api/redirect/206',
           method: 'get',
           headers: {
             Authorization: 'Bearer ' + loginToken

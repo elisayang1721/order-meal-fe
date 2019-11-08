@@ -66,6 +66,9 @@ export default {
         this.scroll = null
       }
     },
+    scrollTo() {
+      this.scroll.scrollTo(0, 0, 500)
+    },
     init_GoTop() {
       const button = document.createElement('button')
       const text = document.createTextNode('backToTop')
@@ -73,23 +76,20 @@ export default {
       button.classList.add('backToTop')
       this.goTopButton = button
       this.$el.appendChild(this.goTopButton)
-      this.goTopButton.addEventListener('click', () => {
-        this.scroll.scrollTop = 0
-      })
+      this.goTopButton.addEventListener('click', this.scrollTo)
     },
     uninit_GoTop() {
       if (this.goTopButton) {
-        this.goTopButton.removeEventListener('click', () => {})
+        this.goTopButton.removeEventListener('click', this.scrollTo)
         this.goTopButton = null
       }
     },
-    checkIfReachEnd(p) {
-      if (!p.y && this.position[this.position.length - 1] > 0) {
-        const event = new Event('reachEnd')
-        this.dom.dispatchEvent(event)
+    checkIfReachEnd(poistion) {
+      if (!poistion.y && this.position[this.position.length - 1] > 0) {
+        this.$emit('reachEnd')
         this.position = []
       } else {
-        this.position.push(p.y)
+        this.position.push(poistion.y)
       }
     }
   },

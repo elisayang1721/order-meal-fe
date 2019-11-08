@@ -18,7 +18,10 @@
           .amountTitle
             span 評分
             span {{list.avgScore}}
-            el-badge(:value="list.totalComment" :max="99" @click.native="toggleDialog('Rating')")
+            el-badge(:value="list.totalComment"
+              :max="99"
+              :class="{pointerEvent: !list.totalComment}"
+              @click.native="toggleDialog('Rating')")
               i(class="el-icon-s-comment")
           RatingBar(:score="list.avgScore" :isSelectable="false")
     .list.right
@@ -29,7 +32,7 @@
           icon="el-icon-setting"
           @click="toggleDialog('OrderManagement')") 訂單管理
       .content
-        el-button.detailBtn(icon="el-icon-edit"
+        el-button.detailBtn(icon="el-icon-document"
           :disabled="countDown === '已截止'"
           @click="toggleDialog('Detail')") 明細
         el-button(type="success" icon="el-icon-potato-strips"
