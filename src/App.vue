@@ -73,11 +73,12 @@ export default {
         localStorage.setItem('apiToken', res.token)
         localStorage.setItem('userData', JSON.stringify(res))
         this.hasToken = localStorage.apiToken
-        if (this.$route.path !== '/') {
-          this.$router.push({
-            path: '/'
-          })
+        if (this.$route.query.url !== null && this.$route.query.url !== undefined) {
+          const returnurl = this.$route.query.url
+          this.$router.push(returnurl)
+          return
         }
+        this.$router.push('/')
         this.loading = false
       }).catch(() => {
         this.loading = false

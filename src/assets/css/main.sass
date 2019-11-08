@@ -368,9 +368,12 @@ main
 
 .backToTop
   display: block
+  opacity: 0
   z-index: 10
   position: absolute
   right: 10px
   bottom: 10px
-  &.goTopHide
-    display: none
+  &.goTopShow
+    opacity: 1
+  &:hover
+    opacity: 1
