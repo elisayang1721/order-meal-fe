@@ -84,13 +84,12 @@ export default {
         this.goTopButton = null
       }
     },
-    checkIfReachEnd(p) {
-      if (!p.y && this.position[this.position.length - 1] > 0) {
-        const event = new Event('reachEnd')
-        this.dom.dispatchEvent(event)
+    checkIfReachEnd(poistion) {
+      if (!poistion.y && this.position[this.position.length - 1] > 0) {
+        this.$emit('reachEnd')
         this.position = []
       } else {
-        this.position.push(p.y)
+        this.position.push(poistion.y)
       }
     }
   },
