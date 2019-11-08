@@ -55,9 +55,9 @@ export default {
           }
         }
         this.scroll = ScrollBar.init(this.$el, option)
-        if (this.needGoTop) {
-          this.init_GoTop()
-        }
+      }
+      if (this.needGoTop) {
+        this.init_GoTop()
       }
     },
     uninit() {
@@ -98,9 +98,12 @@ export default {
       handler(val) {
         if (this.goTopButton) {
           if (!val) {
-            this.goTopButton.classList.add('goTopHide')
+            this.goTopButton.classList.remove('goTopShow')
           } else {
-            this.goTopButton.classList.remove('goTopHide')
+            this.goTopButton.classList.add('goTopShow')
+            setTimeout(() => {
+              this.goTopButton.classList.remove('goTopShow')
+            }, 1500)
           }
         }
       },
