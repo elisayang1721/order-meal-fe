@@ -27,7 +27,7 @@
               label(:for="meal.id") {{`${meal.name} ${meal.price.format()}`}}
         .cell
           el-input-number(v-model="orderSet[obj.menuType][i].amount"
-            :min="0" :disabled="!orderSet[obj.menuType][i].menuItemId"
+            :min="0" :max="99" :disabled="!orderSet[obj.menuType][i].menuItemId"
             @change="checkAmount(obj.menuType, i,item.meals.length)")
         .cell
           el-input(v-model="orderSet[obj.menuType][i].remark")
@@ -88,6 +88,10 @@ export default {
       if (length !== 1 && !this.orderSet[type][i].amount) {
         this.orderSet[type][i].menuItemId = null
       }
+    },
+    check(val) {
+      const pattern = /\d{1,4}/g
+      console.log(pattern.test(val) && val !== 0)
     },
     orderInfo() {
       const orderSet = {}
