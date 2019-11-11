@@ -12,6 +12,10 @@ html,body
   position: relative
   overflow: hidden
 
+// font Color
+.fontRed
+  color: #f15354
+
 // el ui 
 .el-button
   display: inline-flex
@@ -261,7 +265,7 @@ main
   height: 100%
   border-radius: 8px
   overflow: hidden
-  padding-top: 15px
+  margin-top: 15px
   .contentViewFix
     +Flex(flex-start,center)
     flex-direction: column
@@ -377,3 +381,9 @@ main
     opacity: 1
   &:hover
     opacity: 1
+
+.loadingBlock
+  +Flex()
+  height: 40px
+  .el-icon-loading
+    margin-right: 10px
