@@ -19,6 +19,7 @@
       .cell
         el-input(v-model="condition.expiredAmount"
           type="text"
+          maxlength="4"
           :disabled="condition.dateTime ? true : false")
     .row
       .cell
