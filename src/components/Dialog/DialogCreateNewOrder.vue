@@ -38,7 +38,10 @@
               el-tooltip(effect="dark" content="店家評價" placement="top-start")
                 el-button(type="primary" icon="el-icon-star-on"
                   @click="toggleAside(scope.row.id, 'AllEvaluation')")
-        div(v-loading="loading")
+        .loadingBlock(v-loading="loading" v-if="storeList.length !== totalSize")
+          p
+            i(class="el-icon-loading")
+            | Load more
     .innerBlock
       component(:is="subComponent" :storeId="currentId" :storeName="currentName")
 </template>
@@ -64,6 +67,7 @@ export default {
       loading: false,
       isFinishLoaded: false,
       storeList: [],
+      totalSize: null,
       storeTypes: [],
       condition: {
         searchAll: false,
@@ -85,6 +89,7 @@ export default {
       if (storeList.list.length >= 13) {
         this.isFinishLoaded = true
       }
+      this.totalSize = storeList.totalSize
       this.storeList = storeList.list
       this.loading = false
     }))
@@ -152,6 +157,7 @@ export default {
         if (res.list.length < 13) {
           vm.isFinishLoaded = false
         }
+        vm.totalSize = res.totalSize
         vm.storeList = vm.storeList ? [...vm.storeList, ...res.list] : res.list
         vm.loading = false
       })

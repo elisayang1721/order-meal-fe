@@ -16,7 +16,6 @@
 import RatingBar from '@c/RatingBar/RatingBar'
 import rating from '@api/rating'
 import debounce from 'lodash/debounce'
-import { mapActions } from 'vuex'
 
 export default {
   name: 'MyCommentItem',
@@ -31,7 +30,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['closeDialog']),
     submitRating: debounce(vm => {
       rating.updateEvaluation(vm.item.orderRecordId, vm.getPayLoad).then(() => {
         vm.$message({
@@ -40,7 +38,7 @@ export default {
         })
         vm.$bus.$emit('refreshMyorder')
         vm.$bus.$emit('refreshSystem')
-        vm.closeDialog()
+        vm.$bus.$emit('refreshTotalComments')
       })
     }, 500),
     errorMessage: debounce(vm => {

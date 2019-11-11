@@ -4,7 +4,10 @@
     @reachEnd="reachEnd")
     .contentViewFix
       OrdersItem(v-for="(obj, i) in myOrdersList" :key="i" :myOrderData="obj")
-    .loading(v-loading="loading")
+      .loadingBlock(v-loading="loading" v-if="listPage !== 4")
+        p
+          i(class="el-icon-loading")
+          | Load more
 </template>
 <script>
 import order from '@api/order'
