@@ -54,23 +54,7 @@ export default {
     }
   },
   mounted() {
-    this.rateScore = this.score
-    if (this.score) {
-      let idx
-      if (this.score <= 1.8) {
-        idx = 0
-      } else if (this.score <= 2.6) {
-        idx = 1
-      } else if (this.score <= 3.4) {
-        idx = 2
-      } else if (this.score <= 4.2) {
-        idx = 3
-      } else {
-        idx = 4
-      }
-      this.currentIdx = idx
-      this.setHighLight(idx)
-    }
+    this.checkScore()
   },
   methods: {
     resetHighLight() {
@@ -84,6 +68,25 @@ export default {
           this.faces[idx].isHighLighted = true
         }
       })
+    },
+    checkScore() {
+      this.rateScore = this.score
+      if (this.score) {
+        let idx
+        if (this.score <= 1.8) {
+          idx = 0
+        } else if (this.score <= 2.6) {
+          idx = 1
+        } else if (this.score <= 3.4) {
+          idx = 2
+        } else if (this.score <= 4.2) {
+          idx = 3
+        } else {
+          idx = 4
+        }
+        this.currentIdx = idx
+        this.setHighLight(idx)
+      }
     },
     mouseover(i) {
       this.currentIdx = i
@@ -107,6 +110,13 @@ export default {
       this.currentIdx = i
       this.rateScore = i + 1
       this.isSubmit = true
+    }
+  },
+  watch: {
+    'score': {
+      handler() {
+        this.checkScore()
+      }
     }
   }
 }
