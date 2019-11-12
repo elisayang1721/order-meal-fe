@@ -31,7 +31,7 @@
             span 訂購資訊
           .cell(class="toggleHead")
             span 總價
-        ScrollBar.listBody(v-if="listTotal.length")
+        .listBody(v-if="listTotal.length")
           .row(v-for="(obj,i) in listTotal" :key="i")
             .cell
               span {{obj.name}}
