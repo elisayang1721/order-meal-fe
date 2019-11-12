@@ -41,19 +41,14 @@
           @click="orderSubmit(obj, $event)")
           span {{`${obj.memberName} x${obj.amount}`}}
           span.font-blue {{obj.remark}}
-          .editBlock(:class="{confirmDelete: isBtnShow}")
-            el-button(type="success"
-              @click.stop="edit(obj.id)") 編輯
-            el-button(type="danger"
-              @click.stop="deleteOrder") 刪除
-            el-button(type="danger" icon="el-icon-warning-outline"
-              @click.once="confirmDelete(obj.id)") 確認刪除？
+          EditBlock(@edit='edit(obj.id)' @confirmDelete="confirmDelete(obj.id)")
 </template>
 <script>
 import history from '@api/history'
 import order from '@api/order'
 import { shallowClone, injectState } from '@js/model'
 import { mapActions } from 'vuex'
+import EditBlock from './subComponents/EditBlock'
 
 export default {
   name: 'DialogDetail',
@@ -131,12 +126,6 @@ export default {
       const arr = name.split('-')
       return arr[0] === arr[1] ? arr[0] : name
     },
-    deleteOrder() {
-      this.isBtnShow = true
-      setTimeout(() => {
-        this.isBtnShow = false
-      }, 2000)
-    },
     confirmDelete(id) {
       order.delOrder(id).then(() => {
         this.$message({
@@ -154,9 +143,11 @@ export default {
       ordersDetail: [],
       userData: {},
       owner: '',
-      loading: false,
-      isBtnShow: false
+      loading: false
     }
+  },
+  components: {
+    EditBlock
   }
 }
 </script>

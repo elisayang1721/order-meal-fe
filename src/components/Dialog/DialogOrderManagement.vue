@@ -12,12 +12,14 @@
                 placeholder="選擇日期時間"
                 format="yyyy-MM-dd HH:mm"
                 value-format="yyyy-MM-dd HH:mm"
+                @change="checkDateTime"
                 :disabled="orderInfo.limitedPrice ? true : false")
             li
               span 截止金額：
               el-input(v-model="orderInfo.limitedPrice"
                 :maxlength="4"
                 :placeholder="orderInfo.limitedPrice ? '' : '無'"
+                @change="checkPrice"
                 :disabled="orderInfo.finishedOn ? true : false")
             li
               span 訂單狀態：
@@ -145,14 +147,25 @@ export default {
         this.exportExcel(vm)
       }
       this.blur(e)
+    },
+    checkDateTime(val) {
+      if (val) {
+        const now = new Date().getTime()
+        const dateTime = new Date(val).getTime()
+        this.orderInfo.status = now < dateTime
+      }
+    },
+    checkPrice(val) {
+      if (val) {
+        this.orderInfo.status = val > this.orderInfo.totalPrice
+      }
     }
   },
   data() {
     return {
       initData: {},
       orderInfo: {},
-      loading: false,
-      fn: null
+      loading: false
     }
   },
   components: {

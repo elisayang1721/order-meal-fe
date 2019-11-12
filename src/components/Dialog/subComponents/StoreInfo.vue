@@ -25,7 +25,7 @@
         span {{store.description}}
     .row
       .cell
-        span 補充
+        span 訂購說明
       .cell
         span {{store.remark}}
     .row
