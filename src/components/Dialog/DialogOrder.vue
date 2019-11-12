@@ -89,10 +89,6 @@ export default {
         this.orderSet[type][i].menuItemId = null
       }
     },
-    check(val) {
-      const pattern = /\d{1,4}/g
-      console.log(pattern.test(val) && val !== 0)
-    },
     orderInfo() {
       const orderSet = {}
       this.menuList.forEach(el => {
