@@ -21,11 +21,13 @@ export default {
     return {
       scroll: null,
       position: [],
-      goTopButton: null
+      goTopButton: null,
+      timer: null
     }
   },
   mounted() {
     this.init()
+    clearTimeout(this.timer)
   },
   methods: {
     init() {
@@ -98,18 +100,24 @@ export default {
             this.goTopButton.classList.remove('goTopShow')
           } else {
             this.goTopButton.classList.add('goTopShow')
-            setTimeout(() => {
-              this.goTopButton.classList.remove('goTopShow')
-            }, 1500)
           }
         }
       },
       deep: true
+    },
+    'scroll.track.yAxis._isShown': {
+      handler(val) {
+        if (this.goTopButton) {
+          if (!val) {
+            this.goTopButton.classList.remove('goTopShow')
+          }
+        }
+      }
     }
   },
   beforeDestroy() {
-    this.uninit()
     this.uninit_GoTop()
+    this.uninit()
   }
 }
 </script>

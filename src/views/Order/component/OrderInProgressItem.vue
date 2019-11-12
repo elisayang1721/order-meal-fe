@@ -23,7 +23,7 @@
               :class="{pointerEvent: !list.totalComment}"
               @click.native="toggleDialog('Rating')")
               i(class="el-icon-s-comment")
-          RatingBar(:score="list.avgScore" :isSelectable="false")
+          RatingBar(:score="list.avgScore" :isSelectable="false" :type="'Float'")
     .list.right
       .navHead
         span(:title="neededTitle") {{list.createdByName}}

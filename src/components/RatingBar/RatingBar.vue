@@ -7,14 +7,19 @@
         @mouseover="mouseover(i)"
         @click="submitScore(i)")
         img(:src="require('@img/score3.svg')" v-if="!face.isHighLighted")
-        img(:src="require(`@img/score${currentIdx + 1}.svg`)" v-else)
+        img(:src="require(`@img/score${currentIdx}.svg`)" v-else)
     //- 為了處理不必要的事件，這邊html區分兩塊
     ul(v-else)
       li(v-for="(face,i) in faces" :key="i"
         class="noEdit"
         :data-score="face.isHighLighted ? currentIdx : null")
         img(:src="require('@img/score3.svg')" v-if="!face.isHighLighted")
-        img(:src="require(`@img/score${currentIdx + 1}.svg`)" v-else)
+        img(:src="require(`@img/score${currentIdx}.svg`)" v-else)
+        //- img(:src="require(`@img/score1.svg`)" v-if="face.isHighLighted && currentIdx ===0")
+        //- img(:src="require(`@img/score2.svg`)" v-if="face.isHighLighted && currentIdx ===1")
+        //- img(:src="require(`@img/score3.svg`)" v-if="face.isHighLighted && currentIdx ===2")
+        //- img(:src="require(`@img/score4.svg`)" v-if="face.isHighLighted && currentIdx ===3")
+        //- img(:src="require(`@img/score5.svg`)" v-if="face.isHighLighted && currentIdx ===4")
 </template>
 <script>
 export default {
@@ -27,6 +32,10 @@ export default {
     'isSelectable': {
       type: Boolean,
       default: true
+    },
+    'type': {
+      type: String,
+      default: 'Num'
     }
   },
   data() {
@@ -54,7 +63,7 @@ export default {
     }
   },
   mounted() {
-    this.checkScore()
+    this.setIndex()
   },
   methods: {
     resetHighLight() {
@@ -64,35 +73,41 @@ export default {
     },
     setHighLight(i) {
       this.faces.forEach((face, idx) => {
-        if (i >= idx) {
+        if (i - 1 >= idx) {
           this.faces[idx].isHighLighted = true
         }
       })
     },
-    checkScore() {
+    setIndex() {
       this.rateScore = this.score
       if (this.score) {
         let idx
         if (this.score <= 1.8) {
-          idx = 0
-        } else if (this.score <= 2.6) {
           idx = 1
-        } else if (this.score <= 3.4) {
+        } else if (this.score <= 2.6) {
           idx = 2
-        } else if (this.score <= 4.2) {
+        } else if (this.score <= 3.4) {
           idx = 3
-        } else {
+        } else if (this.score <= 4.2) {
           idx = 4
+        } else {
+          idx = 5
         }
         this.currentIdx = idx
         this.setHighLight(idx)
       }
     },
+    checkScore() {
+      this.rateScore = this.score
+      this.currentIdx = this.score
+      this.resetHighLight()
+      this.setHighLight(this.currentIdx)
+    },
     mouseover(i) {
-      this.currentIdx = i
+      this.currentIdx = i + 1
       this.isSubmit = false
       this.resetHighLight()
-      this.setHighLight(i)
+      this.setHighLight(this.currentIdx)
     },
     leave() {
       if (!this.isSubmit) {
@@ -101,13 +116,13 @@ export default {
       }
       // handle if already set the score
       if (this.rateScore) {
-        this.currentIdx = this.rateScore - 1
+        this.currentIdx = this.rateScore
         this.setHighLight(this.currentIdx)
       }
     },
     submitScore(i) {
       // call api  after
-      this.currentIdx = i
+      this.currentIdx = i + 1
       this.rateScore = i + 1
       this.isSubmit = true
     }
@@ -115,7 +130,11 @@ export default {
   watch: {
     'score': {
       handler() {
-        this.checkScore()
+        if (this.type === 'Num') {
+          this.checkScore()
+        } else {
+          this.setIndex()
+        }
       }
     }
   }
@@ -134,15 +153,15 @@ export default {
         margin-right: 5px
         background: #eee
         cursor: pointer
-        &[data-score="0"]
-          background: #f15354
         &[data-score="1"]
-          background: #f68937
+          background: #f15354
         &[data-score="2"]
-          background: #ffcc28
+          background: #f68937
         &[data-score="3"]
-          background: #49bb7d
+          background: #ffcc28
         &[data-score="4"]
+          background: #49bb7d
+        &[data-score="5"]
           background: #16b6d6
         &.noEdit
           cursor: unset
