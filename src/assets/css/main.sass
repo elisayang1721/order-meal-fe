@@ -371,13 +371,16 @@ main
 
 .backToTop
   display: block
-  opacity: 0
+  opacity: 0.4
   z-index: 10
   position: absolute
   right: 10px
   bottom: 10px
+  transition: all .2s
   &.goTopShow
     opacity: 1
+  &.goTopHide
+    opacity: 0
   &:hover
     opacity: 1
 

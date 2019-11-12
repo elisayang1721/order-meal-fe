@@ -21,8 +21,7 @@ export default {
     return {
       scroll: null,
       position: [],
-      goTopButton: null,
-      timer: null
+      goTopButton: null
     }
   },
   mounted() {
@@ -98,7 +97,9 @@ export default {
         if (this.goTopButton) {
           if (!val) {
             this.goTopButton.classList.remove('goTopShow')
+            this.goTopButton.classList.add('goTopHide')
           } else {
+            this.goTopButton.classList.remove('goTopHide')
             this.goTopButton.classList.add('goTopShow')
           }
         }
