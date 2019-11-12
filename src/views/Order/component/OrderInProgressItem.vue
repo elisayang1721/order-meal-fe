@@ -52,8 +52,7 @@ export default {
   },
   mounted() {
     this.timestamp = this.list.finishedTime
-    this.countDown = countDown(this.timestamp)
-    this.setTimer()
+    this.checkCountDown()
   },
   computed: {
     addComma() {
@@ -131,6 +130,15 @@ export default {
       if (this.time) {
         clearInterval(this.time)
       }
+    },
+    checkCountDown() {
+      this.stopTimer()
+      if (this.timestamp > 0) {
+        this.countDown = countDown(this.timestamp)
+        this.setTimer()
+      } else {
+        this.countDown = '手動截止'
+      }
     }
   },
   data() {
@@ -143,9 +151,7 @@ export default {
     'list': {
       handler(val) {
         this.timestamp = val.finishedTime
-        this.countDown = countDown(this.timestamp)
-        this.stopTimer()
-        this.setTimer()
+        this.checkCountDown()
       },
       deep: true
     }
