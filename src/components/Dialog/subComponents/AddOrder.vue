@@ -11,13 +11,16 @@
           type="datetime"
           placeholder="選擇日期時間"
           format="yyyy-MM-dd HH:mm"
-          value-format="yyyy-MM-dd HH:mm")
+          value-format="yyyy-MM-dd HH:mm"
+          :disabled="condition.expiredAmount ? true : false")
     .row
       .cell
         span 截止金額
       .cell
         el-input(v-model="condition.expiredAmount"
-          type="text")
+          type="text"
+          maxlength="4"
+          :disabled="condition.dateTime ? true : false")
     .row
       .cell
         span 公告事項
@@ -50,6 +53,10 @@ export default {
         status: true
       }
       return load
+    },
+    checkLimitedPrice() {
+      // eslint-disable-next-line no-restricted-globals
+      return this.condition.expiredAmount && !isNaN(this.condition.expiredAmount)
     }
   },
   methods: {
@@ -67,7 +74,19 @@ export default {
     }, 500),
     getDebounce() {
       const vm = this
-      this.createOrder(vm)
+      if (this.condition.dateTime || this.checkLimitedPrice) {
+        this.createOrder(vm)
+      } else if (!this.condition.dateTime && !this.condition.expiredAmount) {
+        this.$message({
+          message: '請至少填寫一項截止設定',
+          type: 'warning'
+        })
+      } else {
+        this.$message({
+          message: '請填入正確截止金額',
+          type: 'warning'
+        })
+      }
     }
   },
   data() {

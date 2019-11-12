@@ -35,10 +35,24 @@ export default {
       this.myComment = myEvaluation
       this.loading = false
     }))
+    this.$bus.$on('refreshTotalComments', this.getAllEvaluations)
   },
   components: {
     TotalCommentItem,
     MyCommentItem
+  },
+  methods: {
+    getAllEvaluations() {
+      this.loading = true
+      const storeId = this.$store.state.prop.storeId
+      rating.getAllEvaluations(storeId).then(res => {
+        this.storeEvaluation = res
+        this.loading = false
+      })
+    }
+  },
+  beforeDestroy() {
+    this.$bus.$off('refreshTotalComments')
   }
 }
 </script>

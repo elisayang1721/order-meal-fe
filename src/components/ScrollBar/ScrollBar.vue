@@ -26,6 +26,7 @@ export default {
   },
   mounted() {
     this.init()
+    clearTimeout(this.timer)
   },
   methods: {
     init() {
@@ -96,20 +97,28 @@ export default {
         if (this.goTopButton) {
           if (!val) {
             this.goTopButton.classList.remove('goTopShow')
+            this.goTopButton.classList.add('goTopHide')
           } else {
+            this.goTopButton.classList.remove('goTopHide')
             this.goTopButton.classList.add('goTopShow')
-            setTimeout(() => {
-              this.goTopButton.classList.remove('goTopShow')
-            }, 1500)
           }
         }
       },
       deep: true
+    },
+    'scroll.track.yAxis._isShown': {
+      handler(val) {
+        if (this.goTopButton) {
+          if (!val) {
+            this.goTopButton.classList.remove('goTopShow')
+          }
+        }
+      }
     }
   },
   beforeDestroy() {
-    this.uninit()
     this.uninit_GoTop()
+    this.uninit()
   }
 }
 </script>

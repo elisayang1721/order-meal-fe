@@ -13,7 +13,7 @@
         ul
           li 全部：
           li {{`共 ${getSummery.total} 項，`}}
-          li {{`共 ${getSummery.price} 元`}}
+          li {{`共 ${getSummery.price.format()} 元`}}
         el-button.add-button(type="success" @click="getDebounce"
           :disabled="checkDisable") 匯出合併訂單
     .listBlock(v-loading="loading")

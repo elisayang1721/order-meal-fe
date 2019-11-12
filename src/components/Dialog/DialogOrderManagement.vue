@@ -8,14 +8,17 @@
             li
               span 截止時間：
               el-date-picker(v-model="orderInfo.finishedOn"
-                @change="checkDateTime"
                 type="datetime"
                 placeholder="選擇日期時間"
                 format="yyyy-MM-dd HH:mm"
-                value-format="yyyy-MM-dd HH:mm")
+                value-format="yyyy-MM-dd HH:mm"
+                :disabled="orderInfo.limitedPrice ? true : false")
             li
               span 截止金額：
-              span {{orderInfo.limitedPrice ? orderInfo.limitedPrice.format() : '無'}}
+              el-input(v-model="orderInfo.limitedPrice"
+                :maxlength="4"
+                :placeholder="orderInfo.limitedPrice ? '' : '無'"
+                :disabled="orderInfo.finishedOn ? true : false")
             li
               span 訂單狀態：
               .switchBlock
@@ -76,6 +79,12 @@ export default {
       this.getRecordsId()
     })
   },
+  computed: {
+    checkLimitedPrice() {
+      // eslint-disable-next-line no-restricted-globals
+      return this.orderInfo.limitedPrice && !isNaN(this.orderInfo.limitedPrice)
+    }
+  },
   methods: {
     ...mapActions(['closeDialog']),
     getRecordsId() {
@@ -88,13 +97,6 @@ export default {
     },
     blur(e) {
       e.currentTarget.blur()
-    },
-    checkDateTime() {
-      if (!this.orderInfo.finishedOn) {
-        this.$nextTick(() => {
-          this.orderInfo.finishedOn = this.initData.finishedOn
-        })
-      }
     },
     reset(e) {
       this.orderInfo = deepClone(this.initData)
@@ -126,7 +128,19 @@ export default {
     getDebounce(e, action = 'update') {
       const vm = this
       if (action === 'update') {
-        this.updateForm(vm)
+        if (this.orderInfo.finishedOn || this.checkLimitedPrice) {
+          this.updateForm(vm)
+        } else if (!this.orderInfo.finishedOn && !this.orderInfo.limitedPrice) {
+          this.$message({
+            message: '請至少填寫一項截止設定',
+            type: 'warning'
+          })
+        } else {
+          this.$message({
+            message: '請填入正確截止金額',
+            type: 'warning'
+          })
+        }
       } else {
         this.exportExcel(vm)
       }

@@ -7,6 +7,8 @@
         el-table-column(prop='name' label='店家名稱')
         el-table-column(prop='createdByName' label='負責人')
         el-table-column(prop='status' label='狀態')
+          template(slot-scope="scope")
+            span(:class="{fontRed: scope.row.status !== '進行中'}") {{scope.row.status}}
         el-table-column(label="功能")
           template(slot-scope="scope")
             el-button.orderManagementBtn(icon="el-icon-setting"
