@@ -161,7 +161,7 @@ export default {
         vm.storeList = vm.storeList ? [...vm.storeList, ...res.list] : res.list
         vm.loading = false
       })
-    }, 500),
+    }, 300),
     triggerDebounce() {
       this.resetAll()
       this.isFinishLoaded = true

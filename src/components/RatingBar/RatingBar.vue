@@ -15,11 +15,6 @@
         :data-score="face.isHighLighted ? currentIdx : null")
         img(:src="require('@img/score3.svg')" v-if="!face.isHighLighted")
         img(:src="require(`@img/score${currentIdx}.svg`)" v-else)
-        //- img(:src="require(`@img/score1.svg`)" v-if="face.isHighLighted && currentIdx ===0")
-        //- img(:src="require(`@img/score2.svg`)" v-if="face.isHighLighted && currentIdx ===1")
-        //- img(:src="require(`@img/score3.svg`)" v-if="face.isHighLighted && currentIdx ===2")
-        //- img(:src="require(`@img/score4.svg`)" v-if="face.isHighLighted && currentIdx ===3")
-        //- img(:src="require(`@img/score5.svg`)" v-if="face.isHighLighted && currentIdx ===4")
 </template>
 <script>
 export default {
