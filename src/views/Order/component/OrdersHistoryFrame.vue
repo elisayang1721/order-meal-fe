@@ -4,7 +4,7 @@
     .contentViewFix
       el-table(:data='orderHistoryList' border style='width: 100%' align="center")
         el-table-column(prop='createdOn' label='發起時間')
-        el-table-column(prop='name' label='店家名稱')
+        el-table-column(prop='storeName' label='店家名稱')
         el-table-column(prop='createdByName' label='負責人')
         el-table-column(prop='status' label='狀態')
           template(slot-scope="scope")
@@ -41,7 +41,7 @@ export default {
     orderManagement(row) {
       const load = {
         name: 'OrderManagement',
-        title: `${row.createdByName} - ${row.name} - 訂單管理`
+        title: `${row.createdByName} - ${row.storeName} - 訂單管理`
       }
       const prop = {
         id: row.id,

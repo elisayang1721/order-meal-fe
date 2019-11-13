@@ -37,8 +37,8 @@
         .content
           ul.alignStart
             li 共 {{orderInfo.totalAmount}} 份
-            li 已訂購： {{orderInfo.paidAmount}}份
-            li 未訂購： {{orderInfo.orderedAmount}}份
+            li 已訂購： {{orderInfo.orderedAmount}}份
+            li 未訂購： {{orderInfo.unorderedAmount}}份
             li 總價： {{orderInfo.totalPrice.format()}}
       .contentBlock
         .contentNav 公告事項
@@ -70,11 +70,11 @@ export default {
     this.getRecordsId()
     this.$bus.$on('updateOrderAmount', data => {
       if (data.status) {
-        this.orderInfo.paidAmount += data.cal
-        this.orderInfo.orderedAmount -= data.cal
-      } else {
-        this.orderInfo.paidAmount -= data.cal
         this.orderInfo.orderedAmount += data.cal
+        this.orderInfo.unorderedAmount -= data.cal
+      } else {
+        this.orderInfo.orderedAmount -= data.cal
+        this.orderInfo.unorderedAmount += data.cal
       }
     })
     this.$bus.$on('refreshOrderForm', () => {

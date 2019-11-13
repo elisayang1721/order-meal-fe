@@ -26,7 +26,7 @@ export default {
   getRecordsList() {
     // 取得訂單記錄列表
     return Axios({
-      url: '/orders?isOpening=false',
+      url: '/orders',
       method: 'get'
     })
   }
