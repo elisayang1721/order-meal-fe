@@ -2,7 +2,7 @@
   .itemWrapper
     .list.left
       .navHead
-        .restaurantName {{list.name}}
+        .restaurantName {{list.storeName}}
         .deadLine 截止於：{{countDown}}
       .content
         .amount
@@ -72,16 +72,16 @@ export default {
       let title
       switch (cName) {
         case 'OrderManagement':
-          title = `${this.list.createdByName} - ${this.list.name} - 訂單管理`
+          title = `${this.list.createdByName} - ${this.list.storeName} - 訂單管理`
           break
         case 'Detail':
-          title = `${this.list.createdByName} - ${this.list.name} - 訂單明細`
+          title = `${this.list.createdByName} - ${this.list.storeName} - 訂單明細`
           break
         case 'Rating':
-          title = `${this.list.name} 的店家評價`
+          title = `${this.list.storeName} 的店家評價`
           break
         default:
-          title = `我也要訂 - ${this.list.name}`
+          title = `我也要訂 - ${this.list.storeName}`
           break
       }
       const load = {
@@ -91,7 +91,7 @@ export default {
       const prop = {
         id: this.list.id,
         storeId: this.list.storeId,
-        storeName: this.list.name,
+        storeName: this.list.storeName,
         owner: this.list.createdByName
       }
       if (cName === 'Order') {
