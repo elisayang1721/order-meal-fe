@@ -2,7 +2,7 @@
   .tabContainer
     .adminPanel
       .search
-        p 狀態
+        p 狀態：
         el-select(
           v-model="isEnabled"
           placeholder="全部")
@@ -164,7 +164,7 @@ export default {
 ::v-deep.el-select
   .el-input
     .el-select__caret
-      color: $tableHeadColor
+      color: $brownC1
     &.is-focus, &:hover
       .el-input__inner
         border-color: #a59796
@@ -178,5 +178,7 @@ export default {
     color: $brownC2
   .tableWrapper
     height: 650px
-
+.adminPanel
+  .search
+    +Flex(flex-start,center)
 </style>

@@ -2,7 +2,7 @@
   #orderManagement(v-loading="loading")
     .managementContent.tableFrame(v-if="Object.keys(orderInfo).length")
       .contentBlock
-        .contentNav 進度設定
+        .contentNav 訂單資訊
         .content
           ul.alignStart
             li
@@ -30,8 +30,8 @@
                   active-text="進行"
                   inactive-text="截止")
             li
-              el-button.export-btn(type="success"
-                @click="getDebounce($event,'export')") 匯出Excel
+              span 電話：
+              span {{orderInfo.storePhone}}
       .contentBlock
         .contentNav 訂單計算
         .content
@@ -48,10 +48,9 @@
             maxlength="255"
             show-word-limit)
     .confirmBlock
-      .phone
-        i.el-icon-phone
-        span {{orderInfo.storePhone}}
-      el-button(type="danger"
+      el-button.export-btn(type="info"
+        @click="getDebounce($event,'export')") 匯出Excel
+      el-button.recover-button(
         @click="reset") 復原
       el-button(type="success" @click="getDebounce($event)") 確認
     DialogDetail
@@ -201,7 +200,7 @@ export default {
     padding: 5px 10px
   .el-input__count
     color: $darkGray
-    background: #efebea
+    background: $ligntGray
 /deep/.el-switch
   flex: 1
   +Flex(space-around)
@@ -217,6 +216,12 @@ export default {
   color: #766f6f
   *
     font-size: 16px
-.export-btn
-  padding: 6px 10px
+.recover-button
+  +Bgc(#ab9191)
+  border-color: #ab9191
+  color: #fff
+  &:hover,
+  &:active,
+  &:focus
+    +Bgc(#bca5a5)
 </style>
