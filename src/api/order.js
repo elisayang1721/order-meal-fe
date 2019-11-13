@@ -20,7 +20,7 @@ export default {
   updateOrder(orderId, orderRecordId, data) {
     // 更新點餐
     return Axios({
-      url: `/orderRecords/${orderId}/${orderRecordId}`,
+      url: `/orders/${orderId}/orderRecords/${orderRecordId}`,
       method: 'patch',
       data
     })
