@@ -56,12 +56,16 @@
     background: $tableHeadColor
     color: #fff
     .cell
-      padding: 0.8rem 0
+      padding: 0.6rem 0
+  &:last-child
+    .cell
+      border-bottom: none
   .cell
     +Flex(center,center)
     flex-wrap: wrap
     border-right: 1px solid $tableLineColor
     border-bottom: 1px solid $tableLineColor
+    padding: 0.4rem
     >span
       text-align: center
       margin: 0 5px
@@ -197,17 +201,6 @@
       margin-bottom: 8px
     .confirmBlock
       border-left: none
-
-
-
-#addOrder,#storeInfo,#menuList
-  .row
-    .cell
-      padding: .4rem
-#addOrder
-  .row.title
-    .cell
-      padding: .6rem .4rem
 
 #rating,#allEvaluation
   +size(100%,100%,null)

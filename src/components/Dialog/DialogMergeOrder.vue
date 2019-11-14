@@ -5,19 +5,18 @@
         el-checkbox-group(v-model="checked")
           el-checkbox(v-for="list in orderList.list" :key="list.id"
             :label="list.id")
-            span {{list.orderName.split(',')[0]}}
-            span.ellipsis(
-              :title="neededTitle(list.orderName.split(',')[1])"
-            ) {{list.orderName.split(',')[1]}}
+            span {{`發起人： ${list.ownerName} `}}
+            span {{list.storeName}}
+            span {{list.createdOn}}
       .infoDetail
         ul
           li 全部：
           li {{`共 ${getSummery.total} 項，`}}
           li {{`共 ${getSummery.price.format()} 元`}}
-        el-button.add-button(type="success" @click="getDebounce"
+        el-button.export-button(type="info" @click="getDebounce"
           :disabled="checkDisable") 匯出合併訂單
     .listBlock(v-loading="loading")
-      .listTable(v-if="checked.length")
+      .listTable.tableFrame(v-if="checked.length")
         .row
           .cell
             span 訂購人
@@ -133,7 +132,7 @@ export default {
     +Flex(flex-start,strech)
     flex-wrap: wrap
     height: unset
-  .add-button
+  .export-button
     width: 100px
   .infoDetail
     ul
@@ -149,12 +148,15 @@ export default {
   .el-checkbox
     width: 200px
     +Flex()
+    justify-content: flex-start
     margin: .2rem
-    padding: .2rem
-    box-shadow: 0px 4px $brownC2
+    margin-right: .5rem
+    margin-bottom: .5rem
+    padding: .25rem .45rem .25rem .55rem
     border-radius: 4px
-    border: 1px solid $brownC2
+    border-left: 4px solid $brownC2
     background: #fff
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.15)
     .el-checkbox__input
       display: none
       &.is-checked
@@ -164,9 +166,18 @@ export default {
       +Flex()
       flex-direction: column
       padding-left: unset
+      width: 100%
+      span
+        display: block
+        width: 100%
+        &:nth-child(2)
+          font-size: 16px
+          font-weight: 700
+          margin: 5px 0
+        &:last-child
+          text-align: right
+          font-size: 13px
     &.is-checked
       box-shadow: unset
-      transform: translateY(4px)
-      border-color: $brownC2
       background: $brownC2
 </style>

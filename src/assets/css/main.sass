@@ -15,6 +15,12 @@ html,body
 // font Color
 .fontRed
   color: #f15354
+.fontGreen
+  color: #47975e
+.fontYel
+  color: #eab059
+.fontGray
+  color: #c4bcbc
 
 // el ui 
 .el-button
@@ -88,6 +94,14 @@ html,body
   &:focus
     +Bgc(#6ab07e)
     border-color: #62a676
+  &.is-disabled
+    +Bgc(#91c19e)
+    border-color: #91c19e
+    &:hover,
+    &:active,
+    &:focus
+      +Bgc(#91c19e)
+      border-color: #91c19e
 
 .el-button--danger
   +Bgc(#c75656)
@@ -97,6 +111,14 @@ html,body
   &:focus
     +Bgc(#cf6f6f)
     border: 1px solid #cf6f6f
+  &.is-disabled
+    +Bgc(#dd9a9a)
+    border-color: #dd9a9a
+    &:hover,
+    &:active,
+    &:focus
+      +Bgc(#dd9a9a)
+      border-color: #dd9a9a
 
 .el-button--warning
   +Bgc(#f4b55a)
@@ -121,6 +143,14 @@ html,body
   &:focus
     +Bgc(#58ad9f)
     border-color: #58ad9f
+  &.is-disabled
+    +Bgc(#7fc1b5)
+    border-color: #7fc1b5
+    &:hover,
+    &:active,
+    &:focus
+      +Bgc(#7fc1b5)
+      border-color: #7fc1b5
 
 .add-button  
   +Bgc($yelColor)

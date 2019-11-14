@@ -31,6 +31,8 @@
         el-table-column(
           prop="isEnabled"
           label="狀態")
+          template(slot-scope="scope")
+            span(:class="orderStatus(scope.row.isEnabled)") {{scope.row.isEnabled}}
         el-table-column(
           prop="updatedOn"
           label="更新時間"
@@ -118,6 +120,15 @@ export default {
       }
       injectState(prop)
       this.showDialog(load)
+    },
+    orderStatus(status) {
+      let className = []
+      if (status === '啟用中') {
+        className = 'fontGreen'
+      } else if (status === '已停用') {
+        className = 'fontGray'
+      }
+      return className
     }
   },
   beforeDestroy() {
@@ -173,9 +184,9 @@ export default {
       border-color: #a59796
 ::v-deep.el-select-dropdown__item
   &.hover, &:hover
-    background-color: #f7f3f3
+    background-color: #f5f7fa
   &.selected
-    color: $brownC2
+    color: #121212
   .tableWrapper
     height: 650px
 .adminPanel

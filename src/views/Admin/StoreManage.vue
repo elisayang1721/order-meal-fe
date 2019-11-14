@@ -260,6 +260,8 @@ export default {
       line-height: 36px
       border-radius: 4px
       background: $c1
+      &.is-focus, &:hover
+        border-color: #a59796
     .el-input__prefix
       .el-input__icon
         line-height: 32px

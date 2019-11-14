@@ -24,19 +24,19 @@
           el-table-column(prop='name' label='店名' width="120" sortable="custom")
           el-table-column(prop='description' label='說明')
           el-table-column(prop='avgScore' label='評分' width="100" sortable="custom")
-          el-table-column(label="功能2")
+          el-table-column(label="功能")
             template(slot-scope="scope")
               el-tooltip(effect="dark" content="新增訂單" placement="top-start")
-                el-button(type="primary" icon="el-icon-plus"
+                el-button.feature-button(icon="el-icon-plus"
                   @click="toggleAside(scope.row.id, 'AddOrder',scope.row.name)")
               el-tooltip(effect="dark" content="菜單" placement="top-start")
-                el-button(type="primary" icon="el-icon-s-order"
+                el-button.feature-button(icon="el-icon-s-order"
                   @click="toggleAside(scope.row.id, 'MenuList',scope.row.name)")
               el-tooltip(effect="dark" content="店家資訊" placement="top-start")
-                el-button(type="primary" icon="el-icon-info"
+                el-button.feature-button(icon="el-icon-info"
                   @click="toggleAside(scope.row.id, 'StoreInfo')")
               el-tooltip(effect="dark" content="店家評價" placement="top-start")
-                el-button(type="primary" icon="el-icon-star-on"
+                el-button.feature-button(icon="el-icon-star-on"
                   @click="toggleAside(scope.row.id, 'AllEvaluation')")
         .loadingBlock(v-loading="loading" v-if="storeList.length !== totalSize")
           p
@@ -254,9 +254,42 @@ export default {
         border-top-color: #bfebf5
 #newOrder
   /deep/.el-button
-    +size(28px,26px,null)
+    +size(32px,32px,null)
     padding: 0 5px
+    &+.el-button
+      margin-left: 2px
   #addOrder
     /deep/.el-button
       +size(60px,32px,null)
+.feature-button
+  position: relative
+  font-size: 17px
+  border: 0
+  background: none
+  z-index: 10
+  &::before
+    content: ''
+    +PosAbs(0,0,0,0,-1)
+    display: block
+    background: none
+    border-radius: 50%
+    transition-duration: .15s
+    transition-timing-function: cubic-bezier(0.4,0.0,0.2,1)
+    transform: scale(0)
+    transition-property: transform,opacity
+  &:hover
+    color: #121212
+    background: none
+    border: 0
+    &::before
+      background-color: rgba(122,150,236,.25)
+      border: 0
+      opacity: 1
+      transform: scale(1)
+  &:focus
+    color: #121212
+    &::before
+      background-color: rgba(122,150,236,.2)
+      opacity: 1
+      transform: scale(1)
 </style>
