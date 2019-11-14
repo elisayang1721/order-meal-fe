@@ -36,7 +36,4 @@ export default {
 <style lang="sass" scoped>
 #ordersHistory
   /deep/.commonTabs
-    padding-left: 10px
-    padding-bottom: 2px
-    height: 37px
 </style>

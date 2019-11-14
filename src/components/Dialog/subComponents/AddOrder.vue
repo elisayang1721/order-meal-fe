@@ -1,6 +1,6 @@
 <template lang="pug">
   ScrollBar#addOrder.tableFrame
-    .row
+    .row.title
       .cell
         span {{`發起 ${storeName} 點餐`}}
     .row

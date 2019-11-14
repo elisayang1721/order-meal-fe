@@ -25,7 +25,7 @@
         el-checkbox(v-model="condition.searchAll" @change="searchAll") 全部
         el-checkbox-group(v-model="condition.searchByTypes" :disabled="condition.searchAll")
           el-checkbox(v-for="type in storeTypes" :key="type.id"
-             :label="type.id" @click.native="triggerDebounce") {{type.name}}
+            :label="type.id" @click.native="triggerDebounce") {{type.name}}
     .tableWrapper
       el-table(
         v-loading="loading"
@@ -68,11 +68,11 @@
           label="功能"
           width="250")
           template(slot-scope="scope")
-            el-button(
+            el-button.edit-button(
               @click.prevet="toggleDialog('edit',scope.row)"
               type="info"
               icon="el-icon-edit") 編輯
-            el-button(
+            el-button.cancel-button(
               @click.prevet="toggleDialog('delete',scope.row)"
               type="danger"
               icon="el-icon-close") 刪除
@@ -260,6 +260,8 @@ export default {
       line-height: 36px
       border-radius: 4px
       background: $c1
+      &.is-focus, &:hover
+        border-color: #a59796
     .el-input__prefix
       .el-input__icon
         line-height: 32px
@@ -267,4 +269,24 @@ export default {
   // margin-right: 20px
 .add-button
   width: 80px
+// .edit-button
+//   +Bgc(#f7f3f3)
+//   border-color: #ab9694
+//   color: #866e6c
+//   &:hover,
+//   &:active,
+//   &:focus
+//     +Bgc(#ab9694)
+//     border-color: #ab9694
+//     color: $c1
+// .cancel-button
+//   +Bgc(#f7f3f3)
+//   border-color: #ab9694
+//   color: #866e6c
+//   &:hover,
+//   &:active,
+//   &:focus
+//     +Bgc(#ab9694)
+//     border-color: #ab9694
+//     color: $c1
 </style>

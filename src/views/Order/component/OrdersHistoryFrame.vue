@@ -8,7 +8,7 @@
         el-table-column(prop='createdByName' label='負責人')
         el-table-column(prop='status' label='狀態')
           template(slot-scope="scope")
-            span(:class="{fontRed: scope.row.status !== '已截止'}") {{scope.row.status}}
+            span(:class="orderStatus(scope.row.status)") {{scope.row.status}}
         el-table-column(label="功能")
           template(slot-scope="scope")
             el-button.orderManagementBtn(icon="el-icon-setting"
@@ -54,6 +54,17 @@ export default {
     checkPermission(name) {
       const userData = JSON.parse(localStorage.userData)
       return name === userData.memberName || userData.isAdmin
+    },
+    orderStatus(status) {
+      let className = []
+      if (status === '進行中') {
+        className = 'fontGreen'
+      } else if (status === '重啟') {
+        className = 'fontYel'
+      } else {
+        className = 'fontGray'
+      }
+      return className
     }
   },
   data() {

@@ -1,6 +1,6 @@
 <template lang="pug">
   .editBlock(:class="{confirmDelete: isBtnShow}")
-    el-button(type="success"
+    el-button(type="info"
       @click.stop="edit") 編輯
     el-button(type="danger"
       @click.stop="deleteOrder") 刪除

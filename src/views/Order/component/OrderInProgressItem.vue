@@ -178,6 +178,14 @@ export default {
     &:active,
     &:focus
       +Bgc(#a8a7a1)
+    &.is-disabled
+      +Bgc(#c2c1bc)
+      border-color: #c2c1bc
+      &:hover,
+      &:active,
+      &:focus
+        +Bgc(#c2c1bc)
+        border-color: #c2c1bc
   /deep/.el-rate
     width: 100%
   /deep/.el-badge

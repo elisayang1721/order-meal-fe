@@ -180,10 +180,10 @@ export default {
     height: 28px
     line-height: 25px
     background: #efebea
-    color: #4e3636
+    color: $brownC1
     &:hover
       color: $c1
-      background: $tableHeadColor
+      background: #9a908c
   .el-input-number__decrease.is-disabled, .el-input-number__increase.is-disabled
     color: #C0C4CC
     background: #efebea
