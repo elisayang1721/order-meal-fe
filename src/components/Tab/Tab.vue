@@ -1,9 +1,10 @@
 <template lang="pug">
   .commonTabs
-    .commonTab(v-for="(item, index) in tabs"
-      @click="clickTabs(item.name)"
-      :class="{'active' : active === item.name }"
-      :style="(`z-index: ${ 98 - index } `)") {{item.title}}
+    .commonTab-wrap
+      .commonTab(v-for="(item, index) in tabs"
+        @click="clickTabs(item.name)"
+        :class="{'active' : active === item.name }"
+        :style="(`z-index: ${ 98 - index } `)") {{item.title}}
 
 </template>
 <script>
@@ -35,34 +36,29 @@ export default {
 <style lang="sass">
 // tabs
 .commonTabs
-  +Flex(flex-start)
   position: relative
   z-index: 5
-  &:before
-    content: ''
-    +size(100%,3px)
-    +PosAbs(null,0,-3px,0,99)
-    +Bgc($brownC2)
+  background: #efebea
+  border-bottom: 1px solid $tableLineColor
+  .commonTab-wrap
+    +Flex(flex-start)
+    margin-bottom: -1px
+    overflow: hidden
   .commonTab
     cursor: pointer
     position: relative
     z-index: 2
-    color: $darkGray
-    padding: .6rem 1.8rem
+    color: #f7f3f3
+    background: #908480
+    padding: 1.2rem 1.8rem
     white-space: nowrap
-    &:before
-      content: ''
-      +PosAbs(0,0,0,0,-1)
-      +Bgc($c1)
-      border-radius: 0.5em .5em 0 0
-      box-shadow: 0px 0 8px rgba(0,0,0,.2)
-      transform: perspective(12px) rotateX(5deg)
-      transition: all .25s ease
+    border-right: 1px solid $tableLineColor
+    &:hover
+      background: #81736e
     &.active
-      color: $c1
+      font-weight: 700
+      color: $brownC1
+      background: $ligntGray
       z-index: 98 !important
-      &:before
-        +Bgc($brownC2)
-    &:first-of-type
-      margin-left: 1.5rem
+      box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.15)
 </style>
