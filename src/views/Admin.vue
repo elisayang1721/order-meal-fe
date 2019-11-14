@@ -38,3 +38,7 @@ export default {
   }
 }
 </script>
+<style lang="sass" scoped>
+  .common
+    padding-top: 0
+</style>

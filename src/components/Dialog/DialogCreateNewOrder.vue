@@ -24,7 +24,7 @@
           el-table-column(prop='name' label='店名' width="120" sortable="custom")
           el-table-column(prop='description' label='說明')
           el-table-column(prop='avgScore' label='評分' width="100" sortable="custom")
-          el-table-column(label="功能")
+          el-table-column(label="功能2")
             template(slot-scope="scope")
               el-tooltip(effect="dark" content="新增訂單" placement="top-start")
                 el-button(type="primary" icon="el-icon-plus"
@@ -234,9 +234,24 @@ export default {
     font-size: 16px
     line-height: 1
   th
+    padding: .3rem
     font-weight: 400
+    line-height: 28px
     >.cell
       line-height: inherit
+  .caret-wrapper
+    height: 28px
+  .sort-caret
+    &.ascending
+      top: 2px
+      border-bottom-color: #fff
+      &:hover
+        border-bottom-color: #bfebf5
+    &.descending
+      bottom: 4px
+      border-top-color: #fff
+      &:hover
+        border-top-color: #bfebf5
 #newOrder
   /deep/.el-button
     +size(28px,26px,null)

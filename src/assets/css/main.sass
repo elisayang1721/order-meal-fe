@@ -62,6 +62,11 @@ html,body
   .el-input__prefix
     color: #8b8b8b
 
+.el-input__inner
+  color: #5f5c5c
+  padding: 0 10px
+.el-textarea__inner
+  padding: 5px 10px
 .el-input__inner,
 .el-textarea__inner,
 .el-time-panel__btn
@@ -135,6 +140,15 @@ html,body
       +Bgc(#f0c78a)
       border-color: #f0c78a
 
+.el-input
+  &.is-disabled
+    .el-input__inner
+      background-color: $ligntGray
+      border-color: $tableLineColor
+      color: #c4bcbc
+      &::placeholder
+        color: #c4bcbc 
+
 .orderManagementBtn
   +Bgc(#f7f3f3)
   border-color: #ab9694
@@ -161,6 +175,7 @@ html,body
 .el-checkbox__label
   font-size: 15px
   color: #766f6f
+  color: #5f5c5c
 
 .el-radio
   .el-radio__inner
@@ -169,7 +184,7 @@ html,body
     background: #fff
 .el-radio__label
   font-size: 15px
-  color: #766f6f
+  color: #5f5c5c
 
 .el-radio__input.is-checked
   .el-radio__inner
@@ -180,14 +195,14 @@ html,body
 
 .el-checkbox__input.is-checked
   .el-checkbox__inner
-    background-color: $tableHeadColor
-    border-color: $tableHeadColor
+    background-color: $brownC1 
+    border-color: $brownC1 
   &+.el-checkbox__label
-    color: $tableHeadColor
+    color: $brownC1 
 
 .el-checkbox__input.is-focus
   .el-checkbox__inner
-    border-color: $tableHeadColor
+    border-color: $brownC1
 
 header
   +Flex(space-between,center)
@@ -224,7 +239,7 @@ main
     .add-button
       position: absolute
       right: 20px
-      top: 10px
+      top: 8px
       z-index: 10      
 
 #orderSystem
@@ -243,7 +258,9 @@ main
     font-weight: bold
     color: $darkGray
     padding-top: 5px
-    padding-bottom: 10px
+    padding-bottom: 6px
+  .listContainer
+    padding: 0
   
 #ordersHistory
   +size(50%,calc(100vh - 60px),null)
@@ -251,12 +268,11 @@ main
   display: flex
   flex-direction: column
   flex: 1
-  padding: 20px
+  padding-bottom: 20px
   box-shadow: 5px 0 10px rgba(0,0,0,.55)
   @media ( max-width: 1200px )
     width: 100%
     height: 800px
-    padding: 20px
     
 
 .listContainer
@@ -266,6 +282,7 @@ main
   border-radius: 8px
   overflow: hidden
   margin-top: 15px
+  padding: 0 20px
   .contentViewFix
     +Flex(flex-start,center)
     flex-direction: column
