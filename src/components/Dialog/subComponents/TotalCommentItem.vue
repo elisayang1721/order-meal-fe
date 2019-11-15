@@ -1,12 +1,14 @@
 <template lang="pug">
   #totalComment
     .head
-      div {{`${item.meals} - ${item.commentedBy}`}}
+      div {{item.meals}}
       RatingBar(:score="item.score" :isSelectable="false")
     .section
       span {{item.comment}}
-    .date
-      span {{item.commentedOn}}
+    .footer
+      .commentedBy {{`美食評論家： ${item.commentedBy}`}}
+      .date
+        span {{item.commentedOn}}
 </template>
 <script>
 import RatingBar from '@c/RatingBar/RatingBar'

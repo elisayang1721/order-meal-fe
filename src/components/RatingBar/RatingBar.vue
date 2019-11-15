@@ -144,20 +144,20 @@ export default {
       li
         +size(25px,25px,null)
         border-radius: 50%
-        border: 1px solid #000
+        // border: 1px solid #000
         margin-right: 5px
-        background: #eee
+        background: #e4e4e4
         cursor: pointer
         &[data-score="1"]
           background: #f15354
         &[data-score="2"]
-          background: #f68937
+          background: #f47149
         &[data-score="3"]
-          background: #ffcc28
+          background: #f8903e
         &[data-score="4"]
-          background: #49bb7d
+          background: #fcae33
         &[data-score="5"]
-          background: #16b6d6
+          background: #ffcc28
         &.noEdit
           cursor: unset
 </style>
