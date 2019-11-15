@@ -192,15 +192,6 @@ export default {
   padding: 10px
 /deep/.el-switch
   margin: 0 5px
-/deep/.el-textarea
-  .el-textarea__inner
-    color: $darkGray
-    height: 100%
-    resize: none
-    padding: 5px 10px
-  .el-input__count
-    color: $darkGray
-    background: $ligntGray
 /deep/.el-switch
   flex: 1
   +Flex(space-around)

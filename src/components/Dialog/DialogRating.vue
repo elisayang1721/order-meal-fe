@@ -4,7 +4,7 @@
       .innerHead 大家的評論
         .avgScore {{storeEvaluation.avgScore}}
       TotalCommentItem(v-for="(obj,i) in storeEvaluation.list" :key="i" :item="obj")
-    .ratingInner
+    .ratingInner.myCommenInner
       .innerHead 本次訂餐評論
       MyCommentItem(v-for="(obj,i) in myComment.list" :key="i" :item="obj")
 </template>
@@ -56,3 +56,16 @@ export default {
   }
 }
 </script>
+<style lang="sass" scoped>
+  #rating
+    justify-content: space-between
+    .ratingInner
+      &+.ratingInner
+        margin-left: 2%
+      &.myCommenInner
+        border-radius: 8px
+        box-shadow: 0 5px 5px rgba(230, 230, 230, 0.6)
+        overflow: hidden
+        #myComment
+          border: none
+</style>
