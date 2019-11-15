@@ -59,4 +59,5 @@ export default {
     cursor: pointer
     font-size: 30px
     margin-right: 30px
+    color: #626262
 </style>
