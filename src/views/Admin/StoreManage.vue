@@ -233,13 +233,15 @@ export default {
     margin-left: 30px
   .score
     display: inline-block
-    width: 45px
-    font-size: 30px
+    vertical-align: middle
+    width: 40px
+    font-size: 20px
     margin-right: 20px
     font-family: arial
   .face
     +size(25px,25px,null)
     display: inline-block
+    vertical-align: middle
     border-radius: 50%
     margin-right: 5px
     background: #e4e4e4
