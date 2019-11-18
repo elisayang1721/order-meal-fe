@@ -55,8 +55,15 @@ export default {
       return load
     },
     checkLimitedPrice() {
+      return this.condition.expiredAmount
       // eslint-disable-next-line no-restricted-globals
-      return this.condition.expiredAmount && !isNaN(this.condition.expiredAmount)
+        && !isNaN(this.condition.expiredAmount)
+        && Number(this.condition.expiredAmount) > 0
+    },
+    checkDateTime() {
+      const nowTime = new Date().getTime()
+      const setTime = new Date(this.condition.dateTime).getTime()
+      return setTime > nowTime
     }
   },
   methods: {
@@ -74,16 +81,19 @@ export default {
     }, 500),
     getDebounce() {
       const vm = this
-      if (this.condition.dateTime || this.checkLimitedPrice) {
+      if (this.checkDateTime || this.checkLimitedPrice) {
         this.createOrder(vm)
-      } else if (!this.condition.dateTime && !this.condition.expiredAmount) {
-        this.$message({
-          message: '請至少填寫一項截止設定',
-          type: 'warning'
-        })
       } else {
+        let message
+        if (!this.condition.dateTime && !this.condition.expiredAmount) {
+          message = '請至少填寫一項截止設定'
+        } else if (this.condition.dateTime && !this.checkDateTime) {
+          message = '截止時間不能小於現在時間'
+        } else {
+          message = '請填入正確截止金額且截止金額不能小於0'
+        }
         this.$message({
-          message: '請填入正確截止金額',
+          message,
           type: 'warning'
         })
       }

@@ -30,7 +30,8 @@
             :min="0" :max="99" :disabled="!orderSet[obj.menuType][i].menuItemId"
             @change="checkAmount(obj.menuType, i,item.meals.length)")
         .cell
-          el-input(v-model="orderSet[obj.menuType][i].remark")
+          el-input(v-model="orderSet[obj.menuType][i].remark"
+          :disabled="checkIfOrdered(obj.menuType,i)")
     .confirmBlock
       el-button(type="danger" @click="closeDialog") 取消
       el-button(type="success" @click="confirm") 確認
@@ -159,6 +160,9 @@ export default {
       this.$bus.$emit('refreshSystem')
       this.$bus.$emit('refreshMyorder')
       this.closeDialog()
+    },
+    checkIfOrdered(type, i) {
+      return this.orderSet[type][i].amount === 0
     }
   },
   data() {

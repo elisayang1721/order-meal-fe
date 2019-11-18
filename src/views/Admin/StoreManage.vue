@@ -207,7 +207,7 @@ export default {
       this.triggerDebounce()
     },
     reformString(str) {
-      return str.replace(' ', ',').replace(/,+/g, ',')
+      return str.trim().replace(' ', ',').replace(/,+/g, ',')
     }
   },
   watch: {
