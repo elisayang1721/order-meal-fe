@@ -55,7 +55,7 @@
               .face(:data-score="getScore(scope.row.avgScore)")
                 img(:src="require(`@img/score${getScore(scope.row.avgScore) + 1}.svg`)")
             template(v-else)
-              div —
+              div -
         el-table-column(
           prop="updatedOn"
           label="更新時間"
@@ -233,26 +233,26 @@ export default {
     margin-left: 30px
   .score
     display: inline-block
-    width: 50px
+    width: 45px
     font-size: 30px
     margin-right: 20px
+    font-family: arial
   .face
     +size(25px,25px,null)
     display: inline-block
     border-radius: 50%
-    border: 1px solid #000
     margin-right: 5px
-    background: #eee
+    background: #e4e4e4
     &[data-score="0"]
       background: #f15354
     &[data-score="1"]
-      background: #f68937
+      background: #f47149
     &[data-score="2"]
-      background: #ffcc28
+      background: #f8903e
     &[data-score="3"]
-      background: #49bb7d
+      background: #fcae33
     &[data-score="4"]
-      background: #16b6d6
+      background: #ffcc28
 .search
   /deep/.el-input
     .el-input__inner
