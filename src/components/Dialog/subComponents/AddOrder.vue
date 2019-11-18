@@ -48,7 +48,7 @@ export default {
       const load = {
         storeId: this.storeId,
         finishedOn: this.condition.dateTime,
-        limotedPrice: this.condition.expiredAmount,
+        limitedPrice: this.condition.expiredAmount,
         bulletin: this.condition.bulletin,
         status: true
       }
