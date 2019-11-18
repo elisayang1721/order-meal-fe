@@ -13,6 +13,7 @@ import AppHeader from '@/layout/AppHeader'
 export default {
   name: 'app',
   mounted() {
+    console.log(process.env.NODE_ENV)
     if (process.env.NODE_ENV === 'development') {
       this.devApi()
     }
