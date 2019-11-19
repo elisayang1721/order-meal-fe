@@ -28,10 +28,10 @@
             :min="0" :max="99" :disabled="!orderSet[obj.menuType][i].menuItemId"
             :class="{focus: orderSet[obj.menuType][i].isFocus}"
             @change="checkAmount(obj.menuType, i,item.meals.length)")
-        .cell
+        .cell(@mouseover="checkOrder(obj.menuType,i)" @mouseout="resetOrderSet()")
           el-input(v-model="orderSet[obj.menuType][i].remark"
-          :disabled="checkIfOrdered(obj.menuType,i)"
-          @click.native="checkOrder(obj.menuType,i)")
+          maxlength="25"
+          :disabled="checkIfOrdered(obj.menuType,i)")
     .confirmBlock
       el-button(type="danger" @click="closeDialog") 取消
       el-button(type="success" @click="confirm") 確認
@@ -202,8 +202,15 @@ export default {
   width: 120px
   line-height: 25px
   &.focus
-    border: 1px solid #c75656
-    border-radius: 4px
+    .el-input__inner
+      border-color: #c75656
+      transition: border-color .2s cubic-bezier(.645,.045,.355,1)
+    .el-input-number__decrease
+      border-color: #c75656
+      transition: border-color .2s cubic-bezier(.645,.045,.355,1)
+    .el-input-number__increase
+      border-color: #c75656
+      transition: border-color .2s cubic-bezier(.645,.045,.355,1)
   .el-input-number__decrease,.el-input-number__increase
     top: 0
     height: 28px

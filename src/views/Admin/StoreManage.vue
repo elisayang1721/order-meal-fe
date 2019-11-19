@@ -7,13 +7,15 @@
           el-input(
             v-model="condition.searchByName"
             placeholder="請輸入店名"
-            prefix-icon="el-icon-search")
+            prefix-icon="el-icon-search"
+            maxlength="20")
         .search
           p 餐點名稱：
           el-input(
             v-model="condition.searchByMeals"
             placeholder="請輸入餐點名稱,如：可樂,雞腿便當"
-            prefix-icon="el-icon-search")
+            prefix-icon="el-icon-search"
+            maxlength="20")
       .add
         el-button.add-button(
           @click.prevet="toggleDialog('add')"
@@ -262,33 +264,11 @@ export default {
       line-height: 36px
       border-radius: 4px
       background: $c1
-      &.is-focus, &:hover
+      &:focus, &:hover
         border-color: #a59796
     .el-input__prefix
       .el-input__icon
         line-height: 32px
-/deep/.el-checkbox
-  // margin-right: 20px
 .add-button
   width: 80px
-// .edit-button
-//   +Bgc(#f7f3f3)
-//   border-color: #ab9694
-//   color: #866e6c
-//   &:hover,
-//   &:active,
-//   &:focus
-//     +Bgc(#ab9694)
-//     border-color: #ab9694
-//     color: $c1
-// .cancel-button
-//   +Bgc(#f7f3f3)
-//   border-color: #ab9694
-//   color: #866e6c
-//   &:hover,
-//   &:active,
-//   &:focus
-//     +Bgc(#ab9694)
-//     border-color: #ab9694
-//     color: $c1
 </style>

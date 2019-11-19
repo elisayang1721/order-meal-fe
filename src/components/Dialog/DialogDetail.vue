@@ -35,13 +35,22 @@
         span {{item.totalAmount}}
       .cell
         span {{item.price.format()}}
-      .cell.flexFix
+      .cell.flexFix.subscriberInfo
         .subscriberCell(v-for="(obj, i) in item.orderRecords" :key="obj.id"
           :class="recordClass(obj)"
           @click="orderSubmit(obj, $event)")
-          span {{`${obj.memberName} x${obj.amount}`}}
-          span.font-blue {{obj.remark}}
-          EditBlock(@edit='edit(obj.id)' @confirmDelete="confirmDelete(obj.id)")
+          template(v-if="obj.remark")
+            el-tooltip( effect="dark" placement="top-start")
+              div(slot="content") {{obj.remark}}
+              el-button
+                span {{`${obj.memberName} x${obj.amount}`}}
+                span.font-blue {{obj.remark}}
+                EditBlock(@edit='edit(obj.id)' @confirmDelete="confirmDelete(obj.id)")
+          template(v-else)
+            el-button
+              span {{`${obj.memberName} x${obj.amount}`}}
+              span.font-blue {{obj.remark}}
+              EditBlock(@edit='edit(obj.id)' @confirmDelete="confirmDelete(obj.id)")
 </template>
 <script>
 import history from '@api/history'
@@ -162,4 +171,8 @@ export default {
 #detail
   border: 1px solid $tableLineColor
   border-right: 0
+.row
+  &:first-child
+    .cell
+      padding: 0.6rem 0.4rem
 </style>
