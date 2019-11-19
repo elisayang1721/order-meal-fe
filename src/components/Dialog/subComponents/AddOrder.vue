@@ -26,7 +26,9 @@
         span 公告事項
       .cell
         el-input(v-model="condition.bulletin"
-          type="textarea")
+          type="textarea"
+          maxlength="255"
+          show-word-limit)
     .confirmBlock
       el-button(type="success" @click="getDebounce") 確認
 </template>

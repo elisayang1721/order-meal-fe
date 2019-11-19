@@ -7,13 +7,15 @@
           el-input(
             v-model="condition.searchByName"
             placeholder="請輸入店名"
-            prefix-icon="el-icon-search")
+            prefix-icon="el-icon-search"
+            maxlength="20")
         .search
           p 餐點名稱：
           el-input(
             v-model="condition.searchByMeals"
             placeholder="請輸入餐點名稱,如：可樂,雞腿便當"
-            prefix-icon="el-icon-search")
+            prefix-icon="el-icon-search"
+            maxlength="20")
       .add
         el-button.add-button(
           @click.prevet="toggleDialog('add')"
@@ -55,7 +57,7 @@
               .face(:data-score="getScore(scope.row.avgScore)")
                 img(:src="require(`@img/score${getScore(scope.row.avgScore) + 1}.svg`)")
             template(v-else)
-              div —
+              div -
         el-table-column(
           prop="updatedOn"
           label="更新時間"
@@ -233,26 +235,28 @@ export default {
     margin-left: 30px
   .score
     display: inline-block
-    width: 50px
-    font-size: 30px
+    vertical-align: middle
+    width: 40px
+    font-size: 20px
     margin-right: 20px
+    font-family: arial
   .face
     +size(25px,25px,null)
     display: inline-block
+    vertical-align: middle
     border-radius: 50%
-    border: 1px solid #000
     margin-right: 5px
-    background: #eee
+    background: #e4e4e4
     &[data-score="0"]
       background: #f15354
     &[data-score="1"]
-      background: #f68937
+      background: #f47149
     &[data-score="2"]
-      background: #ffcc28
+      background: #f8903e
     &[data-score="3"]
-      background: #49bb7d
+      background: #fcae33
     &[data-score="4"]
-      background: #16b6d6
+      background: #ffcc28
 .search
   /deep/.el-input
     .el-input__inner
@@ -260,33 +264,11 @@ export default {
       line-height: 36px
       border-radius: 4px
       background: $c1
-      &.is-focus, &:hover
+      &:focus, &:hover
         border-color: #a59796
     .el-input__prefix
       .el-input__icon
         line-height: 32px
-/deep/.el-checkbox
-  // margin-right: 20px
 .add-button
   width: 80px
-// .edit-button
-//   +Bgc(#f7f3f3)
-//   border-color: #ab9694
-//   color: #866e6c
-//   &:hover,
-//   &:active,
-//   &:focus
-//     +Bgc(#ab9694)
-//     border-color: #ab9694
-//     color: $c1
-// .cancel-button
-//   +Bgc(#f7f3f3)
-//   border-color: #ab9694
-//   color: #866e6c
-//   &:hover,
-//   &:active,
-//   &:focus
-//     +Bgc(#ab9694)
-//     border-color: #ab9694
-//     color: $c1
 </style>
