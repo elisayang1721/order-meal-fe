@@ -87,20 +87,27 @@ export function textToJson(data) {
         cate: item.split(':')[0],
         meals: []
       }
-      const patten = /\D/g
-      if (patten.test(item.split(':')[1])) {
-        item.split(':')[1].split(',').forEach(sort => {
-          const sorts = {
-            name: sort.split('.')[0],
-            price: sort.split('.')[1]
-          }
-          mealObj.meals.push(sorts)
-        })
+      const patten = /^[\d]+$/
+      if (item.split(':')[1]) {
+        if (patten.test(item.split(':')[1])) {
+          mealObj.meals.push({
+            name: item.split(':')[0],
+            price: item.split(':')[1]
+          })
+        } else {
+          item.split(':')[1].split(',').forEach(sort => {
+            if (!patten.test(sort.split('.')[1])) {
+              throw new Error()
+            }
+            const sorts = {
+              name: sort.split('.')[0],
+              price: sort.split('.')[1]
+            }
+            mealObj.meals.push(sorts)
+          })
+        }
       } else {
-        mealObj.meals.push({
-          name: item.split(':')[0],
-          price: item.split(':')[1]
-        })
+        throw new Error()
       }
       list.items.push(mealObj)
     })

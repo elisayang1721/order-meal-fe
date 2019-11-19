@@ -167,7 +167,8 @@ export default {
     submit() {
       const vm = this
       try {
-        if (this.storeInfo.menuJson.list[0].items[0].meals[0].price) {
+        const hasMenuItem = this.storeInfo.menuJson.list[0].items.length > 0
+        if (this.storeInfo.menuText && this.submitable && hasMenuItem) {
           if (this.$store.state.prop.action === 'add') {
             this.addStore(vm)
           } else {
@@ -211,7 +212,9 @@ export default {
     'storeInfo.menuText': {
       handler() {
         try {
+          this.submitable = false
           this.storeInfo.menuJson = deepClone(this.getMenuJson)
+          this.submitable = true
         } catch (e) {
           const vm = this
           this.errorMessage(vm)
@@ -221,6 +224,7 @@ export default {
   },
   data() {
     return {
+      submitable: false,
       storeType: [],
       storeInfo: {
         name: null,
