@@ -84,32 +84,45 @@
       +Flex(center,center)
       flex-direction: column
       padding: .6rem
-      // border-left: 1px solid $tableLineColor
-      // &:first-child
-      //   border-left: 0
-      >span
-        pointer-events: none
-      >span:first-child
-        margin-bottom: 5px
-      >span:nth-child(2)
-        text-align: center
-        +ellipsis()
-        width: 5rem
+      >.el-button
+        width: 100%
+        height: auto
+        padding: 0
+        background: none
+        border: none
+        >span
+          span
+            display: block
+            pointer-events: none
+          span:first-child
+            margin-bottom: 6px
+          span:nth-child(2)
+            text-align: center
+            +ellipsis()
+            width: 7rem
+            font-size: 15px
+        &:hover
+          color: #5f5c5c
       .editBlock
         display: none
+        .el-button
+          >span
+            margin-bottom: 0 !important
       &.hasPermission:hover
-        >span:nth-child(2)
-          display: none
-        .editBlock
-          +Flex(space-between,center)
-          >button:last-child
-            display: none
-          &.confirmDelete
-            >button
+        .el-button
+          >span
+            span:nth-child(2)
               display: none
-              &:last-child
-                display: inline-flex
-                width: auto
+          .editBlock
+            +Flex(space-between,center)
+            >button:last-child
+              display: none
+            &.confirmDelete
+              >button
+                display: none
+                &:last-child
+                  display: inline-flex
+                  width: auto
             
     >div
       +Flex()
@@ -245,12 +258,13 @@
     width: 100%
     padding: 0.5rem 0 1.2rem
   .footer
-    +Flex(space-between,center)
+    +Flex(flex-end,center)
     width: 100%
     font-size: 14px
     .date
       align-self: flex-end
       font-size: 14px
+      margin-left: 15px
 #totalComment
   border-bottom: 1px dashed #c6c6c6
   .section
