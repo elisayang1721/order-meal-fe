@@ -110,14 +110,23 @@
     margin-right: 10px
   button
     &:disabled
-      // background: #efebea
+      color: #c4bcbc
+      &:hover
+        background: #fff
+        color: #c4bcbc
+    &:hover
+      background: $tableLineColor 
+    
   .el-pager
     border: 1px solid $tableLineColor
     li
+      min-width: 32px
       height: 30px
       line-height: 30px
       &.active
-        background-color: $brownC1  
+        background-color: $brownC1
+        &:hover
+          background-color: $brownC1
       &:hover
         background-color: #ab9694
 
