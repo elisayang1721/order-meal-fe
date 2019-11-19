@@ -5,7 +5,7 @@
         OrdersHistory
         el-button.add-button(type='primary'
           icon="el-icon-plus"
-          @click="showDialog({name:'CreateNewOrder',title:'CreateNewOrder'})") 發起點餐
+          @click="showDialog({name:'CreateNewOrder',title:'發起點餐'})") 發起點餐
 </template>
 <script>
 import OrdersHistory from '@v/Order/OrdersHistory'

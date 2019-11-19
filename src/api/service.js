@@ -37,22 +37,31 @@ service.interceptors.response.use(
   error => {
     const { response } = error
     let errorMessage = ''
-    // token 過期
-    if (response.status === 401) {
-      localStorage.removeItem('apiToken')
-      errorMessage = '驗證錯誤/驗證已逾期，請重新登入驗證。'
-      window.location.href = '/401'
-    }
-    // 無權限
-    if (response.status === 403) {
-      errorMessage = '您無此操作的權限，請聯絡系統管理員。'
-    }
-    // 500
-    if (response.status === 500) {
-      errorMessage = '系統發生內部錯誤，請聯絡系統管理員。'
+    switch (response.status) {
+      // token 過期
+      case 401:
+        localStorage.removeItem('apiToken')
+        errorMessage = '驗證錯誤/驗證已逾期，請重新登入驗證。'
+        window.location.href = '/401'
+        break
+      // 無權限
+      case 403:
+        errorMessage = '您無此操作的權限，請聯絡系統管理員。'
+        break
+      // 429 too many request dont trigger error message
+      case 429:
+        // eslint-disable-next-line prefer-promise-reject-errors
+        return Promise.reject('（○′∀‵）ノ♡error', response)
+      // 500
+      case 500:
+        errorMessage = '系統發生內部錯誤，請聯絡系統管理員。'
+        break
+      default:
+        errorMessage = response.data
+        break
     }
     Message({
-      message: response.data || errorMessage,
+      message: errorMessage,
       type: 'error'
     })
     // eslint-disable-next-line prefer-promise-reject-errors

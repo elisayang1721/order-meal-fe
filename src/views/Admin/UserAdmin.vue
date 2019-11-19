@@ -2,7 +2,7 @@
   .tabContainer
     .adminPanel
       .search
-        p 狀態 ：
+        p 狀態：
         el-select(
           v-model="isEnabled"
           placeholder="全部")
@@ -31,6 +31,8 @@
         el-table-column(
           prop="isEnabled"
           label="狀態")
+          template(slot-scope="scope")
+            span(:class="orderStatus(scope.row.isEnabled)") {{scope.row.isEnabled}}
         el-table-column(
           prop="updatedOn"
           label="更新時間"
@@ -49,7 +51,7 @@
               icon="el-icon-edit") 編輯
     el-pagination(
       :current-page.sync="pageNum"
-      @current-change="getData"
+      @current-change="triggerDebounce"
       :total="totalSize"
       layout="prev, pager, next"
       :page-size="9")
@@ -64,31 +66,40 @@ import { injectState } from '@js/model'
 export default {
   name: 'UserAdmin',
   mounted() {
-    this.getData()
+    this.triggerDebounce()
     this.$bus.$on('refresh', () => {
-      this.getData()
+      this.triggerDebounce()
     })
   },
-  methods: {
-    ...mapActions(['showDialog']),
-    getData: debounce(function () {
-      const init = {
+  computed: {
+    getPayLoad() {
+      const load = {
         isEnabled: this.isEnabled,
         page: this.pageNum,
         pageSize: 9
       }
-      this.loading = true
-      admin.getAdminList(init).then(res => {
+      return load
+    }
+  },
+  methods: {
+    ...mapActions(['showDialog']),
+    getData: debounce(vm => {
+      vm.loading = true
+      admin.getAdminList(vm.getPayLoad).then(res => {
         const resData = res.list
 
-        this.loading = false
+        vm.loading = false
         resData.forEach((list, i) => {
           resData[i].memberId = list.companyCode + '_' + list.account
         })
-        this.totalSize = res.totalSize
-        this.adminData = resData
+        vm.totalSize = res.totalSize
+        vm.adminData = resData
       })
     }, 500),
+    triggerDebounce() {
+      const vm = this
+      this.getData(vm)
+    },
     toggleDialog(action, row = null) {
       let load
       const prop = {
@@ -97,18 +108,27 @@ export default {
       if (action === 'add') {
         load = {
           name: 'Admin',
-          title: '新增管理員'
+          title: '新增管理員：'
         }
       }
       if (action === 'edit') {
         prop.id = row.id
         load = {
           name: 'Admin',
-          title: `編輯管理員 – ${row.name}`
+          title: `編輯管理員： ${row.name}`
         }
       }
       injectState(prop)
       this.showDialog(load)
+    },
+    orderStatus(status) {
+      let className = []
+      if (status === '啟用中') {
+        className = 'fontGreen'
+      } else if (status === '已停用') {
+        className = 'fontGray'
+      }
+      return className
     }
   },
   beforeDestroy() {
@@ -118,7 +138,7 @@ export default {
     isEnabled: {
       handler() {
         this.pageNum = 1
-        this.getData()
+        this.triggerDebounce()
       },
       deep: true
     }
@@ -136,7 +156,7 @@ export default {
         },
         {
           isEnabled: false,
-          text: '停用'
+          text: '已停用'
         }
       ],
       isEnabled: null,
@@ -149,7 +169,27 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-.tabContainer
+/deep/.el-input
+  .el-input__inner
+    background-color: $c1
+::v-deep.el-select
+  .el-input
+    .el-select__caret
+      color: $brownC1
+    &.is-focus, &:hover
+      .el-input__inner
+        border-color: #a59796
+  .el-input__inner
+    &:focus
+      border-color: #a59796
+::v-deep.el-select-dropdown__item
+  &.hover, &:hover
+    background-color: #f5f7fa
+  &.selected
+    color: #121212
   .tableWrapper
     height: 650px
+.adminPanel
+  .search
+    +Flex(flex-start,center)
 </style>

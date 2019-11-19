@@ -1,20 +1,22 @@
 <template lang="pug">
-  #OrderMerge.tabContainer
+  #OrderMerge
     .infoBlock
       .checkBlock
         el-checkbox-group(v-model="checked")
           el-checkbox(v-for="list in orderList.list" :key="list.id"
             :label="list.id")
-            span {{list.orderName.split(',')[0]}}
-            span {{list.orderName.split(',')[1]}}
+            span {{`發起人： ${list.ownerName} `}}
+            span {{list.storeName}}
+            span {{list.createdOn}}
       .infoDetail
         ul
-          li {{`全部共 ${getSummery.total} 項`}}
-          li {{`全部共 ${getSummery.price} 元`}}
-        el-button(type="primary" @click="getDebounce"
+          li 全部：
+          li {{`共 ${getSummery.total} 項，`}}
+          li {{`共 ${getSummery.price.format()} 元`}}
+        el-button.export-button(type="info" @click="getDebounce"
           :disabled="checkDisable") 匯出合併訂單
     .listBlock(v-loading="loading")
-      .listTable(v-if="checked.length")
+      .listTable.tableFrame(v-if="checked.length")
         .row
           .cell
             span 訂購人
@@ -28,7 +30,7 @@
             span 訂購資訊
           .cell(class="toggleHead")
             span 總價
-        ScrollBar.listBody(v-if="listTotal.length")
+        .listBody(v-if="listTotal.length")
           .row(v-for="(obj,i) in listTotal" :key="i")
             .cell
               span {{obj.name}}
@@ -37,7 +39,7 @@
                 li(v-for="(order, idx) in obj.meals"
                   :key="idx") {{`${order.cate} ${order.price}元 x${order.amount}`}}
             .cell
-              span {{`${getOrderPrice(obj.meals)}元`}}
+              span {{getOrderPrice(obj.meals)}}
 </template>
 <script>
 import ScrollBar from '@c/ScrollBar/ScrollBar'
@@ -46,7 +48,7 @@ import mergeOrder from '@api/mergeOrder'
 import debounce from 'lodash/debounce'
 
 export default {
-  name: 'OrderMerge',
+  name: 'DialogMergeOrder',
   mounted() {
     mergeOrder.updateMergeOptions().then(res => {
       this.orderList = res
@@ -66,6 +68,12 @@ export default {
     },
     checkDisable() {
       return !this.checked.length
+    },
+    getOrderId() {
+      const orderId = {
+        orderId: this.checked
+      }
+      return orderId
     }
   },
   methods: {
@@ -74,13 +82,13 @@ export default {
       order.forEach(el => {
         price += el.price * el.amount
       })
-      return price
+      return price.format()
     },
-    getMergeOrder: debounce(function (orderId) {
-      this.loading = true
-      mergeOrder.getMergeTotal(orderId).then(res => {
-        this.listTotal = res.list
-        this.loading = false
+    getMergeOrder: debounce(vm => {
+      vm.loading = true
+      mergeOrder.getMergeTotal(vm.getOrderId).then(res => {
+        vm.listTotal = res.list
+        vm.loading = false
       })
     }, 500),
     getDebounce() {
@@ -88,22 +96,20 @@ export default {
       this.exportMergeOrder(vm)
     },
     exportMergeOrder: debounce(vm => {
-      const orderId = {
-        orderId: vm.checked
-      }
-      mergeOrder.exportExcel(orderId).then(res => {
+      mergeOrder.exportExcel(vm.getOrderId).then(res => {
         exportExcel(res)
       })
-    }, 500)
+    }, 500),
+    neededTitle(info) {
+      return info.length > 10 ? info : ''
+    }
   },
   watch: {
     'checked': {
-      handler(val) {
+      handler() {
         this.listTotal = []
-        const orderId = {
-          orderId: val
-        }
-        this.getMergeOrder(orderId)
+        const vm = this
+        this.getMergeOrder(vm)
       }
     }
   },
@@ -126,26 +132,52 @@ export default {
     +Flex(flex-start,strech)
     flex-wrap: wrap
     height: unset
+  .export-button
+    width: 100px
+  .infoDetail
+    ul
+      li
+        display: inline-block
+        &+li
+          margin-left: 8px
 /deep/.el-checkbox-group
   display: flex
   justify-content: flex-start
   flex-wrap: wrap
+  margin-left: 0
   .el-checkbox
     width: 200px
     +Flex()
+    justify-content: flex-start
     margin: .2rem
-    padding: .2rem
-    box-shadow: 0px 4px rgba(#000, .6)
+    margin-right: .5rem
+    margin-bottom: .5rem
+    padding: .25rem .45rem .25rem .55rem
     border-radius: 4px
-    border: 1px solid #000
+    border-left: 4px solid $brownC2
+    background: #fff
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.15)
     .el-checkbox__input
       display: none
+      &.is-checked
+        &+.el-checkbox__label
+          color: $c1
     .el-checkbox__label
       +Flex()
       flex-direction: column
       padding-left: unset
+      width: 100%
+      span
+        display: block
+        width: 100%
+        &:nth-child(2)
+          font-size: 16px
+          font-weight: 700
+          margin: 5px 0
+        &:last-child
+          text-align: right
+          font-size: 13px
     &.is-checked
       box-shadow: unset
-      transform: translateY(4px)
-      border-color: #409EFF
+      background: $brownC2
 </style>

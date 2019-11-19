@@ -28,8 +28,7 @@ build-testing:
       # - rm package-lock.json
       - npm cache clean -f
       - npm install
-      #- npm run build:testing
-      - npm run build
+      - npm run build:testing
   artifacts:
     expire_in: 1 week
     paths:

@@ -35,6 +35,11 @@ export default {
       this.emsToken = ''
     })
   },
+  sockets: {
+    connect() {
+      console.log('Your socket  has connected!')
+    }
+  },
   methods: {
     devApi() {
       const data = {
@@ -44,13 +49,13 @@ export default {
       localStorage.clear()
       this.loading = true
       axios({
-        url: 'http://larla.info/api/login',
+        url: 'http://pub.bck.bckplat.info/api/login',
         method: 'post',
         data
       }).then(res => {
         const loginToken = res.data.data.apiToken
         axios({
-          url: 'http://larla.info/api/redirect/206',
+          url: 'http://pub.bck.bckplat.info/api/redirect/206',
           method: 'get',
           headers: {
             Authorization: 'Bearer ' + loginToken
@@ -68,11 +73,13 @@ export default {
         localStorage.setItem('apiToken', res.token)
         localStorage.setItem('userData', JSON.stringify(res))
         this.hasToken = localStorage.apiToken
-        if (this.$route.path !== '/') {
-          this.$router.push({
-            path: '/'
-          })
+        if (this.$route.query.url !== null && this.$route.query.url !== undefined) {
+          const returnurl = this.$route.query.url
+          this.$router.push(returnurl)
+          return
         }
+        // vue-router 3.1 版本後 push/replace 返回promise，但promise被reject，未被catch
+        this.$router.push('/').catch(() => {})
         this.loading = false
       }).catch(() => {
         this.loading = false

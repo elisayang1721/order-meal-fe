@@ -1,35 +1,35 @@
 <template lang="pug">
   div
-    .dialogAdmin
+    .dialogAdmin.tableFrame
       .adminItem
-        p 帳號 ：
+        p 帳號
         el-input(
           v-model="adminData.companyAccount"
           placeholder="請輸入帳號"
           clearable
           :disabled="mode")
       .adminItem
-        p 可刪除店家 ：
+        p 可刪除店家
         el-switch(
           v-model="adminData.canDeleteStore"
-          active-color="#13ce66"
-          inactive-color="#ff4949"
+          active-color="#47975e"
+          inactive-color="#c75656"
           active-text="是"
           inactive-text="否")
       .adminItem
-        p 可增修管理員 ：
+        p 可增修管理員
         el-switch(
           v-model="adminData.canModifyAdmin"
-          active-color="#13ce66"
-          inactive-color="#ff4949"
+          active-color="#47975e"
+          inactive-color="#c75656"
           active-text="是"
           inactive-text="否")
       .adminItem
-        p 狀態 ：
+        p 是否啟用
         el-switch(
           v-model="adminData.isEnabled"
-          active-color="#13ce66"
-          inactive-color="#ff4949"
+          active-color="#47975e"
+          inactive-color="#c75656"
           active-text="是"
           inactive-text="否")
     .commonBtnGroup
@@ -80,14 +80,16 @@ export default {
         message = '帳號格式有誤，請輸入"公司代號"_"員工編號"'
         shouldIAdd = false
       }
-      vm.$message({
-        showClose: true,
-        message,
-        type: 'error'
-      })
+
       if (shouldIAdd) {
         admin.addAdmin(params).then(() => {
           vm.submitSuccess()
+        })
+      } else {
+        vm.$message({
+          showClose: true,
+          message,
+          type: 'error'
         })
       }
     }, 500),
@@ -145,12 +147,18 @@ export default {
 }
 </script>
 <style lang="sass" scope>
+.dialogAdmin
+  padding: 15px 10px 10px
+  &.tableFrame
+    border-right: 1px solid $tableLineColor
 .adminItem
   +Flex(flex-start)
   margin-bottom: 1rem
   font-size: 1.125rem
   p
-    width: 150px
+    font-size: 16px
+    color: $darkGray
+    width: 135px
     margin-right: 1rem
     text-align: right
   .is-disabled
@@ -160,10 +168,15 @@ export default {
     flex: 1
     +Flex(space-around)
     .el-switch__label--left
-      color: #ff4949
+      color: #c75656
     &.is-checked
       .el-switch__label--left
-        color: #000
+        color: #766f6f
       .el-switch__label--right
-        color: #13ce66
+        color: #47975e
+  .el-switch__label
+    color: #766f6f
+    *
+      font-size: 16px
+
 </style>

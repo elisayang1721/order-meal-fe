@@ -1,7 +1,7 @@
 // Dialog限制最小內容寬
 .viewFix
   min-width: 1200px
-  padding: 0 10px
+  // padding: 0 10px
   &.createneworder
     padding: unset
     @media(max-width: 1200px),(max-height: 800px)
@@ -38,7 +38,9 @@
   +Flex(flex-end,center)
   position: relative
   padding: .6rem
-  border: 1px solid $tableLineColor
+  background: $c1
+  border-right: 1px solid $tableLineColor
+  border-left: 1px solid $tableLineColor
   color: $darkGray
   .phone
     position: absolute
@@ -49,17 +51,21 @@
 .row
   display: flex
   width: 100%
-  color: $darkGray
+  color: #5f5c5c
   &:first-child
     background: $tableHeadColor
     color: #fff
     .cell
-      padding: 0.8rem 0
+      padding: 0.6rem 0
+  &:last-child
+    .cell
+      border-bottom: none
   .cell
     +Flex(center,center)
     flex-wrap: wrap
     border-right: 1px solid $tableLineColor
     border-bottom: 1px solid $tableLineColor
+    padding: 0.4rem
     >span
       text-align: center
       margin: 0 5px
@@ -69,6 +75,9 @@
       flex: .5
     &:last-child
       flex: 3
+    &.menuType
+      font-weight: 700
+      background: #efebea
     .subscriberCell
       width: calc(100% / 5)
       height: 60px
@@ -82,6 +91,10 @@
         pointer-events: none
       >span:first-child
         margin-bottom: 5px
+      >span:nth-child(2)
+        text-align: center
+        +ellipsis()
+        width: 5rem
       .editBlock
         display: none
       &.hasPermission:hover
@@ -115,10 +128,7 @@
       &:nth-child(3)
         flex: 1
       &:last-child
-        flex: 2
-      &.menuType
-        font-weight: 700
-        background: #efebea
+        flex: 2      
   .typeBorder
     padding: .4rem
     border-left: 1px solid #000
@@ -178,16 +188,88 @@
     flex-direction: column
     flex: 1
     &:first-child
-      padding-right: 10px
+      padding-right: 15px
     &:last-child
-      padding-left: 10px
+      padding-left: 15px
     @media(max-width: 1200px),(max-height: 800px)
       height: 100%
-    .filterCondition,.searchType,.subjectTitle
-      margin-bottom: 10px
+    .filterCondition,.searchType,
+      margin-bottom: 15px
+    .subjectTitle
+      color: $darkGray
+      font-weight: 700
+      margin-bottom: 8px
+    .confirmBlock
+      border-left: none
 
+#rating,#allEvaluation
+  +size(100%,100%,null)
+  +Flex(center,flex-start)
+  .ratingInner
+    +Flex()
+    flex-direction: column
+    flex: 1
+    background: #fff
+    .innerHead
+      position: relative
+      width: 100%
+      font-size: 18px
+      line-height: 42px
+      text-align: center
+      color: #fff
+      background: $tableHeadColor
+      .avgScore
+        position: absolute
+        font-size: 36px
+        opacity: .8
+        right: 15px
+        top: 0
+        color: #fff
+        font-family: impact
 
-#addOrder,#storeInfo,#menuList
-  .row
-    .cell
-      padding: .4rem
+#totalComment,#myComment
+  width: 100%
+  +Flex()
+  flex-direction: column
+  border-top: unset
+  padding: 10px
+  color: #606262
+  .head
+    width: 100%
+    +Flex(space-between,center)
+    font-weight: 700
+    color: #4a4a4a
+    .commentedBy
+      font-weight: 500
+  .section
+    width: 100%
+    padding: 0.5rem 0 1.2rem
+  .footer
+    +Flex(space-between,center)
+    width: 100%
+    font-size: 14px
+    .date
+      align-self: flex-end
+      font-size: 14px
+#totalComment
+  border-bottom: 1px dashed #c6c6c6
+  .section
+    >span
+      line-height: 24px
+      word-break: break-all
+#myComment
+  .head
+    .submitBlock
+      +Flex()
+      .el-button
+        margin-left: 8px
+  .section
+    +Flex()
+    padding: unset
+    padding-top: 1rem
+    .el-textarea
+      width: 100%
+      flex: unset
+      >textarea
+        height: 75px
+        resize: none

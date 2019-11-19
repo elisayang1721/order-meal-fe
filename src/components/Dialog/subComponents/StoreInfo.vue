@@ -1,7 +1,7 @@
 <template lang="pug">
-  ScrollBar#storeInfo
+  ScrollBar#storeInfo.tableFrame
     .row
-      .cell
+      .cell.title
         span 店家資訊
     .row
       .cell
@@ -25,7 +25,7 @@
         span {{store.description}}
     .row
       .cell
-        span 補充
+        span 訂購說明
       .cell
         span {{store.remark}}
     .row

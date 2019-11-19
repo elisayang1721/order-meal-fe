@@ -10,7 +10,7 @@
             .close(@click="closeDialog")
               i.el-icon-close
         .dialogComponent
-          ScrollBar.scroll
+          ScrollBar.scroll(:needGoTop="goTop")
             .viewFix(:class="sliceName()")
               component(:is="componentName")
 </template>
@@ -25,6 +25,11 @@ import componentIndex from './index'
 componentIndex()
 
 export default {
+  data() {
+    return {
+      goTop: false
+    }
+  },
   components: {
     ScrollBar
   },
@@ -64,8 +69,20 @@ export default {
     'dialog': {
       handler(val) {
         this.dailogFixed(val.name)
+        if (val.length) {
+          if (val[0].name === 'DialogRating') {
+            this.goTop = true
+          }
+        }
       },
       deep: true
+    },
+    '$store.state.dialog': {
+      handler(val) {
+        if (!val.length) {
+          this.goTop = false
+        }
+      }
     }
   }
 }
@@ -74,6 +91,8 @@ export default {
 .dialogFrame
   @extend %setWrapper
   +Flex()
+  .commonBtnGroup
+    border-bottom: 1px solid $tableLineColor
   .dialogContent
     +Bgc($ligntGray)
     @media(max-width: 1200px),(max-height: 800px)
@@ -102,6 +121,7 @@ export default {
   .dialogComponent
     padding: 1rem
     overflow: hidden
+    background: $ligntGray
     @media(max-width: 1200px),(max-height: 800px)
       height: calc(100% - 4rem)
     .confirm, .admin
@@ -111,5 +131,12 @@ export default {
       max-height: 800px
       @media(max-width: 1200px),(max-height: 800px)
         max-height: 100%
+        max-width: 100%
         height: 100%
+    /deep/.el-button
+      width: 80px
+    .editBlock
+      /deep/.el-button
+        width: auto
+        padding: 6px 10px
 </style>

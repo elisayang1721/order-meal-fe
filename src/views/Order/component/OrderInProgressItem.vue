@@ -2,7 +2,7 @@
   .itemWrapper
     .list.left
       .navHead
-        .restaurantName {{list.name}}
+        .restaurantName {{list.storeName}}
         .deadLine 截止於：{{countDown}}
       .content
         .amount
@@ -11,50 +11,78 @@
         .amount
           .amountTitle 金額
           span {{addComma}}
-        .amount(v-if="list.bulletin")
-          .amountTitle 公告事項
-          span(:title="list.bulletin") {{list.bulletin}}
+        .amount
+          .amountTitle(v-if="list.bulletin") 公告事項
+          span(v-if="list.bulletin" :title="list.bulletin") {{list.bulletin}}
+        .amount
+          .amountTitle
+            span 評分
+            span {{list.avgScore}}
+            el-badge(:value="list.totalComment"
+              :max="99"
+              :class="{pointerEvent: !list.totalComment}"
+              @click.native="toggleDialog('Rating')")
+              i(class="el-icon-s-comment")
+          RatingBar(:score="list.avgScore" :isSelectable="false" :type="'Float'")
     .list.right
       .navHead
         span(:title="neededTitle") {{list.createdByName}}
         el-button.orderManagementBtn(
+          v-if="checkPermission"
           icon="el-icon-setting"
           @click="toggleDialog('OrderManagement')") 訂單管理
       .content
-        el-button.detailBtn(icon="el-icon-edit"
+        el-button.detailBtn(icon="el-icon-document"
+          :disabled="countDown === '已截止'"
           @click="toggleDialog('Detail')") 明細
         el-button(type="success" icon="el-icon-potato-strips"
+          :disabled="countDown === '已截止'"
           @click="toggleDialog('Order')") 點餐
 </template>
 <script>
-import { injectState, countDown } from '@js/model'
+import { injectState, countDown, addComma } from '@js/model'
+import RatingBar from '@c/RatingBar/RatingBar'
 import { mapActions } from 'vuex'
 
 export default {
   name: 'OrderInProgressItem',
   props: ['list'],
+  components: {
+    RatingBar
+  },
   mounted() {
-    this.countDown = countDown(this.list.finishedOn)
-    this.setTimer()
+    this.timestamp = this.list.finishedTime
+    this.checkCountDown()
   },
   computed: {
     addComma() {
-      return '$' + this.list.totalPrice.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+      return addComma(this.list.totalPrice)
     },
     neededTitle() {
       return this.list.createdByName.length > 5 ? this.list.createdByName.length : ''
+    },
+    checkPermission() {
+      const userData = JSON.parse(localStorage.userData)
+      return this.list.createdByName === userData.memberName || userData.isAdmin
     }
   },
   methods: {
     ...mapActions(['showDialog']),
     toggleDialog(cName) {
       let title
-      if (cName === 'OrderManagement') {
-        title = `${this.list.createdByName} - ${this.list.name} - 訂單管理`
-      } else if (cName === 'Detail') {
-        title = `${this.list.createdByName} - ${this.list.name} - 訂單明細`
-      } else {
-        title = `我也要訂 - ${this.list.name}`
+      switch (cName) {
+        case 'OrderManagement':
+          title = `${this.list.createdByName} - ${this.list.storeName} - 訂單管理`
+          break
+        case 'Detail':
+          title = `${this.list.createdByName} - ${this.list.storeName} - 訂單明細`
+          break
+        case 'Rating':
+          title = `${this.list.storeName} 的店家評價`
+          break
+        default:
+          title = `我也要訂 - ${this.list.storeName}`
+          break
       }
       const load = {
         name: cName,
@@ -63,7 +91,7 @@ export default {
       const prop = {
         id: this.list.id,
         storeId: this.list.storeId,
-        storeName: this.list.name,
+        storeName: this.list.storeName,
         owner: this.list.createdByName
       }
       if (cName === 'Order') {
@@ -73,9 +101,27 @@ export default {
       this.showDialog(load)
     },
     timer() {
-      this.time = setInterval(() => {
-        this.countDown = countDown(this.list.finishedOn)
-      }, 3600)
+      if (this.timestamp > 120) {
+        this.time = setInterval(() => {
+          this.timestamp -= 60
+          if (this.timestamp <= 60) {
+            this.stopTimer()
+            this.setTimer()
+          } else {
+            this.countDown = countDown(this.timestamp)
+          }
+        }, 60000)
+      } else {
+        this.time = setInterval(() => {
+          this.timestamp -= 1
+          if (this.timestamp === 0) {
+            this.countDown = '已截止'
+            this.stopTimer()
+          } else {
+            this.countDown = countDown(this.timestamp)
+          }
+        }, 1000)
+      }
     },
     setTimer() {
       this.timer()
@@ -84,11 +130,30 @@ export default {
       if (this.time) {
         clearInterval(this.time)
       }
+    },
+    checkCountDown() {
+      this.stopTimer()
+      if (this.timestamp > 0) {
+        this.countDown = countDown(this.timestamp)
+        this.setTimer()
+      } else {
+        this.countDown = '手動截止'
+      }
     }
   },
   data() {
     return {
-      countDown: ''
+      countDown: null,
+      timestamp: null
+    }
+  },
+  watch: {
+    'list': {
+      handler(val) {
+        this.timestamp = val.finishedTime
+        this.checkCountDown()
+      },
+      deep: true
     }
   },
   beforeDestroy() {
@@ -98,13 +163,13 @@ export default {
 </script>
 <style lang="sass" scoped>
   .orderManagementBtn
-    +Bgc(#804c35)
-    border-color: #804c35
+    +Bgc(#94593f)
+    border-color: #94593f
     color: #fff
     &:hover,
     &:active,
     &:focus
-      +Bgc(#8c5e49)
+      +Bgc(#9e6952)
   .detailBtn
     +Bgc(#999890)
     border-color: #999890
@@ -113,4 +178,29 @@ export default {
     &:active,
     &:focus
       +Bgc(#a8a7a1)
+    &.is-disabled
+      +Bgc(#c2c1bc)
+      border-color: #c2c1bc
+      &:hover,
+      &:active,
+      &:focus
+        +Bgc(#c2c1bc)
+        border-color: #c2c1bc
+  /deep/.el-rate
+    width: 100%
+  /deep/.el-badge
+    cursor: pointer
+    font-size: 24px
+    left: -20px
+    .el-badge__content
+      display: inline-flex
+      align-items: center
+  .itemWrapper
+    .list
+      .content
+        /deep/.el-button
+          padding: 10px
+          width: 80px
+          &+.el-button
+            margin-left: 0
 </style>

@@ -10,11 +10,22 @@ Vue.use(ElementUI, {
   locale
 })
 
+// prototype
+import '@js/proto'
+
 // style
 import '@css/reset.sass'
 import '@css/main.sass'
 import '@css/admin.sass'
 import '@css/orderModal.sass'
+
+// socket.io client side setting
+import VueSocketio from 'vue-socket.io'
+import socketio from 'socket.io-client'
+
+Vue.use(new VueSocketio({
+  connection: socketio('http://api.socket.bckplat.info')
+}))
 
 /** event bus */
 const eventBus = {

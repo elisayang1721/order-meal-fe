@@ -1,40 +1,45 @@
 <template lang="pug">
   #orderManagement(v-loading="loading")
-    .managementContent.tableFrame
+    .managementContent.tableFrame(v-if="Object.keys(orderInfo).length")
       .contentBlock
-        .contentNav 進度設定
+        .contentNav 訂單資訊
         .content
           ul.alignStart
             li
-              span 截止時間
+              span 截止時間：
               el-date-picker(v-model="orderInfo.finishedOn"
-                @change="checkDateTime"
                 type="datetime"
                 placeholder="選擇日期時間"
                 format="yyyy-MM-dd HH:mm"
-                value-format="yyyy-MM-dd HH:mm")
+                value-format="yyyy-MM-dd HH:mm"
+                @change="checkDateTime"
+                :disabled="orderInfo.limitedPrice ? true : false")
             li
-              span 截止金額
-              span {{orderInfo.limitedPrice || '無'}}
+              span 截止金額：
+              el-input(v-model="orderInfo.limitedPrice"
+                :maxlength="4"
+                :placeholder="orderInfo.limitedPrice ? '' : '無'"
+                @change="checkPrice"
+                :disabled="orderInfo.finishedOn ? true : false")
             li
-              span 訂單狀態
+              span 訂單狀態：
               .switchBlock
                 el-switch(v-model="orderInfo.status"
-                  active-color="#13ce66"
-                  inactive-color="#ff4949"
+                  active-color="#47975e"
+                  inactive-color="#c75656"
                   active-text="進行"
                   inactive-text="截止")
             li
-              el-button(type="success"
-                @click="getDebounce('export')") 匯出Excel
+              span 電話：
+              span {{orderInfo.storePhone}}
       .contentBlock
         .contentNav 訂單計算
         .content
           ul.alignStart
             li 共 {{orderInfo.totalAmount}} 份
-            li 已訂購： {{orderInfo.paidAmount}}份
-            li 未訂購： {{orderInfo.orderedAmount}}份
-            li 總價： ${{orderInfo.totalPrice}}
+            li 已訂購： {{orderInfo.orderedAmount}}份
+            li 未訂購： {{orderInfo.unorderedAmount}}份
+            li 總價： {{orderInfo.totalPrice.format()}}
       .contentBlock
         .contentNav 公告事項
         .content
@@ -43,11 +48,11 @@
             maxlength="255"
             show-word-limit)
     .confirmBlock
-      .phone
-        i.el-icon-phone
-        span {{orderInfo.storePhone}}
-      el-button(type="danger" @click="reset") 取消
-      el-button(type="success" @click="getDebounce()") 確認
+      el-button.export-btn(type="info"
+        @click="getDebounce($event,'export')") 匯出Excel
+      el-button.recover-button(
+        @click="reset") 復原
+      el-button(type="success" @click="getDebounce($event)") 確認
     DialogDetail
 </template>
 <script>
@@ -64,16 +69,22 @@ export default {
     this.getRecordsId()
     this.$bus.$on('updateOrderAmount', data => {
       if (data.status) {
-        this.orderInfo.paidAmount += data.cal
-        this.orderInfo.orderedAmount -= data.cal
-      } else {
-        this.orderInfo.paidAmount -= data.cal
         this.orderInfo.orderedAmount += data.cal
+        this.orderInfo.unorderedAmount -= data.cal
+      } else {
+        this.orderInfo.orderedAmount -= data.cal
+        this.orderInfo.unorderedAmount += data.cal
       }
     })
     this.$bus.$on('refreshOrderForm', () => {
       this.getRecordsId()
     })
+  },
+  computed: {
+    checkLimitedPrice() {
+      // eslint-disable-next-line no-restricted-globals
+      return this.orderInfo.limitedPrice && !isNaN(this.orderInfo.limitedPrice)
+    }
   },
   methods: {
     ...mapActions(['closeDialog']),
@@ -85,15 +96,12 @@ export default {
         this.loading = false
       })
     },
-    checkDateTime() {
-      if (!this.orderInfo.finishedOn) {
-        this.$nextTick(() => {
-          this.orderInfo.finishedOn = this.initData.finishedOn
-        })
-      }
+    blur(e) {
+      e.currentTarget.blur()
     },
-    reset() {
+    reset(e) {
       this.orderInfo = deepClone(this.initData)
+      this.blur(e)
     },
     updateForm: debounce(vm => {
       const load = {
@@ -108,11 +116,7 @@ export default {
           message: '訂單更新成功',
           type: 'success'
         })
-        if (vm.orderInfo.status) {
-          vm.getRecordsId()
-        } else {
-          vm.closeDialog()
-        }
+        vm.closeDialog()
         vm.$bus.$emit('refreshSystem')
         vm.$bus.$emit('refreshRecordsList')
       })
@@ -122,12 +126,37 @@ export default {
         exportExcel(res)
       })
     }, 500),
-    getDebounce(action = 'update') {
+    getDebounce(e, action = 'update') {
       const vm = this
       if (action === 'update') {
-        this.updateForm(vm)
+        if (this.orderInfo.finishedOn || this.checkLimitedPrice) {
+          this.updateForm(vm)
+        } else if (!this.orderInfo.finishedOn && !this.orderInfo.limitedPrice) {
+          this.$message({
+            message: '請至少填寫一項截止設定',
+            type: 'warning'
+          })
+        } else {
+          this.$message({
+            message: '請填入正確截止金額',
+            type: 'warning'
+          })
+        }
       } else {
         this.exportExcel(vm)
+      }
+      this.blur(e)
+    },
+    checkDateTime(val) {
+      if (val) {
+        const now = new Date().getTime()
+        const dateTime = new Date(val).getTime()
+        this.orderInfo.status = now < dateTime
+      }
+    },
+    checkPrice(val) {
+      if (val) {
+        this.orderInfo.status = val > this.orderInfo.totalPrice
       }
     }
   },
@@ -135,8 +164,7 @@ export default {
     return {
       initData: {},
       orderInfo: {},
-      loading: false,
-      fn: null
+      loading: false
     }
   },
   components: {
@@ -160,24 +188,31 @@ export default {
       line-height: 24px
   .el-input__suffix
     right: 0
+/deep/.el-button
+  padding: 10px
 /deep/.el-switch
   margin: 0 5px
-/deep/.el-textarea
-  .el-textarea__inner
-    color: $darkGray
-    height: 100%
-    resize: none
-  .el-input__count
-    color: $txtGray
-    background: #efebea
 /deep/.el-switch
   flex: 1
   +Flex(space-around)
+  margin: 0
   .el-switch__label--left
-    color: #ff4949
+    color: #c75656
   &.is-checked
     .el-switch__label--left
-      color: #000
+      color: #766f6f
     .el-switch__label--right
-      color: #13ce66
+      color: #47975e
+/deep/.el-switch__label
+  color: #766f6f
+  *
+    font-size: 16px
+.recover-button
+  +Bgc(#ab9191)
+  border-color: #ab9191
+  color: #fff
+  &:hover,
+  &:active,
+  &:focus
+    +Bgc(#bca5a5)
 </style>

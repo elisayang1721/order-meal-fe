@@ -12,12 +12,23 @@ html,body
   position: relative
   overflow: hidden
 
+// font Color
+.fontRed
+  color: #f15354
+.fontGreen
+  color: #47975e
+.fontYel
+  color: #eab059
+.fontGray
+  color: #c4bcbc
+
 // el ui 
 .el-button
   display: inline-flex
   align-items: center
   justify-content: center
   width: 90px
+  padding: 10px 20px
   
 .el-pagination
   +Flex()
@@ -34,6 +45,10 @@ html,body
   th
     +Bgc($tableHeadColor)
     color: #fff
+    padding: 0
+    line-height: 42px
+    .cell
+      line-height: 1
   th,td
     text-align: center
   .address
@@ -42,21 +57,34 @@ html,body
     transition: all .2s 
     &:hover 
       padding-bottom: 1rem
-.el-radio
-  .el-radio__inner
-    border-color: #8b8b8b
-.el-checkbox__inner
-  border-color: #8b8b8b
+
 .el-input, .el-textarea
   flex: 1
-  .el-input__inner, .el-textarea__inner
-    font-family: Microsoft JhengHei,Microsoft Yahei,Helvetica,Hiragino Sans GB,"\5FAE\8F6F\96C5\9ED1",Arial,"sans-serif"
+  .el-input__inner, .el-textarea__inner,.el-time-panel__footer,.el-picker-panel__footer
     border-color: $tableLineColor
-    +Bgc(#efebea)
+    +Bgc(#f7f5f5)
     &::placeholder 
       color: #8b8b8b
   .el-input__prefix
     color: #8b8b8b
+
+.el-input__inner
+  color: #5f5c5c
+  padding: 0 10px
+.el-textarea__inner
+  padding: 5px 10px
+.el-textarea
+  .el-textarea__inner
+    color: $darkGray
+    height: 100%
+    resize: none
+    padding: 5px 10px
+  .el-input__count
+    background: $ligntGray
+.el-input__inner,
+.el-textarea__inner,
+.el-time-panel__btn
+  font-family: Microsoft JhengHei,Microsoft Yahei,Helvetica,Hiragino Sans GB,"\5FAE\8F6F\96C5\9ED1",Arial,"sans-serif"
 
 // .el-button
 //   &:hover,
@@ -67,21 +95,41 @@ html,body
 //     border-color: #c2b0af
 
 .el-button--success
-  +Bgc(#50a267)
-  border-color: #50a267
+  +Bgc(#47975e)
+  border-color: #47975e
   &:hover,
   &:active,
   &:focus
     +Bgc(#6ab07e)
-    border-color: #50a267
+    border-color: #62a676
+  &.is-disabled
+    +Bgc(#91c19e)
+    border-color: #91c19e
+    &:hover,
+    &:active,
+    &:focus
+      +Bgc(#91c19e)
+      border-color: #91c19e
 
 .el-button--danger
   +Bgc(#c75656)
   border: 1px solid #c75656
+  &:hover,
+  &:active,
+  &:focus
+    +Bgc(#cf6f6f)
+    border: 1px solid #cf6f6f
+  &.is-disabled
+    +Bgc(#dd9a9a)
+    border-color: #dd9a9a
+    &:hover,
+    &:active,
+    &:focus
+      +Bgc(#dd9a9a)
+      border-color: #dd9a9a
 
 .el-button--warning
   +Bgc(#f4b55a)
-.el-button--warning
   &:hover,
   &:active,
   &:focus
@@ -90,11 +138,27 @@ html,body
 
 .el-button--primary
   +Bgc(#21a8d2)
-.el-button--primary
   &:hover,
   &:active,
   &:focus
     +Bgc(#1f95ba)
+
+.el-button--info
+  +Bgc(#3b9f8e)
+  border-color: #3b9f8e
+  &:hover,
+  &:active,
+  &:focus
+    +Bgc(#58ad9f)
+    border-color: #58ad9f
+  &.is-disabled
+    +Bgc(#7fc1b5)
+    border-color: #7fc1b5
+    &:hover,
+    &:active,
+    &:focus
+      +Bgc(#7fc1b5)
+      border-color: #7fc1b5
 
 .add-button  
   +Bgc($yelColor)
@@ -105,6 +169,23 @@ html,body
   &:focus
     +Bgc(#eab059)
     border-color: $yelColor
+  &.is-disabled
+    +Bgc(#f0c78a)
+    border-color: #f0c78a
+    &:hover,
+    &:active,
+    &:focus
+      +Bgc(#f0c78a)
+      border-color: #f0c78a
+
+.el-input
+  &.is-disabled
+    .el-input__inner
+      background-color: $ligntGray
+      border-color: $tableLineColor
+      color: #c4bcbc
+      &::placeholder
+        color: #c4bcbc 
 
 .orderManagementBtn
   +Bgc(#f7f3f3)
@@ -122,6 +203,44 @@ html,body
   border: 1px solid $tableLineColor
   border-right: 0
 
+// raido checkout 樣式
+.el-checkbox__inner
+  border-color: #e1d8d4
+  background: #efebea
+  background: #fff
+  &:hover
+    border-color: $tableHeadColor
+.el-checkbox__label
+  font-size: 15px
+  color: #766f6f
+  color: #5f5c5c
+
+.el-radio
+  .el-radio__inner
+    border-color: #e1d8d4
+    background: #efebea
+    background: #fff
+.el-radio__label
+  font-size: 15px
+  color: #5f5c5c
+
+.el-radio__input.is-checked
+  .el-radio__inner
+    background-color: $tableHeadColor
+    border-color: $tableHeadColor
+  &+.el-radio__label
+    color: $tableHeadColor
+
+.el-checkbox__input.is-checked
+  .el-checkbox__inner
+    background-color: $brownC1 
+    border-color: $brownC1 
+  &+.el-checkbox__label
+    color: $brownC1 
+
+.el-checkbox__input.is-focus
+  .el-checkbox__inner
+    border-color: $brownC1
 
 header
   +Flex(space-between,center)
@@ -131,10 +250,10 @@ header
   height: 60px
   .icon
     +Flex(flex-start,center)
-    font-size: 30px
+    font-size: 28px
     cursor: pointer
     >img
-      +size(40px)
+      +size(38px)
     >span
       margin-left: 10px
   .navTabs
@@ -158,7 +277,7 @@ main
     .add-button
       position: absolute
       right: 20px
-      top: 10px
+      top: 8px
       z-index: 10      
 
 #orderSystem
@@ -167,17 +286,19 @@ main
   flex-direction: column
   min-height: 800px
   flex: 1
-  padding: 20px
+  padding: 20px 5px 20px 20px
   @media ( max-width: 1200px )
     width: 100%
     height: 800px
     padding: 20px
   .progressTitle
-    font-size: 18pt
+    font-size: 17pt
     font-weight: bold
     color: $darkGray
-    padding-top: 3px
-    padding-bottom: 10px
+    padding-top: 5px
+    padding-bottom: 6px
+  .listContainer
+    padding: 0 15px 0 0
   
 #ordersHistory
   +size(50%,calc(100vh - 60px),null)
@@ -185,21 +306,21 @@ main
   display: flex
   flex-direction: column
   flex: 1
-  padding: 20px
+  padding-bottom: 20px
   box-shadow: 5px 0 10px rgba(0,0,0,.55)
   @media ( max-width: 1200px )
     width: 100%
     height: 800px
-    padding: 20px
     
 
 .listContainer
   position: relative
   width: 100%
   height: 100%
-  border-radius: 8px
+  // border-radius: 8px
   overflow: hidden
-  padding-top: 15px
+  margin-top: 15px
+  padding: 0 20px
   .contentViewFix
     +Flex(flex-start,center)
     flex-direction: column
@@ -229,7 +350,7 @@ main
       font-size: 18px
       line-height: 42px
       color: #fff
-      padding: 0px 10px
+      padding: 0px 15px
       .el-button
         padding: 5px 10px
       .deadLine
@@ -243,21 +364,31 @@ main
     .content
       +size(100%)
       +Flex(flex-start,center)
-      padding: 5px 10px
+      padding: 5px 15px
       .amount
         +Flex(center,flex-start)
         flex-direction: column
-        width: 100px
+        flex: .5
+        height: 100%
         font-size: 18px
+        width: 100px
         color: #626262
         .amountTitle
           margin-bottom: 10px
-        &:last-child
-          flex: 1
+        &:nth-child(3)
+          flex: 2
           span
             +ellipsis()
             width: 100%
-
+        &:last-child
+          flex: 1
+          .amountTitle
+            width: 100%
+            margin-bottom: 5px
+            +Flex(space-between,center)
+            .el-button
+              width: 50px
+              padding: 5px
       >ul
         width: 100%
         display: block
@@ -265,15 +396,17 @@ main
           line-height: 24px
           color: #626262
           list-style: disc
-          margin-left: 50px
+          margin: 0 50px
+          word-break: break-all
   .left
-    flex: 3    
+    flex: 3
   .right
     .navHead
       font-size: 18px
       justify-content: center
+      padding: 0 10px
       >span
-        margin-right: 5px
+        margin-right: 1px
         &:first-child
           +ellipsis()
           width: 90px
@@ -287,3 +420,27 @@ main
         position: absolute
         left: 0
         border-left: 1px dashed #c6c6c6
+  .pointerEvent
+    pointer-events: none
+    cursor: initial
+
+.backToTop
+  display: block
+  opacity: 0.4
+  z-index: 10
+  position: absolute
+  right: 10px
+  bottom: 10px
+  transition: all .2s
+  &.goTopShow
+    opacity: 1
+  &.goTopHide
+    opacity: 0
+  &:hover
+    opacity: 1
+
+.loadingBlock
+  +Flex()
+  height: 40px
+  .el-icon-loading
+    margin-right: 10px

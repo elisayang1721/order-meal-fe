@@ -1,5 +1,5 @@
 <template lang="pug">
-  #order(v-loading="loading")
+  #order.tableFrame(v-loading="loading")
     .row
       .cell
         span 名稱
@@ -18,17 +18,20 @@
           span {{item.cate}}
         .cell
           template(v-if="item.meals.length === 1")
-            span {{item.meals[0].price}}
+            span {{`${item.meals[0].price.format()}`}}
           template(v-else)
             .radio(v-for="meal in item.meals" :key="meal.id"
               @click="setAmount(obj.menuType,i)")
               input(type="radio" :value="meal.id" :id="meal.id"
                 v-model="orderSet[obj.menuType][i].menuItemId")
-              label(:for="meal.id") {{`${meal.name} ${meal.price}`}}
+              label(:for="meal.id") {{`${meal.name} ${meal.price.format()}`}}
         .cell
-          el-input-number(:min="0" v-model="orderSet[obj.menuType][i].amount")
+          el-input-number(v-model="orderSet[obj.menuType][i].amount"
+            :min="0" :max="99" :disabled="!orderSet[obj.menuType][i].menuItemId"
+            @change="checkAmount(obj.menuType, i,item.meals.length)")
         .cell
-          el-input(v-model="orderSet[obj.menuType][i].remark")
+          el-input(v-model="orderSet[obj.menuType][i].remark"
+          :disabled="checkIfOrdered(obj.menuType,i)")
     .confirmBlock
       el-button(type="danger" @click="closeDialog") 取消
       el-button(type="success" @click="confirm") 確認
@@ -59,7 +62,10 @@ export default {
         this.orderItem = item
         this.orderInfo()
         this.loading = false
-      }))
+      })).catch(() => {
+        // handle 資料不同步問題
+        this.closeDialog()
+      })
     }
   },
   computed: {
@@ -79,6 +85,11 @@ export default {
   },
   methods: {
     ...mapActions(['closeDialog']),
+    checkAmount(type, i, length) {
+      if (length !== 1 && !this.orderSet[type][i].amount) {
+        this.orderSet[type][i].menuItemId = null
+      }
+    },
     orderInfo() {
       const orderSet = {}
       this.menuList.forEach(el => {
@@ -114,14 +125,22 @@ export default {
           vm.submitSuccess()
         })
     }, 500),
+    errorMessage: debounce(vm => {
+      vm.$message({
+        message: '請至少點選一樣',
+        type: 'error'
+      })
+    }, 500),
     confirm() {
+      const vm = this
       if (this.getLoad.orders.length) {
-        const vm = this
         if (this.$store.state.prop.action === 'order') {
           this.addOrder(vm)
         } else {
           this.updateOrder(vm)
         }
+      } else {
+        this.errorMessage(vm)
       }
     },
     setAmount(type, i) {
@@ -141,6 +160,9 @@ export default {
       this.$bus.$emit('refreshSystem')
       this.$bus.$emit('refreshMyorder')
       this.closeDialog()
+    },
+    checkIfOrdered(type, i) {
+      return this.orderSet[type][i].amount === 0
     }
   },
   data() {
@@ -159,13 +181,26 @@ export default {
   line-height: 25px
   .el-input-number__decrease,.el-input-number__increase
     top: 0
-    height: 25px
+    height: 28px
     line-height: 25px
-    border: 1px solid #888
+    background: #efebea
+    color: $brownC1
+    &:hover
+      color: $c1
+      background: #9a908c
+  .el-input-number__decrease.is-disabled, .el-input-number__increase.is-disabled
+    color: #C0C4CC
+    background: #efebea
   .el-input-number__decrease
     left: 0
+    border-right: 1px solid $tableLineColor
+    &:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled)
+      border-color: $tableLineColor
   .el-input-number__increase
     right: 0
+    border-left: 1px solid $tableLineColor
+    &:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled)
+      border-color: $tableLineColor
 /deep/.el-input__inner
   padding: 0 10px
 /deep/.el-input
@@ -175,5 +210,6 @@ export default {
     background: #f7f7f7
     border-color: $tableLineColor
 #order
-  border-left: 1px solid $tableLineColor
+  .confirmBlock
+    border-left: none
 </style>

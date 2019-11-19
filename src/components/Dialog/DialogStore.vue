@@ -1,6 +1,6 @@
 <template lang="pug">
   div(v-loading="loading")
-    .dialoStore
+    .dialoStore.tableFrame
       .storeHead
         .title 基本資料
         .title 菜單設定
@@ -29,25 +29,31 @@
         .contentLeft
           .content
             .contentItem
-              p 店名 ：
+              p
+                span *
+                | 店名：
               el-input(
                 v-model="storeInfo.name"
                 placeholder="請輸入店家名稱"
                 clearable)
             .contentItem
-              p 電話 ：
+              p
+                span *
+                | 電話：
               el-input(
                 v-model="storeInfo.phone"
                 placeholder="請輸入店家電話"
                 clearable)
             .contentItem
-              p 地址 ：
+              p
+                span *
+                | 地址：
               el-input(
                 v-model="storeInfo.address"
                 placeholder="請輸入店家地址"
                 clearable)
             .contentItem
-              p 簡介 ：
+              p 簡介：
               el-input(
                 v-model="storeInfo.description"
                 type="textarea"
@@ -55,6 +61,7 @@
                 placeholder="請輸入店家簡介")
           .content
             .title 服務類型
+              span (請至少選擇一項)
             .contentItem.mTop
               el-checkbox-group(v-model="storeInfo.types")
                 el-checkbox(v-for="type in storeType" :label="type.id" :key="type.id") {{type.name}}
@@ -75,7 +82,7 @@
                 :placeholder="placeholder")
               .showForm
                 ScrollBar.formViewFix(v-if="storeInfo.menuJson")
-                  .menu
+                  .menu.tableFrame
                     .row
                       .cell
                         span 品名
@@ -83,17 +90,17 @@
                         span 價格
                     template(v-for="obj in storeInfo.menuJson.list")
                       .row
-                        .cell
+                        .cell.menuType
                           span {{obj.menuType}}
                       .row(v-for="(item, i) in obj.items" :key="item.cate")
                         .cell
                           span {{item.cate}}
                         .cell
                           template(v-if="item.meals.length === 1")
-                            span {{item.meals[0].price}}
+                            span {{formatPrice(item.meals[0].price)}}
                           template(v-else)
                             span(v-for="meal in item.meals"
-                            :key="meal.id") {{`${meal.name}${meal.price}`}}
+                            :key="meal.id") {{`${meal.name}  ${formatPrice(meal.price)}`}}
 
     .commonBtnGroup
       el-button(type="danger" @click="closeDialog") 取消
@@ -128,7 +135,10 @@ export default {
         this.storeType = type.list
         this.storeInfo = info
         this.loading = false
-      }))
+      })).catch(() => {
+        this.$bus.$emit('refresh')
+        this.closeDialog()
+      })
     }
   },
   computed: {
@@ -156,10 +166,21 @@ export default {
     }, 500),
     submit() {
       const vm = this
-      if (this.$store.state.prop.action === 'add') {
-        this.addStore(vm)
-      } else {
-        this.updateStore(vm)
+      try {
+        if (this.storeInfo.menuJson.list[0].items[0].meals[0].price) {
+          if (this.$store.state.prop.action === 'add') {
+            this.addStore(vm)
+          } else {
+            this.updateStore(vm)
+          }
+        } else {
+          this.$message({
+            message: '請輸入菜單',
+            type: 'warning'
+          })
+        }
+      } catch (e) {
+        this.errorMessage(vm)
       }
     },
     submitSuccess() {
@@ -181,7 +202,10 @@ export default {
         message: '格式錯誤',
         type: 'error'
       })
-    }, 500)
+    }, 500),
+    formatPrice(price) {
+      return parseInt(price, 0).format()
+    }
   },
   watch: {
     'storeInfo.menuText': {
@@ -209,7 +233,7 @@ export default {
         menuJson: null
       },
       loading: false,
-      placeholder: '{菜單分類}\n菜單項目分類:價錢\n菜單項目分類:菜單項目1.價錢,菜單項目2.價錢'
+      placeholder: '{菜單分類}\n菜單項目分類:價錢\n菜單項目分類:菜單項目1.價錢,菜單項目2.價錢\n\n{漢堡}\n大麥克:123\n\n{飲料類}\n可樂:大杯.40,中杯.30,小杯.20'
     }
   },
   components: {
@@ -222,14 +246,19 @@ export default {
   +Flex(center,center)
   flex-direction: column
   position: relative
+  &.tableFrame
+    border-right: 1px solid $tableLineColor
   .title
     width: 100%
-    +Bgc(#8b8b8b)
+    +Bgc($tableHeadColor)
     color: $c1
     font-size: 1.125rem
     letter-spacing: 1px
     text-align: center
-    padding: 1rem 0
+    padding: 0.6rem 0
+    >span
+      margin-left: 5px
+      font-size: .9rem
   .storeHead
     display: flex
     width: 100%
@@ -241,7 +270,7 @@ export default {
         margin-left: 5px
   .storeContent
       +Flex(center,stretch)
-      padding: 1rem 0
+      padding: 1rem
       .content
         +Flex(center)
         flex-direction: column
@@ -253,13 +282,19 @@ export default {
           &:last-child
             margin-bottom: unset
           p
-            width: 3.25rem
-            margin-right: 1rem
+            width: 4rem
+            margin-right: 0.5rem
+            font-size: 15px
+            color: $darkGray
+            >span
+              margin-right: 5px
+              color: red
           /deep/.el-checkbox-group
             padding-left: 20px
             /deep/.el-checkbox
               width: 5rem
               font-size: 1rem
+              margin-bottom: 0.35rem
         .showForm, .formatForm
           +size(50%,100%)
         .formatForm
@@ -271,12 +306,13 @@ export default {
         .showForm
           margin-left: .5rem
           border-radius: 4px
-          border: 1px solid #8b8b8b
           .formViewFix
             +size(100%,100%,null)
             .menu
               width: 100%
-              padding: 10px
+              margin: 0 auto
+              &.tableFrame
+                border-bottom: none
               .cell
                 padding: .5rem
         .mTop
@@ -294,5 +330,4 @@ export default {
           height: 100%
           .contentItem
             height: 100%
-
 </style>

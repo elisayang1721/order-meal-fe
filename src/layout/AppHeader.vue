@@ -5,35 +5,63 @@
       span 訂餐系統
     ul.navTabs
       li
+        el-link(icon="el-icon-s-order"
+          @click="toggleDialog") 匯出訂單
+      li
         el-link(icon="el-icon-s-home"
+          v-if="checkPermission && $route.path === '/admin'"
+          @click="switchRoute('/')") 點餐首頁
+      li
+        el-link(icon="el-icon-s-tools"
+          v-if="checkPermission && $route.path === '/'"
           @click="switchRoute('/admin')") 管理中心
       li
         el-link.user(icon="el-icon-user-solid"
           :underline="false") {{`${userData.memberName} [${userData.account}]`}}
       li
-        el-link(icon="el-icon-s-opportunity"
+        el-link(icon="el-icon-switch-button"
           @click.once="logout") 登出
 </template>
 <script>
 import user from '@api/user'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'AppHeader',
   mounted() {
     this.userData = JSON.parse(localStorage.getItem('userData'))
   },
+  computed: {
+    checkPermission() {
+      const userData = JSON.parse(localStorage.userData)
+      return userData.isAdmin
+    }
+  },
   sockets: {
-    connect() {
-      // console.log('socket connected')
+    bck_oms() {
+      // handle 訂單狀態、截止時間更動
+      this.$bus.$emit('refreshRecordsList')
+      this.$bus.$emit('refreshOrderForm')
+      this.$bus.$emit('refreshSystem')
     }
   },
   methods: {
+    ...mapActions(['showDialog']),
     switchRoute(path) {
       if (this.$route.path !== path) {
         this.$router.push({
           path
         })
+      } else {
+        window.location.reload()
       }
+    },
+    toggleDialog() {
+      const load = {
+        name: 'MergeOrder',
+        title: '合併訂單'
+      }
+      this.showDialog(load)
     },
     logout() {
       user.logOut().then(() => {
@@ -63,8 +91,12 @@ export default {
   &.el-link--default
     color: #fff
     &:hover
-      color: #409EFF
+      // color: $yelColor
     &.user:hover
       cursor: default
-      color: #fff
+      color: $c1
+  &.is-underline
+    &:hover
+    &:after
+      border-color: #fff
 </style>

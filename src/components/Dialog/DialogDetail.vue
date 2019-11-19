@@ -20,10 +20,10 @@
                 span － 綠底的項目表示加訂
               li
                 span.bg-active
-                span － 點選訂購人，該項目會變成紅底表示已付款
+                span － 點選訂購人，該項目會變成紅底表示已向店家確認點餐
               li
                 span.border-red
-                span － 紅色外框表示該項目為自已訂購
+                span － 紅色外框表示該項目為自己訂購
               li
                 span.font-blue 藍色文字
                 span － 藍色文字表示該項目的說明
@@ -34,26 +34,21 @@
       .cell
         span {{item.totalAmount}}
       .cell
-        span {{item.price}}
+        span {{item.price.format()}}
       .cell.flexFix
         .subscriberCell(v-for="(obj, i) in item.orderRecords" :key="obj.id"
           :class="recordClass(obj)"
           @click="orderSubmit(obj, $event)")
           span {{`${obj.memberName} x${obj.amount}`}}
           span.font-blue {{obj.remark}}
-          .editBlock(:class="{confirmDelete: isBtnShow}")
-            el-button(type="success"
-              @click.stop="edit(obj.id)") 編輯
-            el-button(type="danger"
-              @click.stop="deleteOrder") 刪除
-            el-button(type="danger" icon="el-icon-warning-outline"
-              @click.once="confirmDelete(obj.id)") 確認刪除
+          EditBlock(@edit='edit(obj.id)' @confirmDelete="confirmDelete(obj.id)")
 </template>
 <script>
 import history from '@api/history'
 import order from '@api/order'
 import { shallowClone, injectState } from '@js/model'
 import { mapActions } from 'vuex'
+import EditBlock from './subComponents/EditBlock'
 
 export default {
   name: 'DialogDetail',
@@ -131,12 +126,6 @@ export default {
       const arr = name.split('-')
       return arr[0] === arr[1] ? arr[0] : name
     },
-    deleteOrder() {
-      this.isBtnShow = true
-      setTimeout(() => {
-        this.isBtnShow = false
-      }, 2000)
-    },
     confirmDelete(id) {
       order.delOrder(id).then(() => {
         this.$message({
@@ -154,9 +143,11 @@ export default {
       ordersDetail: [],
       userData: {},
       owner: '',
-      loading: false,
-      isBtnShow: false
+      loading: false
     }
+  },
+  components: {
+    EditBlock
   }
 }
 </script>

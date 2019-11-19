@@ -7,29 +7,48 @@
   min-height: 600px
   padding: 20px 0
 
-// tabContainer 
 .tabContainer
   position: relative
-  padding: 25px
-  height: calc(100% - 48px)
+  padding: 20px 25px
+  height: calc(100% - 45px)
   min-height: 700px
   .adminPanel
     +Flex(space-between)
-    padding-bottom: 1rem
+    padding-bottom: 0.85rem
     font-weight: 700
   p 
-    width: 4rem
+    color: $darkGray
+    width: 3rem
     margin-right: 0.5rem
-  .search
-    +Flex
+    font-size: 15px
+  .searchBlock
+    +Flex(flex-start,center)
+    .search
+      +Flex
+      &:last-child
+        width: 350px
+        margin-left: 3rem
+        >p
+          width: 5rem
   .type
     +Flex
   .tableWrapper
     height: 600px
+    .el-button
+      width: 80px
+  .el-checkbox-group
+    margin-left: 20px
+    .el-checkbox
+      margin-right: 20px
 
-.commonBtnGroup 
+.commonBtnGroup  
+  +Flex(flex-end,center)
+  position: relative
+  padding: .6rem
   width: 100%
-  +Flex
+  background: $c1
+  border-right: 1px solid $tableLineColor
+  border-left: 1px solid $tableLineColor
 
 #OrderMerge
   .infoBlock
@@ -38,9 +57,14 @@
     margin-bottom: 10px
     .checkBlock
       flex: 4
+      .ellipsis
+        +ellipsis()
+        width: 10rem
+        font-size: 1rem
     .infoDetail
       +Flex(space-between,center)
-      flex: 1
+      color: #5f5c5c
+      flex: 2
   .listBlock
     overflow: hidden
     .listTable
@@ -55,7 +79,8 @@
           >li
             line-height: 24px
     .listBody
-      height: 600px
+      display: flex
+      flex-wrap: wrap
       .row
         width: 50%
         display: inline-flex
@@ -63,6 +88,7 @@
           background: unset
           color: unset
         .cell
+          color: #5f5c5c
           padding: .5rem 0
     @media ( max-width: 1200px )
       .row
@@ -74,4 +100,24 @@
           display: flex
 
       
-            
+.el-pagination
+  .btn-next,
+  .btn-prev
+    border: 1px solid $tableLineColor
+  .btn-next
+    margin-left: 10px
+  .btn-prev
+    margin-right: 10px
+  button
+    &:disabled
+      // background: #efebea
+  .el-pager
+    border: 1px solid $tableLineColor
+    li
+      height: 30px
+      line-height: 30px
+      &.active
+        background-color: $brownC1  
+      &:hover
+        background-color: #ab9694
+

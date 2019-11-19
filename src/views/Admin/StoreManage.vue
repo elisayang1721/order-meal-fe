@@ -1,12 +1,19 @@
 <template lang="pug">
   .tabContainer
     .adminPanel
-      .search
-        p 店名 ：
-        el-input(
-          v-model="condition.searchByName"
-          placeholder="請輸入店名"
-          prefix-icon="el-icon-search")
+      .searchBlock
+        .search
+          p 店名：
+          el-input(
+            v-model="condition.searchByName"
+            placeholder="請輸入店名"
+            prefix-icon="el-icon-search")
+        .search
+          p 餐點名稱：
+          el-input(
+            v-model="condition.searchByMeals"
+            placeholder="請輸入餐點名稱,如：可樂,雞腿便當"
+            prefix-icon="el-icon-search")
       .add
         el-button.add-button(
           @click.prevet="toggleDialog('add')"
@@ -14,10 +21,11 @@
           icon="el-icon-plus") 新增
     .adminPanel
       .type
-        p 類型:
-        el-checkbox(v-model="condition.searchAll") 全部
-        el-checkbox-group(v-model="condition.searchByTypes")
-          el-checkbox(v-for="type in storeType" :label="type.id" :key="type.id") {{type.name}}
+        p 類型：
+        el-checkbox(v-model="condition.searchAll" @change="searchAll") 全部
+        el-checkbox-group(v-model="condition.searchByTypes" :disabled="condition.searchAll")
+          el-checkbox(v-for="type in storeTypes" :key="type.id"
+            :label="type.id" @click.native="triggerDebounce") {{type.name}}
     .tableWrapper
       el-table(
         v-loading="loading"
@@ -39,10 +47,15 @@
               div( slot="content") {{scope.row.address}}
               i.el-icon-location-outline.address
         el-table-column(
-          prop=""
+          prop="avgScore"
           label="評價")
           template(slot-scope="scope")
-            div Comming Soon
+            template(v-if="scope.row.avgScore")
+              .score {{scope.row.avgScore}}
+              .face(:data-score="getScore(scope.row.avgScore)")
+                img(:src="require(`@img/score${getScore(scope.row.avgScore) + 1}.svg`)")
+            template(v-else)
+              div —
         el-table-column(
           prop="updatedOn"
           label="更新時間"
@@ -55,17 +68,17 @@
           label="功能"
           width="250")
           template(slot-scope="scope")
-            el-button(
+            el-button.edit-button(
               @click.prevet="toggleDialog('edit',scope.row)"
               type="info"
               icon="el-icon-edit") 編輯
-            el-button(
+            el-button.cancel-button(
               @click.prevet="toggleDialog('delete',scope.row)"
               type="danger"
               icon="el-icon-close") 刪除
     el-pagination(
       :current-page.sync="pageNum"
-      @current-change="getData"
+      @current-change="triggerDebounce"
       :page-size="8"
       layout="prev, pager, next"
       :total="totalSize")
@@ -75,41 +88,69 @@
 import { mapActions } from 'vuex'
 import debounce from 'lodash/debounce'
 import { injectState } from '@js/model'
-
+import RatingBar from '@c/RatingBar/RatingBar'
 import store from '@api/store'
 
 
 export default {
   name: 'StoreManage',
   mounted() {
-    this.getData()
+    this.triggerDebounce()
     this.getStoreType()
     this.$bus.$on('refresh', () => {
       this.condition.searchByTypes = []
-      this.getData()
+      this.triggerDebounce()
     })
   },
-  methods: {
-    ...mapActions(['showDialog']),
-    getData: debounce(function () {
-      const init = {
+  data() {
+    return {
+      storeData: [],
+      storeTypes: [],
+      totalSize: null,
+      pageNum: 1,
+      condition: {
+        searchByName: '',
+        searchByMeals: '',
+        searchByTypes: [],
+        searchAll: false
+      },
+      loading: false
+    }
+  },
+  computed: {
+    getPayLoad() {
+      const load = {
         name: this.condition.searchByName,
+        meals: this.reformString(this.condition.searchByMeals),
         page: this.pageNum,
         pageSize: 8,
         sort: 'ASC',
         sortName: 'updatedOn',
         types: this.condition.searchAll ? [] : this.condition.searchByTypes
       }
-      this.loading = true
-      store.getStoreList(init).then(res => {
-        this.storeData = res.list
-        this.totalSize = res.totalSize
-        this.loading = false
-      })
-    }, 500),
+      return load
+    }
+  },
+  methods: {
+    ...mapActions(['showDialog']),
+    getScore(score) {
+      let idx
+      if (score <= 1.8) {
+        idx = 0
+      } else if (score <= 2.6) {
+        idx = 1
+      } else if (score <= 3.4) {
+        idx = 2
+      } else if (score <= 4.2) {
+        idx = 3
+      } else {
+        idx = 4
+      }
+      return idx
+    },
     getStoreType() {
       store.getStoreType().then(res => {
-        this.storeType = res.list
+        this.storeTypes = res.list
       })
     },
     toggleDialog(action, row = null) {
@@ -139,30 +180,47 @@ export default {
       }
       injectState(prop)
       this.showDialog(load)
+    },
+    pushAllTypes() {
+      this.storeTypes.forEach(type => {
+        this.condition.searchByTypes.push(type.id)
+      })
+    },
+    getData: debounce(vm => {
+      vm.loading = true
+      store.getStoreList(vm.getPayLoad).then(res => {
+        vm.storeData = res.list
+        vm.totalSize = res.totalSize
+        vm.loading = false
+      })
+    }, 500),
+    triggerDebounce() {
+      const vm = this
+      this.getData(vm)
+    },
+    searchAll() {
+      if (this.condition.searchAll) {
+        this.pushAllTypes()
+      } else {
+        this.condition.searchByTypes = []
+      }
+      this.triggerDebounce()
+    },
+    reformString(str) {
+      return str.trim().replace(' ', ',').replace(/,+/g, ',')
     }
   },
   watch: {
     'condition': {
       handler() {
         this.pageNum = 1
-        this.getData()
+        this.triggerDebounce()
       },
       deep: true
     }
   },
-  data() {
-    return {
-      storeData: [],
-      storeType: [],
-      totalSize: null,
-      pageNum: 1,
-      condition: {
-        searchByName: '',
-        searchByTypes: [],
-        searchAll: false
-      },
-      loading: false
-    }
+  components: {
+    RatingBar
   },
   beforeDestroy() {
     this.$bus.$off('refresh')
@@ -173,13 +231,62 @@ export default {
 .tabContainer
   /deep/.el-checkbox-group
     margin-left: 30px
+  .score
+    display: inline-block
+    width: 50px
+    font-size: 30px
+    margin-right: 20px
+  .face
+    +size(25px,25px,null)
+    display: inline-block
+    border-radius: 50%
+    border: 1px solid #000
+    margin-right: 5px
+    background: #eee
+    &[data-score="0"]
+      background: #f15354
+    &[data-score="1"]
+      background: #f68937
+    &[data-score="2"]
+      background: #ffcc28
+    &[data-score="3"]
+      background: #49bb7d
+    &[data-score="4"]
+      background: #16b6d6
 .search
   /deep/.el-input
     .el-input__inner
-      height: 32px
-      line-height: 32px
+      height: 36px
+      line-height: 36px
       border-radius: 4px
+      background: $c1
+      &.is-focus, &:hover
+        border-color: #a59796
     .el-input__prefix
       .el-input__icon
         line-height: 32px
+/deep/.el-checkbox
+  // margin-right: 20px
+.add-button
+  width: 80px
+// .edit-button
+//   +Bgc(#f7f3f3)
+//   border-color: #ab9694
+//   color: #866e6c
+//   &:hover,
+//   &:active,
+//   &:focus
+//     +Bgc(#ab9694)
+//     border-color: #ab9694
+//     color: $c1
+// .cancel-button
+//   +Bgc(#f7f3f3)
+//   border-color: #ab9694
+//   color: #866e6c
+//   &:hover,
+//   &:active,
+//   &:focus
+//     +Bgc(#ab9694)
+//     border-color: #ab9694
+//     color: $c1
 </style>
