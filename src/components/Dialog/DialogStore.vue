@@ -166,22 +166,19 @@ export default {
     }, 500),
     submit() {
       const vm = this
-      try {
-        const hasMenuItem = this.storeInfo.menuJson.list[0].items.length > 0
-        if (this.storeInfo.menuText && this.submitable && hasMenuItem) {
-          if (this.$store.state.prop.action === 'add') {
-            this.addStore(vm)
-          } else {
-            this.updateStore(vm)
-          }
+      const hasMenuItem = this.storeInfo.menuJson
+        ? this.storeInfo.menuJson.list[0].items.length > 0 : false
+      if (this.storeInfo.menuText && this.submitable && hasMenuItem) {
+        if (this.$store.state.prop.action === 'add') {
+          this.addStore(vm)
         } else {
-          this.$message({
-            message: '請輸入菜單',
-            type: 'warning'
-          })
+          this.updateStore(vm)
         }
-      } catch (e) {
-        this.errorMessage(vm)
+      } else {
+        this.$message({
+          message: '請輸入菜單',
+          type: 'warning'
+        })
       }
     },
     submitSuccess() {
