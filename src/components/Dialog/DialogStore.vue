@@ -35,6 +35,7 @@
               el-input(
                 v-model="storeInfo.name"
                 placeholder="請輸入店家名稱"
+                maxlength="25"
                 clearable)
             .contentItem
               p
@@ -43,6 +44,7 @@
               el-input(
                 v-model="storeInfo.phone"
                 placeholder="請輸入店家電話"
+                maxlength="25"
                 clearable)
             .contentItem
               p
@@ -51,12 +53,15 @@
               el-input(
                 v-model="storeInfo.address"
                 placeholder="請輸入店家地址"
+                maxlength="50"
                 clearable)
             .contentItem
               p 簡介：
               el-input(
                 v-model="storeInfo.description"
                 type="textarea"
+                maxlength="255"
+                show-word-limit
                 :autosize="{ minRows: 4 }"
                 placeholder="請輸入店家簡介")
           .content
@@ -71,6 +76,8 @@
               el-input(
                 v-model="storeInfo.remark"
                 type="textarea"
+                maxlength="255"
+                show-word-limit
                 :autosize="{ minRows: 4 }"
                 placeholder="請輸入訂購說明")
         .contentRight
@@ -312,8 +319,6 @@ export default {
             .menu
               width: 100%
               margin: 0 auto
-              &.tableFrame
-                border-bottom: none
               .cell
                 padding: .5rem
         .mTop

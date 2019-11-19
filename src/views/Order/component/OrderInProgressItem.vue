@@ -4,7 +4,7 @@
       .navHead
         .restaurantName {{list.storeName}}
         .deadLine 截止於：{{countDown}}
-      .content
+      .orderContent
         .amount
           .amountTitle 總數
           span {{list.totalAmount}}
@@ -14,14 +14,13 @@
         .amount
           .amountTitle(v-if="list.bulletin") 公告事項
           span(v-if="list.bulletin" :title="list.bulletin") {{list.bulletin}}
-        .amount
+        .amount(@click="toggleDialog('Rating')")
           .amountTitle
             span 評分
             span {{list.avgScore}}
             el-badge(:value="list.totalComment"
               :max="99"
-              :class="{pointerEvent: !list.totalComment}"
-              @click.native="toggleDialog('Rating')")
+              :class="{pointerEvent: !list.totalComment}")
               i(class="el-icon-s-comment")
           RatingBar(:score="list.avgScore" :isSelectable="false" :type="'Float'")
     .list.right
@@ -193,7 +192,7 @@ export default {
   /deep/.el-badge
     cursor: pointer
     font-size: 24px
-    left: -20px
+    left: -10px
     .el-badge__content
       display: inline-flex
       align-items: center

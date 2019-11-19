@@ -6,6 +6,7 @@
         el-input(
           v-model="adminData.companyAccount"
           placeholder="請輸入帳號"
+          maxlength="30"
           clearable
           :disabled="mode")
       .adminItem
