@@ -136,6 +136,8 @@ export default {
       if (this.timestamp > 0) {
         this.countDown = countDown(this.timestamp)
         this.setTimer()
+      } else if (this.list.limitedPrice) {
+        this.countDown = `金額 ${this.list.limitedPrice.format()}`
       } else {
         this.countDown = '手動截止'
       }

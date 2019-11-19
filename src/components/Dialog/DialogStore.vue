@@ -166,21 +166,19 @@ export default {
     }, 500),
     submit() {
       const vm = this
-      try {
-        if (this.storeInfo.menuJson.list[0].items[0].meals[0].price) {
-          if (this.$store.state.prop.action === 'add') {
-            this.addStore(vm)
-          } else {
-            this.updateStore(vm)
-          }
+      const hasMenuItem = this.storeInfo.menuJson
+        ? this.storeInfo.menuJson.list[0].items.length > 0 : false
+      if (this.storeInfo.menuText && this.submitable && hasMenuItem) {
+        if (this.$store.state.prop.action === 'add') {
+          this.addStore(vm)
         } else {
-          this.$message({
-            message: '請輸入菜單',
-            type: 'warning'
-          })
+          this.updateStore(vm)
         }
-      } catch (e) {
-        this.errorMessage(vm)
+      } else {
+        this.$message({
+          message: '請輸入完整且格式正確之菜單',
+          type: 'warning'
+        })
       }
     },
     submitSuccess() {
@@ -211,7 +209,9 @@ export default {
     'storeInfo.menuText': {
       handler() {
         try {
+          this.submitable = false
           this.storeInfo.menuJson = deepClone(this.getMenuJson)
+          this.submitable = true
         } catch (e) {
           const vm = this
           this.errorMessage(vm)
@@ -221,6 +221,7 @@ export default {
   },
   data() {
     return {
+      submitable: false,
       storeType: [],
       storeInfo: {
         name: null,
