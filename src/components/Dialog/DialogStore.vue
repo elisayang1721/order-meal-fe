@@ -176,7 +176,7 @@ export default {
         }
       } else {
         this.$message({
-          message: '請輸入菜單',
+          message: '請輸入完整且格式正確之菜單',
           type: 'warning'
         })
       }
