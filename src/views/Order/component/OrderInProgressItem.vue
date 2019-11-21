@@ -3,7 +3,7 @@
     .list.left
       .navHead
         .restaurantName {{list.storeName}}
-        .deadLine 截止於：{{countDown}}
+        .deadLine {{countDown}}
       .orderContent
         .amount
           .amountTitle 總數
@@ -107,7 +107,7 @@ export default {
             this.stopTimer()
             this.setTimer()
           } else {
-            this.countDown = countDown(this.timestamp)
+            this.countDown = `截止於：${countDown(this.timestamp)}`
           }
         }, 60000)
       } else {
@@ -117,7 +117,7 @@ export default {
             this.countDown = '已截止'
             this.stopTimer()
           } else {
-            this.countDown = countDown(this.timestamp)
+            this.countDown =  '截止於：' + countDown(this.timestamp)
           }
         }, 1000)
       }
@@ -133,10 +133,10 @@ export default {
     checkCountDown() {
       this.stopTimer()
       if (this.timestamp > 0) {
-        this.countDown = countDown(this.timestamp)
+        this.countDown = `截止於：${countDown(this.timestamp)}`
         this.setTimer()
       } else if (this.list.limitedPrice) {
-        this.countDown = `金額 ${this.list.limitedPrice.format()}`
+        this.countDown = `截止金額：${this.list.limitedPrice.format()}`
       } else {
         this.countDown = '手動截止'
       }
