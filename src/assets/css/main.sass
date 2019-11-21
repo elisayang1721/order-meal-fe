@@ -300,7 +300,7 @@ main
     font-weight: bold
     color: $darkGray
     padding-top: 5px
-    padding-bottom: 6px
+    padding-bottom: 7px
   .listContainer
     padding: 0 15px 0 0
   
@@ -331,6 +331,16 @@ main
     position: relative
     min-width: 600px
     padding: 0
+    &.newOrderRemind
+      .itemWrapper
+        &:first-child
+          animation: fade-out 3.5s linear infinite
+
+@keyframes fade-out
+  0%
+    background: #fffcc4
+  100%
+    background: #fff
 
 .itemWrapper
   +size(100%,120px)
@@ -368,7 +378,7 @@ main
     .content
       +size(100%)
       +Flex(flex-start,center)
-      padding: 5px 15px
+      padding: 10px 15px
       >ul
         width: 100%
         display: block
@@ -378,6 +388,22 @@ main
           list-style: disc
           margin: 0 50px
           word-break: break-all
+      .ordersItem
+        li
+          >span
+            vertical-align: middle
+        .meal
+          color: #4a4a4a
+        .remark
+          padding-left: 5px
+          color: #878686
+        .comment
+          margin: 0 7px
+          font-size: 14px
+          color: #878686
+          &.evaluate
+            color: #47975e
+            font-weight: 700
     .orderContent
       // display: table
       display: flex
@@ -454,12 +480,18 @@ main
 
 .backToTop
   display: block
-  opacity: 0.4
+  +size(40px)
+  opacity: 0.6
   z-index: 10
   position: absolute
-  right: 10px
+  right: 20px
   bottom: 10px
   transition: all .2s
+  background: #393333
+  border-radius: 50%
+  color: #fff
+  outline: none
+  cursor: pointer
   &.goTopShow
     opacity: 1
   &.goTopHide
@@ -472,3 +504,30 @@ main
   height: 40px
   .el-icon-loading
     margin-right: 10px
+
+.el-table
+  .ascending
+    .sort-caret
+      &.ascending
+        border-bottom-color: #91ccd9
+  .descending
+    .sort-caret
+      &.descending
+        border-top-color: #91ccd9
+  .sort-caret
+    left: 4px
+    &.ascending
+      top: 2px
+      border-bottom-color: #fff
+      &:hover,&:focus
+        border-bottom-color: #91ccd9
+    &.descending
+      bottom: 4px
+      border-top-color: #fff
+      &:hover,&:focus
+        border-top-color: #91ccd9
+
+.noComment
+  color: #606262
+  padding: 30px 0
+  text-align: center

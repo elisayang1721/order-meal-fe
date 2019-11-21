@@ -30,7 +30,7 @@
                   active-text="進行"
                   inactive-text="截止")
             li
-              span 電話：
+              span 店家電話：
               span {{orderInfo.storePhone}}
       .contentBlock
         .contentNav 訂單計算

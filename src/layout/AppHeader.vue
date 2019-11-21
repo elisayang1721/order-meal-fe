@@ -91,7 +91,6 @@ export default {
   &.el-link--default
     color: #fff
     &:hover
-      // color: $yelColor
     &.user:hover
       cursor: default
       color: $c1
