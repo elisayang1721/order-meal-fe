@@ -69,7 +69,7 @@ export default {
     },
     init_GoTop() {
       const button = document.createElement('button')
-      const text = document.createTextNode('backToTop')
+      const text = document.createTextNode('Top')
       button.appendChild(text)
       button.classList.add('backToTop')
       this.goTopButton = button

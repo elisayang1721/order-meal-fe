@@ -21,10 +21,10 @@
           style='width: 100%'
           align="center"
           @sort-change="sortChange")
-          el-table-column(prop='name' label='店名' width="150" sortable="custom")
+          el-table-column(prop='name' label='店名' width="180" sortable="custom")
           el-table-column(prop='description' label='說明')
-          el-table-column(prop='avgScore' label='評分' width="90" sortable="custom")
-          el-table-column(label="功能"  width="170")
+          el-table-column(prop='avgScore' label='評分' width="75" sortable="custom")
+          el-table-column(label="功能"  width="160")
             template(slot-scope="scope")
               el-tooltip(effect="dark" content="新增訂單" placement="top-start")
                 el-button.feature-button(icon="el-icon-plus"
@@ -241,25 +241,18 @@ export default {
       line-height: inherit
   .caret-wrapper
     height: 28px
-    width: 16px
-  .sort-caret
-    left: 4px
-    &.ascending
-      top: 2px
-      border-bottom-color: #fff
-      &:hover
-        border-bottom-color: #bfebf5
-    &.descending
-      bottom: 4px
-      border-top-color: #fff
-      &:hover
-        border-top-color: #bfebf5
+    width: 14px
 #newOrder
   /deep/.el-button
-    +size(32px,32px,null)
-    padding: 0 5px
+    +size(30px,30px,null)
+    padding: 0
     &+.el-button
       margin-left: 2px
+  /deep/.el-table
+      .cell
+      th
+        div
+          padding: 0
   #addOrder
     /deep/.el-button
       +size(60px,32px,null)

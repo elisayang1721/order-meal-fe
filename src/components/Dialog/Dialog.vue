@@ -138,5 +138,6 @@ export default {
     .editBlock
       /deep/.el-button
         width: auto
-        padding: 6px 10px
+        padding: 5px 10px
+        margin-top: 4px
 </style>

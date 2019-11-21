@@ -2,7 +2,7 @@
   ScrollBar.listContainer(id="myOrdersFrame"
     :overscroll="true"
     @reachEnd="reachEnd")
-    .contentViewFix
+    .contentViewFix(:class="{'newOrderRemind': newOrder}")
       OrdersItem(v-for="(obj, i) in myOrdersList" :key="i" :myOrderData="obj")
       .loadingBlock(v-loading="loading" v-if="listPage !== 4")
         p
@@ -35,11 +35,15 @@ export default {
       order.getOrderRecordsList({ page: this.listPage }).then(res => {
         this.myOrdersList = this.myOrdersList ? [...this.myOrdersList, ...res.list] : res.list
         this.loading = false
+        setTimeout(() => {
+          this.newOrder = false
+        }, 4000)
       })
     },
     refreshList() {
       this.listPage = 0
       this.myOrdersList = []
+      this.newOrder = true
     }
   },
   watch: {
@@ -55,7 +59,8 @@ export default {
     return {
       myOrdersList: [],
       loading: false,
-      listPage: 1
+      listPage: 1,
+      newOrder: false
     }
   },
   components: {
