@@ -102,7 +102,7 @@
                       .row(v-for="(item, i) in obj.items" :key="item.cate")
                         .cell
                           span {{item.cate}}
-                        .cell
+                        .cell.menuItem
                           template(v-if="item.meals.length === 1")
                             span {{formatPrice(item.meals[0].price)}}
                           template(v-else)
@@ -304,14 +304,16 @@ export default {
               font-size: 1rem
               margin-bottom: 0.35rem
         .showForm, .formatForm
-          +size(50%,100%)
+          height: 100%
         .formatForm
-          margin-right: .5rem
+          width: 40%
+          margin-right: 0.5rem
         .el-textarea__inner
           resize: none
           border-radius: 4px
           height: 100%
         .showForm
+          width: 60%
           margin-left: .5rem
           border-radius: 4px
           .formViewFix
@@ -319,8 +321,21 @@ export default {
             .menu
               width: 100%
               margin: 0 auto
+          .tableFrame
+            .row
+              &:first-child
+                .cell
+                  padding: 0.6rem 0.5rem
               .cell
-                padding: .5rem
+                &:last-child
+                  flex: 2
+                &.menuItem
+                  padding: 0.2rem 0.5rem !important
+                  span
+                    padding: 0 8px
+                    margin: 5px 0 !important
+                    &+span
+                      border-left: 1px solid #969595
         .mTop
           margin-top: 1rem
         &:last-child

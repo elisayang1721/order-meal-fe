@@ -6,10 +6,12 @@
           li {{dateFormatter}}
           li {{myOrderData.storeName}}
       .content
-        ul
+        ul.ordersItem
           li(v-for="(meal, i) in myOrderData.meals"
             :key="i")
-            | {{`${meal.item} ${meal.remark ? meal.remark: ''} ${meal.isEvaluated ? '已評論' : '未評論'}`}}
+            span.meal {{ meal.item }}
+            span.remark {{ `${meal.remark ? `- ${meal.remark}` : ''}` }}
+            span.comment(:class="{'evaluate':meal.isEvaluated}") {{`${meal.isEvaluated ? '【已評分】' : '【未評分】'}`}}
         el-tooltip(effect="dark" content="評比" placement="top-start")
           i.el-icon-s-comment(@click="toggleDialog('Rating')")
 </template>
@@ -57,7 +59,7 @@ export default {
         background-color: $tableHeadColor
   /deep/.el-icon-s-comment
     cursor: pointer
-    font-size: 30px
+    font-size: 28px
     margin-right: 30px
     color: #626262
 </style>

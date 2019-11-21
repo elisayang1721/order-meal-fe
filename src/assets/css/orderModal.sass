@@ -65,7 +65,7 @@
     flex-wrap: wrap
     border-right: 1px solid $tableLineColor
     border-bottom: 1px solid $tableLineColor
-    padding: 0.4rem
+    padding: 0.5rem
     >span
       text-align: center
       margin: 0 5px
@@ -85,29 +85,33 @@
       flex-direction: column
       padding: .6rem
       >.el-button
+        +Flex(center,center)
         width: 100%
         height: auto
         padding: 0
         background: none
         border: none
+        margin: 0
         >span
           span
             display: block
             pointer-events: none
-          span:first-child
-            margin-bottom: 6px
+          span:first-child            
+            font-size: 16px
           span:nth-child(2)
             text-align: center
             +ellipsis()
             width: 7rem
             font-size: 15px
-        &:hover
+            margin-top: 6px
+        &:hover, &:focus
           color: #5f5c5c
       .editBlock
         display: none
         .el-button
           >span
             margin-bottom: 0 !important
+            font-size: 15px !important
       &.hasPermission:hover
         .el-button
           >span
@@ -181,6 +185,11 @@
               display: inline-block
         .alignStart
           align-self: flex-start
+  .row
+    .cell
+      padding: 0.4rem
+      &:last-child
+        flex: 3
 
 #newOrder
   display: flex

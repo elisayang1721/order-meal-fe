@@ -10,7 +10,7 @@
       .row(v-for="(item, i) in obj.items" :key="item.cate")
         .cell
           span {{item.cate}}
-        .cell
+        .cell.menuItem
           template(v-if="item.meals.length === 1")
             span {{item.meals[0].price.format()}}
           template(v-else)
@@ -44,3 +44,16 @@ export default {
   }
 }
 </script>
+<style lang="sass">
+#menuList
+  .row
+    .cell
+      &.menuItem
+        flex: 2
+        padding: 0.2rem 0.5rem !important
+        span
+          padding: 0 8px
+          margin: 5px 0 !important
+          &+span
+            border-left: 1px solid #969595
+</style>
