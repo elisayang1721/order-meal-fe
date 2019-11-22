@@ -20,6 +20,7 @@
         el-table(:data="storeList" border
           style='width: 100%'
           align="center"
+          :default-sort="{prop:'avgScore',order: 'descending'}"
           @sort-change="sortChange")
           el-table-column(prop='name' label='店名' width="180" sortable="custom")
           el-table-column(prop='description' label='說明')
@@ -73,8 +74,8 @@ export default {
         searchAll: false,
         searchByTime: '',
         searchByTypes: [],
-        sort: null,
-        sortName: null,
+        sort: 'DESC',
+        sortName: 'avgScore',
         page: 1
       }
     }
