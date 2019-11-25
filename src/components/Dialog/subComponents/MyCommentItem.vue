@@ -4,7 +4,7 @@
       div {{item.meals}}
       .submitBlock
         RatingBar(:score="item.score" ref="ratingBar")
-        el-button(type="success" @click="triggerDebounce") 送出
+        el-button(type="success" @click="triggerDebounce")  {{`${item.score ? '更新': '送出'}`}}
     .section
       el-input(v-model="item.comment"
         placeholder="請撰寫評論(選擇性)"

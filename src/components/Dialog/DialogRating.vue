@@ -27,17 +27,7 @@ export default {
     }
   },
   mounted() {
-    this.loading = true
-    const orderId = this.$store.state.prop.id
-    const storeId = this.$store.state.prop.storeId
-    axios.all([
-      rating.getAllEvaluations(storeId),
-      rating.getMyEvaluations(orderId)
-    ]).then(axios.spread((allEvaluations, myEvaluation) => {
-      this.storeEvaluation = allEvaluations
-      this.myComment = myEvaluation
-      this.loading = false
-    }))
+    this.getAllEvaluations()
     this.$bus.$on('refreshTotalComments', this.getAllEvaluations)
   },
   components: {
@@ -47,11 +37,16 @@ export default {
   methods: {
     getAllEvaluations() {
       this.loading = true
+      const orderId = this.$store.state.prop.id
       const storeId = this.$store.state.prop.storeId
-      rating.getAllEvaluations(storeId).then(res => {
-        this.storeEvaluation = res
+      axios.all([
+        rating.getAllEvaluations(storeId),
+        rating.getMyEvaluations(orderId)
+      ]).then(axios.spread((allEvaluations, myEvaluation) => {
+        this.storeEvaluation = allEvaluations
+        this.myComment = myEvaluation
         this.loading = false
-      })
+      }))
     }
   },
   beforeDestroy() {
