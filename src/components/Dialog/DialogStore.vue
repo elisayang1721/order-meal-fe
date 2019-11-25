@@ -62,7 +62,7 @@
                 type="textarea"
                 maxlength="255"
                 show-word-limit
-                :autosize="{ minRows: 4 }"
+                :autosize="{ minRows: 3 }"
                 placeholder="請輸入店家簡介")
           .content
             .title 服務類型
@@ -78,17 +78,19 @@
                 type="textarea"
                 maxlength="255"
                 show-word-limit
-                :autosize="{ minRows: 4 }"
+                :autosize="{ minRows: 3 }"
                 placeholder="請輸入訂購說明")
         .contentRight
           .content
             .contentItem.marginRm
-              el-input.formatForm(
-                v-model="storeInfo.menuText"
-                type="textarea"
-                :placeholder="placeholder")
+              .formatForm
+                el-input(
+                  v-model="storeInfo.menuText"
+                  type="textarea"
+                  :placeholder="placeholder")
+                span(v-if="storeInfo.menuError") 菜單格式錯誤
               .showForm
-                ScrollBar.formViewFix(v-if="storeInfo.menuJson")
+                .formViewFix(v-if="storeInfo.menuJson")
                   .menu.tableFrame
                     .row
                       .cell
@@ -203,10 +205,11 @@ export default {
       this.closeDialog()
     },
     errorMessage: debounce(vm => {
-      vm.$message({
-        message: '格式錯誤',
-        type: 'error'
-      })
+      // vm.$message({
+      //   message: '格式錯誤',
+      //   type: 'error'
+      // })
+      vm.storeInfo.menuError = true
     }, 500),
     formatPrice(price) {
       return parseInt(price, 0).format()
@@ -219,6 +222,7 @@ export default {
           this.submitable = false
           this.storeInfo.menuJson = deepClone(this.getMenuJson)
           this.submitable = true
+          this.storeInfo.menuError = false
         } catch (e) {
           const vm = this
           this.errorMessage(vm)
@@ -238,7 +242,8 @@ export default {
         remark: null,
         types: [],
         menuText: null,
-        menuJson: null
+        menuJson: null,
+        menuError: false
       },
       loading: false,
       placeholder: '{菜單分類}\n菜單項目分類:價錢\n菜單項目分類:菜單項目1.價錢,菜單項目2.價錢\n\n{漢堡}\n大麥克:123\n\n{飲料類}\n可樂:大杯.40,中杯.30,小杯.20'
@@ -308,16 +313,26 @@ export default {
         .formatForm
           width: 40%
           margin-right: 0.5rem
+          position: relative
+          .el-textarea
+            height: 100%
+          span
+            position: absolute
+            bottom: 5px
+            right: 5px
+            color: red
         .el-textarea__inner
           resize: none
           border-radius: 4px
           height: 100%
+          padding: 5px 10px 20px 10px
+          box-sizing: border-box
         .showForm
           width: 60%
           margin-left: .5rem
           border-radius: 4px
           .formViewFix
-            +size(100%,100%,null)
+            +size(100%,auto,null)
             .menu
               width: 100%
               margin: 0 auto
@@ -341,12 +356,11 @@ export default {
         &:last-child
           margin-bottom: unset
       .contentLeft
-        flex: 2
-        height: 620px
+        width: 33.33%
+        padding-right: 0.7rem
+        margin-right: 0.3rem
       .contentRight
-        flex: 4
-        height: 620px
-        padding-left: 1rem
+        width: 66.66%
         .content
           height: 100%
           .contentItem
