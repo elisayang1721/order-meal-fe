@@ -26,7 +26,7 @@
               | 可樂:大杯.40,中杯.30,小杯.20
             i.el-icon-question
       .storeContent
-        ScrollBar.contentLeft
+        .contentLeft
           .content
             .contentItem
               p
@@ -90,7 +90,7 @@
                   :placeholder="placeholder")
                 span(v-if="storeInfo.menuError") 菜單格式錯誤
               .showForm
-                ScrollBar.formViewFix(v-if="storeInfo.menuJson")
+                .formViewFix(v-if="storeInfo.menuJson")
                   .menu.tableFrame
                     .row
                       .cell
@@ -330,7 +330,7 @@ export default {
           margin-left: .5rem
           border-radius: 4px
           .formViewFix
-            +size(100%,100%,null)
+            +size(100%,auto,null)
             .menu
               width: 100%
               margin: 0 auto
@@ -341,13 +341,11 @@ export default {
         &:last-child
           margin-bottom: unset
       .contentLeft
-        flex: 2
-        height: 620px
+        width: 33.33%
         padding-right: 0.7rem
         margin-right: 0.3rem
       .contentRight
-        flex: 4
-        height: 620px
+        width: 66.66%
         .content
           height: 100%
           .contentItem

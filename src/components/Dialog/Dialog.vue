@@ -119,7 +119,7 @@ export default {
       font-weight: 700
       color: $c1
   .dialogComponent
-    padding: 1rem
+    padding: 1rem 0.3rem 1rem 1rem
     overflow: hidden
     background: $ligntGray
     @media(max-width: 1200px),(max-height: 800px)
@@ -127,6 +127,7 @@ export default {
     .confirm, .admin
       min-width: 250px
     .scroll
+      padding: 0 0.7rem 0 0
       max-width: 1200px
       max-height: 800px
       @media(max-width: 1200px),(max-height: 800px)
