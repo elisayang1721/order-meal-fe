@@ -1,5 +1,5 @@
 <template lang="pug">
-  ScrollBar#orderMain
+  #orderMain
     .scrollWrapper
         OrderSystem
         OrdersHistory
