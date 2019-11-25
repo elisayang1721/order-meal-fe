@@ -65,7 +65,7 @@
     flex-wrap: wrap
     border-right: 1px solid $tableLineColor
     border-bottom: 1px solid $tableLineColor
-    padding: 0.4rem
+    padding: 0.5rem
     >span
       text-align: center
       margin: 0 5px
@@ -84,32 +84,49 @@
       +Flex(center,center)
       flex-direction: column
       padding: .6rem
-      // border-left: 1px solid $tableLineColor
-      // &:first-child
-      //   border-left: 0
-      >span
-        pointer-events: none
-      >span:first-child
-        margin-bottom: 5px
-      >span:nth-child(2)
-        text-align: center
-        +ellipsis()
-        width: 5rem
+      >.el-button
+        +Flex(center,center)
+        width: 100%
+        height: auto
+        padding: 0
+        background: none
+        border: none
+        margin: 0
+        >span
+          span
+            display: block
+            pointer-events: none
+          span:first-child            
+            font-size: 16px
+          span:nth-child(2)
+            text-align: center
+            +ellipsis()
+            width: 7rem
+            font-size: 15px
+            margin-top: 6px
+        &:hover, &:focus
+          color: #5f5c5c
       .editBlock
         display: none
+        .el-button
+          >span
+            margin-bottom: 0 !important
+            font-size: 15px !important
       &.hasPermission:hover
-        >span:nth-child(2)
-          display: none
-        .editBlock
-          +Flex(space-between,center)
-          >button:last-child
-            display: none
-          &.confirmDelete
-            >button
+        .el-button
+          >span
+            span:nth-child(2)
               display: none
-              &:last-child
-                display: inline-flex
-                width: auto
+          .editBlock
+            +Flex(space-between,center)
+            >button:last-child
+              display: none
+            &.confirmDelete
+              >button
+                display: none
+                &:last-child
+                  display: inline-flex
+                  width: auto
             
     >div
       +Flex()
@@ -168,6 +185,11 @@
               display: inline-block
         .alignStart
           align-self: flex-start
+  .row
+    .cell
+      padding: 0.4rem
+      &:last-child
+        flex: 3
 
 #newOrder
   display: flex
@@ -245,12 +267,13 @@
     width: 100%
     padding: 0.5rem 0 1.2rem
   .footer
-    +Flex(space-between,center)
+    +Flex(flex-end,center)
     width: 100%
     font-size: 14px
     .date
       align-self: flex-end
       font-size: 14px
+      margin-left: 15px
 #totalComment
   border-bottom: 1px dashed #c6c6c6
   .section

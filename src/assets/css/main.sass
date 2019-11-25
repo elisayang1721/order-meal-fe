@@ -32,7 +32,8 @@ html,body
   
 .el-pagination
   +Flex()
-  margin-top: 10px
+  // margin-top: 10px
+  margin-top: 30px
   .btn-prev, .btn-next
     &:hover
       color: #000
@@ -79,6 +80,10 @@ html,body
     height: 100%
     resize: none
     padding: 5px 10px
+  &.is-disabled
+    .el-textarea__inner
+      border-color: $tableLineColor
+      +Bgc(#f7f5f5)
   .el-input__count
     background: $ligntGray
 .el-input__inner,
@@ -226,10 +231,10 @@ html,body
 
 .el-radio__input.is-checked
   .el-radio__inner
-    background-color: $tableHeadColor
-    border-color: $tableHeadColor
+    background-color: $brownC1
+    border-color: $brownC1
   &+.el-radio__label
-    color: $tableHeadColor
+    color: $brownC1
 
 .el-checkbox__input.is-checked
   .el-checkbox__inner
@@ -271,7 +276,6 @@ main
     +Flex(center,center)
     position: relative
     min-width: 1000px
-    min-height: 800px
     @media ( max-width: 1200px )
       flex-direction: column
     .add-button
@@ -284,33 +288,27 @@ main
   +size(50%,calc(100vh - 60px),null)
   display: flex
   flex-direction: column
-  min-height: 800px
-  flex: 1
   padding: 20px 5px 20px 20px
   @media ( max-width: 1200px )
     width: 100%
-    height: 800px
     padding: 20px
   .progressTitle
     font-size: 17pt
     font-weight: bold
     color: $darkGray
     padding-top: 5px
-    padding-bottom: 6px
+    padding-bottom: 7px
   .listContainer
     padding: 0 15px 0 0
   
 #ordersHistory
   +size(50%,calc(100vh - 60px),null)
-  min-height: 800px
   display: flex
   flex-direction: column
-  flex: 1
   padding-bottom: 20px
   box-shadow: 5px 0 10px rgba(0,0,0,.55)
   @media ( max-width: 1200px )
     width: 100%
-    height: 800px
     
 
 .listContainer
@@ -327,6 +325,16 @@ main
     position: relative
     min-width: 600px
     padding: 0
+    &.newOrderRemind
+      .itemWrapper
+        &:first-child
+          animation: fade-out 3.5s linear infinite
+
+@keyframes fade-out
+  0%
+    background: #fffcc4
+  100%
+    background: #fff
 
 .itemWrapper
   +size(100%,120px)
@@ -364,31 +372,7 @@ main
     .content
       +size(100%)
       +Flex(flex-start,center)
-      padding: 5px 15px
-      .amount
-        +Flex(center,flex-start)
-        flex-direction: column
-        flex: .5
-        height: 100%
-        font-size: 18px
-        width: 100px
-        color: #626262
-        .amountTitle
-          margin-bottom: 10px
-        &:nth-child(3)
-          flex: 2
-          span
-            +ellipsis()
-            width: 100%
-        &:last-child
-          flex: 1
-          .amountTitle
-            width: 100%
-            margin-bottom: 5px
-            +Flex(space-between,center)
-            .el-button
-              width: 50px
-              padding: 5px
+      padding: 10px 15px
       >ul
         width: 100%
         display: block
@@ -398,6 +382,70 @@ main
           list-style: disc
           margin: 0 50px
           word-break: break-all
+      .ordersItem
+        li
+          >span
+            vertical-align: middle
+        .meal
+          color: #4a4a4a
+        .remark
+          padding-left: 5px
+          color: #878686
+        .comment
+          margin: 0 7px
+          font-size: 14px
+          color: #878686
+          &.evaluate
+            color: #47975e
+            font-weight: 700
+    .orderContent
+      // display: table
+      display: flex
+      width: 100%
+      height: 75px
+      padding: 0 15px
+      table-layout: fixed
+      .amount
+        display: flex
+        // vertical-align: middle
+        flex-direction: column
+        justify-content: center
+        height: 100%
+        font-size: 18px
+        // width: 10%
+        width: 13%
+        min-width: 50px
+        color: #626262
+        // border: 1px solid red
+        .amountTitle
+          margin-bottom: 10px
+        &:nth-child(3)
+          // width: 40%
+          flex: 1
+          white-space: nowrap
+          text-overflow: ellipsis
+          overflow: hidden
+          span
+            +ellipsis()
+            width: 100%
+        &:last-child
+          // width: 18%
+          flex: 1
+          max-width: 155px
+          cursor: pointer
+          .amountTitle
+            width: 100%
+            margin-bottom: 5px
+            +Flex(space-between,center)
+            .el-button
+              width: 50px
+              padding: 5px
+          #ratingBar
+            ul
+              width: 100%
+              justify-content: space-between
+              li
+                margin-right: 0
   .left
     flex: 3
   .right
@@ -426,12 +474,18 @@ main
 
 .backToTop
   display: block
-  opacity: 0.4
+  +size(40px)
+  opacity: 0.6
   z-index: 10
   position: absolute
-  right: 10px
+  right: 20px
   bottom: 10px
   transition: all .2s
+  background: #393333
+  border-radius: 50%
+  color: #fff
+  outline: none
+  cursor: pointer
   &.goTopShow
     opacity: 1
   &.goTopHide
@@ -444,3 +498,30 @@ main
   height: 40px
   .el-icon-loading
     margin-right: 10px
+
+.el-table
+  .ascending
+    .sort-caret
+      &.ascending
+        border-bottom-color: #91ccd9
+  .descending
+    .sort-caret
+      &.descending
+        border-top-color: #91ccd9
+  .sort-caret
+    left: 4px
+    &.ascending
+      top: 2px
+      border-bottom-color: #fff
+      &:hover,&:focus
+        border-bottom-color: #91ccd9
+    &.descending
+      bottom: 4px
+      border-top-color: #fff
+      &:hover,&:focus
+        border-top-color: #91ccd9
+
+.noComment
+  color: #606262
+  padding: 30px 0
+  text-align: center

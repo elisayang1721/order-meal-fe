@@ -192,4 +192,6 @@ export default {
 .adminPanel
   .search
     +Flex(flex-start,center)
+.add-button
+  width: 80px
 </style>

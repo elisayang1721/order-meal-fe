@@ -20,17 +20,17 @@
           template(v-if="item.meals.length === 1")
             span {{`${item.meals[0].price.format()}`}}
           template(v-else)
-            .radio(v-for="meal in item.meals" :key="meal.id"
-              @click="setAmount(obj.menuType,i)")
-              input(type="radio" :value="meal.id" :id="meal.id"
-                v-model="orderSet[obj.menuType][i].menuItemId")
-              label(:for="meal.id") {{`${meal.name} ${meal.price.format()}`}}
+            el-radio-group(v-model="orderSet[obj.menuType][i].menuItemId")
+              el-radio(v-for="meal in item.meals" :label="meal.id" :key="meal.id"
+                @change="setAmount(obj.menuType,i)") {{`${meal.name} ${meal.price.format()}`}}
         .cell
           el-input-number(v-model="orderSet[obj.menuType][i].amount"
             :min="0" :max="99" :disabled="!orderSet[obj.menuType][i].menuItemId"
+            :class="{focus: orderSet[obj.menuType][i].isFocus}"
             @change="checkAmount(obj.menuType, i,item.meals.length)")
-        .cell
+        .cell(@mouseover="checkOrder(obj.menuType,i)" @mouseout="resetOrderSet()")
           el-input(v-model="orderSet[obj.menuType][i].remark"
+          maxlength="25"
           :disabled="checkIfOrdered(obj.menuType,i)")
     .confirmBlock
       el-button(type="danger" @click="closeDialog") 取消
@@ -86,6 +86,7 @@ export default {
   methods: {
     ...mapActions(['closeDialog']),
     checkAmount(type, i, length) {
+      this.orderSet[type][i].isFocus = false
       if (length !== 1 && !this.orderSet[type][i].amount) {
         this.orderSet[type][i].menuItemId = null
       }
@@ -98,7 +99,8 @@ export default {
           const payLoad = {
             menuItemId: item.meals.length === 1 ? item.meals[0].id : null,
             amount: 0,
-            remark: null
+            remark: null,
+            isFocus: false
           }
           if (this.$store.state.prop.action === 'edit') {
             item.meals.forEach(meal => {
@@ -144,6 +146,7 @@ export default {
       }
     },
     setAmount(type, i) {
+      this.orderSet[type][i].isFocus = false
       this.orderSet[type][i].amount = 1
     },
     submitSuccess() {
@@ -163,6 +166,23 @@ export default {
     },
     checkIfOrdered(type, i) {
       return this.orderSet[type][i].amount === 0
+    },
+    checkOrder(type, i) {
+      this.resetOrderSet()
+      const orderRow = this.orderSet[type][i]
+      if (!orderRow.menuItemId && !orderRow.amount) {
+        this.orderSet[type][i].isFocus = true
+      } else if (!orderRow.amount) {
+        this.orderSet[type][i].isFocus = true
+      }
+    },
+    resetOrderSet() {
+      Object.keys(this.orderSet).forEach(key => {
+        this.orderSet[key].forEach(obj => {
+          const list = obj
+          list.isFocus = false
+        })
+      })
     }
   },
   data() {
@@ -170,7 +190,9 @@ export default {
       menuList: [],
       orderSet: {},
       loading: false,
-      orderItem: {}
+      orderItem: {},
+      isOrder: Number,
+      isMenuType: ''
     }
   }
 }
@@ -179,18 +201,34 @@ export default {
 /deep/.el-input-number
   width: 120px
   line-height: 25px
+  &.focus
+    .el-input__inner
+      border-color: #c75656
+      transition: border-color .2s cubic-bezier(.645,.045,.355,1)
+    .el-input-number__decrease
+      border-color: #c75656
+      transition: border-color .2s cubic-bezier(.645,.045,.355,1)
+    .el-input-number__increase
+      border-color: #c75656
+      transition: border-color .2s cubic-bezier(.645,.045,.355,1)
   .el-input-number__decrease,.el-input-number__increase
     top: 0
     height: 28px
     line-height: 25px
     background: #efebea
     color: $brownC1
+    background: #bfb6b3
+    color: #fff
     &:hover
       color: $c1
       background: #9a908c
+  &.is-disabled
+    .el-input-number__decrease, .el-input-number__increase
+      color: #d0c9c9
+      background: #f3f0ef
   .el-input-number__decrease.is-disabled, .el-input-number__increase.is-disabled
-    color: #C0C4CC
-    background: #efebea
+      color: #d0c9c9
+      background: #f3f0ef
   .el-input-number__decrease
     left: 0
     border-right: 1px solid $tableLineColor
@@ -209,7 +247,27 @@ export default {
     line-height: 28px
     background: #f7f7f7
     border-color: $tableLineColor
+/deep/.el-radio
+  margin-right: 20px
+  margin-bottom: .6rem
+  .el-radio__inner
+    background: #f7f5f5
+    border-color: #c5c1c0
+/deep/.el-radio__input
+  &.is-checked
+    .el-radio__inner
+      background-color: $brownC1
+      border-color: $brownC1
+/deep/.el-radio-group
+  display: inline-flex
+  flex-wrap: wrap
+/deep/.el-radio__label
+  padding-left: 8px
 #order
   .confirmBlock
     border-left: none
+  .row
+    .cell
+      &:nth-child(2)
+        padding: .6rem .6rem 0 .6rem
 </style>

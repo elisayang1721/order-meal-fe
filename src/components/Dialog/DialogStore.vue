@@ -35,6 +35,7 @@
               el-input(
                 v-model="storeInfo.name"
                 placeholder="請輸入店家名稱"
+                maxlength="25"
                 clearable)
             .contentItem
               p
@@ -43,6 +44,7 @@
               el-input(
                 v-model="storeInfo.phone"
                 placeholder="請輸入店家電話"
+                maxlength="25"
                 clearable)
             .contentItem
               p
@@ -51,13 +53,16 @@
               el-input(
                 v-model="storeInfo.address"
                 placeholder="請輸入店家地址"
+                maxlength="50"
                 clearable)
             .contentItem
               p 簡介：
               el-input(
                 v-model="storeInfo.description"
                 type="textarea"
-                :autosize="{ minRows: 4 }"
+                maxlength="255"
+                show-word-limit
+                :autosize="{ minRows: 3 }"
                 placeholder="請輸入店家簡介")
           .content
             .title 服務類型
@@ -71,17 +76,21 @@
               el-input(
                 v-model="storeInfo.remark"
                 type="textarea"
-                :autosize="{ minRows: 4 }"
+                maxlength="255"
+                show-word-limit
+                :autosize="{ minRows: 3 }"
                 placeholder="請輸入訂購說明")
         .contentRight
           .content
             .contentItem.marginRm
-              el-input.formatForm(
-                v-model="storeInfo.menuText"
-                type="textarea"
-                :placeholder="placeholder")
+              .formatForm
+                el-input(
+                  v-model="storeInfo.menuText"
+                  type="textarea"
+                  :placeholder="placeholder")
+                span(v-if="storeInfo.menuError") 菜單格式錯誤
               .showForm
-                ScrollBar.formViewFix(v-if="storeInfo.menuJson")
+                .formViewFix(v-if="storeInfo.menuJson")
                   .menu.tableFrame
                     .row
                       .cell
@@ -95,7 +104,7 @@
                       .row(v-for="(item, i) in obj.items" :key="item.cate")
                         .cell
                           span {{item.cate}}
-                        .cell
+                        .cell.menuItem
                           template(v-if="item.meals.length === 1")
                             span {{formatPrice(item.meals[0].price)}}
                           template(v-else)
@@ -166,21 +175,19 @@ export default {
     }, 500),
     submit() {
       const vm = this
-      try {
-        if (this.storeInfo.menuJson.list[0].items[0].meals[0].price) {
-          if (this.$store.state.prop.action === 'add') {
-            this.addStore(vm)
-          } else {
-            this.updateStore(vm)
-          }
+      const hasMenuItem = this.storeInfo.menuJson
+        ? this.storeInfo.menuJson.list[0].items.length > 0 : false
+      if (this.storeInfo.menuText && this.submitable && hasMenuItem) {
+        if (this.$store.state.prop.action === 'add') {
+          this.addStore(vm)
         } else {
-          this.$message({
-            message: '請輸入菜單',
-            type: 'warning'
-          })
+          this.updateStore(vm)
         }
-      } catch (e) {
-        this.errorMessage(vm)
+      } else {
+        this.$message({
+          message: '請輸入完整且格式正確之菜單',
+          type: 'warning'
+        })
       }
     },
     submitSuccess() {
@@ -198,10 +205,11 @@ export default {
       this.closeDialog()
     },
     errorMessage: debounce(vm => {
-      vm.$message({
-        message: '格式錯誤',
-        type: 'error'
-      })
+      // vm.$message({
+      //   message: '格式錯誤',
+      //   type: 'error'
+      // })
+      vm.storeInfo.menuError = true
     }, 500),
     formatPrice(price) {
       return parseInt(price, 0).format()
@@ -211,7 +219,10 @@ export default {
     'storeInfo.menuText': {
       handler() {
         try {
+          this.submitable = false
           this.storeInfo.menuJson = deepClone(this.getMenuJson)
+          this.submitable = true
+          this.storeInfo.menuError = false
         } catch (e) {
           const vm = this
           this.errorMessage(vm)
@@ -221,6 +232,7 @@ export default {
   },
   data() {
     return {
+      submitable: false,
       storeType: [],
       storeInfo: {
         name: null,
@@ -230,7 +242,8 @@ export default {
         remark: null,
         types: [],
         menuText: null,
-        menuJson: null
+        menuJson: null,
+        menuError: false
       },
       loading: false,
       placeholder: '{菜單分類}\n菜單項目分類:價錢\n菜單項目分類:菜單項目1.價錢,菜單項目2.價錢\n\n{漢堡}\n大麥克:123\n\n{飲料類}\n可樂:大杯.40,中杯.30,小杯.20'
@@ -296,36 +309,58 @@ export default {
               font-size: 1rem
               margin-bottom: 0.35rem
         .showForm, .formatForm
-          +size(50%,100%)
+          height: 100%
         .formatForm
+          width: 40%
           margin-right: .5rem
+          position: relative
+          .el-textarea
+            height: 100%
+          span
+            position: absolute
+            bottom: 5px
+            right: 5px
+            color: red
         .el-textarea__inner
           resize: none
           border-radius: 4px
           height: 100%
+          padding: 5px 10px 20px 10px
+          box-sizing: border-box
         .showForm
+          width: 60%
           margin-left: .5rem
           border-radius: 4px
           .formViewFix
-            +size(100%,100%,null)
+            +size(100%,auto,null)
             .menu
               width: 100%
               margin: 0 auto
-              &.tableFrame
-                border-bottom: none
+          .tableFrame
+            .row
+              &:first-child
+                .cell
+                  padding: 0.6rem 0.5rem
               .cell
-                padding: .5rem
+                &:last-child
+                  flex: 2
+                &.menuItem
+                  padding: 0.2rem 0.5rem !important
+                  span
+                    padding: 0 8px
+                    margin: 5px 0 !important
+                    &+span
+                      border-left: 1px solid #969595
         .mTop
           margin-top: 1rem
         &:last-child
           margin-bottom: unset
       .contentLeft
-        flex: 2
-        height: 620px
+        width: 33.33%
+        padding-right: 0.7rem
+        margin-right: 0.3rem
       .contentRight
-        flex: 4
-        height: 620px
-        padding-left: 1rem
+        width: 66.66%
         .content
           height: 100%
           .contentItem

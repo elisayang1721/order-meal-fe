@@ -3,8 +3,8 @@
     .list.left
       .navHead
         .restaurantName {{list.storeName}}
-        .deadLine 截止於：{{countDown}}
-      .content
+        .deadLine {{countDown}}
+      .orderContent
         .amount
           .amountTitle 總數
           span {{list.totalAmount}}
@@ -14,14 +14,13 @@
         .amount
           .amountTitle(v-if="list.bulletin") 公告事項
           span(v-if="list.bulletin" :title="list.bulletin") {{list.bulletin}}
-        .amount
+        .amount(@click="toggleDialog('Rating')")
           .amountTitle
             span 評分
             span {{list.avgScore}}
             el-badge(:value="list.totalComment"
               :max="99"
-              :class="{pointerEvent: !list.totalComment}"
-              @click.native="toggleDialog('Rating')")
+              :class="{pointerEvent: !list.totalComment}")
               i(class="el-icon-s-comment")
           RatingBar(:score="list.avgScore" :isSelectable="false" :type="'Float'")
     .list.right
@@ -108,7 +107,7 @@ export default {
             this.stopTimer()
             this.setTimer()
           } else {
-            this.countDown = countDown(this.timestamp)
+            this.countDown = `截止於：${countDown(this.timestamp)}`
           }
         }, 60000)
       } else {
@@ -118,7 +117,7 @@ export default {
             this.countDown = '已截止'
             this.stopTimer()
           } else {
-            this.countDown = countDown(this.timestamp)
+            this.countDown =  '截止於：' + countDown(this.timestamp)
           }
         }, 1000)
       }
@@ -134,8 +133,10 @@ export default {
     checkCountDown() {
       this.stopTimer()
       if (this.timestamp > 0) {
-        this.countDown = countDown(this.timestamp)
+        this.countDown = `截止於：${countDown(this.timestamp)}`
         this.setTimer()
+      } else if (this.list.limitedPrice) {
+        this.countDown = `截止金額：${this.list.limitedPrice.format()}`
       } else {
         this.countDown = '手動截止'
       }
@@ -191,7 +192,7 @@ export default {
   /deep/.el-badge
     cursor: pointer
     font-size: 24px
-    left: -20px
+    // left: -10px
     .el-badge__content
       display: inline-flex
       align-items: center

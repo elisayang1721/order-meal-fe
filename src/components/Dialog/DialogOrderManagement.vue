@@ -30,7 +30,7 @@
                   active-text="進行"
                   inactive-text="截止")
             li
-              span 電話：
+              span 店家電話：
               span {{orderInfo.storePhone}}
       .contentBlock
         .contentNav 訂單計算
@@ -180,12 +180,14 @@ export default {
 /deep/.el-input
   width: 180px
   >input
-    padding: 0 10px 0 30px
+    padding: 0 10px
     height: 24px
     line-height: 24px
-  .el-input__prefix,.el-input__suffix
-    .el-input__icon
-      line-height: 24px
+/deep/.el-input--prefix,.el-input--suffix
+  .el-input__icon
+    line-height: 24px
+  input
+    padding: 0 10px 0 30px
   .el-input__suffix
     right: 0
 /deep/.el-button

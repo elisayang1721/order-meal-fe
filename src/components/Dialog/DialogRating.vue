@@ -3,7 +3,10 @@
     .ratingInner
       .innerHead 大家的評論
         .avgScore {{storeEvaluation.avgScore}}
-      TotalCommentItem(v-for="(obj,i) in storeEvaluation.list" :key="i" :item="obj")
+      template(v-if="storeEvaluation.totalSize === 0")
+        .noComment 目前尚未有任何美食家評論
+      template(v-else)
+        TotalCommentItem(v-for="(obj,i) in storeEvaluation.list" :key="i" :item="obj")
     .ratingInner.myCommenInner
       .innerHead 本次訂餐評論
       MyCommentItem(v-for="(obj,i) in myComment.list" :key="i" :item="obj")

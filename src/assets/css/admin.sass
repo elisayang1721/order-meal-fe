@@ -2,7 +2,7 @@
   +size(100%,100%,null)
   
 .common
-  +size(100%)
+  +size(100%,auto)
   min-width: 1200px
   min-height: 600px
   padding: 20px 0
@@ -33,7 +33,6 @@
   .type
     +Flex
   .tableWrapper
-    height: 600px
     .el-button
       width: 80px
   .el-checkbox-group
@@ -110,14 +109,23 @@
     margin-right: 10px
   button
     &:disabled
-      // background: #efebea
+      color: #c4bcbc
+      &:hover
+        background: #fff
+        color: #c4bcbc
+    &:hover
+      background: $tableLineColor 
+    
   .el-pager
     border: 1px solid $tableLineColor
     li
+      min-width: 32px
       height: 30px
       line-height: 30px
       &.active
-        background-color: $brownC1  
+        background-color: $brownC1
+        &:hover
+          background-color: $brownC1
       &:hover
         background-color: #ab9694
 
