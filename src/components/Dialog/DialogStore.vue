@@ -177,6 +177,7 @@ export default {
       const vm = this
       const hasMenuItem = this.storeInfo.menuJson
         ? this.storeInfo.menuJson.list[0].items.length > 0 : false
+      console.log(hasMenuItem)
       if (this.storeInfo.menuText && this.submitable && hasMenuItem) {
         if (this.$store.state.prop.action === 'add') {
           this.addStore(vm)
@@ -311,7 +312,7 @@ export default {
         .showForm, .formatForm
           height: 100%
         .formatForm
-          width: 40%
+          width: 45%
           margin-right: 0.5rem
           position: relative
           .el-textarea
@@ -328,7 +329,7 @@ export default {
           padding: 5px 10px 20px 10px
           box-sizing: border-box
         .showForm
-          width: 60%
+          width: 55%
           margin-left: .5rem
           border-radius: 4px
           .formViewFix
