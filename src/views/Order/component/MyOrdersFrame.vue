@@ -60,7 +60,8 @@ export default {
       myOrdersList: [],
       loading: false,
       listPage: 1,
-      newOrder: false
+      newOrder: false,
+      newOrderId: String
     }
   },
   components: {

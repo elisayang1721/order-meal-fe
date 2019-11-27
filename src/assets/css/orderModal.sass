@@ -158,7 +158,7 @@
     .contentBlock
       display: flex
       flex-direction: column
-      flex: 1
+      flex: 1      
       .contentNav
         width: 100%
         background: $tableHeadColor
@@ -168,7 +168,7 @@
         padding: 0.8rem 0
       .content
         height: 100%
-        +Flex(center,center)
+        +Flex(flex-start,center)
         flex-direction: column
         border-right: 1px solid $tableLineColor
         padding: .6rem
@@ -185,6 +185,11 @@
               display: inline-block
         .alignStart
           align-self: flex-start
+    &.tableFrame
+      border-bottom: none
+  .confirmBlock
+    border-top: 1px solid $tableLineColor
+    
   .row
     .cell
       padding: 0.4rem
@@ -263,6 +268,9 @@
     color: #4a4a4a
     .commentedBy
       font-weight: 500
+    .rated
+      font-size: 14px
+      color: #47975e
   .section
     width: 100%
     padding: 0.5rem 0 1.2rem

@@ -54,5 +54,12 @@ export default {
       url: `/stores/${id}/menus`,
       method: 'get'
     })
+  },
+  getAllStoreMenu() {
+    // 取得所有店家菜單
+    return Axios({
+      url: '/transform',
+      method: 'get'
+    })
   }
 }
