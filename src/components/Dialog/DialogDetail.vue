@@ -146,7 +146,7 @@ export default {
         })
         this.getRecordsInfo()
         this.$bus.$emit('refreshOrderForm')
-        this.$bus.$emit('refreshMyorder')
+        this.$bus.$emit('refreshMyorder',false)
       })
     }
   },
