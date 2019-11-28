@@ -33,17 +33,24 @@ export default {
     getList() {
       this.loading = true
       order.getOrderRecordsList({ page: this.listPage }).then(res => {
-        this.myOrdersList = this.myOrdersList ? [...this.myOrdersList, ...res.list] : res.list
+        this.myOrdersList = this.myOrdersList ? [...this.myOrdersList, ...res.list] : res.list       
         this.loading = false
-        setTimeout(() => {
-          this.newOrder = false
-        }, 4000)
-      })
+        // this.timeCompare()
+      })      
+    },
+    timeCompare() {
+      const nowTime = new Date().getTime()
+      const setTime = new Date(this.myOrdersList[0].createdOn).getTime()
+
+      console.log('現在時間=>',nowTime,'第一筆時間=>',setTime)
+      // setTimeout(() => {
+      //   this.newOrder = false
+      // }, 4000)
     },
     refreshList() {
       this.listPage = 0
       this.myOrdersList = []
-      this.newOrder = true
+      this.newOrder = true    
     }
   },
   watch: {
@@ -60,8 +67,7 @@ export default {
       myOrdersList: [],
       loading: false,
       listPage: 1,
-      newOrder: false,
-      newOrderId: String
+      newOrder: false
     }
   },
   components: {
