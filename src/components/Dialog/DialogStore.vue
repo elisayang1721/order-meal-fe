@@ -56,6 +56,13 @@
                 maxlength="50"
                 clearable)
             .contentItem
+              p 低消：
+              el-input(
+                v-model="storeInfo.minDeliveryPrice"
+                placeholder="請輸入店家外送金額"
+                maxlength="4"
+                clearable)
+            .contentItem
               p 簡介：
               el-input(
                 v-model="storeInfo.description"
@@ -137,7 +144,7 @@ export default {
       })
     }
     if (this.$store.state.prop.action === 'edit') {
-      axios.all([
+      axios.all([        
         store.getStoreType(),
         store.getStoreId(this.$store.state.prop.id)
       ]).then(axios.spread((type, info) => {
@@ -177,9 +184,10 @@ export default {
       const vm = this
       const hasMenuItem = this.storeInfo.menuJson
         ? this.storeInfo.menuJson.list[0].items.length > 0 : false
-      console.log(hasMenuItem)
+
       if (this.storeInfo.menuText && this.submitable && hasMenuItem) {
         if (this.$store.state.prop.action === 'add') {
+          console.log(vm)
           this.addStore(vm)
         } else {
           this.updateStore(vm)
@@ -239,6 +247,7 @@ export default {
         name: null,
         phone: null,
         address: null,
+        minDeliveryPrice: null,
         description: null,
         remark: null,
         types: [],

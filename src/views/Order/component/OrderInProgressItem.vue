@@ -7,13 +7,20 @@
       .orderContent
         .amount
           .amountTitle 總數
-          span {{list.totalAmount}}
-        .amount
+          span.txt {{list.totalAmount}}
+        .amount(:class="{'minimun': minDeliveryPrice()}")
           .amountTitle 金額
-          span {{addComma}}
+          template(v-if="minDeliveryPrice()")
+            el-tooltip(effect="dark" placement="bottom")
+              div(slot="content") {{`還差：${balance} 成單`}}
+              el-button.basicRate-bar
+                .progressRate-bar(:style="{'width': deliveryPrice()}")
+                span {{addComma}}
+          template(v-else)
+            span.txt {{addComma}}
         .amount
           .amountTitle(v-if="list.bulletin") 公告事項
-          span(v-if="list.bulletin" :title="list.bulletin") {{list.bulletin}}
+          span.txt(v-if="list.bulletin" :title="list.bulletin") {{list.bulletin}}
         .amount(@click="toggleDialog('Rating')")
           .amountTitle
             span 評分
@@ -63,6 +70,9 @@ export default {
     checkPermission() {
       const userData = JSON.parse(localStorage.userData)
       return this.list.createdByName === userData.memberName || userData.isAdmin
+    },
+    balance() {
+      return addComma(this.balancePrice)
     }
   },
   methods: {
@@ -140,12 +150,24 @@ export default {
       } else {
         this.countDown = '手動截止'
       }
+    },
+    minDeliveryPrice() {
+      return this.list.minDeliveryPrice > 0 && this.list.totalPrice < this.list.minDeliveryPrice ? true : false
+    },
+    deliveryPrice() {
+      const minPrice = this.list.minDeliveryPrice
+      const ratePrice =  this.list.totalPrice
+      const rate = Math.round(( ratePrice / minPrice ) *100) + '%'
+      this.balancePrice = minPrice - ratePrice
+
+      return rate
     }
   },
   data() {
     return {
       countDown: null,
-      timestamp: null
+      timestamp: null,
+      balancePrice: 0    // 成單差額
     }
   },
   watch: {
@@ -192,7 +214,6 @@ export default {
   /deep/.el-badge
     cursor: pointer
     font-size: 24px
-    // left: -10px
     .el-badge__content
       display: inline-flex
       align-items: center
@@ -204,4 +225,25 @@ export default {
           width: 80px
           &+.el-button
             margin-left: 0
+  .basicRate-bar
+    position: relative
+    left: -10px
+    color: #fff
+    font-size: 16px
+    width: 70%
+    text-align: center
+    border-radius: 25px
+    background: #999890
+    padding: 3px 0
+    border: none
+    overflow: hidden
+    .progressRate-bar
+      position: absolute
+      top: 0
+      left: 0
+      width: 70%
+      height: 100%
+      background: #47975e
+    span
+      position: relative
 </style>
