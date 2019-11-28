@@ -18,8 +18,8 @@ export default {
   name: 'MyOrdersFrame',
   mounted() {
     this.getList()
-    this.$bus.$on('refreshMyorder', () => {
-      this.refreshList()
+    this.$bus.$on('refreshMyorder', (type) => {
+      this.refreshList(type)
     })
   },
   methods: {
@@ -33,24 +33,14 @@ export default {
     getList() {
       this.loading = true
       order.getOrderRecordsList({ page: this.listPage }).then(res => {
-        this.myOrdersList = this.myOrdersList ? [...this.myOrdersList, ...res.list] : res.list       
+        this.myOrdersList = this.myOrdersList ? [...this.myOrdersList, ...res.list] : res.list
         this.loading = false
-        // this.timeCompare()
-      })      
+      })
     },
-    timeCompare() {
-      const nowTime = new Date().getTime()
-      const setTime = new Date(this.myOrdersList[0].createdOn).getTime()
-
-      console.log('現在時間=>',nowTime,'第一筆時間=>',setTime)
-      // setTimeout(() => {
-      //   this.newOrder = false
-      // }, 4000)
-    },
-    refreshList() {
+    refreshList(type) {
       this.listPage = 0
       this.myOrdersList = []
-      this.newOrder = true    
+      this.newOrder = type
     }
   },
   watch: {
