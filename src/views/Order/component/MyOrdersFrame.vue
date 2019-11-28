@@ -41,6 +41,10 @@ export default {
       this.listPage = 0
       this.myOrdersList = []
       this.newOrder = type
+      setTimeout(() => {
+        this.newOrder = false
+      }, 3500)
+
     }
   },
   watch: {
