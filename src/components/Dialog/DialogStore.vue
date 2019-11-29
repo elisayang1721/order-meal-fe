@@ -187,7 +187,6 @@ export default {
 
       if (this.storeInfo.menuText && this.submitable && hasMenuItem) {
         if (this.$store.state.prop.action === 'add') {
-          console.log(vm)
           this.addStore(vm)
         } else {
           this.updateStore(vm)
