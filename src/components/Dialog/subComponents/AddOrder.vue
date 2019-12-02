@@ -10,7 +10,6 @@
         el-date-picker(v-model="condition.dateTime"
           type="datetime"
           placeholder="選擇日期時間"
-          format="yyyy-MM-dd HH:mm"
           value-format="yyyy-MM-dd HH:mm"
           :disabled="condition.expiredAmount ? true : false")
     .row
@@ -64,7 +63,8 @@ export default {
     },
     checkDateTime() {
       const nowTime = new Date().getTime()
-      const setTime = new Date(this.condition.dateTime).getTime()
+      const setTime = new Date(this.condition.dateTime.replace(/\s/, 'T')).getTime()
+      console.log(setTime)
       return setTime > nowTime
     }
   },

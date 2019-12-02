@@ -91,7 +91,7 @@ export default {
 .dialogFrame
   @extend %setWrapper
   +Flex()
-  z-index: 3000
+  z-index: 2000
   .commonBtnGroup
     border-bottom: 1px solid $tableLineColor
   .dialogContent
