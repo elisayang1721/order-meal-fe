@@ -6,6 +6,7 @@ import Main from './views/Main'
 import OrderMain from './views/OrderMain'
 import AdminWrapper from './views/AdminWrapper'
 import Page401 from './views/errorPage/Page401'
+import BrowserNotSupported from './views/errorPage/Browser'
 
 Vue.use(Router)
 
@@ -55,6 +56,14 @@ export default new Router({
         } else {
           next()
         }
+      }
+    },
+    {
+      path: '/browser',
+      name: 'BrowserNotSupported',
+      component: BrowserNotSupported,
+      beforeEnter: (to, from, next) => {
+        next()
       }
     }
   ]

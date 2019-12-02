@@ -145,6 +145,7 @@ export default {
           type: 'success'
         })
         this.getRecordsInfo()
+        this.$bus.$emit('refreshSystem')
         this.$bus.$emit('refreshOrderForm')
         this.$bus.$emit('refreshMyorder',false)
       })

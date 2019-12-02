@@ -1,7 +1,7 @@
 <template lang="pug">
   #app(v-loading="loading")
     AppHeader(v-if="hasToken")
-    router-view(v-if="hasToken || $route.path === '/401'")
+    router-view(v-if="hasToken || $route.path === '/401' || $route.path === '/browser'")
     Dialog(v-if="hasToken")
 </template>
 <script>
@@ -13,6 +13,14 @@ import AppHeader from '@/layout/AppHeader'
 export default {
   name: 'app',
   mounted() {
+    const userAgent = navigator.userAgent.toLowerCase()
+    if (userAgent.indexOf('trident')>0) {
+      this.$router.push({
+        path: '/browser'
+      })
+      return
+    } 
+
     if (process.env.NODE_ENV === 'development') {
       this.devApi()
     }
