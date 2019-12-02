@@ -64,7 +64,6 @@ export default {
     checkDateTime() {
       const nowTime = new Date().getTime()
       const setTime = new Date(this.condition.dateTime.replace(/\s/, 'T')).getTime()
-      console.log(setTime)
       return setTime > nowTime
     }
   },
