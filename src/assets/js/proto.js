@@ -4,5 +4,5 @@ Number.prototype.format =  function () {
   if (num.toString().length > 3) {
     num = num.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
   }
-  return `$ ${num}`
+  return `$${num}`
 }
