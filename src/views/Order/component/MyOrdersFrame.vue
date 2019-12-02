@@ -18,8 +18,8 @@ export default {
   name: 'MyOrdersFrame',
   mounted() {
     this.getList()
-    this.$bus.$on('refreshMyorder', () => {
-      this.refreshList()
+    this.$bus.$on('refreshMyorder', (type) => {
+      this.refreshList(type)
     })
   },
   methods: {
@@ -35,15 +35,16 @@ export default {
       order.getOrderRecordsList({ page: this.listPage }).then(res => {
         this.myOrdersList = this.myOrdersList ? [...this.myOrdersList, ...res.list] : res.list
         this.loading = false
-        setTimeout(() => {
-          this.newOrder = false
-        }, 4000)
       })
     },
-    refreshList() {
+    refreshList(type) {
       this.listPage = 0
       this.myOrdersList = []
-      this.newOrder = true
+      this.newOrder = type
+      setTimeout(() => {
+        this.newOrder = false
+      }, 3500)
+
     }
   },
   watch: {

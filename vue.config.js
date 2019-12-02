@@ -1,4 +1,3 @@
-
 const CompressionPlugin = require('compression-webpack-plugin')
 
 const compress = new CompressionPlugin({
@@ -11,10 +10,16 @@ const compress = new CompressionPlugin({
 })
 
 module.exports = {
+  // transpileDependencies: ['*'],
   publicPath: './',
   devServer: {
     port: 2019
   },
+  // pages: {
+  //   index: {
+  //     entry: ['@babel/polyfill', './src/main.js']
+  //   }
+  // },
   chainWebpack: config => {
     // pug
     const pugRule = config.module.rule('pug')
@@ -23,6 +28,7 @@ module.exports = {
       .use('pug-html-loader')
       .loader('pug-html-loader')
       .end()
+    // config.resolve.alias.set('querystring', 'querystring-browser')
   },
   configureWebpack: {
     resolve: {
@@ -38,6 +44,9 @@ module.exports = {
       }
     },
     plugins: [compress]
+    // entry: {
+    //   app: ['babel-polyfill', './src/main.js']
+    // }
   },
   productionSourceMap: false,
   css: {

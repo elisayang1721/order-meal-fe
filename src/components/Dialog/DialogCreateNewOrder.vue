@@ -232,7 +232,7 @@ export default {
   td,
   th
     padding: .5rem .3rem
-    font-size: 16px
+    font-size: 15px
     line-height: 1
   th
     padding: .3rem

@@ -328,7 +328,7 @@ main
     &.newOrderRemind
       .itemWrapper
         &:first-child
-          animation: fade-out 3.5s linear infinite
+          animation: fade-out 3.5s linear
 
 @keyframes fade-out
   0%
@@ -370,8 +370,9 @@ main
         >li
           margin-right: 10px
     .content
-      +size(100%)
       +Flex(flex-start,center)
+      width: 100%
+      min-height: 75px
       padding: 10px 15px
       >ul
         width: 100%
@@ -399,7 +400,6 @@ main
             color: #47975e
             font-weight: 700
     .orderContent
-      // display: table
       display: flex
       width: 100%
       height: 75px
@@ -407,20 +407,18 @@ main
       table-layout: fixed
       .amount
         display: flex
-        // vertical-align: middle
         flex-direction: column
         justify-content: center
         height: 100%
         font-size: 18px
-        // width: 10%
         width: 13%
         min-width: 50px
         color: #626262
-        // border: 1px solid red
+        .txt
+          line-height: 20px
         .amountTitle
           margin-bottom: 10px
         &:nth-child(3)
-          // width: 40%
           flex: 1
           white-space: nowrap
           text-overflow: ellipsis
@@ -429,7 +427,6 @@ main
             +ellipsis()
             width: 100%
         &:last-child
-          // width: 18%
           flex: 1
           max-width: 155px
           cursor: pointer
@@ -446,6 +443,9 @@ main
               justify-content: space-between
               li
                 margin-right: 0
+        &.minimun
+          .amountTitle
+            margin-top: 3px
   .left
     flex: 3
   .right
@@ -454,7 +454,6 @@ main
       justify-content: center
       padding: 0 10px
       >span
-        margin-right: 1px
         &:first-child
           +ellipsis()
           width: 90px

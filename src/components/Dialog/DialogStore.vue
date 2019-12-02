@@ -56,6 +56,13 @@
                 maxlength="50"
                 clearable)
             .contentItem
+              p 低消：
+              el-input(
+                v-model="storeInfo.minDeliveryPrice"
+                placeholder="請輸入店家外送金額"
+                maxlength="4"
+                clearable)
+            .contentItem
               p 簡介：
               el-input(
                 v-model="storeInfo.description"
@@ -137,7 +144,7 @@ export default {
       })
     }
     if (this.$store.state.prop.action === 'edit') {
-      axios.all([
+      axios.all([        
         store.getStoreType(),
         store.getStoreId(this.$store.state.prop.id)
       ]).then(axios.spread((type, info) => {
@@ -177,6 +184,7 @@ export default {
       const vm = this
       const hasMenuItem = this.storeInfo.menuJson
         ? this.storeInfo.menuJson.list[0].items.length > 0 : false
+
       if (this.storeInfo.menuText && this.submitable && hasMenuItem) {
         if (this.$store.state.prop.action === 'add') {
           this.addStore(vm)
@@ -238,6 +246,7 @@ export default {
         name: null,
         phone: null,
         address: null,
+        minDeliveryPrice: null,
         description: null,
         remark: null,
         types: [],
@@ -311,7 +320,7 @@ export default {
         .showForm, .formatForm
           height: 100%
         .formatForm
-          width: 40%
+          width: 45%
           margin-right: .5rem
           position: relative
           .el-textarea
@@ -328,7 +337,7 @@ export default {
           padding: 5px 10px 20px 10px
           box-sizing: border-box
         .showForm
-          width: 60%
+          width: 55%
           margin-left: .5rem
           border-radius: 4px
           .formViewFix

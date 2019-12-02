@@ -32,6 +32,10 @@
             li
               span 店家電話：
               span {{orderInfo.storePhone}}
+            template(v-if="orderInfo.minDeliveryPrice > 0")
+              li
+                span 外送金額：
+                span {{orderInfo.minDeliveryPrice.format()}}
       .contentBlock
         .contentNav 訂單計算
         .content

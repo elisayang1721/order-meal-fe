@@ -26,13 +26,6 @@ export default {
       active: ''
     }
   },
-  // watch: {
-  //   'active': {
-  //     handler() {
-
-  //     }
-  //   }
-  // },
   components: {
     Tab,
     MyOrdersFrame,

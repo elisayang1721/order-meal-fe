@@ -1,3 +1,4 @@
+import 'es6-promise/auto'
 import Vue from 'vue'
 
 // ElementUI
@@ -20,12 +21,12 @@ import '@css/admin.sass'
 import '@css/orderModal.sass'
 
 // socket.io client side setting
-import VueSocketio from 'vue-socket.io'
-import socketio from 'socket.io-client'
+import VueSocketIOExt from 'vue-socket.io-extended'
+import io from 'socket.io-client'
 
-Vue.use(new VueSocketio({
-  connection: socketio('http://api.socket.bckplat.info')
-}))
+const socket = io('http://api.socket.bckplat.info')
+
+Vue.use(VueSocketIOExt, socket)
 
 /** event bus */
 const eventBus = {

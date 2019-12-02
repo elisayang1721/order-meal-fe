@@ -146,7 +146,7 @@ export default {
   flex-wrap: wrap
   margin-left: 0
   .el-checkbox
-    width: 200px
+    min-width: 200px
     +Flex()
     justify-content: flex-start
     margin: .2rem
@@ -156,7 +156,7 @@ export default {
     border-radius: 4px
     border-left: 4px solid $brownC2
     background: #fff
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.15)
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.15)
     .el-checkbox__input
       display: none
       &.is-checked
@@ -173,7 +173,7 @@ export default {
         &:nth-child(2)
           font-size: 16px
           font-weight: 700
-          margin: 5px 0
+          margin: 6px 0
         &:last-child
           text-align: right
           font-size: 13px

@@ -4,7 +4,9 @@
       div {{item.meals}}
       .submitBlock
         RatingBar(:score="item.score" ref="ratingBar")
-        el-button(type="success" @click="triggerDebounce") 送出
+        el-button(type="success"
+          @click="triggerDebounce"
+          :class="{'replace':item.score}")  {{`${item.score ? '更新': '送出'}`}}
     .section
       el-input(v-model="item.comment"
         placeholder="請撰寫評論(選擇性)"
@@ -36,7 +38,7 @@ export default {
           message: '評論成功',
           type: 'success'
         })
-        vm.$bus.$emit('refreshMyorder')
+        vm.$bus.$emit('refreshMyorder',false)
         vm.$bus.$emit('refreshSystem')
         vm.$bus.$emit('refreshTotalComments')
       })
@@ -61,3 +63,14 @@ export default {
   }
 }
 </script>
+<style lang="sass" scoped>
+  /deep/.replace
+    background-color: #edf7f0
+    color: #47975e
+    &:hover,
+    &:active,
+    &:focus
+      +Bgc(#6ab07e)
+      color: #fff
+      border-color: #6ab07e
+</style>
