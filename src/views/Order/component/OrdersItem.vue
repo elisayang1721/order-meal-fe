@@ -24,7 +24,8 @@ export default {
   props: ['myOrderData'],
   computed: {
     dateFormatter() {
-      const date = this.myOrderData.createdOn
+      // const date = this.myOrderData.createdOn
+      const date = this.myOrderData.createdOn.replace(/\s/, 'T')
       const weekNum = ['日', '一', '二', '三', '四', '五', '六']
       const d = new Date(date)
       const mm = d.getMonth() + 1
