@@ -37,7 +37,7 @@
             .cell
               ul
                 li(v-for="(order, idx) in obj.meals"
-                  :key="idx") {{`${order.cate} $${order.price}元 x${order.amount}`}}
+                  :key="idx") {{`${order.cate} $${order.price}元 x ${order.amount}`}}
             .cell
               span {{getOrderPrice(obj.meals)}}
 </template>
