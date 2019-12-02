@@ -185,4 +185,9 @@ export default {
       padding: 0.4rem
   .noComment
     border-right: 1px solid #e6dedb
+.editBlock
+  /deep/.el-button
+    width: auto
+    padding: 5px 10px
+    margin-top: 4px
 </style>

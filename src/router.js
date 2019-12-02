@@ -63,6 +63,7 @@ export default new Router({
       name: 'BrowserNotSupported',
       component: BrowserNotSupported,
       beforeEnter: (to, from, next) => {
+        console.log('toPage IE')
         next()
       }
     }

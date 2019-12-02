@@ -15,6 +15,7 @@ export default {
   mounted() {
     const userAgent = navigator.userAgent.toLowerCase()
     if (userAgent.indexOf('trident')>0) {
+      console.log('4ie')
       this.$router.push({
         path: '/browser'
       })
