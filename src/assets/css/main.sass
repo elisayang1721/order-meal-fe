@@ -329,9 +329,6 @@ main
       .itemWrapper
         &:first-child
           animation: fade-out 3.5s linear
-    // .itemWrapper
-    //   &.newOrderRemind
-    //     animation: fade-out 3.5s linear
 
 @keyframes fade-out
   0%
@@ -373,8 +370,9 @@ main
         >li
           margin-right: 10px
     .content
-      +size(100%)
       +Flex(flex-start,center)
+      width: 100%
+      min-height: 75px
       padding: 10px 15px
       >ul
         width: 100%
@@ -456,7 +454,6 @@ main
       justify-content: center
       padding: 0 10px
       >span
-        margin-right: 1px
         &:first-child
           +ellipsis()
           width: 90px

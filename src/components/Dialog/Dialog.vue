@@ -91,7 +91,7 @@ export default {
 .dialogFrame
   @extend %setWrapper
   +Flex()
-  z-index: 3000
+  z-index: 2000
   .commonBtnGroup
     border-bottom: 1px solid $tableLineColor
   .dialogContent
@@ -120,7 +120,7 @@ export default {
       font-weight: 700
       color: $c1
   .dialogComponent
-    padding: 1rem 0.3rem 1rem 1rem
+    padding: 1rem
     overflow: hidden
     background: $ligntGray
     @media(max-width: 1200px),(max-height: 800px)
@@ -135,11 +135,4 @@ export default {
         max-height: 100%
         max-width: 100%
         height: 100%
-    /deep/.el-button
-      width: 80px
-    .editBlock
-      /deep/.el-button
-        width: auto
-        padding: 5px 10px
-        margin-top: 4px
 </style>
