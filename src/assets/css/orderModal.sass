@@ -83,7 +83,7 @@
       height: 60px
       +Flex(center,center)
       flex-direction: column
-      padding: .6rem
+      padding: 0 .6rem
       >.el-button
         +Flex(center,center)
         width: 100%
@@ -208,15 +208,7 @@
 #newOrder
   display: flex
   +size(100%,100%,null)
-  position: relative
-  &::after
-    content: ''
-    +size(1px,100%,null)
-    background-color: #ddd
-    position: absolute
-    top: 0
-    left: 50%
-    transform: translateX(-50%)
+  position: relative  
   .innerBlock
     +size(100%,800px,null)
     position: relative
@@ -225,7 +217,13 @@
     &:first-child
       flex: 1.2
       padding-right: 15px
-      
+      &::after
+        content: ''
+        +size(1px,100%,null)
+        background-color: #ddd
+        position: absolute
+        top: 0
+        right: 0
     &:last-child
       flex: 1
       padding-left: 15px

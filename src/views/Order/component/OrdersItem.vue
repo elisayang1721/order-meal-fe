@@ -9,7 +9,7 @@
         ul.ordersItem
           li(v-for="(meal, i) in myOrderData.meals"
             :key="i")
-            span.meal {{ meal.item }}
+            span.meal {{ meal.itemName }}
             span.remark {{ `${meal.remark ? `- ${meal.remark}` : ''}` }}
             span.comment(:class="{'evaluate':meal.isEvaluated}") {{`${meal.isEvaluated ? '【已評分】' : '【未評分】'}`}}
         el-tooltip(effect="dark" content="評比" placement="top-start")
@@ -24,7 +24,6 @@ export default {
   props: ['myOrderData'],
   computed: {
     dateFormatter() {
-      // const date = this.myOrderData.createdOn
       const date = this.myOrderData.createdOn.replace(/\s/, 'T')
       const weekNum = ['日', '一', '二', '三', '四', '五', '六']
       const d = new Date(date)
