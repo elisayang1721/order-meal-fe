@@ -14,7 +14,8 @@ export default {
   name: 'app',
   mounted() {
     const userAgent = navigator.userAgent.toLowerCase()
-    if (userAgent.indexOf('trident') > 0) {
+    const isEdge = navigator.userAgent.indexOf("Edge") > -1
+    if (userAgent.indexOf('trident') > 0 || isEdge) {
       this.$router.push({
         path: '/browser'
       })
