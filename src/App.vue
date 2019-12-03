@@ -14,8 +14,8 @@ export default {
   name: 'app',
   mounted() {
     const userAgent = navigator.userAgent.toLowerCase()
-    if (userAgent.indexOf('trident')>0) {
-      console.log('4ie')
+    const isEdge = navigator.userAgent.indexOf("Edge") > -1
+    if (userAgent.indexOf('trident') > 0 || isEdge) {
       this.$router.push({
         path: '/browser'
       })
@@ -25,6 +25,7 @@ export default {
     if (process.env.NODE_ENV === 'development') {
       this.devApi()
     }
+    
     if (process.env.NODE_ENV === 'production') {
       if (this.$route.query.token) {
         const token = this.$route.query.token

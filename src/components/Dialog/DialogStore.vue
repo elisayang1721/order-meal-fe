@@ -4,7 +4,7 @@
       .storeHead
         .title 基本資料
         .title 菜單設定
-          el-tooltip(
+          el-tooltip.tooltip(
             effect="dark"
             placement="bottom")
             div(slot="content") {菜單分類}
@@ -75,7 +75,7 @@
             .title 服務類型
               span (請至少選擇一項)
             .contentItem.mTop
-              el-checkbox-group(v-model="storeInfo.types")
+              el-checkbox-group.selectGroup(v-model="storeInfo.types")
                 el-checkbox(v-for="type in storeType" :label="type.id" :key="type.id") {{type.name}}
           .content
             .title 訂購說明
@@ -288,7 +288,7 @@ export default {
       flex: 2
     .title:last-child
       flex: 4
-      /deep/.el-tooltip
+      .tooltip
         margin-left: 5px
   .storeContent
       +Flex(center,stretch)
@@ -311,12 +311,6 @@ export default {
             >span
               margin-right: 5px
               color: red
-          /deep/.el-checkbox-group
-            padding-left: 20px
-            /deep/.el-checkbox
-              width: 5rem
-              font-size: 1rem
-              margin-bottom: 0.35rem
         .showForm, .formatForm
           height: 100%
         .formatForm
@@ -374,4 +368,10 @@ export default {
           height: 100%
           .contentItem
             height: 100%
+.selectGroup
+  padding-left: 20px
+  .el-checkbox
+    width: 5rem
+    font-size: 1rem
+    margin-bottom: 0.35rem
 </style>
