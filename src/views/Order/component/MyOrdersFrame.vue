@@ -34,6 +34,7 @@ export default {
       this.loading = true
       order.getOrderRecordsList({ page: this.listPage }).then(res => {
         this.myOrdersList = this.myOrdersList ? [...this.myOrdersList, ...res.list] : res.list
+        console.log(this.myOrdersList)
         this.loading = false
       })
     },
