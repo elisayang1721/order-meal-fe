@@ -24,8 +24,8 @@ build-testing:
     paths:
       - node_modules/
   script:
-      # - rm -rf node_modules
-      # - rm package-lock.json
+      - rm -rf node_modules
+      - rm package-lock.json
       - npm cache clean -f
       - npm install
       - npm run build:testing
