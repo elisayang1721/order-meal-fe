@@ -12,7 +12,7 @@
           .amountTitle 金額
           template(v-if="minDeliveryPrice()")
             el-tooltip(effect="dark" placement="bottom")
-              div(slot="content") {{`還差：${balance} 成單`}}
+              div(slot="content") {{`還差 ${balance} 成單`}}
               el-button.basicRate-bar
                 .progressRate-bar(:style="{'width': deliveryPrice()}")
                 span {{addComma}}

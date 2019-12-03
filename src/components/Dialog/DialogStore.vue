@@ -255,7 +255,7 @@ export default {
         menuError: false
       },
       loading: false,
-      placeholder: '{菜單分類}\r\n菜單項目分類:價錢\r\n菜單項目分類:菜單項目1.價錢,菜單項目2.價錢\r\n\r\n{漢堡}\r\n大麥克:123\r\n\r\n{飲料類}\r\n可樂:大杯.40,中杯.30,小杯.20'
+      placeholder: '{菜單分類}\n菜單項目分類:價錢\n菜單項目分類:菜單項目1.價錢,菜單項目2.價錢\n\n{漢堡}\n大麥克:123\n\n{飲料類}\n可樂:大杯.40,中杯.30,小杯.20'
     }
   },
   components: {
