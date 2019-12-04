@@ -388,10 +388,7 @@ main
           >span
             vertical-align: middle
             color: #4a4a4a
-        .price
-          margin: 0 5px
         .remark
-          padding-left: 5px
           color: #878686
         .comment
           margin: 0 7px
@@ -452,16 +449,28 @@ main
   .right
     .navHead
       font-size: 18px
-      justify-content: center
-      padding: 0 10px
+      padding: 0 25px
+      justify-content: flex-end
+      &.manage
+        justify-content: space-between
+        >span
+          &:first-child
+            +ellipsis()
+            width: 90px
+            text-align: center
+          &::after
+            display: none
       >span
         &:first-child
-          +ellipsis()
-          width: 90px
-          text-align: center
+          position: relative
+          &::after
+            content: '發起人:'
+            +PosAbs
+            left: -65px
     .content
       position: relative
-      justify-content: space-around
+      justify-content: space-between
+      padding: 10px 25px
       &::before
         content: ''
         height: 100%

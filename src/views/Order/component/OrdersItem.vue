@@ -5,14 +5,12 @@
         ul
           li {{dateFormatter}}
           li {{myOrderData.storeName}}
-        .totalPrice {{`總計: ${totalPrice.price.format()}`}}
+        .totalPrice {{`總計：${totalPrice.price.format()}`}}
       .content
         ul.ordersItem
           li(v-for="(meal, i) in myOrderData.meals"
             :key="i")
-            span.meal {{ meal.itemName }}
-            span.price {{ meal.price.format() }}
-            span.amount {{ `x${meal.amount}` }}            
+            span.meal {{`${meal.itemName} ${meal.price.format()} x ${meal.amount}`}}         
             span.remark {{ `${meal.remark ? `- ${meal.remark}` : ''}` }}
             span.comment(:class="{'evaluate':meal.isEvaluated}") {{`${meal.isEvaluated ? '【已評分】' : '【未評分】'}`}}
         el-tooltip(effect="dark" content="評比" placement="top-start")

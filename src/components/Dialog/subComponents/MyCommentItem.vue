@@ -2,17 +2,18 @@
   #myComment
     .head
       div {{item.meals}}
-      .submitBlock
-        RatingBar(:score="item.score" ref="ratingBar")
-        el-button(type="success"
-          @click="triggerDebounce"
-          :class="{'replace':item.score}")  {{`${item.score ? '更新': '送出'}`}}
+      .RatingBlock
+        RatingBar(:score="item.score" ref="ratingBar")        
     .section
       el-input(v-model="item.comment"
         placeholder="請撰寫評論(選擇性)"
         type="textarea"
         maxlength="255"
         show-word-limit)
+    .submitBlock
+      el-button.submit-button(type="success"
+        @click="triggerDebounce"
+        :class="{'replace-button':item.score}")  {{`${item.score ? '更新': '送出'}`}}
 </template>
 <script>
 import RatingBar from '@c/RatingBar/RatingBar'
@@ -64,13 +65,18 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-  /deep/.replace
+  .submit-button
+    width: 70px
+    padding: 8px
+  .replace-button
     background-color: #edf7f0
     color: #47975e
-    &:hover,
-    &:active,
-    &:focus
+    border-color: #6ab07e
+    &:hover
       +Bgc(#6ab07e)
       color: #fff
-      border-color: #6ab07e
+    &:active,
+    &:focus
+      background-color: #edf7f0
+      color: #47975e
 </style>
