@@ -57,6 +57,7 @@ export default {
     RatingBar
   },
   mounted() {
+    console.log(this.list.avgScore)
     this.timestamp = this.list.finishedTime
     this.checkCountDown()
   },
