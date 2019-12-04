@@ -66,7 +66,7 @@ export default {
 </script>
 <style lang="sass" scoped>
   .submit-button
-    width: 70px
+    width: 60px
     padding: 8px
   .replace-button
     background-color: #edf7f0
