@@ -308,6 +308,8 @@ export default {
             margin-right: 0.5rem
             font-size: 15px
             color: $darkGray
+            text-align: right
+            padding-right: 0.2rem
             >span
               margin-right: 5px
               color: red

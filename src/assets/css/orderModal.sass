@@ -291,6 +291,8 @@
       align-self: flex-end
       font-size: 14px
       margin-left: 15px
+  &:hover
+    background: #f5f7fa
 #totalComment
   border-bottom: 1px dashed #c6c6c6
   .section
@@ -298,18 +300,18 @@
       line-height: 24px
       word-break: break-all
 #myComment
-  .head
-    .submitBlock
-      +Flex()
-      .el-button
-        margin-left: 8px
   .section
     +Flex()
     padding: unset
-    padding-top: 1rem
+    padding: 0.8rem 0 0.6rem
     .el-textarea
       width: 100%
       flex: unset
       >textarea
         height: 75px
         resize: none
+  .submitBlock
+    +Flex()
+    justify-content: flex-end
+    width: 100%
+    margin-bottom: 10px

@@ -14,13 +14,13 @@ export default {
   name: 'app',
   mounted() {
     const userAgent = navigator.userAgent.toLowerCase()
-    const isEdge = navigator.userAgent.indexOf("Edge") > -1
+    const isEdge = navigator.userAgent.indexOf('Edge') > -1
     if (userAgent.indexOf('trident') > 0 || isEdge) {
       this.$router.push({
         path: '/browser'
       })
       return
-    } 
+    }
 
     if (process.env.NODE_ENV === 'development') {
       this.devApi()
@@ -103,7 +103,8 @@ export default {
     return {
       emsToken: '',
       loading: false,
-      hasToken: ''
+      hasToken: '',
+      browser: true
     }
   },
   components: {

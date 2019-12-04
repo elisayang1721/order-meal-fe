@@ -31,7 +31,7 @@
               i(class="el-icon-s-comment")
           RatingBar(:score="list.avgScore" :isSelectable="false" :type="'Float'")
     .list.right
-      .navHead
+      .navHead(:class="{'manage':checkPermission}")
         span(:title="neededTitle") {{list.createdByName}}
         el-button.orderManagementBtn(
           v-if="checkPermission"
@@ -157,7 +157,7 @@ export default {
     deliveryPrice() {
       const minPrice = this.list.minDeliveryPrice
       const ratePrice =  this.list.totalPrice
-      const rate = Math.round(( ratePrice / minPrice ) *100) + '%'
+      const rate = Math.round((ratePrice / minPrice) * 100) + '%'
       this.balancePrice = minPrice - ratePrice
 
       return rate

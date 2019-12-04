@@ -32,9 +32,9 @@
           el-input(v-model="orderSet[obj.menuType][i].remark"
           maxlength="25"
           :disabled="checkIfOrdered(obj.menuType,i)")
-    .confirmBlock
-      el-button(type="danger" @click="closeDialog") 取消
-      el-button(type="success" @click="confirm") 確認
+    //- .confirmBlock
+    //-   el-button(type="danger" @click="closeDialog") 取消
+    //-   el-button(type="success" @click="confirm") 確認
 </template>
 <script>
 import store from '@api/store'
@@ -67,6 +67,9 @@ export default {
         this.closeDialog()
       })
     }
+    this.$bus.$on('sendOrderForm', () => {
+      this.confirm()
+    })
   },
   computed: {
     getLoad() {
@@ -194,6 +197,9 @@ export default {
       isOrder: Number,
       isMenuType: ''
     }
+  },
+  beforeDestroy() {
+    this.$bus.$off('sendOrderForm')
   }
 }
 </script>
