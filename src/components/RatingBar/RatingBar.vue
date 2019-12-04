@@ -126,8 +126,10 @@ export default {
     'score': {
       handler() {
         if (this.type === 'Num') {
+          console.log('checkScore')
           this.checkScore()
         } else {
+          console.log('setIndex')
           this.setIndex()
         }
       }

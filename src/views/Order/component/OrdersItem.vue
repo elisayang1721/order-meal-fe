@@ -69,7 +69,7 @@ export default {
         background-color: $tableHeadColor
   .el-icon-s-comment
     cursor: pointer
-    font-size: 28px
-    margin-right: 30px
+    font-size: 24px
+    margin-right: 25px
     color: #626262
 </style>

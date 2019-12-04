@@ -9,10 +9,14 @@
           .headerPanel
             .close(@click="closeDialog")
               i.el-icon-close
-        .dialogComponent
+        .dialogComponent(:class="{'order': componentName === 'DialogOrder'}")
           ScrollBar.scroll(:needGoTop="goTop")
             .viewFix(:class="sliceName()")
               component(:is="componentName")
+          template(v-if="componentName === 'DialogOrder'")
+            .submitWrap
+              el-button(type="danger" @click="closeDialog") 取消
+              el-button(type="success" @click="sendConfirm") 確認
 </template>
 <script>
 import ScrollBar from '@c/ScrollBar/ScrollBar'
@@ -63,6 +67,9 @@ export default {
       const name = this.dialog[maxlength].name
       const className = name.toLowerCase().split('dialog')
       return className
+    },
+    sendConfirm() {
+      this.$bus.$emit('sendOrderForm')
     }
   },
   watch: {
@@ -95,7 +102,9 @@ export default {
   .commonBtnGroup
     border-bottom: 1px solid $tableLineColor
   .dialogContent
+    position: relative
     +Bgc($ligntGray)
+    overflow: hidden
     @media(max-width: 1200px),(max-height: 800px)
       +size(100%,100%,null)
   &.smallDialog
@@ -120,7 +129,7 @@ export default {
       font-weight: 700
       color: $c1
   .dialogComponent
-    padding: 1rem
+    padding: 1rem    
     overflow: hidden
     background: $ligntGray
     @media(max-width: 1200px),(max-height: 800px)
@@ -135,4 +144,19 @@ export default {
         max-height: 100%
         max-width: 100%
         height: 100%
+    &.order
+      padding-bottom: 74px
+      .scroll
+        max-height: 75vh
+  .submitWrap
+    +Flex(flex-end,center)
+    position: absolute
+    left: 0
+    bottom: 0
+    width: 100%
+    border: 0
+    border-top: 1px solid #e6dedb
+    box-shadow: 0 -5px 5px rgba(230, 230, 230, 0.6)
+    padding: .6rem 1rem
+    background: $c1
 </style>

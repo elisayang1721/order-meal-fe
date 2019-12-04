@@ -51,16 +51,6 @@ export default {
     }
   },
   methods: {
-    userBrowser() {
-      const userAgent = navigator.userAgent.toLowerCase()
-      const isEdge = navigator.userAgent.indexOf('Edge') > -1
-      if (userAgent.indexOf('trident') > 0 || isEdge) {
-        this.$router.push({
-          path: '/browser'
-        })
-        return this.browser = false
-      } 
-    },
     devApi() {
       const data = {
         employee: `${process.env.VUE_APP_ACC}`,
