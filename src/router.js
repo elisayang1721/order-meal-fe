@@ -67,6 +67,10 @@ export default new Router({
         const isEdge = navigator.userAgent.indexOf('Edge') > -1
         if (userAgent.indexOf('trident') > 0 || isEdge) {
           next()
+        } else {
+          const route = deepClone(from)
+          route.name = 'OrderMain'
+          next(route)
         }
       }
     }
