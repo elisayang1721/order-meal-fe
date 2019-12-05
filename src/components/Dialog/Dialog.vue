@@ -52,6 +52,9 @@ export default {
       return name === 'DialogConfirm' || name === 'DialogAdmin'
     }
   },
+  mounted() {
+    window.addEventListener('keyup',this.handleKeyup)
+  },
   methods: {
     ...mapActions(['closeDialog']),
     dailogFixed(name) {
@@ -70,6 +73,14 @@ export default {
     },
     sendConfirm() {
       this.$bus.$emit('sendOrderForm')
+    },
+    handleKeyup(event) {
+      const e = event || window.event || arguments.callee.caller.arguments[0]
+      if (!e) return
+      const key = e.key
+      if (key === 'Escape') {
+        this.closeDialog()
+      }
     }
   },
   watch: {
@@ -91,6 +102,9 @@ export default {
         }
       }
     }
+  },
+  destroyed() {
+    window.removeEventListener('keyup',this.handleKeyup)
   }
 }
 </script>

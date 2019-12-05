@@ -6,10 +6,13 @@
       template(v-if="storeEvaluation.totalSize === 0")
         .noComment 目前尚未有任何美食家評論
       template(v-else)
-        TotalCommentItem(v-for="(obj,i) in storeEvaluation.list" :key="i" :item="obj")
+        TotalCommentItem(v-for="(obj,i) in storeComments" :key="i" :item="obj")
     .ratingInner.myCommenInner
       .innerHead 本次訂餐評論
-      MyCommentItem(v-for="(obj,i) in myComment.list" :key="i" :item="obj")
+      template(v-if="myComment.totalSize === 0")
+        .noComment 目前尚未點餐
+      template(v-else)
+        MyCommentItem(v-for="(obj,i) in myComment.list" :key="i" :item="obj")
 </template>
 <script>
 import axios from 'axios'
@@ -23,6 +26,7 @@ export default {
     return {
       loading: false,
       storeEvaluation: {},
+      storeComments: [],
       myComment: {}
     }
   },
@@ -43,10 +47,18 @@ export default {
         rating.getAllEvaluations(storeId),
         rating.getMyEvaluations(orderId)
       ]).then(axios.spread((allEvaluations, myEvaluation) => {
+        this.storeComment(allEvaluations)
         this.storeEvaluation = allEvaluations
-        this.myComment = myEvaluation
+        this.myComment = myEvaluation        
         this.loading = false
       }))
+    },
+    storeComment(info) {
+      const allComment = info.list 
+      allComment.forEach(type => {
+        type.comment = type.comment.replace(/\n/g,'<br>')
+      })
+      this.storeComments = allComment
     }
   },
   beforeDestroy() {
