@@ -214,6 +214,7 @@ export default {
   /deep/.el-badge
     cursor: pointer
     font-size: 24px
+    z-index: 10
     .el-badge__content
       display: inline-flex
       align-items: center

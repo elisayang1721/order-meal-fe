@@ -1,19 +1,19 @@
 <template lang="pug">
   #myComment
     .head
-      div {{item.meals}}
-      .RatingBlock
-        RatingBar(:score="item.score" ref="ratingBar")        
+      div {{item.meals}}  
+      .submitBlock
+        .RatingBlock
+          RatingBar(:score="item.score" ref="ratingBar") 
+        el-button.submit-button(type="success"
+          @click="triggerDebounce"
+          :class="{'replace-button':item.score}")  {{`${item.score ? '更新': '送出'}`}}
     .section
       el-input(v-model="item.comment"
         placeholder="請撰寫評論(選擇性)"
         type="textarea"
         maxlength="255"
         show-word-limit)
-    .submitBlock
-      el-button.submit-button(type="success"
-        @click="triggerDebounce"
-        :class="{'replace-button':item.score}")  {{`${item.score ? '更新': '送出'}`}}
 </template>
 <script>
 import RatingBar from '@c/RatingBar/RatingBar'
@@ -79,4 +79,6 @@ export default {
     &:focus
       background-color: #edf7f0
       color: #47975e
+  .RatingBlock
+    margin-right: 15px
 </style>

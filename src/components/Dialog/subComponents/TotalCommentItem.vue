@@ -4,7 +4,7 @@
       div {{item.meals}}
       RatingBar(:score="item.score" :isSelectable="false")
     .section
-      span {{item.comment}}
+      span(v-html="item.comment")
     .footer
       .commentedBy {{`美食評論家： ${item.commentedBy}`}}
       .date
