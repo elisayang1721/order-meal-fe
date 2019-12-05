@@ -264,6 +264,7 @@ export default {
       line-height: 36px
       border-radius: 4px
       background: $c1
+      border-color: #d0c9c9
       &:focus, &:hover
         border-color: #a59796
     .el-input__prefix

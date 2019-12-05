@@ -66,6 +66,8 @@ html,body
     +Bgc(#f7f5f5)
     &::placeholder 
       color: #8b8b8b
+    &:focus
+      border-color: #a59796
   .el-input__prefix
     color: #8b8b8b
 
@@ -210,20 +212,17 @@ html,body
 
 // raido checkout 樣式
 .el-checkbox__inner
-  border-color: #e1d8d4
-  background: #efebea
+  border-color: #d0c9c9
   background: #fff
   &:hover
     border-color: $tableHeadColor
 .el-checkbox__label
   font-size: 15px
-  color: #766f6f
   color: #5f5c5c
 
 .el-radio
   .el-radio__inner
-    border-color: #e1d8d4
-    background: #efebea
+    border-color: #d0c9c9
     background: #fff
 .el-radio__label
   font-size: 15px
@@ -231,8 +230,11 @@ html,body
 
 .el-radio__input.is-checked
   .el-radio__inner
-    background-color: $brownC1
+    background-color: #fff
     border-color: $brownC1
+    &::after
+      +size(6px)
+      background-color: $brownC1
   &+.el-radio__label
     color: $brownC1
 

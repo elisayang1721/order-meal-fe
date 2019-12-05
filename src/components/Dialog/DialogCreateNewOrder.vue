@@ -241,7 +241,7 @@ export default {
     >.cell
       line-height: inherit
   .caret-wrapper
-    height: 28px
+    height: 29px
     width: 14px
 #newOrder
   /deep/.el-button
