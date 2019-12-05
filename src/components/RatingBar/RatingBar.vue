@@ -74,6 +74,7 @@ export default {
       })
     },
     setIndex() {
+      this.resetHighLight()
       this.rateScore = this.score
       if (this.score) {
         let idx
@@ -126,10 +127,8 @@ export default {
     'score': {
       handler() {
         if (this.type === 'Num') {
-          console.log('checkScore')
           this.checkScore()
         } else {
-          console.log('setIndex')
           this.setIndex()
         }
       }
