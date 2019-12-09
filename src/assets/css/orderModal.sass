@@ -233,10 +233,34 @@
       margin-bottom: 15px
     .subjectTitle
       color: $darkGray
+      font-size: 15px
       font-weight: 700
       margin-bottom: 8px
     .confirmBlock
       border-left: none
+  .searchBlock
+    +Flex()
+    justify-content: flex-start
+    margin-bottom: 15px
+  .searchInputWrap
+    +Flex()
+    justify-content: flex-start    
+    .subjectTitle
+      margin-bottom: 0
+    .searchInput
+      width: 200px
+      flex: initial
+      .el-input__inner
+        height: 36px
+        line-height: 36px
+        background-color: #fff !important
+        border-color: #d0c9c9
+      .el-input__icon
+        line-height: 36px
+    &+.searchInputWrap
+      margin-left: 20px
+      .searchInput
+        width: 260px
 
 #rating,#allEvaluation
   +size(100%,100%,null)
