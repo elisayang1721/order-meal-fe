@@ -48,7 +48,7 @@ export default {
   },
   sockets: {
     connect() {
-      console.log('Your socket  has connected!')      
+      console.log('Your socket  has connected!')
     }
   },
   methods: {
@@ -110,7 +110,7 @@ export default {
           path: '/401'
         })
       })
-    }
+    },
   },
   data() {
     return {
