@@ -243,6 +243,11 @@ export default {
         this.triggerDebounce()
       }
     },
+    'condition.searchByName': {
+      handler() {
+        this.triggerDebounce()
+      }
+    }
 
   },
   components: {
