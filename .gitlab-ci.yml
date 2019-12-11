@@ -36,23 +36,23 @@ build-testing:
   only:
     - testing
 
-# build-staging:
-#   stage: build
-#   cache:
-#     # key: ${CI_COMMIT_REF_SLUG}-npm
-#     paths:
-#       - node_modules/
-#   script:
-#       - npm cache clean -f
-#       - npm install
-#       #- npm run build:staging
-#       - npm run build
-#   artifacts:
-#     expire_in: 1 week
-#     paths:
-#       - dist/
-#   only:
-#     - staging
+build-staging:
+  stage: build
+  cache:
+    # key: ${CI_COMMIT_REF_SLUG}-npm
+    paths:
+      - node_modules/
+  script:
+      - npm cache clean -f
+      - npm install
+      #- npm run build:staging
+      - npm run build
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - dist/
+  only:
+    - staging
 
 # build-production:
 #   stage: build
