@@ -45,8 +45,7 @@ build-staging:
   script:
       - npm cache clean -f
       - npm install
-      #- npm run build:staging
-      - npm run build
+      - npm run build:staging
   artifacts:
     expire_in: 1 week
     paths:
@@ -81,15 +80,15 @@ deploy-testing:
   only:
     - testing
 
-# deploy-staging:
-#   stage: deploy
-#   script:
-#     - *init_rsync
-#     - *change_file_permissions
-#     - *change_file_owner
-#     - rsync -av --delete --exclude=.git --password-file=/etc/rsync.secret --port=${RSYNC_HOST_PORT_STAGING} ./dist/ root@${RSYNC_HOST_STAGING}::${RSYNC_MODULE_STAGING}
-#   only:
-#     - staging
+deploy-staging:
+  stage: deploy
+  script:
+    - *init_rsync
+    - *change_file_permissions
+    - *change_file_owner
+    - rsync -av --delete --exclude=.git --password-file=/etc/rsync.secret --port=${RSYNC_HOST_PORT_STAGING} ./dist/ root@${RSYNC_HOST_STAGING}::${RSYNC_MODULE_STAGING}
+  only:
+    - staging
 
 # deploy-production:
 #   stage: deploy
