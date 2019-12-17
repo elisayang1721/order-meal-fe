@@ -15,7 +15,7 @@
   background-color: #FFF4C1
 .bg-green
   background-color: #BBFFBB
-.bg-active
+.bg-active, .ordActive
   background-color: #FFBFFF
 .border-red
   border: 2px solid red
@@ -104,6 +104,7 @@
             width: 7rem
             font-size: 15px
             margin-top: 6px
+            line-height: 18px
         &:hover, &:focus
           color: #5f5c5c
       .editBlock
@@ -148,18 +149,49 @@
 #order
   .row
     .cell
+      position: relative
       padding: .6rem
       &:nth-child(2)
         flex: 1.5
       &:nth-child(3)
         flex: 1
       &:last-child
-        flex: 2      
+        flex: 2
+      &.price
+        padding: .6rem .6rem 0 .6rem
+        .input-radio
+          margin-right: 20px
+          margin-bottom: 5px
+      &.toolTip
+        &:hover
+          .remark
+            opacity: 1
   .typeBorder
     padding: .4rem
     border-left: 1px solid #000
     border-right: 1px solid #000
-
+  .remark
+    position: absolute
+    top: 100%
+    background: #303133
+    color: #fff
+    border-radius: 4px
+    padding: 10px
+    font-size: 12px
+    line-height: 1.2
+    opacity: 0
+    transition: opacity 0.3s
+    z-index: 10
+    &::after
+      content: ''
+      position: absolute
+      top: -6px
+      display: block
+      width: 0
+      height: 0
+      border-style: solid
+      border-width: 0 6px 6px 6px
+      border-color: transparent transparent #303133 transparent
 #orderManagement
   .managementContent
     width: 100%
