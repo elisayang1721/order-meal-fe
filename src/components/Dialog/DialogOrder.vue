@@ -29,7 +29,7 @@
             :class="{focus: orderSet[obj.menuType][i].isFocus}"
             @change="checkAmount(obj.menuType, i,item.meals.length)")
           template(v-if="!orderSet[obj.menuType][i].menuItemId")
-            .remark 請先選擇項目
+            .remark 請先點選左側項目
         .cell(@mouseover="checkOrder(obj.menuType,i)" @mouseout="resetOrderSet()")
           el-input(v-model="orderSet[obj.menuType][i].remark"
           maxlength="25"
