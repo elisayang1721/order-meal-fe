@@ -38,20 +38,18 @@
           span {{item.price.format()}}
         .cell.flexFix.subscriberInfo
           .subscriberCell(v-for="(obj, i) in item.orderRecords" :key="obj.id"
-
-            :class="[recordClass(obj), {'bg-active':obj.isFocus}]"
-
+            :class="recordClass(obj)"
             @click="orderSubmit(obj, $event)")
             template(v-if="obj.remark")
               el-tooltip( effect="dark" placement="top-start")
                 div(slot="content") {{obj.remark}}
                 el-button
-                  span {{`${obj.memberName} x${obj.amount} ${obj.isFocus}`}}
+                  span {{`${obj.memberName} x${obj.amount}`}}
                   span.font-blue {{obj.remark}}
                   EditBlock(@edit='edit(obj.id)' @confirmDelete="confirmDelete(obj.id)")
             template(v-else)
               el-button
-                span {{`${obj.memberName} x${obj.amount}  ${obj.isFocus}`}}
+                span {{`${obj.memberName} x${obj.amount}`}}
                 span.font-blue {{obj.remark}}
                 EditBlock(@edit='edit(obj.id)' @confirmDelete="confirmDelete(obj.id)")
     template(v-else)
@@ -77,30 +75,19 @@ export default {
       this.loading = true
       history.getRecordsInfo(this.$store.state.prop.id).then(res => {
         this.ordersDetail = res.list
-        
-        this.ordersDetail.forEach(obj => {
-          obj.orderRecords.forEach(list => {
-            list.isFocus = true
-          })       
-        })
-
         this.loading = false
       })
     },
     orderSubmit(obj, e) {
-      obj.isFocus = !obj.isFocus
-      console.log(obj)
-
-
+      const hasCell = e.target.className.includes('subscriberCell')
+      // class不是subscriberCell，不做開關
+      if (!hasCell) return
       if (this.userData.isAdmin || this.userData.memberName === this.owner) {
-        // obj.isFocus = true
-
-        // e.target.classList.toggle('bg-active')
-        // const hasActive = e.target.className.includes('bg-active')
-
-        // order.updateOrderStatus(obj.id, { status: hasActive }).then(() => {
-        //   this.$bus.$emit('updateOrderAmount', { status: hasActive, cal: obj.amount })
-        // })
+        e.target.classList.toggle('bg-active')
+        const hasActive = e.target.className.includes('bg-active')
+        order.updateOrderStatus(obj.id, { status: hasActive }).then(() => {
+          this.$bus.$emit('updateOrderAmount', { status: hasActive, cal: obj.amount })
+        })
       }
     },
     checkPermission(name) {
@@ -108,7 +95,6 @@ export default {
       return this.userData.isAdmin || role === this.owner || role === name
     },
     recordClass(obj) {
-      // console.log(obj)
       const classNames = []
       const classList = {
         isAdditional: 'bg-green',
