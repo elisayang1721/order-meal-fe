@@ -4,7 +4,7 @@
       .cell
         span 名稱
       .cell
-        span 價格
+        span 項目價格
       .cell
         span 數量
       .cell
@@ -23,11 +23,13 @@
             el-radio-group(v-model="orderSet[obj.menuType][i].menuItemId")
               el-radio.input-radio(v-for="meal in item.meals" :label="meal.id" :key="meal.id"
                 @change="setAmount(obj.menuType,i)") {{`${meal.name} ${meal.price.format()}`}}
-        .cell
+        .cell.toolTip
           el-input-number(v-model="orderSet[obj.menuType][i].amount"
             :min="0" :max="99" :disabled="!orderSet[obj.menuType][i].menuItemId"
             :class="{focus: orderSet[obj.menuType][i].isFocus}"
             @change="checkAmount(obj.menuType, i,item.meals.length)")
+          template(v-if="!orderSet[obj.menuType][i].menuItemId")
+            .remark 請先選擇項目
         .cell(@mouseover="checkOrder(obj.menuType,i)" @mouseout="resetOrderSet()")
           el-input(v-model="orderSet[obj.menuType][i].remark"
           maxlength="25"
@@ -257,10 +259,4 @@ export default {
 #order
   .confirmBlock
     border-left: none
-  .row
-    .cell.price
-      padding: .6rem .6rem 0 .6rem
-      .input-radio
-        margin-right: 20px
-        margin-bottom: 5px
 </style>
