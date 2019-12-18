@@ -4,7 +4,7 @@
       .cell
         span 名稱
       .cell
-        span 價格
+        span 項目價格
       .cell
         span 數量
       .cell
