@@ -4,7 +4,7 @@
       .cell
         span 名稱
       .cell
-        span 價格
+        span 項目價格
       .cell
         span 數量
       .cell
@@ -16,25 +16,24 @@
       .row(v-for="(item, i) in obj.items" :key="item.cate")
         .cell
           span {{item.cate}}
-        .cell
+        .cell.price
           template(v-if="item.meals.length === 1")
             span {{`${item.meals[0].price.format()}`}}
           template(v-else)
             el-radio-group(v-model="orderSet[obj.menuType][i].menuItemId")
-              el-radio(v-for="meal in item.meals" :label="meal.id" :key="meal.id"
+              el-radio.input-radio(v-for="meal in item.meals" :label="meal.id" :key="meal.id"
                 @change="setAmount(obj.menuType,i)") {{`${meal.name} ${meal.price.format()}`}}
-        .cell
+        .cell.toolTip
           el-input-number(v-model="orderSet[obj.menuType][i].amount"
             :min="0" :max="99" :disabled="!orderSet[obj.menuType][i].menuItemId"
             :class="{focus: orderSet[obj.menuType][i].isFocus}"
             @change="checkAmount(obj.menuType, i,item.meals.length)")
+          template(v-if="!orderSet[obj.menuType][i].menuItemId")
+            .remark 請先選擇項目
         .cell(@mouseover="checkOrder(obj.menuType,i)" @mouseout="resetOrderSet()")
           el-input(v-model="orderSet[obj.menuType][i].remark"
           maxlength="25"
           :disabled="checkIfOrdered(obj.menuType,i)")
-    .confirmBlock
-      el-button(type="danger" @click="closeDialog") 取消
-      el-button(type="success" @click="confirm") 確認
 </template>
 <script>
 import store from '@api/store'
@@ -67,6 +66,9 @@ export default {
         this.closeDialog()
       })
     }
+    this.$bus.$on('sendOrderForm', () => {
+      this.confirm()
+    })
   },
   computed: {
     getLoad() {
@@ -194,6 +196,9 @@ export default {
       isOrder: Number,
       isMenuType: ''
     }
+  },
+  beforeDestroy() {
+    this.$bus.$off('sendOrderForm')
   }
 }
 </script>
@@ -215,13 +220,12 @@ export default {
     top: 0
     height: 28px
     line-height: 25px
-    background: #efebea
-    color: $brownC1
     background: #bfb6b3
+    background: #a69a9a
     color: #fff
     &:hover
       color: $c1
-      background: #9a908c
+      background: #837272
   &.is-disabled
     .el-input-number__decrease, .el-input-number__increase
       color: #d0c9c9
@@ -247,17 +251,6 @@ export default {
     line-height: 28px
     background: #f7f7f7
     border-color: $tableLineColor
-/deep/.el-radio
-  margin-right: 20px
-  margin-bottom: .6rem
-  .el-radio__inner
-    background: #f7f5f5
-    border-color: #c5c1c0
-/deep/.el-radio__input
-  &.is-checked
-    .el-radio__inner
-      background-color: $brownC1
-      border-color: $brownC1
 /deep/.el-radio-group
   display: inline-flex
   flex-wrap: wrap
@@ -266,8 +259,4 @@ export default {
 #order
   .confirmBlock
     border-left: none
-  .row
-    .cell
-      &:nth-child(2)
-        padding: .6rem .6rem 0 .6rem
 </style>

@@ -5,11 +5,12 @@
         ul
           li {{dateFormatter}}
           li {{myOrderData.storeName}}
+        .totalPrice {{`總計：${totalPrice.price.format()}`}}
       .content
         ul.ordersItem
           li(v-for="(meal, i) in myOrderData.meals"
             :key="i")
-            span.meal {{ meal.item }}
+            span.meal {{`${meal.itemName} ${meal.price.format()} x ${meal.amount}`}}         
             span.remark {{ `${meal.remark ? `- ${meal.remark}` : ''}` }}
             span.comment(:class="{'evaluate':meal.isEvaluated}") {{`${meal.isEvaluated ? '【已評分】' : '【未評分】'}`}}
         el-tooltip(effect="dark" content="評比" placement="top-start")
@@ -24,7 +25,6 @@ export default {
   props: ['myOrderData'],
   computed: {
     dateFormatter() {
-      // const date = this.myOrderData.createdOn
       const date = this.myOrderData.createdOn.replace(/\s/, 'T')
       const weekNum = ['日', '一', '二', '三', '四', '五', '六']
       const d = new Date(date)
@@ -32,6 +32,15 @@ export default {
       const dd = d.getDate()
       const day = d.getDay()
       return `${mm.toString().padStart(2, '0')}/${dd.toString().padStart(2, '0')} (${weekNum[day]})`
+    },
+    totalPrice() {
+      let total = 0
+      let price = 0
+      this.myOrderData.meals.forEach(el => {
+        total += el.amount
+        price += el.price * el.amount
+      })
+      return { price }
     }
   },
   methods: {
@@ -47,7 +56,7 @@ export default {
       }
       injectState(prop)
       this.showDialog(load)
-    }
+    }    
   }
 }
 </script>
@@ -58,9 +67,9 @@ export default {
     .list
       .navHead
         background-color: $tableHeadColor
-  /deep/.el-icon-s-comment
+  .el-icon-s-comment
     cursor: pointer
-    font-size: 28px
-    margin-right: 30px
+    font-size: 24px
+    margin-right: 25px
     color: #626262
 </style>

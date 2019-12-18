@@ -12,7 +12,7 @@
           .amountTitle 金額
           template(v-if="minDeliveryPrice()")
             el-tooltip(effect="dark" placement="bottom")
-              div(slot="content") {{`還差：${balance} 成單`}}
+              div(slot="content") {{`還差 ${balance} 成單`}}
               el-button.basicRate-bar
                 .progressRate-bar(:style="{'width': deliveryPrice()}")
                 span {{addComma}}
@@ -31,7 +31,7 @@
               i(class="el-icon-s-comment")
           RatingBar(:score="list.avgScore" :isSelectable="false" :type="'Float'")
     .list.right
-      .navHead
+      .navHead(:class="{'manage':checkPermission}")
         span(:title="neededTitle") {{list.createdByName}}
         el-button.orderManagementBtn(
           v-if="checkPermission"
@@ -157,7 +157,7 @@ export default {
     deliveryPrice() {
       const minPrice = this.list.minDeliveryPrice
       const ratePrice =  this.list.totalPrice
-      const rate = Math.round(( ratePrice / minPrice ) *100) + '%'
+      const rate = Math.round((ratePrice / minPrice) * 100) + '%'
       this.balancePrice = minPrice - ratePrice
 
       return rate
@@ -214,6 +214,7 @@ export default {
   /deep/.el-badge
     cursor: pointer
     font-size: 24px
+    z-index: 10
     .el-badge__content
       display: inline-flex
       align-items: center

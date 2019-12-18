@@ -1,12 +1,13 @@
 <template lang="pug">
   #myComment
     .head
-      div {{item.meals}}
+      div {{item.meals}}  
       .submitBlock
-        RatingBar(:score="item.score" ref="ratingBar")
-        el-button(type="success"
+        .RatingBlock
+          RatingBar(:score="item.score" ref="ratingBar") 
+        el-button.submit-button(type="success"
           @click="triggerDebounce"
-          :class="{'replace':item.score}")  {{`${item.score ? '更新': '送出'}`}}
+          :class="{'replace-button':item.score}")  {{`${item.score ? '更新': '送出'}`}}
     .section
       el-input(v-model="item.comment"
         placeholder="請撰寫評論(選擇性)"
@@ -64,13 +65,20 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
-  /deep/.replace
+  .submit-button
+    width: 60px
+    padding: 8px
+  .replace-button
     background-color: #edf7f0
     color: #47975e
-    &:hover,
-    &:active,
-    &:focus
+    border-color: #6ab07e
+    &:hover
       +Bgc(#6ab07e)
       color: #fff
-      border-color: #6ab07e
+    &:active,
+    &:focus
+      background-color: #edf7f0
+      color: #47975e
+  .RatingBlock
+    margin-right: 15px
 </style>

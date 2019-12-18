@@ -63,14 +63,16 @@ html,body
   flex: 1
   .el-input__inner, .el-textarea__inner,.el-time-panel__footer,.el-picker-panel__footer
     border-color: $tableLineColor
+    color: #4a4a4a
     +Bgc(#f7f5f5)
     &::placeholder 
       color: #8b8b8b
+    &:focus
+      border-color: #a59796 !important
   .el-input__prefix
     color: #8b8b8b
 
 .el-input__inner
-  color: #5f5c5c
   padding: 0 10px
 .el-textarea__inner
   padding: 5px 10px
@@ -210,20 +212,17 @@ html,body
 
 // raido checkout 樣式
 .el-checkbox__inner
-  border-color: #e1d8d4
-  background: #efebea
+  border-color: #d0c9c9
   background: #fff
   &:hover
     border-color: $tableHeadColor
 .el-checkbox__label
   font-size: 15px
-  color: #766f6f
   color: #5f5c5c
 
 .el-radio
   .el-radio__inner
-    border-color: #e1d8d4
-    background: #efebea
+    border-color: #d0c9c9
     background: #fff
 .el-radio__label
   font-size: 15px
@@ -231,8 +230,11 @@ html,body
 
 .el-radio__input.is-checked
   .el-radio__inner
-    background-color: $brownC1
+    background-color: #fff
     border-color: $brownC1
+    &::after
+      +size(6px)
+      background-color: $brownC1
   &+.el-radio__label
     color: $brownC1
 
@@ -387,10 +389,8 @@ main
         li
           >span
             vertical-align: middle
-        .meal
-          color: #4a4a4a
+            color: #4a4a4a
         .remark
-          padding-left: 5px
           color: #878686
         .comment
           margin: 0 7px
@@ -451,16 +451,28 @@ main
   .right
     .navHead
       font-size: 18px
-      justify-content: center
-      padding: 0 10px
+      padding: 0 25px
+      justify-content: flex-end
+      &.manage
+        justify-content: space-between
+        >span
+          &:first-child
+            +ellipsis()
+            width: 90px
+            text-align: center
+          &::after
+            display: none
       >span
         &:first-child
-          +ellipsis()
-          width: 90px
-          text-align: center
+          position: relative
+          &::after
+            content: '發起人：'
+            +PosAbs
+            left: -65px
     .content
       position: relative
-      justify-content: space-around
+      justify-content: space-between
+      padding: 10px 25px
       &::before
         content: ''
         height: 100%

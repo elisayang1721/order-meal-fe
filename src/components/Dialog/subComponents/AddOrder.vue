@@ -82,6 +82,9 @@ export default {
     }, 500),
     getDebounce() {
       const vm = this
+      const nowTime = new Date().getTime()
+      const setTime = new Date(this.condition.dateTime.replace(/\s/, 'T'))
+
       if (this.checkDateTime || this.checkLimitedPrice) {
         this.createOrder(vm)
       } else {

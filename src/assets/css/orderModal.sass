@@ -15,7 +15,7 @@
   background-color: #FFF4C1
 .bg-green
   background-color: #BBFFBB
-.bg-active
+.bg-active, .ordActive
   background-color: #FFBFFF
 .border-red
   border: 2px solid red
@@ -83,7 +83,8 @@
       height: 60px
       +Flex(center,center)
       flex-direction: column
-      padding: .6rem
+      padding: 0 .6rem
+      cursor: pointer
       >.el-button
         +Flex(center,center)
         width: 100%
@@ -104,6 +105,7 @@
             width: 7rem
             font-size: 15px
             margin-top: 6px
+            line-height: 18px
         &:hover, &:focus
           color: #5f5c5c
       .editBlock
@@ -148,18 +150,49 @@
 #order
   .row
     .cell
+      position: relative
       padding: .6rem
       &:nth-child(2)
         flex: 1.5
       &:nth-child(3)
         flex: 1
       &:last-child
-        flex: 2      
+        flex: 2
+      &.price
+        padding: .6rem .6rem 0 .6rem
+        .input-radio
+          margin-right: 20px
+          margin-bottom: 5px
+      &.toolTip
+        &:hover
+          .remark
+            opacity: 1
   .typeBorder
     padding: .4rem
     border-left: 1px solid #000
     border-right: 1px solid #000
-
+  .remark
+    position: absolute
+    top: 100%
+    background: #303133
+    color: #fff
+    border-radius: 4px
+    padding: 10px
+    font-size: 12px
+    line-height: 1.2
+    opacity: 0
+    transition: opacity 0.3s
+    z-index: 10
+    &::after
+      content: ''
+      position: absolute
+      top: -6px
+      display: block
+      width: 0
+      height: 0
+      border-style: solid
+      border-width: 0 6px 6px 6px
+      border-color: transparent transparent #303133 transparent
 #orderManagement
   .managementContent
     width: 100%
@@ -208,24 +241,24 @@
 #newOrder
   display: flex
   +size(100%,100%,null)
-  position: relative
-  &::after
-    content: ''
-    +size(1px,100%,null)
-    background-color: #ddd
-    position: absolute
-    top: 0
-    left: 50%
-    transform: translateX(-50%)
+  position: relative  
   .innerBlock
     +size(100%,800px,null)
     position: relative
     display: flex
     flex-direction: column
-    flex: 1
     &:first-child
+      flex: 1.2
       padding-right: 15px
+      &::after
+        content: ''
+        +size(1px,100%,null)
+        background-color: #ddd
+        position: absolute
+        top: 0
+        right: 0
     &:last-child
+      flex: 1
       padding-left: 15px
     @media(max-width: 1200px),(max-height: 800px)
       height: 100%
@@ -233,10 +266,34 @@
       margin-bottom: 15px
     .subjectTitle
       color: $darkGray
+      font-size: 15px
       font-weight: 700
       margin-bottom: 8px
     .confirmBlock
       border-left: none
+  .searchBlock
+    +Flex()
+    justify-content: flex-start
+    margin-bottom: 15px
+  .searchInputWrap
+    +Flex()
+    justify-content: flex-start    
+    .subjectTitle
+      margin-bottom: 0
+    .searchInput
+      width: 200px
+      flex: initial
+      .el-input__inner
+        height: 36px
+        line-height: 36px
+        background-color: #fff !important
+        border-color: #d0c9c9
+      .el-input__icon
+        line-height: 36px
+    &+.searchInputWrap
+      margin-left: 20px
+      .searchInput
+        width: 260px
 
 #rating,#allEvaluation
   +size(100%,100%,null)
@@ -291,6 +348,8 @@
       align-self: flex-end
       font-size: 14px
       margin-left: 15px
+  &:hover
+    background: #f5f7fa
 #totalComment
   border-bottom: 1px dashed #c6c6c6
   .section
@@ -298,18 +357,16 @@
       line-height: 24px
       word-break: break-all
 #myComment
-  .head
-    .submitBlock
-      +Flex()
-      .el-button
-        margin-left: 8px
   .section
     +Flex()
     padding: unset
-    padding-top: 1rem
+    padding: 0.8rem 0 0.6rem
     .el-textarea
       width: 100%
       flex: unset
       >textarea
         height: 75px
         resize: none
+  .submitBlock
+    +Flex()
+    justify-content: flex-end

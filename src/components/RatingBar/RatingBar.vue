@@ -74,6 +74,7 @@ export default {
       })
     },
     setIndex() {
+      this.resetHighLight()
       this.rateScore = this.score
       if (this.score) {
         let idx

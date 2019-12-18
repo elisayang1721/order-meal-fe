@@ -2,17 +2,31 @@
   #newOrder
     ScrollBar.innerBlock(:overscroll="true" @reachEnd="reachEnd")
       .filterCondition
-        .searchType
-          el-checkbox(v-model="condition.searchAll" @change="searchAll") 全部
+        .searchBlock
+          .searchInputWrap
+            .subjectTitle 店名：
+            el-input.searchInput(
+              v-model="condition.searchByName"
+              placeholder="請輸入店名"
+              prefix-icon="el-icon-search"
+              maxlength="20")
+          .searchInputWrap
+            .subjectTitle 餐點名稱：
+            el-input.searchInput(
+              v-model="condition.searchByMeals"
+              placeholder="請輸入餐點名稱,如：可樂,雞腿便當"
+              prefix-icon="el-icon-search"
+              maxlength="20")
         .searchType
           .subjectTitle 按訂購時間：
-          el-radio-group(v-model="condition.searchByTime" :disabled="condition.searchAll")
+          el-radio-group(v-model="condition.searchByTime")
             el-radio(:label="0" @click.native="triggerDebounce") 不限
             el-radio(:label="2" @click.native="triggerDebounce") 兩週內未訂過
             el-radio(:label="4" @click.native="triggerDebounce") 一個月內未訂過
             el-radio(:label="8" @click.native="triggerDebounce") 兩個月內未訂過
         .searchType
           .subjectTitle 按服務類型：
+          el-checkbox(v-model="condition.searchAll" @change="searchAll") 全部
           el-checkbox-group(v-model="condition.searchByTypes" :disabled="condition.searchAll")
             el-checkbox(v-for="type in storeTypes" :key="type.id"
               :label="type.id" @click.native="triggerDebounce") {{type.name}}
@@ -71,6 +85,8 @@ export default {
       totalSize: null,
       storeTypes: [],
       condition: {
+        searchByName: '',
+        searchByMeals: '',
         searchAll: false,
         searchByTime: '',
         searchByTypes: [],
@@ -98,29 +114,20 @@ export default {
   computed: {
     getPayLoad() {
       let load
-      if (!this.condition.sort) {
-        if (this.condition.searchAll) {
-          load = {
-            page: this.condition.page,
-            pageSize: 13
-          }
-        } else {
-          load = {
-            inWeek: this.condition.searchByTime ? this.condition.searchByTime : '',
-            types: this.condition.searchByTypes.join(','),
-            page: this.condition.page,
-            pageSize: 13
-          }
-        }
-      } else if (this.condition.searchAll) {
+      if (this.condition.searchAll) {
         load = {
+          name: this.condition.searchByName,
+          meals: this.reformString(this.condition.searchByMeals),
           sortName: this.condition.sortName,
           sort: this.condition.sort,
+          inWeek: this.condition.searchByTime ? this.condition.searchByTime : '',
           page: this.condition.page,
           pageSize: 13
         }
       } else {
-        load = {
+        load = {          
+          name: this.condition.searchByName,
+          meals: this.reformString(this.condition.searchByMeals),
           sortName: this.condition.sortName,
           sort: this.condition.sort,
           inWeek: this.condition.searchByTime ? this.condition.searchByTime : '',
@@ -170,19 +177,16 @@ export default {
       this.condition.page = 0
       this.reachEnd()
     },
+    search() {
+      const vm = this
+      this.getStoreInfo(vm)
+    },
     searchAll() {
       if (this.condition.searchAll) {
-        this.condition.searchByTime = 0
         this.pushAllTypes()
       } else {
-        this.condition = {
-          searchAll: false,
-          searchByTime: '',
-          searchByTypes: [],
-          sort: null,
-          sortName: null,
-          page: 1
-        }
+        this.condition.searchByTypes = []
+        this.condition.page = 1
       }
       this.triggerDebounce()
     },
@@ -196,21 +200,35 @@ export default {
       this.triggerDebounce()
     },
     reachEnd() {
-      if (this.isFinishLoaded) {
+      if (this.isFinishLoaded) {        
         this.condition.page++
         const vm = this
         this.getStoreInfo(vm)
       }
+    },
+    reformString(str) {
+      return str.trim().replace(' ', ',').replace(/,+/g, ',')
     }
   },
   watch: {
     'storeList': {
-      handler() {
+      handler() {        
         if (!this.isFinishLoaded) {
           this.reachEnd()
         }
       }
+    },
+    'condition.searchByMeals': {
+      handler() {
+        this.triggerDebounce()
+      }
+    },
+    'condition.searchByName': {
+      handler() {
+        this.triggerDebounce()
+      }
     }
+
   },
   components: {
     ScrollBar,
@@ -241,7 +259,7 @@ export default {
     >.cell
       line-height: inherit
   .caret-wrapper
-    height: 28px
+    height: 29px
     width: 14px
 #newOrder
   /deep/.el-button

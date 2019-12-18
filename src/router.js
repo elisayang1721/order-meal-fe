@@ -62,9 +62,16 @@ export default new Router({
       path: '/browser',
       name: 'BrowserNotSupported',
       component: BrowserNotSupported,
-      beforeEnter: (to, from, next) => {
-        console.log('toPage IE')
-        next()
+      beforeEnter(to, from, next) {       
+        const userAgent = navigator.userAgent.toLowerCase()
+        const isEdge = navigator.userAgent.indexOf('Edge') > -1
+        if (userAgent.indexOf('trident') > 0 || isEdge) {
+          next()
+        } else {
+          const route = deepClone(from)
+          route.name = 'OrderMain'
+          next(route)
+        }
       }
     }
   ]

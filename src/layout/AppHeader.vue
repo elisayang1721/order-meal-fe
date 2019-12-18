@@ -43,6 +43,11 @@ export default {
       this.$bus.$emit('refreshRecordsList')
       this.$bus.$emit('refreshOrderForm')
       this.$bus.$emit('refreshSystem')
+    },
+    connect() {
+      this.$socket.client.on('kickout', (data) => {
+        this.logout()
+      })
     }
   },
   methods: {
