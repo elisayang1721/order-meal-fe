@@ -36,9 +36,9 @@
           span {{item.totalAmount}}
         .cell
           span {{item.price.format()}}
-        .cell.flexFix.subscriberInfo
+        .cell.flexFix.subscriberInfo(:key="orderTableKey")
           .subscriberCell(v-for="(obj, i) in item.orderRecords" :key="obj.id"
-            :class="recordClass(obj)"
+            :class="[recordClass(obj), {'bg-active': obj.isFocus}]"
             @click="orderSubmit(obj, $event)")
             template(v-if="obj.remark")
               el-tooltip( effect="dark" placement="top-start")
@@ -75,19 +75,22 @@ export default {
       this.loading = true
       history.getRecordsInfo(this.$store.state.prop.id).then(res => {
         this.ordersDetail = res.list
+        this.ordersDetail.forEach(obj => {
+          obj.orderRecords.forEach(list => {
+            list.isFocus = false
+          })       
+        })
         this.loading = false
       })
     },
-    orderSubmit(obj, e) {
-      const hasCell = e.target.className.includes('subscriberCell')
-      // class不是subscriberCell，不做開關
-      if (!hasCell) return
+    orderSubmit(obj) {      
       if (this.userData.isAdmin || this.userData.memberName === this.owner) {
-        e.target.classList.toggle('bg-active')
-        const hasActive = e.target.className.includes('bg-active')
+        obj.isFocus = !obj.isFocus
+        const hasActive = obj.isFocus === true
         order.updateOrderStatus(obj.id, { status: hasActive }).then(() => {
           this.$bus.$emit('updateOrderAmount', { status: hasActive, cal: obj.amount })
         })
+        this.orderTableKey = Math.random(); 
       }
     },
     checkPermission(name) {
@@ -156,7 +159,8 @@ export default {
       ordersDetail: [],
       userData: {},
       owner: '',
-      loading: false
+      loading: false,
+      orderTableKey: 0
     }
   },
   components: {
