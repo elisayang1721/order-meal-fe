@@ -160,7 +160,6 @@ export default {
     }
   },
   components: {
-
     EditBlock
   }
 }
