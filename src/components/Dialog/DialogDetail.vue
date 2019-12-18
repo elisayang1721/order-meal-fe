@@ -38,7 +38,7 @@
           span {{item.price.format()}}
         .cell.flexFix.subscriberInfo(:key="orderTableKey")
           .subscriberCell(v-for="(obj, i) in item.orderRecords" :key="obj.id"
-            :class="[recordClass(obj), {'bg-active': obj.isFocus}]"
+            :class="recordClass(obj)"
             @click="orderSubmit(obj, $event)")
             template(v-if="obj.remark")
               el-tooltip( effect="dark" placement="top-start")
@@ -86,7 +86,7 @@ export default {
     orderSubmit(obj) {      
       if (this.userData.isAdmin || this.userData.memberName === this.owner) {
         obj.isFocus = !obj.isFocus
-        const hasActive = obj.isFocus === true
+        const hasActive = obj.status = !obj.status
         order.updateOrderStatus(obj.id, { status: hasActive }).then(() => {
           this.$bus.$emit('updateOrderAmount', { status: hasActive, cal: obj.amount })
         })
