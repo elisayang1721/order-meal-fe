@@ -167,6 +167,7 @@
         &:hover
           .remark
             opacity: 1
+            z-index: 10
   .typeBorder
     padding: .4rem
     border-left: 1px solid #000
@@ -182,7 +183,7 @@
     line-height: 1.2
     opacity: 0
     transition: opacity 0.3s
-    z-index: 10
+    z-index: -1
     &::after
       content: ''
       position: absolute
@@ -349,13 +350,18 @@
       font-size: 14px
       margin-left: 15px
   &:hover
-    background: #f5f7fa
+    // background: #f5f7fa
 #totalComment
   border-bottom: 1px dashed #c6c6c6
   .section
     >span
-      line-height: 24px
+      display: block
+      width: 100%
+      line-height: 1.5
       word-break: break-all
+    img
+      display: inline-block
+      width: 50%
 #myComment
   .section
     +Flex()
