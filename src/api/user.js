@@ -2,7 +2,6 @@ import Axios from './service'
 
 export default {
   login(data) {
-    console.log(data)
     // Token 驗證
     return Axios({
       url: '/authToken',

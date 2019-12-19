@@ -91,7 +91,6 @@ export default {
       })
     },
     channel() {
-      console.log(this.$route.query.channel)
       if (this.$route.query.channel) {
         const channel = this.$route.query.channel
         this.emsChannel = channel
