@@ -33,7 +33,7 @@ export default {
         this.emsToken = token
         const data = {
           emsToken: this.emsToken,
-          channel: this.emschannel
+          channel: this.emsChannel
         }
         this.login(data)
       } else if (localStorage.apiToken) {
