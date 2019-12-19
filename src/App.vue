@@ -28,9 +28,14 @@ export default {
     
     if (process.env.NODE_ENV === 'production') {
       if (this.$route.query.token) {
+        this.channel()
         const token = this.$route.query.token
         this.emsToken = token
-        this.login()
+        const data = {
+          emsToken: this.emsToken,
+          channel: this.emsChannel
+        }
+        this.login(data)
       } else if (localStorage.apiToken) {
         this.hasToken = true
       } else {
@@ -43,6 +48,7 @@ export default {
     this.$bus.$on('clearToken', () => {
       this.hasToken = ''
       this.emsToken = ''
+      this.emsChannel = ''
     })
 
   },
@@ -72,15 +78,28 @@ export default {
             Authorization: 'Bearer ' + loginToken
           }
         }).then(resp => {
+          this.channel()
           this.emsToken = resp.data.data
-          this.login()
+          const data = {
+            emsToken: this.emsToken,
+            channel: this.emsChannel
+          }
+          this.login(data)
         })
       }).catch(() => {
         this.loading = false
       })
     },
-    login() {
-      user.login(this.emsToken).then(res => {
+    channel() {
+      if (this.$route.query.channel) {
+        const channel = this.$route.query.channel
+        this.emsChannel = channel
+      } else {
+        this.emsChannel = null
+      }
+    },
+    login(data) {
+      user.login(data).then(res => {
         localStorage.setItem('apiToken', res.token)
         localStorage.setItem('userData', JSON.stringify(res))
         this.hasToken = localStorage.apiToken
@@ -115,6 +134,7 @@ export default {
   data() {
     return {
       emsToken: '',
+      emsChannel: '',
       loading: false,
       hasToken: '',
       browser: true
