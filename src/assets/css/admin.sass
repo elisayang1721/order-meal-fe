@@ -97,11 +97,29 @@
         .row
           width: 100%
           display: flex
-
-      
+.el-select-dropdown
+  &__list
+    padding: 0
+  &__item
+    &.selected
+      background-color: #4e3636 
+      color: #fff
+    &:hover:not(.selected)
+      background-color: #e6dedb
 .el-pagination
+  &__sizes
+    .el-select 
+      .el-input.is-focus .el-input__inner,.el-input__inner:hover
+        border-color: #e6dedb
+      .el-input__inner
+        height: 32px
+        &:hover
+          background-color: #e6dedb
   .btn-next,
   .btn-prev
+    height: 30px
+    width: 32px
+    padding: 0
     border: 1px solid $tableLineColor
   .btn-next
     margin-left: 10px
@@ -119,7 +137,7 @@
   .el-pager
     border: 1px solid $tableLineColor
     li
-      min-width: 32px
+      width: 32px
       height: 30px
       line-height: 30px
       font-weight: 500
