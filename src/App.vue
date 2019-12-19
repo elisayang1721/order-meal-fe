@@ -27,7 +27,6 @@ export default {
     }
     
     if (process.env.NODE_ENV === 'production') {
-      console.log('production')
       if (this.$route.query.token) {
         this.channel()
         const token = this.$route.query.token
@@ -92,6 +91,7 @@ export default {
       })
     },
     channel() {
+      console.log(this.$route.query.channel)
       if (this.$route.query.channel) {
         const channel = this.$route.query.channel
         this.emsChannel = channel
