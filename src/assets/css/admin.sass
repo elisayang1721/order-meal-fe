@@ -107,15 +107,15 @@
     &:hover:not(.selected)
       background-color: #e6dedb
 .el-pagination
-  &__sizes
-    .el-select 
-      .el-input.is-focus .el-input__inner,.el-input__inner:hover
-        border-color: #e6dedb
-      .el-input__inner
-        height: 32px
-        background-color: #fff
-        &:hover
-          background-color: #e6dedb
+  &__sizes .el-input
+    height: 30px !important
+    &.is-focus .el-input__inner,&__inner:hover
+      border-color: #e6dedb !important
+    &__inner
+      height: 30px
+      background-color: #fff
+      &:hover
+        background-color: #e6dedb
   .btn-next,
   .btn-prev
     height: 30px
