@@ -7,6 +7,7 @@ import OrderMain from './views/OrderMain'
 import AdminWrapper from './views/AdminWrapper'
 import Page401 from './views/errorPage/Page401'
 import BrowserNotSupported from './views/errorPage/Browser'
+import StoreTransfer from './views/StoreTransfer'
 
 Vue.use(Router)
 
@@ -41,6 +42,11 @@ export default new Router({
               next(route)
             }
           }
+        },
+        {
+          path: '/transfer',
+          name: 'StoreTransfer',
+          component: StoreTransfer
         }
       ]
     },
