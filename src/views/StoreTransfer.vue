@@ -26,7 +26,7 @@ export default {
           menuData[i].menuJson = deepClone(this.getMenuJson(menuData[i].menuText))
           if(menuData[i].address === '') {
             menuData[i].address = '未填寫'
-          }
+          }         
         })
 
         this.storeInfo = menuData

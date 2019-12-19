@@ -6,9 +6,7 @@ export default {
     return Axios({
       url: '/authToken',
       method: 'post',
-      data: {
-        emsToken: data
-      }
+      data
     })
   },
   deptRefs() {
