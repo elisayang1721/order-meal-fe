@@ -1,13 +1,6 @@
 <template lang="pug">
   #OrderMerge
-    .infoBlock
-      .checkBlock
-        el-checkbox-group(v-model="checked")
-          el-checkbox(v-for="list in orderList.list" :key="list.id"
-            :label="list.id")
-            span {{`發起人： ${list.ownerName} `}}
-            span {{list.storeName}}
-            span {{list.createdOn}}
+    .infoBlock      
       .infoDetail
         ul
           li 全部：
@@ -15,6 +8,13 @@
           li {{`共 ${getSummery.price.format()} 元`}}
         el-button.export-button(type="info" @click="getDebounce"
           :disabled="checkDisable") 匯出合併訂單
+      .checkBlock
+        el-checkbox-group(v-model="checked")
+          el-checkbox(v-for="list in orderList.list" :key="list.id"
+            :label="list.id")
+            span {{`發起人： ${list.ownerName} `}}
+            span {{list.storeName}}
+            span {{list.createdOn}}
     .listBlock(v-loading="loading")
       .listTable.tableFrame(v-if="checked.length")
         .row
@@ -23,12 +23,6 @@
           .cell
             span 訂購資訊
           .cell
-            span 總價
-          .cell(class="toggleHead")
-            span 訂購人
-          .cell(class="toggleHead")
-            span 訂購資訊
-          .cell(class="toggleHead")
             span 總價
         .listBody(v-if="listTotal.length")
           .row(v-for="(obj,i) in listTotal" :key="i")
@@ -146,13 +140,13 @@ export default {
   flex-wrap: wrap
   margin-left: 0
   .el-checkbox
-    min-width: 200px
+    min-width: 223px
     +Flex()
     justify-content: flex-start
-    margin: .2rem
-    margin-right: .5rem
+    margin-top: .2rem
+    margin-right: .85rem
     margin-bottom: .5rem
-    padding: .25rem .45rem .25rem .55rem
+    padding: .35rem .45rem .35rem .55rem
     border-radius: 4px
     border-left: 4px solid $brownC2
     background: #fff
