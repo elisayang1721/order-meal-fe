@@ -28,12 +28,12 @@ export default {
     
     if (process.env.NODE_ENV === 'production') {
       if (this.$route.query.token) {
-        this.channel()
+        // this.channel()
         const token = this.$route.query.token
         this.emsToken = token
         const data = {
           emsToken: this.emsToken,
-          channel: this.emschannel
+          channel: this.emsChannel
         }
         this.login(data)
       } else if (localStorage.apiToken) {
