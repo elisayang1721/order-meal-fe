@@ -134,7 +134,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['showDialog']),
+    ...mapActions(['showDialog']),    
     getScore(score) {
       let idx
       if (score <= 1.8) {
