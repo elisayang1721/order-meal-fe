@@ -262,7 +262,7 @@ export default {
     RatingBar
   },
   destroyed() {
-    // window.removeEventListener('keyup',this.keyup)
+    window.removeEventListener('keyup',this.keyup)
   }
 }
 </script>

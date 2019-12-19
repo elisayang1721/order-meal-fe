@@ -6,6 +6,8 @@
           p 店名：
           el-input(
             v-model="condition.searchByName"
+            @focus="enterInput(true)"
+            @blur="enterInput(false)"
             placeholder="請輸入店名"
             prefix-icon="el-icon-search"
             maxlength="20")
@@ -13,6 +15,8 @@
           p 餐點名稱：
           el-input(
             v-model="condition.searchByMeals"
+            @focus="enterInput(true)"
+            @blur="enterInput(false)"
             placeholder="請輸入餐點名稱,如：可樂,雞腿便當"
             prefix-icon="el-icon-search"
             maxlength="20")
@@ -134,7 +138,22 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['showDialog']),    
+    ...mapActions(['showDialog']),
+    enterInput(status) {
+      if (status) {
+        window.addEventListener('keyup',this.keyup)
+      } else {
+        window.removeEventListener('keyup',this.keyup)
+      }
+    },
+    keyup(event) {
+      const e = event || window.event || arguments.callee.caller.arguments[0]
+      if (!e) return
+      const key = e.key
+      if (key === 'Enter') {
+        this.triggerDebounce()
+      }
+    },   
     getScore(score) {
       let idx
       if (score <= 1.8) {
@@ -226,6 +245,7 @@ export default {
   },
   beforeDestroy() {
     this.$bus.$off('refresh')
+    window.removeEventListener('keyup',this.keyup)
   }
 }
 </script>
