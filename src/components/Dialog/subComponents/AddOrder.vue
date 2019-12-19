@@ -7,10 +7,13 @@
       .cell
         span 截止時間
       .cell
-        el-date-picker(v-model="condition.dateTime"
+        el-date-picker(
+          v-model="condition.dateTime"
           type="datetime"
           placeholder="選擇日期時間"
+          format="yyyy-MM-dd  HH:mm"
           value-format="yyyy-MM-dd HH:mm"
+          @focus="focusDatePicker"
           :disabled="condition.expiredAmount ? true : false")
     .row
       .cell
@@ -40,9 +43,16 @@ import { mapActions } from 'vuex'
 export default {
   name: 'AddOrder',
   props: ['storeId', 'storeName'],
-  mounted() {
-    const userData = JSON.parse(localStorage.getItem('userData'))
-    this.memberName = userData.memberName
+  data() {
+    return {
+      condition: {
+        dateTime: null,
+        expiredAmount: null,
+        bulletin: null,
+        value: null
+      },
+      memberName: ''
+    }
   },
   computed: {
     getLoad() {
@@ -67,6 +77,9 @@ export default {
       return setTime > nowTime
     }
   },
+  components: {
+    ScrollBar
+  },
   methods: {
     ...mapActions(['closeDialog']),
     createOrder: debounce(vm => {
@@ -82,8 +95,8 @@ export default {
     }, 500),
     getDebounce() {
       const vm = this
-      const nowTime = new Date().getTime()
-      const setTime = new Date(this.condition.dateTime.replace(/\s/, 'T'))
+      // const nowTime = new Date().getTime()
+      // const setTime = new Date(this.condition.dateTime.replace(/\s/, 'T'))
 
       if (this.checkDateTime || this.checkLimitedPrice) {
         this.createOrder(vm)
@@ -101,20 +114,16 @@ export default {
           type: 'warning'
         })
       }
+    },
+    focusDatePicker() {
+      if (this.condition.dateTime === null) {
+        this.condition.dateTime = new Date()
+      }
     }
   },
-  data() {
-    return {
-      condition: {
-        dateTime: null,
-        expiredAmount: null,
-        bulletin: null
-      },
-      memberName: ''
-    }
-  },
-  components: {
-    ScrollBar
+  mounted() {
+    const userData = JSON.parse(localStorage.getItem('userData'))
+    this.memberName = userData.memberName
   }
 }
 </script>
