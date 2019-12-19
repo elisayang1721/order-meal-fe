@@ -98,7 +98,6 @@ deploy-production:
     - *change_file_permissions
     - *change_file_owner
     - rsync -av --delete --exclude=.git --password-file=/etc/rsync.secret --port=${RSYNC_HOST_PORT_PRODUCTION} ./dist/ root@${RSYNC_HOST_PRODUCTION}::${RSYNC_MODULE_PRODUCTION}
-  when: delayed
-  start_in: 1 minutes
+#   when: manual
   only:
     - master
