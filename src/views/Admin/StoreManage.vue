@@ -81,8 +81,10 @@
     el-pagination(
       :current-page.sync="pageNum"
       @current-change="triggerDebounce"
-      :page-size="8"
-      layout="prev, pager, next"
+      @size-change="triggerDebounce"
+      :page-sizes="[10, 15, 20, 30, 50]"
+      :page-size.sync="pageSize"
+      layout="sizes,prev, pager, next"
       :total="totalSize")
 
 </template>
@@ -110,6 +112,7 @@ export default {
       storeTypes: [],
       totalSize: null,
       pageNum: 1,
+      pageSize: 10,
       condition: {
         searchByName: '',
         searchByMeals: '',
@@ -125,7 +128,7 @@ export default {
         name: this.condition.searchByName,
         meals: this.reformString(this.condition.searchByMeals),
         page: this.pageNum,
-        pageSize: 8,
+        pageSize: this.pageSize,
         sort: 'ASC',
         sortName: 'updatedOn',
         types: this.condition.searchAll ? [] : this.condition.searchByTypes
@@ -210,6 +213,9 @@ export default {
     },
     reformString(str) {
       return str.trim().replace(' ', ',').replace(/,+/g, ',')
+    },
+    changSize() {
+
     }
   },
   watch: {
@@ -257,6 +263,10 @@ export default {
       background: #fcae33
     &[data-score="4"]
       background: #ffcc28
+  .tableWrapper .el-table
+    /deep/
+      tr,td
+        padding: 10px 0
 .search
   /deep/.el-input
     .el-input__inner
