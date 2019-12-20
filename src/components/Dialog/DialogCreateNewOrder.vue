@@ -125,7 +125,7 @@ export default {
           pageSize: 13
         }
       } else {
-        load = {          
+        load = {
           name: this.condition.searchByName,
           meals: this.reformString(this.condition.searchByMeals),
           sortName: this.condition.sortName,
@@ -200,7 +200,7 @@ export default {
       this.triggerDebounce()
     },
     reachEnd() {
-      if (this.isFinishLoaded) {        
+      if (this.isFinishLoaded) {
         this.condition.page++
         const vm = this
         this.getStoreInfo(vm)
@@ -212,7 +212,7 @@ export default {
   },
   watch: {
     'storeList': {
-      handler() {        
+      handler() {
         if (!this.isFinishLoaded) {
           this.reachEnd()
         }
