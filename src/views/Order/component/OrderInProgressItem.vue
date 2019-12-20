@@ -41,7 +41,7 @@
         el-button.detailBtn(icon="el-icon-document"
           :disabled="countDown === '已截止'"
           @click="toggleDialog('Detail')") 明細
-        el-button(type="success" icon="el-icon-potato-strips"
+        el-button(type="success" icon="el-icon-fork-spoon"
           :disabled="countDown === '已截止'"
           @click="toggleDialog('Order')") 點餐
 </template>
