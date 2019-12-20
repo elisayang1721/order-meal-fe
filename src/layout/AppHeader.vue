@@ -20,7 +20,7 @@
           :underline="false") {{`${userData.memberName} [${userData.account}]`}}
       li
         el-link.user(icon="el-icon-wallet"
-          :underline="false") 當月花費總額： {{this.userExpenses.format()}}
+          :underline="false") 當月花費總額： {{this.userExpenses}}
       li
         el-link(icon="el-icon-switch-button"
           @click.once="logout") 登出
@@ -90,7 +90,7 @@ export default {
     },
     getMonthlyExpenses() {
       user.monthlyExpenses().then(res => {
-        this.userExpenses = res.sum
+        this.userExpenses = res.sum.format()
       })
     }
   },
