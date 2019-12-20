@@ -17,24 +17,41 @@ stages:
   addgroup -S de_us -g 503 && adduser -S de_us -G de_us -u 503
   chown -R de_us.de_us ./
 
-# build-testing:
-#   stage: build
-#   cache:
-#     # key: ${CI_COMMIT_REF_SLUG}-npm
-#     paths:
-#       - node_modules/
-#   script:
-#       # - rm -rf node_modules
-#       # - rm package-lock.json
-#       - npm cache clean -f
-#       - npm install
-#       - npm run build:testing
-#   artifacts:
-#     expire_in: 1 week
-#     paths:
-#       - dist/
-#   only:
-#     - testing
+build-testing:
+  stage: build
+  cache:
+    # key: ${CI_COMMIT_REF_SLUG}-npm
+    paths:
+      - node_modules/
+  script:
+      # - rm -rf node_modules
+      # - rm package-lock.json
+      - npm cache clean -f
+      - npm install
+      - npm run build:testing
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - dist/
+  only:
+    - testing
+
+build-staging:
+  stage: build
+  cache:
+    # key: ${CI_COMMIT_REF_SLUG}-npm
+    paths:
+      - node_modules/
+  script:
+      - npm cache clean -f
+      - npm install
+      - npm run build:staging
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - dist/
+  only:
+    - staging
 
 # build-staging:
 #   stage: build
@@ -71,15 +88,15 @@ build-production:
   only:
     - master
 
-# deploy-testing:
-#   stage: deploy
-#   script:
-#     - *init_rsync
-#     - *change_file_permissions
-#     - *change_file_owner
-#     - rsync -av --delete --exclude=.git --password-file=/etc/rsync.secret --port=${RSYNC_HOST_PORT_TESTING} ./dist/ root@${RSYNC_HOST_TESTING}::${RSYNC_MODULE_TESTING}
-#   only:
-#     - testing
+deploy-staging:
+  stage: deploy
+  script:
+    - *init_rsync
+    - *change_file_permissions
+    - *change_file_owner
+    - rsync -av --delete --exclude=.git --password-file=/etc/rsync.secret --port=${RSYNC_HOST_PORT_STAGING} ./dist/ root@${RSYNC_HOST_STAGING}::${RSYNC_MODULE_STAGING}
+  only:
+    - staging
 
 # deploy-staging:
 #   stage: deploy
