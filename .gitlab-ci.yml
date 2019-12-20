@@ -71,22 +71,15 @@ build-production:
   only:
     - master
 
-build-production:
-  stage: build
-  cache:
-    # key: ${CI_COMMIT_REF_SLUG}-npm
-    paths:
-      - node_modules/
+deploy-testing:
+  stage: deploy
   script:
-      - npm cache clean -f
-      - npm install
-      - npm run build
-  artifacts:
-    expire_in: 1 week
-    paths:
-      - dist/
+    - *init_rsync
+    - *change_file_permissions
+    - *change_file_owner
+    - rsync -av --delete --exclude=.git --password-file=/etc/rsync.secret --port=${RSYNC_HOST_PORT_TESTING} ./dist/ root@${RSYNC_HOST_TESTING}::${RSYNC_MODULE_TESTING}
   only:
-    - master
+    - testing
 
 deploy-staging:
   stage: deploy
