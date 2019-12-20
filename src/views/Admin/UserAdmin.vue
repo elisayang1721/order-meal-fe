@@ -52,9 +52,11 @@
     el-pagination(
       :current-page.sync="pageNum"
       @current-change="triggerDebounce"
+      @size-change="triggerDebounce"
+      :page-sizes="[10, 15, 20, 30, 50]"
+      :page-size.sync="pageSize"
       :total="totalSize"
-      layout="prev, pager, next"
-      :page-size="9")
+      layout="sizes,prev, pager, next")
 
 </template>
 <script>
@@ -65,6 +67,30 @@ import { injectState } from '@js/model'
 
 export default {
   name: 'UserAdmin',
+  data() {
+    return {
+      statusList: [
+        {
+          isEnabled: null,
+          text: '全部'
+        },
+        {
+          isEnabled: true,
+          text: '啟用中'
+        },
+        {
+          isEnabled: false,
+          text: '已停用'
+        }
+      ],
+      isEnabled: null,
+      totalSize: null,
+      pageNum: 1,
+      pageSize: 10,
+      adminData: [],
+      loading: false
+    }
+  },
   mounted() {
     this.triggerDebounce()
     this.$bus.$on('refresh', () => {
@@ -76,7 +102,7 @@ export default {
       const load = {
         isEnabled: this.isEnabled,
         page: this.pageNum,
-        pageSize: 9
+        pageSize: this.pageSize
       }
       return load
     }
@@ -142,29 +168,6 @@ export default {
       },
       deep: true
     }
-  },
-  data() {
-    return {
-      statusList: [
-        {
-          isEnabled: null,
-          text: '全部'
-        },
-        {
-          isEnabled: true,
-          text: '啟用中'
-        },
-        {
-          isEnabled: false,
-          text: '已停用'
-        }
-      ],
-      isEnabled: null,
-      totalSize: null,
-      pageNum: 1,
-      adminData: [],
-      loading: false
-    }
   }
 }
 </script>
@@ -194,4 +197,8 @@ export default {
     +Flex(flex-start,center)
 .add-button
   width: 80px
+.tabContainer .tableWrapper .el-table
+  /deep/
+    tr,td
+      padding: 10px 0
 </style>
