@@ -45,7 +45,8 @@ build-staging:
   script:
       - npm cache clean -f
       - npm install
-      - npm run build:staging
+      #- npm run build:staging
+      - npm run build
   artifacts:
     expire_in: 1 week
     paths:
@@ -53,22 +54,22 @@ build-staging:
   only:
     - staging
 
-# build-production:
-#   stage: build
-#   cache:
-#     # key: ${CI_COMMIT_REF_SLUG}-npm
-#     paths:
-#       - node_modules/
-#   script:
-#       - npm cache clean -f
-#       - npm install
-#       - npm run build
-#   artifacts:
-#     expire_in: 1 week
-#     paths:
-#       - dist/
-#   only:
-#     - master
+build-production:
+  stage: build
+  cache:
+    # key: ${CI_COMMIT_REF_SLUG}-npm
+    paths:
+      - node_modules/
+  script:
+      - npm cache clean -f
+      - npm install
+      - npm run build
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - dist/
+  only:
+    - master
 
 deploy-testing:
   stage: deploy
@@ -90,13 +91,13 @@ deploy-staging:
   only:
     - staging
 
-# deploy-production:
-#   stage: deploy
-#   script:
-#     - *init_rsync
-#     - *change_file_permissions
-#     - *change_file_owner
-#     - rsync -av --delete --exclude=.git --password-file=/etc/rsync.secret --port=${RSYNC_HOST_PORT_PRODUCTION} ./dist/ root@${RSYNC_HOST_PRODUCTION}::${RSYNC_MODULE_PRODUCTION}
+deploy-production:
+  stage: deploy
+  script:
+    - *init_rsync
+    - *change_file_permissions
+    - *change_file_owner
+    - rsync -av --delete --exclude=.git --password-file=/etc/rsync.secret --port=${RSYNC_HOST_PORT_PRODUCTION} ./dist/ root@${RSYNC_HOST_PRODUCTION}::${RSYNC_MODULE_PRODUCTION}
 #   when: manual
-#   only:
-#     - master
+  only:
+    - master
