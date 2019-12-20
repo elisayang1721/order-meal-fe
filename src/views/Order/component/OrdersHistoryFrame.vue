@@ -5,7 +5,7 @@
       el-table(:data='orderHistoryList' border style='width: 100%' align="center")
         el-table-column(prop='createdOn' label='發起時間')
         el-table-column(prop='storeName' label='店家名稱')
-        el-table-column(prop='createdByName' label='負責人')
+        el-table-column(prop='createdByName' label='發起人')
         el-table-column(prop='status' label='狀態')
           template(slot-scope="scope")
             span(:class="orderStatus(scope.row.status)") {{scope.row.status}}
