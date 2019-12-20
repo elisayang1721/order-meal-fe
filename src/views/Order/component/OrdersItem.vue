@@ -6,8 +6,11 @@
         li {{myOrderData.storeName}}
       .right-area
         | 發起人：{{myOrderData.ownerName}}
-        el-tooltip(effect="dark" content="評比" placement="top-start")
-          i.el-icon-s-comment(@click="toggleDialog('Rating')")
+        //- el-tooltip(effect="dark" content="評比" placement="top-start")
+        //-   i.el-icon-s-comment(@click="toggleDialog('Rating')") 評分
+        el-button.ratingBtn(
+          icon="el-icon-s-comment"
+          @click="toggleDialog('Rating')") 評分
     .content
       .left-area
         ul.ordersItem
@@ -92,14 +95,14 @@ export default {
           width: 100%
           display: block
           li
-            line-height: 24px
+            line-height: 26px
             list-style: disc
             margin: 0 50px
             word-break: break-all
           .remark
             color: #878686
           .comment
-            font-size: 13px
+            font-size: 14px
             color: #878686
             background: #e4e4e4
             margin: 0 10px
@@ -108,6 +111,8 @@ export default {
             &.evaluate
               color: #fff
               background: #47975e
+              // color: #47975e
+              // background: #807a7a
       .left-area
         +Flex(flex-start,center)
         display: inline-flex
@@ -120,4 +125,15 @@ export default {
     cursor: pointer
     font-size: 20px
     margin-left: 25px
+  .ratingBtn
+    +Bgc(#714444)
+    width: auto
+    padding: 5px 10px
+    margin-left: 20px
+    color: #fff
+    border-color: #714444
+    &:hover,
+    &:active,
+    &:focus
+      +Bgc(#7f5656)
 </style>
