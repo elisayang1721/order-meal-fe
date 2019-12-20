@@ -4,7 +4,7 @@
     @reachEnd="reachEnd")
     .contentViewFix(:class="{'newOrderRemind': newOrder}")
       OrdersItem(v-for="(obj, i) in myOrdersList" :key="i" :myOrderData="obj")
-      .loadingBlock(v-loading="loading" v-if="listPage !== 4")
+      .loadingBlock(v-loading="loading" v-if="!isFinishedLoad")
         p
           i(class="el-icon-loading")
           | Load more
@@ -18,14 +18,14 @@ export default {
   name: 'MyOrdersFrame',
   mounted() {
     this.getList()
-    this.$bus.$on('refreshMyorder', (type) => {
+    this.$bus.$on('refreshMyorder', type => {
       this.refreshList(type)
     })
   },
   methods: {
     reachEnd() {
       // call API to get more orderList
-      if (this.listPage < 4) {
+      if (!this.isFinishedLoad) {
         this.listPage++
         this.getList()
       }
@@ -34,6 +34,7 @@ export default {
       this.loading = true
       order.getOrderRecordsList({ page: this.listPage }).then(res => {
         this.myOrdersList = this.myOrdersList ? [...this.myOrdersList, ...res.list] : res.list
+        this.isFinishedLoad = res.totalSize < 10
         this.loading = false
       })
     },
@@ -43,14 +44,13 @@ export default {
       this.newOrder = type
       setTimeout(() => {
         this.newOrder = false
-      }, 10000)
-
+      }, 3500)
     }
   },
   watch: {
     'myOrdersList': {
       handler(val) {
-        if (val.length < 7) {
+        if (!this.isFinishedLoad) {
           this.reachEnd()
         }
       }
@@ -59,6 +59,7 @@ export default {
   data() {
     return {
       myOrdersList: [],
+      isFinishedLoad: false,
       loading: false,
       listPage: 1,
       newOrder: false
