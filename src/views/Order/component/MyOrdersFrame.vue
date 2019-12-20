@@ -43,7 +43,7 @@ export default {
       this.newOrder = type
       setTimeout(() => {
         this.newOrder = false
-      }, 3500)
+      }, 10000)
 
     }
   },

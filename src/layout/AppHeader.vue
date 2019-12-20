@@ -19,6 +19,9 @@
         el-link.user(icon="el-icon-user-solid"
           :underline="false") {{`${userData.memberName} [${userData.account}]`}}
       li
+        el-link.user(icon="el-icon-wallet"
+          :underline="false") 當月花費總額： {{`$${this.userExpenses}`}}
+      li
         el-link(icon="el-icon-switch-button"
           @click.once="logout") 登出
 </template>
@@ -30,6 +33,10 @@ export default {
   name: 'AppHeader',
   mounted() {
     this.userData = JSON.parse(localStorage.getItem('userData'))
+    this.getMonthlyExpenses()
+    this.$bus.$on('refreshUserExpenses', () => {
+      this.getMonthlyExpenses()
+    })
   },
   computed: {
     checkPermission() {
@@ -80,16 +87,30 @@ export default {
           path: '/401'
         })
       })
+    },
+    getMonthlyExpenses() {
+      user.monthlyExpenses().then(res => {
+        this.userExpenses = res.sum
+        console.log(res.sum)
+      })
     }
   },
   data() {
     return {
-      userData: {}
+      userData: {},
+      userExpenses: ''
     }
+  },
+  beforeDestroy() {
+    this.$bus.$off('refreshUserExpenses')
   }
 }
 </script>
 <style lang="sass" scoped>
+.navTabs
+  li
+    &+li
+      margin-left: 3px
 /deep/.el-link
   margin: 10px 0 10px 10px
   font-size: 12pt
