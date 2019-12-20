@@ -7,6 +7,8 @@
             .subjectTitle 店名：
             el-input.searchInput(
               v-model="condition.searchByName"
+              @focus="enterInput(true)"
+              @blur="enterInput(false)"
               placeholder="請輸入店名"
               prefix-icon="el-icon-search"
               maxlength="20")
@@ -14,6 +16,8 @@
             .subjectTitle 餐點名稱：
             el-input.searchInput(
               v-model="condition.searchByMeals"
+              @focus="enterInput(true)"
+              @blur="enterInput(false)"
               placeholder="請輸入餐點名稱,如：可樂,雞腿便當"
               prefix-icon="el-icon-search"
               maxlength="20")
@@ -74,6 +78,9 @@ import AllEvaluation from './subComponents/AllEvaluation'
 
 export default {
   name: 'DialogCreateNewOrder',
+  directives: {
+    
+  },
   data() {
     return {
       currentId: '',
@@ -84,6 +91,7 @@ export default {
       storeList: [],
       totalSize: null,
       storeTypes: [],
+      isFoucs: false,
       condition: {
         searchByName: '',
         searchByMeals: '',
@@ -109,7 +117,7 @@ export default {
       this.totalSize = storeList.totalSize
       this.storeList = storeList.list
       this.loading = false
-    }))
+    }))    
   },
   computed: {
     getPayLoad() {
@@ -148,6 +156,21 @@ export default {
         this.currentId = id
         this.subComponent = component
       })
+    },
+    enterInput(status) {
+      if (status) {
+        window.addEventListener('keyup',this.keyup)
+      } else {
+        window.removeEventListener('keyup',this.keyup)
+      }
+    },
+    keyup(event) {
+      const e = event || window.event || arguments.callee.caller.arguments[0]
+      if (!e) return
+      const key = e.key
+      if (key === 'Enter') {
+        this.triggerDebounce()
+      }
     },
     resetAll() {
       this.currentName = null
@@ -237,6 +260,9 @@ export default {
     StoreInfo,
     AllEvaluation,
     RatingBar
+  },
+  destroyed() {
+    window.removeEventListener('keyup',this.keyup)
   }
 }
 </script>

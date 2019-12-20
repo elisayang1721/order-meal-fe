@@ -51,11 +51,8 @@
 
 #OrderMerge
   .infoBlock
-    width: 100%
-    +Flex()
     margin-bottom: 10px
     .checkBlock
-      flex: 4
       .ellipsis
         +ellipsis()
         width: 10rem
@@ -63,7 +60,7 @@
     .infoDetail
       +Flex(space-between,center)
       color: #5f5c5c
-      flex: 2
+      margin-bottom: 10px
   .listBlock
     overflow: hidden
     .listTable
@@ -71,9 +68,10 @@
       margin-bottom: 20px
     .row
       .cell
-        &:first-child,&:nth-child(2),&:last-child
-          flex: 1        
+        &:nth-child(2)
+          flex: 3        
         flex: 1
+        padding: .6rem
         >ul
           >li
             line-height: 24px
@@ -81,14 +79,17 @@
       display: flex
       flex-wrap: wrap
       .row
-        width: 50%
-        display: inline-flex
+        width: 100%
+        display: flex
         &:first-child
           background: unset
           color: unset
         .cell
           color: #5f5c5c
-          padding: .5rem
+          padding: .6rem
+          &:nth-child(2)
+            justify-content: flex-start
+
     @media ( max-width: 1200px )
       .row
         .toggleHead
