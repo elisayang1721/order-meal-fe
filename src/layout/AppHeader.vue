@@ -20,7 +20,7 @@
           :underline="false") {{`${userData.memberName} [${userData.account}]`}}
       li
         el-link.user(icon="el-icon-wallet"
-          :underline="false") 當月花費總額： {{`$${this.userExpenses}`}}
+          :underline="false") 當月花費總額： {{this.userExpenses.format()}}
       li
         el-link(icon="el-icon-switch-button"
           @click.once="logout") 登出
