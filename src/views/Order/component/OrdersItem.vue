@@ -5,9 +5,7 @@
         li {{dateFormatter}}
         li {{myOrderData.storeName}}
       .right-area
-        | 發起人：{{myOrderData.ownerName}}
-        //- el-tooltip(effect="dark" content="評比" placement="top-start")
-        //-   i.el-icon-s-comment(@click="toggleDialog('Rating')") 評分
+        .owner 發起人：{{myOrderData.ownerName}}
         el-button.ratingBtn(
           icon="el-icon-s-comment"
           @click="toggleDialog('Rating')") 評分
@@ -84,7 +82,9 @@ export default {
         >ul
           align-items: center
           >li
-            margin-right: 10px        
+            margin-right: 10px
+        .owner
+          +ellipsis()
       .content
         +Flex(space-between,center)
         width: 100%
@@ -111,8 +111,6 @@ export default {
             &.evaluate
               color: #fff
               background: #47975e
-              // color: #47975e
-              // background: #807a7a
       .left-area
         +Flex(flex-start,center)
         display: inline-flex

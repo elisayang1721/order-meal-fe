@@ -91,7 +91,6 @@ export default {
     getMonthlyExpenses() {
       user.monthlyExpenses().then(res => {
         this.userExpenses = res.sum
-        console.log(res.sum)
       })
     }
   },
