@@ -41,7 +41,7 @@
         el-button.detailBtn(icon="el-icon-document"
           :disabled="countDown === '已截止'"
           @click="toggleDialog('Detail')") 明細
-        el-button(type="success" icon="el-icon-potato-strips"
+        el-button(type="success" icon="el-icon-fork-spoon"
           :disabled="countDown === '已截止'"
           @click="toggleDialog('Order')") 點餐
 </template>
@@ -152,7 +152,7 @@ export default {
       }
     },
     minDeliveryPrice() {
-      return this.list.minDeliveryPrice > 0 && this.list.totalPrice < this.list.minDeliveryPrice ? true : false
+      return this.list.minDeliveryPrice > 0 && this.list.totalPrice < this.list.minDeliveryPrice
     },
     deliveryPrice() {
       const minPrice = this.list.minDeliveryPrice

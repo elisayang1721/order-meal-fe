@@ -53,7 +53,7 @@ export default {
     }
   },
   mounted() {
-    window.addEventListener('keyup',this.handleKeyup)
+    window.addEventListener('keyup', this.handleKeyup)
   },
   methods: {
     ...mapActions(['closeDialog']),
@@ -75,7 +75,7 @@ export default {
       this.$bus.$emit('sendOrderForm')
     },
     handleKeyup(event) {
-      const e = event || window.event || arguments.callee.caller.arguments[0]
+      const e = event || window.event
       if (!e) return
       const key = e.key
       if (key === 'Escape') {
@@ -104,7 +104,7 @@ export default {
     }
   },
   destroyed() {
-    window.removeEventListener('keyup',this.handleKeyup)
+    window.removeEventListener('keyup', this.handleKeyup)
   }
 }
 </script>
@@ -143,7 +143,7 @@ export default {
       font-weight: 700
       color: $c1
   .dialogComponent
-    padding: 1rem    
+    padding: 1rem
     overflow: hidden
     background: $ligntGray
     @media(max-width: 1200px),(max-height: 800px)

@@ -28,5 +28,5 @@ export default {
     color: #277bc1
     text-align: center
     text-shadow: 2px 2px 0 rgba(255,255,255,.45)
-    margin-top: 50px 
+    margin-top: 50px
 </style>

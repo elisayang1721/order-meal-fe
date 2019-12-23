@@ -22,5 +22,12 @@ export default {
       url: '/logout',
       method: 'post'
     })
+  },
+  monthlyExpenses() {
+    // 取得當月花費
+    return Axios({
+      url: '/monthlyExpenses',
+      method: 'get'
+    })
   }
 }
