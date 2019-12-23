@@ -163,7 +163,8 @@ export default {
         type: 'success'
       })
       this.$bus.$emit('refreshSystem')
-      this.$bus.$emit('refreshMyorder',true)
+      this.$bus.$emit('refreshMyorder', true)
+      this.$bus.$emit('refreshUserExpenses')
       this.closeDialog()
     },
     checkIfOrdered(type, i) {
