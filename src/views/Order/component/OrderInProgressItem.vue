@@ -58,7 +58,7 @@ export default {
   },
   mounted() {
     this.timestamp = this.list.finishedTime
-    this.checkCountDown()
+    this.checkCountDown()    
   },
   computed: {
     addComma() {
