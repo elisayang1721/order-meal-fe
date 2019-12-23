@@ -52,7 +52,7 @@ export default {
       this.$bus.$emit('refreshSystem')
     },
     connect() {
-      this.$socket.client.on('kickout', (data) => {
+      this.$socket.client.on('kickout', () => {
         this.logout()
       })
     }
@@ -97,7 +97,7 @@ export default {
   data() {
     return {
       userData: {},
-      userExpenses: ''
+      userExpenses: 0
     }
   },
   beforeDestroy() {

@@ -144,7 +144,7 @@ export default {
       })
     }
     if (this.$store.state.prop.action === 'edit') {
-      axios.all([        
+      axios.all([
         store.getStoreType(),
         store.getStoreId(this.$store.state.prop.id)
       ]).then(axios.spread((type, info) => {

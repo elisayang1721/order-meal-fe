@@ -14,9 +14,10 @@
         ul.ordersItem
           li(v-for="(meal, i) in myOrderData.meals"
             :key="i")
-            span.meal {{`${meal.itemName} ${meal.price.format()} x ${meal.amount}`}}         
+            span.meal {{`${meal.itemName} ${meal.price.format()} x ${meal.amount}`}}
             span.remark {{ `${meal.remark ? `- ${meal.remark}` : ''}` }}
-            span.comment(:class="{'evaluate':meal.isEvaluated}") {{`${meal.isEvaluated ? '已評分' : '未評分'}`}}
+            span.comment(:class="{'evaluate':meal.isEvaluated}")
+              | {{`${meal.isEvaluated ? '已評分' : '未評分'}`}}
       .right-area
         .totalPrice {{`總計：${totalPrice.price.format()}`}}
 </template>
@@ -38,10 +39,8 @@ export default {
       return `${mm.toString().padStart(2, '0')}/${dd.toString().padStart(2, '0')} (${weekNum[day]})`
     },
     totalPrice() {
-      let total = 0
       let price = 0
       this.myOrderData.meals.forEach(el => {
-        total += el.amount
         price += el.price * el.amount
       })
       return { price }
@@ -60,7 +59,7 @@ export default {
       }
       injectState(prop)
       this.showDialog(load)
-    }    
+    }
   }
 }
 </script>
@@ -110,7 +109,7 @@ export default {
             border-radius: 25px
             &.evaluate
               color: #fff
-              background: #47975e
+              background: #a09797
       .left-area
         +Flex(flex-start,center)
         display: inline-flex
