@@ -75,22 +75,17 @@ export default {
       this.loading = true
       history.getRecordsInfo(this.$store.state.prop.id).then(res => {
         this.ordersDetail = res.list
-        this.ordersDetail.forEach(obj => {
-          obj.orderRecords.forEach(list => {
-            list.isFocus = false
-          })       
-        })
         this.loading = false
       })
     },
-    orderSubmit(obj) {      
+    orderSubmit(obj) {
       if (this.userData.isAdmin || this.userData.memberName === this.owner) {
-        obj.isFocus = !obj.isFocus
-        const hasActive = obj.status = !obj.status
+        let hasActive = obj.status
+        hasActive = !hasActive
         order.updateOrderStatus(obj.id, { status: hasActive }).then(() => {
           this.$bus.$emit('updateOrderAmount', { status: hasActive, cal: obj.amount })
         })
-        this.orderTableKey = Math.random(); 
+        this.orderTableKey = Math.random()
       }
     },
     checkPermission(name) {
@@ -150,7 +145,7 @@ export default {
         this.getRecordsInfo()
         this.$bus.$emit('refreshSystem')
         this.$bus.$emit('refreshOrderForm')
-        this.$bus.$emit('refreshMyorder',false)
+        this.$bus.$emit('refreshMyorder', false)
         this.$bus.$emit('refreshUserExpenses')
       })
     }

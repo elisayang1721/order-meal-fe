@@ -21,11 +21,9 @@ export default {
       })
       return
     }
-
     if (process.env.NODE_ENV === 'development') {
       this.devApi()
     }
-    
     if (process.env.NODE_ENV === 'production') {
       if (this.$route.query.token) {
         this.channel()
@@ -50,11 +48,10 @@ export default {
       this.emsToken = ''
       this.emsChannel = ''
     })
-
   },
   sockets: {
     connect() {
-      console.log('Your socket  has connected!')
+      // console.log('Your socket  has connected!')
     }
   },
   methods: {
@@ -80,11 +77,11 @@ export default {
         }).then(resp => {
           this.channel()
           this.emsToken = resp.data.data
-          const data = {
+          const load = {
             emsToken: this.emsToken,
             channel: this.emsChannel
           }
-          this.login(data)
+          this.login(load)
         })
       }).catch(() => {
         this.loading = false
@@ -129,7 +126,7 @@ export default {
           path: '/401'
         })
       })
-    },
+    }
   },
   data() {
     return {

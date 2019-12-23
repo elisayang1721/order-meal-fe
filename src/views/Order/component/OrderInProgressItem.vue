@@ -152,7 +152,7 @@ export default {
       }
     },
     minDeliveryPrice() {
-      return this.list.minDeliveryPrice > 0 && this.list.totalPrice < this.list.minDeliveryPrice ? true : false
+      return this.list.minDeliveryPrice > 0 && this.list.totalPrice < this.list.minDeliveryPrice
     },
     deliveryPrice() {
       const minPrice = this.list.minDeliveryPrice

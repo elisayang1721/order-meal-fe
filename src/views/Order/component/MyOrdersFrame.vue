@@ -18,7 +18,7 @@ export default {
   name: 'MyOrdersFrame',
   mounted() {
     this.getList()
-    this.$bus.$on('refreshMyorder', (type) => {
+    this.$bus.$on('refreshMyorder', type => {
       this.refreshList(type)
     })
   },
@@ -44,7 +44,6 @@ export default {
       setTimeout(() => {
         this.newOrder = false
       }, 3500)
-
     }
   },
   watch: {
