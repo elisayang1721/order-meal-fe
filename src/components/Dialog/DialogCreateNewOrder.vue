@@ -78,9 +78,6 @@ import AllEvaluation from './subComponents/AllEvaluation'
 
 export default {
   name: 'DialogCreateNewOrder',
-  directives: {
-    
-  },
   data() {
     return {
       currentId: '',
@@ -117,7 +114,7 @@ export default {
       this.totalSize = storeList.totalSize
       this.storeList = storeList.list
       this.loading = false
-    }))    
+    }))
   },
   computed: {
     getPayLoad() {
@@ -159,13 +156,13 @@ export default {
     },
     enterInput(status) {
       if (status) {
-        window.addEventListener('keyup',this.keyup)
+        window.addEventListener('keyup', this.keyup)
       } else {
-        window.removeEventListener('keyup',this.keyup)
+        window.removeEventListener('keyup', this.keyup)
       }
     },
     keyup(event) {
-      const e = event || window.event || arguments.callee.caller.arguments[0]
+      const e = event || window.event
       if (!e) return
       const key = e.key
       if (key === 'Enter') {
@@ -262,7 +259,7 @@ export default {
     RatingBar
   },
   destroyed() {
-    window.removeEventListener('keyup',this.keyup)
+    window.removeEventListener('keyup', this.keyup)
   }
 }
 </script>

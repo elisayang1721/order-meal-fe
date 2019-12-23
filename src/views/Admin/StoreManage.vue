@@ -144,19 +144,19 @@ export default {
     ...mapActions(['showDialog']),
     enterInput(status) {
       if (status) {
-        window.addEventListener('keyup',this.keyup)
+        window.addEventListener('keyup', this.keyup)
       } else {
-        window.removeEventListener('keyup',this.keyup)
+        window.removeEventListener('keyup', this.keyup)
       }
     },
     keyup(event) {
-      const e = event || window.event || arguments.callee.caller.arguments[0]
+      const e = event || window.event
       if (!e) return
       const key = e.key
       if (key === 'Enter') {
         this.triggerDebounce()
       }
-    },   
+    },
     getScore(score) {
       let idx
       if (score <= 1.8) {
@@ -251,7 +251,7 @@ export default {
   },
   beforeDestroy() {
     this.$bus.$off('refresh')
-    window.removeEventListener('keyup',this.keyup)
+    window.removeEventListener('keyup', this.keyup)
   }
 }
 </script>

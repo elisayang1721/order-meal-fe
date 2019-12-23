@@ -33,7 +33,9 @@ export default {
     getList() {
       this.loading = true
       order.getOrderRecordsList({ page: this.listPage }).then(res => {
-        this.myOrdersList = this.myOrdersList ? [...this.myOrdersList, ...res.list] : res.list
+        if (res.list.length) {
+          this.myOrdersList = this.myOrdersList ? [...this.myOrdersList, ...res.list] : res.list
+        }
         this.isFinishedLoad = res.totalSize < 10
         this.loading = false
       })
@@ -49,7 +51,7 @@ export default {
   },
   watch: {
     'myOrdersList': {
-      handler(val) {
+      handler() {
         if (!this.isFinishedLoad) {
           this.reachEnd()
         }

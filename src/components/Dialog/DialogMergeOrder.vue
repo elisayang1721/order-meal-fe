@@ -1,6 +1,6 @@
 <template lang="pug">
   #OrderMerge
-    .infoBlock      
+    .infoBlock
       .infoDetail
         ul
           li 全部：
