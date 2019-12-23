@@ -80,9 +80,9 @@ export default {
     },
     orderSubmit(obj) {
       if (this.userData.isAdmin || this.userData.memberName === this.owner) {
-        let hasActive = obj.status = !obj.status
-        order.updateOrderStatus(obj.id, { status: hasActive }).then(() => {
-          this.$bus.$emit('updateOrderAmount', { status: hasActive, cal: obj.amount })
+        obj.status = !obj.status // eslint-disable-line no-param-reassign
+        order.updateOrderStatus(obj.id, { status: obj.status }).then(() => {
+          this.$bus.$emit('updateOrderAmount', { status: obj.status, cal: obj.amount })
         })
         this.orderTableKey = Math.random()
       }
