@@ -188,8 +188,6 @@ export default {
 ::v-deep.el-select-dropdown__item
   &.hover, &:hover
     background-color: #f5f7fa
-  &.selected
-    color: #121212
   .tableWrapper
     height: 650px
 .adminPanel
