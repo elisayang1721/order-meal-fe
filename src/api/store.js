@@ -33,7 +33,7 @@ export default {
       method: 'get'
     })
   },
-  getStoreList(data) {  
+  getStoreList(data) {
     const apiUrl = assemblyParams(data)
     // 取得店家列表
     return Axios({
