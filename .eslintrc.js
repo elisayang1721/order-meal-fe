@@ -80,18 +80,7 @@ module.exports = {
       vue: 'never',
       svg: 'nerver'
     }],
-    'no-param-reassign': ['error', {
-      props: true,
-      ignorePropertyModificationsFor: [
-        'state',    // for vuex state
-        'e',        // for e.returnvalue
-        'request',
-        'config',   // for request config settings
-        'Vue',      // for vue plugins define
-        'editor',   // for froala
-        'vm'        // for vue component 
-      ]
-    }],
+    'no-param-reassign': [2, { props: false }],
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'import/extensions': [2, 'never', {
       'vue': 'never'
