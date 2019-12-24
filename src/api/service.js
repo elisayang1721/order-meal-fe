@@ -18,7 +18,6 @@ service.interceptors.request.use(
     // eslint-disable-next-line prefer-promise-reject-errors
     return Promise.reject('（○′∀‵）ノ♡error', error)
   }
-
 )
 
 /** 攔截器(response): 依據回傳的狀態碼，預先做對應處理 */
@@ -36,37 +35,39 @@ service.interceptors.response.use(
   },
   error => {
     const { response } = error
-    let errorMessage = ''
+    const errorMsg = {
+      message: '',
+      type: 'error',
+      duration: 3000,
+      showClose: false
+    }
     switch (response.status) {
       // token 過期
       case 401:
         localStorage.removeItem('apiToken')
-        errorMessage = '驗證錯誤/驗證已逾期，請重新登入驗證。'
+        errorMsg.message = '驗證錯誤/驗證已逾期，請重新登入驗證。'
         window.location.href = '/401'
         break
       // 無權限
       case 403:
-        errorMessage = '您無此操作的權限，請聯絡系統管理員。'
+        errorMsg.message = '您無此操作的權限，請聯絡系統管理員。'
         break
       // 429 too many request dont trigger error message
       case 429:
-        // eslint-disable-next-line prefer-promise-reject-errors
-        return Promise.reject('（○′∀‵）ノ♡error', response)
+        errorMsg.message = '請求太頻繁。'
+        errorMsg.duration = 0
+        errorMsg.showClose = true
+        break
       // 500
       case 500:
-        errorMessage = '系統發生內部錯誤，請聯絡系統管理員。'
+        errorMsg.message = '系統發生內部錯誤，請聯絡系統管理員。'
         break
       default:
-        errorMessage = response.data
+        errorMsg.message = response.data
         break
     }
-    Message({
-      message: errorMessage,
-      type: 'error'
-    })
-    // eslint-disable-next-line prefer-promise-reject-errors
-    return Promise.reject('（○′∀‵）ノ♡error', response)
+    Message(errorMsg)
+    return Promise.reject(new Error(errorMsg.message), response)
   }
-
 )
 export default service
