@@ -44,6 +44,7 @@ export default {
       this.listPage = 0
       this.myOrdersList = []
       this.newOrder = type
+      this.isFinishedLoad = false
       setTimeout(() => {
         this.newOrder = false
       }, 3500)

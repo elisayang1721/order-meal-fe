@@ -80,8 +80,7 @@ export default {
     },
     orderSubmit(obj) {
       if (this.userData.isAdmin || this.userData.memberName === this.owner) {
-        let hasActive = obj.status
-        hasActive = !hasActive
+        let hasActive = obj.status = !obj.status
         order.updateOrderStatus(obj.id, { status: hasActive }).then(() => {
           this.$bus.$emit('updateOrderAmount', { status: hasActive, cal: obj.amount })
         })
