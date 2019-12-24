@@ -86,12 +86,10 @@ export default {
       })
     }, 500),
     getDebounce() {
-      console.log('to in')
       const vm = this
       this.exportMergeOrder(vm)
     },
     exportMergeOrder: debounce(vm => {
-      console.log('in')
       mergeOrder.exportExcel(vm.getOrderId).then(res => {
         exportExcel(res)
       })
