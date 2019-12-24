@@ -46,7 +46,7 @@ service.interceptors.response.use(
       case 401:
         localStorage.removeItem('apiToken')
         errorMsg.message = '驗證錯誤/驗證已逾期，請重新登入驗證。'
-        window.location.href = '/401'
+        // window.location.href = '/401'
         break
       // 無權限
       case 403:
