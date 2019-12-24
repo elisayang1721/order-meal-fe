@@ -45,8 +45,8 @@ build-staging:
   script:
       - npm cache clean -f
       - npm install
-      #- npm run build:staging
-      - npm run build
+      - npm run build:staging
+    #   - npm run build
   artifacts:
     expire_in: 1 week
     paths:
