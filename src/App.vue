@@ -67,7 +67,6 @@ export default {
         method: 'post',
         data
       }).then(res => {
-        console.log('1=>', res)
         const loginToken = res.data.data.apiToken
         axios({
           url: 'http://pub.bck.bckplat.info/api/redirect/206',
@@ -76,7 +75,6 @@ export default {
             Authorization: 'Bearer ' + loginToken
           }
         }).then(resp => {
-          console.log('2=>', resp)
           this.channel()
           this.emsToken = resp.data.data
           const load = {
