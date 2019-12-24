@@ -1,10 +1,10 @@
 <template lang="pug">
   #myComment
     .head
-      div {{item.meals}}  
+      div {{item.meals}}
       .submitBlock
         .RatingBlock
-          RatingBar(:score="item.score" ref="ratingBar") 
+          RatingBar(:score="item.score" ref="ratingBar")
         el-button.submit-button(type="success"
           @click="triggerDebounce"
           :class="{'replace-button':item.score}")  {{`${item.score ? '更新': '送出'}`}}
@@ -27,7 +27,8 @@ export default {
     getPayLoad() {
       const load = {
         score: this.$refs.ratingBar.rateScore,
-        comment: this.item.comment
+        comment: this.item.comment,
+        orderRecordId: this.item.orderRecordId
       }
       return load
     }
@@ -39,7 +40,7 @@ export default {
           message: '評論成功',
           type: 'success'
         })
-        vm.$bus.$emit('refreshMyorder',false)
+        vm.$bus.$emit('refreshMyorder', false)
         vm.$bus.$emit('refreshSystem')
         vm.$bus.$emit('refreshTotalComments')
       })

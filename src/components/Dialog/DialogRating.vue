@@ -12,7 +12,8 @@
       template(v-if="myComment.totalSize === 0")
         .noComment 目前尚未點餐
       template(v-else)
-        MyCommentItem(v-for="(obj,i) in myComment.list" :key="i" :item="obj")
+        el-button(type="success" @click="collectLoads") 送出
+        MyCommentItem(v-for="(obj,i) in myComment.list" :key="i" :item="obj" ref="comment")
 </template>
 <script>
 import axios from 'axios'
@@ -49,16 +50,23 @@ export default {
       ]).then(axios.spread((allEvaluations, myEvaluation) => {
         this.storeComment(allEvaluations)
         this.storeEvaluation = allEvaluations
-        this.myComment = myEvaluation        
+        this.myComment = myEvaluation
         this.loading = false
       }))
     },
     storeComment(info) {
-      const allComment = info.list 
+      const allComment = info.list
       allComment.forEach(type => {
-        type.comment = type.comment.replace(/\n/g,'<br>')
+        type.comment = type.comment.replace(/\n/g, '<br>')
       })
       this.storeComments = allComment
+    },
+    collectLoads() {
+      const loads = []
+      this.$refs.comment.forEach(vComp => {
+        loads.push(vComp.getPayLoad)
+      })
+      console.log(loads)
     }
   },
   beforeDestroy() {
