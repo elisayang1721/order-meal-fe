@@ -80,8 +80,8 @@ module.exports = {
       vue: 'never',
       svg: 'nerver'
     }],
-    'no-param-reassign': [2, {
-      props: false,
+    'no-param-reassign': ['error', {
+      props: true,
       ignorePropertyModificationsFor: [
         'state',    // for vuex state
         'e',        // for e.returnvalue
