@@ -49,14 +49,14 @@ export default {
       ]).then(axios.spread((allEvaluations, myEvaluation) => {
         this.storeComment(allEvaluations)
         this.storeEvaluation = allEvaluations
-        this.myComment = myEvaluation        
+        this.myComment = myEvaluation
         this.loading = false
       }))
     },
     storeComment(info) {
-      const allComment = info.list 
+      const allComment = info.list
       allComment.forEach(type => {
-        type.comment = type.comment.replace(/\n/g,'<br>')
+        type.comment = type.comment.replace(/\n/g, '<br>')
       })
       this.storeComments = allComment
     }
