@@ -101,12 +101,11 @@ export default {
           .remark
             color: #878686
           .comment
-            font-size: 14px
+            font-size: 13px
             color: #878686
             background: #e4e4e4
             margin: 0 10px
-            padding: 2px 10px
-            border-radius: 25px
+            padding: 2px 8px
             &.evaluate
               color: #fff
               background: #a09797
