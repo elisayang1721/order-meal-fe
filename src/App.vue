@@ -21,6 +21,7 @@ export default {
       })
       return
     }
+    console.log(process.env.NODE_ENV)
     if (process.env.NODE_ENV === 'development') {
       this.devApi()
     }
