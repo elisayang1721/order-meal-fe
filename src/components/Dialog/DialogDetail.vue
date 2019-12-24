@@ -39,7 +39,7 @@
         .cell.flexFix.subscriberInfo(:key="orderTableKey")
           .subscriberCell(v-for="(obj, i) in item.orderRecords" :key="obj.id"
             :class="recordClass(obj)"
-            @click="orderSubmit(obj, $event)")
+            @click.stop="orderSubmit(obj)")
             template(v-if="obj.remark")
               el-tooltip( effect="dark" placement="top-start")
                 div(slot="content") {{obj.remark}}
@@ -80,9 +80,9 @@ export default {
     },
     orderSubmit(obj) {
       if (this.userData.isAdmin || this.userData.memberName === this.owner) {
-        let hasActive = obj.status = !obj.status
-        order.updateOrderStatus(obj.id, { status: hasActive }).then(() => {
-          this.$bus.$emit('updateOrderAmount', { status: hasActive, cal: obj.amount })
+        obj.status = !obj.status
+        order.updateOrderStatus(obj.id, { status: obj.status }).then(() => {
+          this.$bus.$emit('updateOrderAmount', { status: obj.status, cal: obj.amount })
         })
         this.orderTableKey = Math.random()
       }

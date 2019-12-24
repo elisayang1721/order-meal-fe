@@ -5,7 +5,7 @@
     el-button(type="danger"
       @click.stop="deleteOrder") 刪除
     el-button.reconfirm(type="danger" icon="el-icon-warning-outline"
-      @click.once="confirmDelete") 確認刪除？
+      @click.stop="confirmDelete") 確認刪除？
 </template>
 <script>
 export default {
