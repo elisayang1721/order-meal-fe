@@ -29,6 +29,7 @@ export default {
     }
     if (process.env.NODE_ENV === 'production') {
       if (this.$route.query.token) {
+        console.log('in')
         this.urlTitle()
         this.channel()
         const token = this.$route.query.token
