@@ -66,9 +66,6 @@ export default {
         this.closeDialog()
       })
     }
-    this.$bus.$on('sendOrderForm', () => {
-      this.confirm()
-    })
   },
   computed: {
     getLoad() {
@@ -197,9 +194,6 @@ export default {
       isOrder: Number,
       isMenuType: ''
     }
-  },
-  beforeDestroy() {
-    this.$bus.$off('sendOrderForm')
   }
 }
 </script>
