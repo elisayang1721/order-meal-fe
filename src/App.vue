@@ -152,7 +152,7 @@ export default {
       loading: false,
       hasToken: '',
       browser: true,
-      webTitle: '預設點餐系統'
+      webTitle: '訂餐系統'
     }
   },
   components: {
