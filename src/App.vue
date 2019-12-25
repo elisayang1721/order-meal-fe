@@ -102,15 +102,19 @@ export default {
       }
     },
     urlTitle() {
+      if (this.$route.query.token) {
+        if (this.$route.query.title) {
+          localStorage.setItem('userTitle', this.$route.query.title)
+        } else {
+          localStorage.removeItem('userTitle')
+        }
+      }
+
       if (localStorage.userTitle) {
         document.title = localStorage.userTitle
-      } else if (this.$route.query.title) {
-        const title = this.$route.query.title
-        document.title = title
       } else {
         document.title = this.webTitle
       }
-      localStorage.setItem('userTitle', document.title)
     },
     login(data) {
       user.login(data).then(res => {
