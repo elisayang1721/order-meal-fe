@@ -105,11 +105,14 @@ export default {
       if (localStorage.userTitle) {
         console.log('local =>', localStorage.userTitle)
         document.title = localStorage.userTitle
+
       } else if (this.$route.query.title) {
         const title = this.$route.query.title
         document.title = title
         console.log('title =>', title)
+
       } else {
+        localStorage.removeItem('userTitle')
         document.title = this.webTitle
         console.log('no title =>',  this.webTitle)
       }
