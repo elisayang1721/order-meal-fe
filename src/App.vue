@@ -28,9 +28,8 @@ export default {
       this.devApi()
     }
     if (process.env.NODE_ENV === 'production') {
+      this.urlTitle()
       if (this.$route.query.token) {
-        console.log('in')
-        this.urlTitle()
         this.channel()
         const token = this.$route.query.token
         this.emsToken = token
