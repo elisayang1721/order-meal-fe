@@ -1,21 +1,22 @@
 <template lang="pug">
   transition(name="dialog-fade")
     .dialogFrame(v-if="dialog.length"
-      @click.self="closeDialog"
+      @click.self="close"
       :class="{'smallDialog': checkSmallDialog}")
       .dialogContent
         .dialogHeader
           .dialogTitle {{componentTitle}}
           .headerPanel
-            .close(@click="closeDialog")
+            .close(@click="close")
               i.el-icon-close
-        .dialogComponent(:class="{'order': componentName === 'DialogOrder'}")
+        .dialogComponent(
+          :class="{'order': componentName === 'DialogOrder','rating': ratingClassCheck }")
           ScrollBar.scroll(:needGoTop="goTop")
             .viewFix(:class="sliceName()")
-              component(:is="componentName")
-          template(v-if="componentName === 'DialogOrder'")
+              component(:is="componentName" :ref="componentName")
+          template(v-if="componentName === 'DialogOrder' || isNeededFooter")
             .submitWrap
-              el-button(type="danger" @click="closeDialog") 取消
+              el-button(type="danger" @click="close") 取消
               el-button(type="success" @click="sendConfirm") 確認
 </template>
 <script>
@@ -31,7 +32,8 @@ componentIndex()
 export default {
   data() {
     return {
-      goTop: false
+      goTop: false,
+      isNeededFooter: false
     }
   },
   components: {
@@ -50,13 +52,24 @@ export default {
     checkSmallDialog() {
       const name = this.$store.state.dialog[0].name
       return name === 'DialogConfirm' || name === 'DialogAdmin'
+    },
+    ratingClassCheck() {
+      return this.componentName === 'DialogRating' && this.isNeededFooter
     }
   },
   mounted() {
     window.addEventListener('keyup', this.handleKeyup)
+    this.$bus.$on('AddFooter', this.setFooter)
   },
   methods: {
     ...mapActions(['closeDialog']),
+    close() {
+      this.isNeededFooter = false
+      this.closeDialog()
+    },
+    setFooter() {
+      this.isNeededFooter = true
+    },
     dailogFixed(name) {
       const html = document.getElementsByTagName('html')
       if (name) {
@@ -72,7 +85,12 @@ export default {
       return className
     },
     sendConfirm() {
-      this.$bus.$emit('sendOrderForm')
+      if (this.componentName === 'DialogOrder') {
+        this.$refs[this.componentName].confirm()
+      }
+      if (this.componentName === 'DialogRating') {
+        this.$refs[this.componentName].triggerSubmitDebounce()
+      }
     },
     handleKeyup(event) {
       const e = event || window.event
@@ -103,8 +121,9 @@ export default {
       }
     }
   },
-  destroyed() {
+  beforeDestroy() {
     window.removeEventListener('keyup', this.handleKeyup)
+    this.$bus.$off('AddFooter')
   }
 }
 </script>
@@ -158,7 +177,7 @@ export default {
         max-height: 100%
         max-width: 100%
         height: 100%
-    &.order
+    &.order,&.rating
       padding-bottom: 74px
       .scroll
         max-height: 75vh
