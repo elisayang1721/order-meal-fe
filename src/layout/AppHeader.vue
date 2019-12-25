@@ -32,7 +32,7 @@ import { mapActions } from 'vuex'
 export default {
   name: 'AppHeader',
   mounted() {
-    this.userData = JSON.parse(localStorage.getItem('userData'))
+    this.userData = JSON.parse(sessionStorage.getItem('userData'))
     this.getMonthlyExpenses()
     this.$bus.$on('refreshUserExpenses', () => {
       this.getMonthlyExpenses()
@@ -40,7 +40,7 @@ export default {
   },
   computed: {
     checkPermission() {
-      const userData = JSON.parse(localStorage.userData)
+      const userData = JSON.parse(sessionStorage.userData)
       return userData.isAdmin
     }
   },
@@ -77,7 +77,7 @@ export default {
     },
     logout() {
       user.logOut().then(() => {
-        localStorage.clear()
+        sessionStorage.clear()
         this.$bus.$emit('clearToken')
         this.$message({
           message: '登出成功',

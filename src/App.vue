@@ -38,7 +38,7 @@ export default {
           channel: this.emsChannel
         }
         this.login(data)
-      } else if (localStorage.apiToken) {
+      } else if (sessionStorage.apiToken) {
         this.hasToken = true
       } else {
         this.$router.push({
@@ -64,8 +64,8 @@ export default {
         employee: `${process.env.VUE_APP_ACC}`,
         password: `${process.env.VUE_APP_PWD}`
       }
-      localStorage.removeItem('apiToken')
-      localStorage.removeItem('userData')
+      sessionStorage.removeItem('apiToken')
+      sessionStorage.removeItem('userData')
       this.loading = true
       axios({
         url: 'http://pub.bck.bckplat.info/api/login',
@@ -104,22 +104,22 @@ export default {
     urlTitle() {
       if (this.$route.query.token) {
         if (this.$route.query.title) {
-          localStorage.setItem('userTitle', this.$route.query.title)
+          sessionStorage.setItem('userTitle', this.$route.query.title)
         } else {
-          localStorage.removeItem('userTitle')
+          sessionStorage.removeItem('userTitle')
         }
       }
-      if (localStorage.userTitle) {
-        document.title = localStorage.userTitle
+      if (sessionStorage.userTitle) {
+        document.title = sessionStorage.userTitle
       } else {
         document.title = this.webTitle
       }
     },
     login(data) {
       user.login(data).then(res => {
-        localStorage.setItem('apiToken', res.token)
-        localStorage.setItem('userData', JSON.stringify(res))
-        this.hasToken = localStorage.apiToken
+        sessionStorage.setItem('apiToken', res.token)
+        sessionStorage.setItem('userData', JSON.stringify(res))
+        this.hasToken = sessionStorage.apiToken
         if (this.$route.query.url !== null && this.$route.query.url !== undefined) {
           const returnurl = this.$route.query.url
           this.$router.push(returnurl)
