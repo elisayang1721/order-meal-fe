@@ -29,6 +29,7 @@ export default {
     }
     if (process.env.NODE_ENV === 'production') {
       if (this.$route.query.token) {
+        this.urlTitle()
         this.channel()
         const token = this.$route.query.token
         this.emsToken = token
@@ -101,15 +102,15 @@ export default {
       }
     },
     urlTitle() {
-      if (localStorage.getItem('title')) {
-        document.title = localStorage.title
+      if (localStorage.userTitle) {
+        document.title = localStorage.userTitle
       } else if (this.$route.query.title) {
         const title = this.$route.query.title
         document.title = title
       } else {
         document.title = this.webTitle
       }
-      localStorage.setItem('title', document.title)
+      localStorage.setItem('userTitle', document.title)
     },
     login(data) {
       user.login(data).then(res => {
