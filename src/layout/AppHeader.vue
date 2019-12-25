@@ -2,7 +2,7 @@
   header
     .icon(@click="switchRoute('/')")
       img(:src="require('@img/oms-icon.svg')")
-      span 訂餐系統
+      span {{webTitle}}
     ul.navTabs
       li
         el-link(icon="el-icon-s-order"
@@ -97,7 +97,8 @@ export default {
   data() {
     return {
       userData: {},
-      userExpenses: 0
+      userExpenses: 0,
+      webTitle: document.title
     }
   },
   beforeDestroy() {

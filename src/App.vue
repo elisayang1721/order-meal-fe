@@ -102,28 +102,18 @@ export default {
       }
     },
     urlTitle() {
-      if (localStorage.userTitle) {   
-        console.log('有 local')     
+      if (this.$route.query.token) {
         if (this.$route.query.title) {
-          const title = this.$route.query.title
-          document.title = title
-          console.log('有local 有title =>', document.title)  
+          localStorage.setItem('userTitle', this.$route.query.title)
         } else {
-          document.title = localStorage.userTitle
-          console.log('有local 沒有title =>', document.title)  
+          localStorage.removeItem('userTitle')
         }
-      } else {
-        console.log('沒有local')    
-        if (this.$route.query.title) {
-          const title = this.$route.query.title
-          document.title = title
-          console.log('沒有local 有title =>', document.title)  
-        } else {
-          document.title = this.webTitle
-          console.log('沒有local 沒有title =>', document.title)  
-        }        
       }
-      localStorage.setItem('userTitle', document.title)
+      if (localStorage.userTitle) {
+        document.title = localStorage.userTitle
+      } else {
+        document.title = this.webTitle
+      }
     },
     login(data) {
       user.login(data).then(res => {
