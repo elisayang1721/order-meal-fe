@@ -8,7 +8,7 @@ const service = axios.create({
 /** 攔截器(request): 送出請求前，於header中帶入使用者的 token */
 service.interceptors.request.use(
   config => {
-    const token = localStorage.getItem('apiToken')
+    const token = sessionStorage.getItem('apiToken')
     if (token) {
       config.headers.Authorization = 'Bearer ' + token
     }
@@ -44,7 +44,7 @@ service.interceptors.response.use(
     switch (response.status) {
       // token 過期
       case 401:
-        localStorage.removeItem('apiToken')
+        sessionStorage.removeItem('apiToken')
         errorMsg.message = '驗證錯誤/驗證已逾期，請重新登入驗證。'
         window.location.href = '/401'
         break

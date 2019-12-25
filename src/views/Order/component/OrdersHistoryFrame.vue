@@ -52,7 +52,7 @@ export default {
       this.showDialog(load)
     },
     checkPermission(name) {
-      const userData = JSON.parse(localStorage.userData)
+      const userData = JSON.parse(sessionStorage.userData)
       return name === userData.memberName || userData.isAdmin
     },
     orderStatus(status) {

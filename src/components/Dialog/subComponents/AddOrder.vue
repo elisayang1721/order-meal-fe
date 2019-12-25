@@ -122,7 +122,7 @@ export default {
     }
   },
   mounted() {
-    const userData = JSON.parse(localStorage.getItem('userData'))
+    const userData = JSON.parse(sessionStorage.getItem('userData'))
     this.memberName = userData.memberName
   }
 }
