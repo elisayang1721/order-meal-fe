@@ -109,7 +109,6 @@ export default {
           localStorage.removeItem('userTitle')
         }
       }
-
       if (localStorage.userTitle) {
         document.title = localStorage.userTitle
       } else {
