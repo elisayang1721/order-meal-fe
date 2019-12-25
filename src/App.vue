@@ -12,6 +12,9 @@ import AppHeader from '@/layout/AppHeader'
 
 export default {
   name: 'app',
+  created() {
+    document.title = ''
+  },
   mounted() {
     const userAgent = navigator.userAgent.toLowerCase()
     const isEdge = navigator.userAgent.indexOf('Edge') > -1
@@ -60,7 +63,8 @@ export default {
         employee: `${process.env.VUE_APP_ACC}`,
         password: `${process.env.VUE_APP_PWD}`
       }
-      localStorage.clear()
+      localStorage.removeItem('apiToken')
+      localStorage.removeItem('userData')
       this.loading = true
       axios({
         url: 'http://pub.bck.bckplat.info/api/login',
@@ -75,6 +79,7 @@ export default {
             Authorization: 'Bearer ' + loginToken
           }
         }).then(resp => {
+          this.urlTitle()
           this.channel()
           this.emsToken = resp.data.data
           const load = {
@@ -94,6 +99,17 @@ export default {
       } else {
         this.emsChannel = null
       }
+    },
+    urlTitle() {
+      if (localStorage.getItem('title')) {
+        document.title = localStorage.title
+      } else if (this.$route.query.title) {
+        const title = this.$route.query.title
+        document.title = title
+      } else {
+        document.title = this.webTitle
+      }
+      localStorage.setItem('title', document.title)
     },
     login(data) {
       user.login(data).then(res => {
@@ -134,7 +150,8 @@ export default {
       emsChannel: '',
       loading: false,
       hasToken: '',
-      browser: true
+      browser: true,
+      webTitle: '預設點餐系統'
     }
   },
   components: {

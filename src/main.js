@@ -36,6 +36,13 @@ const eventBus = {
 }
 Vue.use(eventBus)
 
+// webTitle
+Vue.directive('title', {
+  inserted(el) {
+    document.title = el.dataset.title
+  }
+})
+
 import App from './App'
 import router from './router'
 import store from './vuex/store'
