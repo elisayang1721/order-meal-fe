@@ -16,8 +16,12 @@
               component(:is="componentName" :ref="componentName")
           template(v-if="componentName === 'DialogOrder' || isNeededFooter")
             .submitWrap
-              el-button(type="danger" @click="close") 取消
-              el-button(type="success" @click="sendConfirm") 確認
+              el-button(
+                type="danger"
+                @click="close") {{componentName === 'DialogRating' ? '關閉' : '取消'}}
+              el-button(
+                type="success"
+                @click="sendConfirm") {{componentName === 'DialogRating' ? '儲存' : '確定'}}
 </template>
 <script>
 import ScrollBar from '@c/ScrollBar/ScrollBar'
@@ -189,7 +193,7 @@ export default {
     width: 100%
     border: 0
     border-top: 1px solid #e6dedb
-    box-shadow: 0 -5px 5px rgba(230, 230, 230, 0.6)
+    box-shadow: 0 -5px 5px rgba(230, 230, 230, 0.4)
     padding: .6rem 1rem
     background: $c1
 </style>
