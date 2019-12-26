@@ -30,8 +30,12 @@
             el-radio(:label="8" @click.native="triggerDebounce") 兩個月內未訂過
         .searchType
           .subjectTitle 按服務類型：
-          el-checkbox(v-model="condition.searchAll" @change="searchAll") 全部
           el-checkbox-group(v-model="condition.searchByTypes" :disabled="condition.searchAll")
+            label.el-checkbox(@change="searchAll")
+              input.cus-checkbox(type='checkbox', v-model="condition.searchAll")
+              span
+                span
+              span.el-checkbox__label.cus-checkbox__label 全部
             el-checkbox(v-for="type in storeTypes" :key="type.id"
               :label="type.id" @click.native="triggerDebounce") {{type.name}}
       .filterBlock
@@ -329,4 +333,57 @@ export default {
       background-color: rgba(122,150,236,.2)
       opacity: 1
       transform: scale(1)
+.el-checkbox__original2
+  opacity: 0
+  outline: 0
+  position: absolute
+  margin: 0
+  width: 0
+  height: 0
+  z-index: -1
+input.cus-checkbox[type="checkbox"]
+  display: none
+  &+span
+    position: absolute
+    top: 0
+    left: 0
+    z-index: 2
+    span
+      display: inline-block
+      position: relative
+      width: 14px
+      height: 14px
+      vertical-align: middle
+      background-color: #fff
+      border: 1px solid #d0c9c9
+      border-radius: 2px
+      transition: border-color .25s cubic-bezier(.71,-.46,.29,1.46),
+      background-color .25s cubic-bezier(.71,-.46,.29,1.46)
+      &:hover
+        border-color: $tableHeadColor
+      &::after
+        box-sizing: content-box
+        content: ''
+        position: absolute
+        top: 1px
+        left: 4px
+        border: 1px solid #FFF
+        border-left: 0
+        border-top: 0
+        +size(3px,7px)
+        transform: rotate(45deg) scaleY(0)
+        transition: -webkit-transform .15s ease-in .05s
+        transition: transform .15s ease-in .05s
+        transition: transform .15s ease-in .05s, -webkit-transform .15s ease-in .05s
+        transition: transform .15s ease-in .05s,-webkit-transform .15s ease-in .05s
+        transform-origin: center
+input.cus-checkbox[type="checkbox"]:checked
+  &+span
+    span
+      background-color: $brownC1
+      border-color: $brownC1
+      &::after
+        transform: rotate(45deg) scaleY(1)
+.cus-checkbox__label
+  padding-left: 23px
 </style>
