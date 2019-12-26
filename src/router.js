@@ -28,7 +28,7 @@ export default new Router({
           name: 'AdminWrapper',
           component: AdminWrapper,
           beforeEnter: (to, from, next) => {
-            const isAdmin = JSON.parse(localStorage.userData).isAdmin
+            const isAdmin = JSON.parse(sessionStorage.userData).isAdmin
             if (isAdmin) {
               next()
             } else {
@@ -49,7 +49,7 @@ export default new Router({
       name: 'Page401',
       component: Page401,
       beforeEnter: (to, from, next) => {
-        if (localStorage.apiToken) {
+        if (sessionStorage.apiToken) {
           const route = deepClone(from)
           route.name = 'OrderMain'
           next(route)

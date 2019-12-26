@@ -27,7 +27,7 @@ export default {
   },
   computed: {
     checkTabs() {
-      const userData = JSON.parse(localStorage.userData)
+      const userData = JSON.parse(sessionStorage.userData)
       return userData.canModifyAdmin ? this.tabs : this.tabs.slice(0, 1)
     }
   },
