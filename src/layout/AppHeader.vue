@@ -9,11 +9,11 @@
           @click="toggleDialog") 匯出訂單
       li
         el-link(icon="el-icon-s-home"
-          v-if="checkPermission && $route.path === '/admin'"
+          v-if="userData.isAdmin && $route.path === '/admin'"
           @click="switchRoute('/')") 點餐首頁
       li
         el-link(icon="el-icon-s-tools"
-          v-if="checkPermission && $route.path === '/'"
+          v-if="userData.isAdmin && $route.path === '/'"
           @click="switchRoute('/admin')") 管理中心
       li
         el-link.user(icon="el-icon-user-solid"
@@ -34,23 +34,14 @@ export default {
   mounted() {
     this.userData = JSON.parse(sessionStorage.getItem('userData'))
     this.getMonthlyExpenses()
+
+    this.$socket.$subscribe(`${this.userData.companyCode}_oms`, this.handleOrderStatusChange)
+
     this.$bus.$on('refreshUserExpenses', () => {
       this.getMonthlyExpenses()
     })
   },
-  computed: {
-    checkPermission() {
-      const userData = JSON.parse(sessionStorage.userData)
-      return userData.isAdmin
-    }
-  },
   sockets: {
-    bck_oms() {
-      // handle 訂單狀態、截止時間更動
-      this.$bus.$emit('refreshRecordsList')
-      this.$bus.$emit('refreshOrderForm')
-      this.$bus.$emit('refreshSystem')
-    },
     connect() {
       this.$socket.client.on('kickout', () => {
         this.logout()
@@ -92,6 +83,11 @@ export default {
       user.monthlyExpenses().then(res => {
         this.userExpenses = res.sum.format()
       })
+    },
+    handleOrderStatusChange() {
+      this.$bus.$emit('refreshRecordsList')
+      this.$bus.$emit('refreshOrderForm')
+      this.$bus.$emit('refreshSystem')
     }
   },
   data() {
@@ -103,6 +99,7 @@ export default {
   },
   beforeDestroy() {
     this.$bus.$off('refreshUserExpenses')
+    this.$socket.$unsubscribe(`${this.userData.companyCode}_oms`)
   }
 }
 </script>
