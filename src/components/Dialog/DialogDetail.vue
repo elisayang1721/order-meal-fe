@@ -39,7 +39,7 @@
         .cell.flexFix.subscriberInfo(:key="orderTableKey")
           .subscriberCell(v-for="(obj, i) in item.orderRecords" :key="obj.id"
             :class="recordClass(obj)"
-            @click.stop="orderSubmit(obj)")
+            @click="getDebounce(obj)")
             template(v-if="obj.remark")
               el-tooltip( effect="dark" placement="top-start")
                 div(slot="content") {{obj.remark}}
@@ -58,6 +58,7 @@
 <script>
 import history from '@api/history'
 import order from '@api/order'
+import debounce from 'lodash/debounce'
 import { shallowClone, injectState } from '@js/model'
 import { mapActions } from 'vuex'
 import EditBlock from './subComponents/EditBlock'
@@ -78,15 +79,19 @@ export default {
         this.loading = false
       })
     },
-    orderSubmit(obj) {
+    getDebounce(obj) {
+      const vm = this
       if (this.userData.isAdmin || this.userData.memberName === this.owner) {
-        obj.status = !obj.status
-        order.updateOrderStatus(obj.id, { status: obj.status }).then(() => {
-          this.$bus.$emit('updateOrderAmount', { status: obj.status, cal: obj.amount })
-        })
-        this.orderTableKey = Math.random()
+        this.orderSubmit(obj, vm)
       }
     },
+    orderSubmit: debounce((obj, vm) => {
+      obj.status = !obj.status
+      order.updateOrderStatus(obj.id, { status: obj.status }).then(() => {
+        vm.$bus.$emit('updateOrderAmount', { status: obj.status, cal: obj.amount })
+      })
+      vm.orderTableKey = Math.random()
+    }, 300),
     checkPermission(name) {
       const role = this.userData.memberName
       return this.userData.isAdmin || role === this.owner || role === name
