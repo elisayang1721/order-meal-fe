@@ -2,7 +2,7 @@
   header
     .icon(@click="switchRoute('/')")
       img(:src="require('@img/oms-icon.svg')")
-      span 訂餐系統
+      span {{webTitle}}
     ul.navTabs
       li
         el-link(icon="el-icon-s-order"
@@ -32,7 +32,7 @@ import { mapActions } from 'vuex'
 export default {
   name: 'AppHeader',
   mounted() {
-    this.userData = JSON.parse(localStorage.getItem('userData'))
+    this.userData = JSON.parse(sessionStorage.getItem('userData'))
     this.getMonthlyExpenses()
     this.$bus.$on('refreshUserExpenses', () => {
       this.getMonthlyExpenses()
@@ -40,7 +40,7 @@ export default {
   },
   computed: {
     checkPermission() {
-      const userData = JSON.parse(localStorage.userData)
+      const userData = JSON.parse(sessionStorage.userData)
       return userData.isAdmin
     }
   },
@@ -77,7 +77,7 @@ export default {
     },
     logout() {
       user.logOut().then(() => {
-        localStorage.clear()
+        sessionStorage.clear()
         this.$bus.$emit('clearToken')
         this.$message({
           message: '登出成功',
@@ -97,7 +97,8 @@ export default {
   data() {
     return {
       userData: {},
-      userExpenses: 0
+      userExpenses: 0,
+      webTitle: document.title
     }
   },
   beforeDestroy() {

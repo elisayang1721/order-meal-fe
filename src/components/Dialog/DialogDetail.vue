@@ -66,7 +66,7 @@ export default {
   name: 'DialogDetail',
   mounted() {
     this.getRecordsInfo()
-    this.userData = JSON.parse(localStorage.getItem('userData'))
+    this.userData = JSON.parse(sessionStorage.getItem('userData'))
     this.owner = this.$store.state.prop.owner
   },
   methods: {

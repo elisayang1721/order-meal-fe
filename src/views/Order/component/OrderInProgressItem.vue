@@ -68,7 +68,7 @@ export default {
       return this.list.createdByName.length > 5 ? this.list.createdByName.length : ''
     },
     checkPermission() {
-      const userData = JSON.parse(localStorage.userData)
+      const userData = JSON.parse(sessionStorage.userData)
       return this.list.createdByName === userData.memberName || userData.isAdmin
     },
     balance() {
