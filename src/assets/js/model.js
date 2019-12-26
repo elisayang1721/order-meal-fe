@@ -8,12 +8,10 @@ export function addComma(num) {
 export function assemblyParams(params) {
   // api url 組字串
   let str = ''
-  const paramsKey = Object.keys(params)
-  const paramsVal = Object.values(params)
 
-  paramsVal.forEach((item, idx) => {
-    if (item !== '') {
-      str += `${paramsKey[idx]}=${item}&`
+  Object.keys(params).forEach(key => {
+    if (params[key]) {
+      str += `${key}=${params[key]}&`
     }
   })
 
