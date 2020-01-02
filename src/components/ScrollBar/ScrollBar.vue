@@ -10,6 +10,7 @@ export default {
   name: 'ScrollBar',
   props: {
     overscroll: {
+      type: Boolean,
       default: undefined
     },
     needGoTop: {
