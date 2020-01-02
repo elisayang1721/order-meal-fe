@@ -116,7 +116,7 @@ export default {
 
         vm.loading = false
         resData.forEach((list, i) => {
-          resData[i].memberId = list.companyCode + '_' + list.account
+          resData[i].memberId = list.account
         })
         vm.totalSize = res.totalSize
         vm.adminData = resData
