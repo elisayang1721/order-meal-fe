@@ -43,9 +43,19 @@ export default {
   },
   sockets: {
     connect() {
-      this.$socket.client.on('kickout', () => {
-        this.logout()
+      this.$socket.client.emit('join', {
+        userName: this.userData.memberName,
+        companyCode: this.userData.companyCode,
+        systemCode: 'oms',
+        deptId: this.userData.deptId,
+        groupId: null,
+        account: this.userData.account,
+        socketId: this.$socket.client.id,
+        connected_on: new Date()
       })
+    },
+    kickout() {
+      this.logout()
     }
   },
   methods: {
