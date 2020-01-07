@@ -1,8 +1,18 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 
+const localHerf = () => {
+  return process.env.VUE_APP_APIPATH
+}
+
+const officialHerf = () => {
+  return window.location.href.split('/')[2].replace(/www/, 'pub') + '/' + process.env.VUE_APP_BOTTOM
+}
+
+const mainHref = (window.location.href.indexOf('localhost:') > -1) ? localHerf() : officialHerf()
+
 const service = axios.create({
-  baseURL: process.env.VUE_APP_APIPATH,
+  baseURL: mainHref,
   timeout: 10000
 })
 /** 攔截器(request): 送出請求前，於header中帶入使用者的 token */
