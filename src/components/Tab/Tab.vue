@@ -11,7 +11,7 @@
 export default {
   name: 'tab',
   props: {
-    tabs: Array
+    tabs: Array,
   },
   mounted() {
     this.init()
@@ -24,13 +24,13 @@ export default {
     clickTabs(item) {
       this.$options.parent.active = item
       this.active = item
-    }
+    },
   },
   data() {
     return {
-      active: ''
+      active: '',
     }
-  }
+  },
 }
 </script>
 <style lang="sass">

@@ -30,7 +30,7 @@ export default new Router({
         {
           path: '',
           name: 'OrderMain',
-          component: OrderMain
+          component: OrderMain,
         },
         {
           path: '/admin',
@@ -43,15 +43,15 @@ export default new Router({
             } else {
               Message({
                 message: '您無權限訪問此頁面',
-                type: 'error'
+                type: 'error',
               })
               const route = deepClone(from)
               route.name = 'OrderMain'
               next(route)
             }
-          }
-        }
-      ]
+          },
+        },
+      ],
     },
     {
       path: '/401',
@@ -65,7 +65,7 @@ export default new Router({
         } else {
           next()
         }
-      }
+      },
     },
     {
       path: '/browser',
@@ -81,7 +81,7 @@ export default new Router({
           route.name = 'OrderMain'
           next(route)
         }
-      }
-    }
-  ]
+      },
+    },
+  ],
 })

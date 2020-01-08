@@ -121,9 +121,9 @@ export default {
         searchByName: '',
         searchByMeals: '',
         searchByTypes: [],
-        searchAll: false
+        searchAll: false,
       },
-      loading: false
+      loading: false,
     }
   },
   computed: {
@@ -135,10 +135,10 @@ export default {
         pageSize: this.pageSize,
         sort: 'ASC',
         sortName: 'updatedOn',
-        types: this.condition.searchAll ? [] : this.condition.searchByTypes
+        types: this.condition.searchAll ? [] : this.condition.searchByTypes,
       }
       return load
-    }
+    },
   },
   methods: {
     ...mapActions(['showDialog']),
@@ -180,12 +180,12 @@ export default {
     toggleDialog(action, row = null) {
       let load
       const prop = {
-        action
+        action,
       }
       if (action === 'add') {
         load = {
           name: 'Store',
-          title: '新增店家'
+          title: '新增店家',
         }
       }
       if (action === 'edit' || action === 'delete') {
@@ -193,12 +193,12 @@ export default {
         if (action === 'edit') {
           load = {
             name: 'Store',
-            title: `編輯店家 – ${row.name}`
+            title: `編輯店家 – ${row.name}`,
           }
         } else {
           load = {
             name: 'Confirm',
-            title: '確認刪除'
+            title: '確認刪除',
           }
         }
       }
@@ -235,7 +235,7 @@ export default {
     },
     changSize() {
 
-    }
+    },
   },
   watch: {
     'condition': {
@@ -243,16 +243,16 @@ export default {
         this.pageNum = 1
         this.triggerDebounce()
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   components: {
-    RatingBar
+    RatingBar,
   },
   beforeDestroy() {
     this.$bus.$off('refresh')
     window.removeEventListener('keyup', this.keyup)
-  }
+  },
 }
 </script>
 <style lang="sass" scoped>

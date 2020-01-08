@@ -146,7 +146,7 @@ export default {
     if (this.$store.state.prop.action === 'edit') {
       axios.all([
         store.getStoreType(),
-        store.getStoreId(this.$store.state.prop.id)
+        store.getStoreId(this.$store.state.prop.id),
       ]).then(axios.spread((type, info) => {
         this.storeType = type.list
         this.storeInfo = info
@@ -160,7 +160,7 @@ export default {
   computed: {
     getMenuJson() {
       return this.storeInfo.menuText ? textToJson(this.storeInfo.menuText) : ''
-    }
+    },
   },
   methods: {
     ...mapActions(['closeDialog']),
@@ -194,7 +194,7 @@ export default {
       } else {
         this.$message({
           message: '請輸入完整且格式正確之菜單',
-          type: 'warning'
+          type: 'warning',
         })
       }
     },
@@ -207,7 +207,7 @@ export default {
       }
       this.$message({
         message,
-        type: 'success'
+        type: 'success',
       })
       this.$bus.$emit('refresh')
       this.closeDialog()
@@ -221,7 +221,7 @@ export default {
     }, 500),
     formatPrice(price) {
       return parseInt(price, 0).format()
-    }
+    },
   },
   watch: {
     'storeInfo.menuText': {
@@ -235,8 +235,8 @@ export default {
           const vm = this
           this.errorMessage(vm)
         }
-      }
-    }
+      },
+    },
   },
   data() {
     return {
@@ -252,15 +252,15 @@ export default {
         types: [],
         menuText: null,
         menuJson: null,
-        menuError: false
+        menuError: false,
       },
       loading: false,
-      placeholder: '{菜單分類}\n菜單項目分類:價錢\n菜單項目分類:菜單項目1.價錢,菜單項目2.價錢\n\n{漢堡}\n大麥克:123\n\n{飲料類}\n可樂:大杯.40,中杯.30,小杯.20'
+      placeholder: '{菜單分類}\n菜單項目分類:價錢\n菜單項目分類:菜單項目1.價錢,菜單項目2.價錢\n\n{漢堡}\n大麥克:123\n\n{飲料類}\n可樂:大杯.40,中杯.30,小杯.20',
     }
   },
   components: {
-    ScrollBar
-  }
+    ScrollBar,
+  },
 }
 </script>
 <style lang="sass" scope>

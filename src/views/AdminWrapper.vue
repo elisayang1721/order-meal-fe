@@ -10,7 +10,7 @@ export default {
   name: 'AdminWrapper',
   components: {
     ScrollBar,
-    Admin
-  }
+    Admin,
+  },
 }
 </script>

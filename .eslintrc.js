@@ -5,21 +5,21 @@ module.exports = {
   parserOptions: {
     parser: 'babel-eslint',
     ecmaVersion: 6,
-    sourceType: 'module'
+    sourceType: 'module',
   },
   env: {
     jquery: true,
-    browser: true
+    browser: true,
   },
   globals: {
     '_': true,
     'burl': true,
     'furl': true,
-    'grecaptcha': true
+    'grecaptcha': true,
   },
   extends: [
     'plugin:vue/essential',
-    'airbnb-base'
+    'airbnb-base',
   ],
   settings: {
     'import/resolver': {
@@ -35,23 +35,23 @@ module.exports = {
               '@css': path.resolve('./src/assets/css'),
               '@mix': path.resolve('./src/assets/mixins'),
               '@js': path.resolve('./src/assets/js'),
-              '@api': path.resolve('./src/api')
+              '@api': path.resolve('./src/api'),
             },
-            extensions: ['.js', '.vue']
-          }
-        }
-      }
+            extensions: ['.js', '.vue'],
+          },
+        },
+      },
     },
-    'import/extensions': ['.js', '.vue']
+    'import/extensions': ['.js', '.vue'],
   },
   plugins: [
-    'vue'
+    'vue',
   ],
   rules: {
     'indent': 'error',
     'no-console': 'warn',
     'semi': 'off',
-    'comma-dangle': ['error', 'never'],
+    'comma-dangle': ['error', 'always-multiline'],
     'arrow-parens': ['error', 'as-needed'],
     'prefer-template': 'off',
     'prefer-destructuring': 'off',
@@ -64,28 +64,23 @@ module.exports = {
     'max-len': 'warn',
     'class-methods-use-this': 'off',
     'no-underscore-dangle': ['error', {
-      allowAfterThis: true
+      allowAfterThis: true,
     }],
     'no-plusplus': 'off',
     'no-shadow': ['error', {
-      allow: ['state']
+      allow: ['state'],
     }],
     'no-prototype-builtins': 'off',
     'arrow-body-style': 'off',
     'no-restricted-syntax': 'off',
     'guard-for-in': 'off',
     'no-case-declarations': 'off',
-    'import/extensions': ['error', 'always', {
-      js: 'never',
-      vue: 'never',
-      svg: 'nerver'
-    }],
     'no-param-reassign': [2, { props: false }],
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'import/extensions': [2, 'never', {
-      'vue': 'never'
+      'vue': 'never',
     }],
     'semi': ['error', 'never'],
-    'func-names': ["error", "never"]
-  }
+    'func-names': ['error', 'never'],
+  },
 }

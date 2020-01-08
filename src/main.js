@@ -8,7 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/zh-TW'
 
 Vue.use(ElementUI, {
-  locale
+  locale,
 })
 
 // prototype
@@ -24,9 +24,16 @@ import '@css/orderModal.sass'
 const eventBus = {
   install() {
     Vue.prototype.$bus = new Vue()
-  }
+  },
 }
 Vue.use(eventBus)
+
+// webTitle
+Vue.directive('title', {
+  inserted(el) {
+    document.title = el.dataset.title
+  },
+})
 
 import App from './App'
 import router from './router'
@@ -37,5 +44,5 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
-  render(h) { return h(App) }
+  render(h) { return h(App) },
 }).$mount('#app')

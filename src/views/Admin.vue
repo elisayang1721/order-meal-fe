@@ -16,26 +16,26 @@ export default {
       tabs: [
         {
           name: 'StoreManage',
-          title: '店家管理'
+          title: '店家管理',
         },
         {
           name: 'UserAdmin',
-          title: '管理員權限'
-        }
-      ]
+          title: '管理員權限',
+        },
+      ],
     }
   },
   computed: {
     checkTabs() {
       const userData = JSON.parse(sessionStorage.userData)
       return userData.canModifyAdmin ? this.tabs : this.tabs.slice(0, 1)
-    }
+    },
   },
   components: {
     Tab,
     StoreManage,
-    UserAdmin
-  }
+    UserAdmin,
+  },
 }
 </script>
 <style lang="sass" scoped>

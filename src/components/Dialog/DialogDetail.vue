@@ -102,7 +102,7 @@ export default {
         isAdditional: 'bg-green',
         isFirst: 'bg-yellow',
         memberName: 'border-red',
-        status: 'bg-active'
+        status: 'bg-active',
       }
       if (obj.isFirst) {
         // 第一次
@@ -128,7 +128,7 @@ export default {
     edit(orderId) {
       const load = {
         name: 'Order',
-        title: `我也要訂 - ${this.$store.state.prop.storeName} - 編輯`
+        title: `我也要訂 - ${this.$store.state.prop.storeName} - 編輯`,
       }
       const prop = shallowClone(this.$store.state.prop)
       prop.action = 'edit'
@@ -144,7 +144,7 @@ export default {
       order.delOrder(id).then(() => {
         this.$message({
           message: '刪除點餐',
-          type: 'success'
+          type: 'success',
         })
         this.getRecordsInfo()
         this.$bus.$emit('refreshSystem')
@@ -152,7 +152,7 @@ export default {
         this.$bus.$emit('refreshMyorder', false)
         this.$bus.$emit('refreshUserExpenses')
       })
-    }
+    },
   },
   data() {
     return {
@@ -160,12 +160,12 @@ export default {
       userData: {},
       owner: '',
       loading: false,
-      orderTableKey: 0
+      orderTableKey: 0,
     }
   },
   components: {
-    EditBlock
-  }
+    EditBlock,
+  },
 }
 </script>
 <style lang="sass" scoped>

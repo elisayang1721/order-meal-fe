@@ -11,7 +11,7 @@ export default {
   name: 'StoreTransfer',
   data() {
     return {
-      storeInfo: []
+      storeInfo: [],
     }
   },
   mounted() {
@@ -22,11 +22,11 @@ export default {
       store.getAllStoreMenu().then(res => {
         const menuData = res.list
 
-        menuData.forEach((type, i) => {          
+        menuData.forEach((type, i) => {
           menuData[i].menuJson = deepClone(this.getMenuJson(menuData[i].menuText))
-          if(menuData[i].address === '') {
+          if (menuData[i].address === '') {
             menuData[i].address = '未填寫'
-          }         
+          }
         })
 
         this.storeInfo = menuData
@@ -40,16 +40,16 @@ export default {
       const storeInfo = type
       let i = 0
 
-      let loop = function () {
+      const loop = function () {
         store.addStore(storeInfo[i])
         setTimeout(() => {
-            if (i++ < storeInfo.length -1) {  
-              loop();
-            }               
-          }, 1000)
+          if (i++ < storeInfo.length - 1) {
+            loop()
+          }
+        }, 1000)
       }
       loop()
-    }
-  }
+    },
+  },
 }
 </script>

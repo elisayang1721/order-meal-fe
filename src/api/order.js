@@ -7,14 +7,14 @@ export default {
     // 取得點餐記錄列表
     return Axios({
       url: `/orderRecords?${apiUrl}`,
-      method: 'get'
+      method: 'get',
     })
   },
   delOrder(id) {
     // 刪除點餐
     return Axios({
       url: `/orderRecords/${id}`,
-      method: 'delete'
+      method: 'delete',
     })
   },
   updateOrder(orderId, orderRecordId, data) {
@@ -22,7 +22,7 @@ export default {
     return Axios({
       url: `/orders/${orderId}/orderRecords/${orderRecordId}`,
       method: 'patch',
-      data
+      data,
     })
   },
   addOrder(id, data) {
@@ -30,7 +30,7 @@ export default {
     return Axios({
       url: `/orders/${id}/orderRecords`,
       method: 'post',
-      data
+      data,
     })
   },
   updateOrderStatus(id, data) {
@@ -38,14 +38,14 @@ export default {
     return Axios({
       url: `/orderRecords/${id}`,
       method: 'put',
-      data
+      data,
     })
   },
   getSingleOrderRecord(id) {
     // 取得單筆點餐
     return Axios({
       url: `/orderRecords/${id}`,
-      method: 'get'
+      method: 'get',
     })
-  }
+  },
 }

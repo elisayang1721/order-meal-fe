@@ -70,27 +70,27 @@ export function countDown(timestamp) {
 
 export function textToJson(data) {
   const json = {
-    list: []
+    list: [],
   }
   let text = data
   text = text.replace(/[\u0020\t]/g, '').split('{').filter(item => item || false)
   text.forEach(el => {
     const list = {
       menuType: el.split('}')[0],
-      items: []
+      items: [],
     }
     const items = el.split('}')[1].split('\n').filter(item => item || false)
     items.forEach(item => {
       const mealObj = {
         cate: item.split(':')[0],
-        meals: []
+        meals: [],
       }
       const patten = /^[\d]+$/
       if (item.split(':')[1]) {
         if (patten.test(item.split(':')[1])) {
           mealObj.meals.push({
             name: item.split(':')[0],
-            price: item.split(':')[1]
+            price: item.split(':')[1],
           })
         } else {
           item.split(':')[1].split(',').forEach(sort => {
@@ -99,7 +99,7 @@ export function textToJson(data) {
             }
             const sorts = {
               name: sort.split('.')[0],
-              price: sort.split('.')[1]
+              price: sort.split('.')[1],
             }
             mealObj.meals.push(sorts)
           })
@@ -123,7 +123,7 @@ export function exportExcel(res) {
   // 創建 blob實例，並掛上content-type
   const blob = new Blob([res.data], {
     // MIME type
-    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   })
   // 建立blob 連結，並掛上a tag
   link.href = URL.createObjectURL(blob)

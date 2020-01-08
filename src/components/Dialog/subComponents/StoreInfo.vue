@@ -54,15 +54,15 @@ export default {
       orderForm.getStoreInfoId(this.storeId).then(res => {
         this.store = res
       })
-    }
+    },
   },
   data() {
     return {
-      store: {}
+      store: {},
     }
   },
   components: {
-    ScrollBar
-  }
+    ScrollBar,
+  },
 }
 </script>

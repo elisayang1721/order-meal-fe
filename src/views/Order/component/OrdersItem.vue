@@ -44,23 +44,23 @@ export default {
         price += el.price * el.amount
       })
       return { price }
-    }
+    },
   },
   methods: {
     ...mapActions(['showDialog']),
     toggleDialog(cName) {
       const load = {
         name: cName,
-        title: `${this.myOrderData.storeName} 的店家評價`
+        title: `${this.myOrderData.storeName} 的店家評價`,
       }
       const prop = {
         id: this.myOrderData.orderId,
-        storeId: this.myOrderData.storeId
+        storeId: this.myOrderData.storeId,
       }
       injectState(prop)
       this.showDialog(load)
-    }
-  }
+    },
+  },
 }
 </script>
 <style lang="sass" scoped>
