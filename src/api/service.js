@@ -7,6 +7,7 @@ const localHerf = () => {
 
 const officialHerf = () => {
   const href = window.location.href.replace('www', 'pub') + '/' + process.env.VUE_APP_BOTTOM
+  console.log(window.location)
   return href
 }
 
