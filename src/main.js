@@ -20,14 +20,6 @@ import '@css/main.sass'
 import '@css/admin.sass'
 import '@css/orderModal.sass'
 
-// socket.io client side setting
-import VueSocketIOExt from 'vue-socket.io-extended'
-import io from 'socket.io-client'
-
-const socket = io(process.env.VUE_APP_SOCKET_URL)
-
-Vue.use(VueSocketIOExt, socket)
-
 /** event bus */
 const eventBus = {
   install() {
