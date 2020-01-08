@@ -6,7 +6,9 @@ const localHerf = () => {
 }
 
 const officialHerf = () => {
-  return window.location.href.split('/')[2].replace(/www/, 'pub') + '/' + process.env.VUE_APP_BOTTOM
+  const href = window.location.href.split('/')[2].replace(/www/, 'pub') + '/' + process.env.VUE_APP_BOTTOM
+  console.log(href, process.env.VUE_APP_BOTTOM)
+  return href
 }
 
 const mainHref = (window.location.href.indexOf('localhost:') > -1) ? localHerf() : officialHerf()
