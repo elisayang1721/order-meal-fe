@@ -48,7 +48,7 @@ export default {
       setTimeout(() => {
         this.newOrder = false
       }, 3500)
-    }
+    },
   },
   watch: {
     'myOrdersList': {
@@ -56,8 +56,8 @@ export default {
         if (!this.isFinishedLoad) {
           this.reachEnd()
         }
-      }
-    }
+      },
+    },
   },
   data() {
     return {
@@ -65,15 +65,15 @@ export default {
       isFinishedLoad: false,
       loading: false,
       listPage: 1,
-      newOrder: false
+      newOrder: false,
     }
   },
   components: {
     ScrollBar,
-    OrdersItem
+    OrdersItem,
   },
   beforeDestroy() {
     this.$bus.$off('refreshMyorder')
-  }
+  },
 }
 </script>

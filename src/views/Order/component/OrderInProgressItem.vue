@@ -54,7 +54,7 @@ export default {
   name: 'OrderInProgressItem',
   props: ['list'],
   components: {
-    RatingBar
+    RatingBar,
   },
   mounted() {
     this.timestamp = this.list.finishedTime
@@ -73,7 +73,7 @@ export default {
     },
     balance() {
       return addComma(this.balancePrice)
-    }
+    },
   },
   methods: {
     ...mapActions(['showDialog']),
@@ -95,13 +95,13 @@ export default {
       }
       const load = {
         name: cName,
-        title
+        title,
       }
       const prop = {
         id: this.list.id,
         storeId: this.list.storeId,
         storeName: this.list.storeName,
-        owner: this.list.createdByName
+        owner: this.list.createdByName,
       }
       if (cName === 'Order') {
         prop.action = 'order'
@@ -161,13 +161,13 @@ export default {
       this.balancePrice = minPrice - ratePrice
 
       return rate
-    }
+    },
   },
   data() {
     return {
       countDown: null,
       timestamp: null,
-      balancePrice: 0    // 成單差額
+      balancePrice: 0,    // 成單差額
     }
   },
   watch: {
@@ -176,12 +176,12 @@ export default {
         this.timestamp = val.finishedTime
         this.checkCountDown()
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   beforeDestroy() {
     this.stopTimer()
-  }
+  },
 }
 </script>
 <style lang="sass" scoped>

@@ -41,12 +41,12 @@ export default {
     orderManagement(row) {
       const load = {
         name: 'OrderManagement',
-        title: `${row.createdByName} - ${row.storeName} - 訂單管理`
+        title: `${row.createdByName} - ${row.storeName} - 訂單管理`,
       }
       const prop = {
         id: row.id,
         storeId: row.storeId,
-        owner: row.createByName
+        owner: row.createByName,
       }
       injectState(prop)
       this.showDialog(load)
@@ -65,20 +65,20 @@ export default {
         className = 'fontGray'
       }
       return className
-    }
+    },
   },
   data() {
     return {
       orderHistoryList: [],
-      loading: false
+      loading: false,
     }
   },
   components: {
-    ScrollBar
+    ScrollBar,
   },
   beforeDestroy() {
     this.$bus.$off('refreshRecordsList')
-  }
+  },
 }
 </script>
 <style lang="sass" scoped>

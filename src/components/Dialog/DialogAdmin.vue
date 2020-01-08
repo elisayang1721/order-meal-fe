@@ -90,7 +90,7 @@ export default {
         vm.$message({
           showClose: true,
           message,
-          type: 'error'
+          type: 'error',
         })
       }
     }, 500),
@@ -124,7 +124,7 @@ export default {
       }
       this.$message({
         message,
-        type: 'success'
+        type: 'success',
       })
       this.$bus.$emit('refresh')
       this.closeDialog()
@@ -132,7 +132,7 @@ export default {
     regExpId(text) {
       const regex = /_/g
       return regex.test(text)
-    }
+    },
   },
   data() {
     return {
@@ -140,11 +140,11 @@ export default {
         companyAccount: '',
         isEnabled: false,
         canModifyAdmin: false,
-        canDeleteStore: false
+        canDeleteStore: false,
       },
-      mode: false
+      mode: false,
     }
-  }
+  },
 }
 </script>
 <style lang="sass" scope>

@@ -5,7 +5,7 @@ const mutations = {
   [types.SHOW_DIALOG](state, payload) {
     state.dialog.push({
       name: 'Dialog' + payload.name,
-      title: payload.title
+      title: payload.title,
     })
   },
   [types.CLOSE_DIALOG](state) {
@@ -14,7 +14,7 @@ const mutations = {
     if (state.dialog.length === 0) {
       delete state.prop
     }
-  }
+  },
 }
 
 export default mutations

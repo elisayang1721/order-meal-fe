@@ -13,7 +13,7 @@ export default {
   name: 'Page401',
   beforeDestroy() {
     window.history.forward()
-  }
+  },
 }
 </script>
 <style lang="sass" scoped>

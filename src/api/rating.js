@@ -6,21 +6,21 @@ export default {
     return Axios({
       url: `/orderRecords/${orderRecordId}/evaluations`,
       method: 'put',
-      data
+      data,
     })
   },
   getMyEvaluations(orderId) {
     // 取得單筆餐點評價
     return Axios({
       url: `/orderRecords/${orderId}/evaluations`,
-      method: 'get'
+      method: 'get',
     })
   },
   getAllEvaluations(storeId) {
     // 取得店家訂單評價
     return Axios({
       url: `/stores/${storeId}/evaluations`,
-      method: 'get'
+      method: 'get',
     })
-  }
+  },
 }

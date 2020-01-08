@@ -26,20 +26,20 @@ export default {
         this.progressList = res.list
         this.loading = false
       })
-    }
+    },
   },
   data() {
     return {
       progressList: [],
-      loading: false
+      loading: false,
     }
   },
   components: {
     OrderInProgressItem,
-    ScrollBar
+    ScrollBar,
   },
   beforeDestroy() {
     this.$bus.$off('refreshSystem')
-  }
+  },
 }
 </script>

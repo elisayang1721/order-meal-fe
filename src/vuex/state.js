@@ -1,5 +1,5 @@
 const state = {
-  dialog: []
+  dialog: [],
 }
 
 export default state

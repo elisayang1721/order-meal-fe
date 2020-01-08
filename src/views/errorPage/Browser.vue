@@ -10,7 +10,7 @@ export default {
   name: 'BrowserNotSupported',
   beforeDestroy() {
     window.history.forward()
-  }
+  },
 }
 </script>
 <style lang="sass" scoped>

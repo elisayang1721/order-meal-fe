@@ -6,8 +6,7 @@ const localHerf = () => {
 }
 
 const officialHerf = () => {
-  const href = window.location.href.split('/')[2].replace(/www/, 'pub') + '/' + process.env.VUE_APP_BOTTOM
-  console.log(href, process.env.VUE_APP_BOTTOM)
+  const href = window.location.origin.replace('www', 'pub') + '/' + process.env.VUE_APP_BOTTOM
   return href
 }
 
@@ -15,7 +14,7 @@ const mainHref = (window.location.href.indexOf('localhost:') > -1) ? localHerf()
 
 const service = axios.create({
   baseURL: mainHref,
-  timeout: 10000
+  timeout: 10000,
 })
 /** 攔截器(request): 送出請求前，於header中帶入使用者的 token */
 service.interceptors.request.use(
@@ -40,7 +39,7 @@ service.interceptors.response.use(
       const fileName = decodeURIComponent(hasDisposition.split("utf-8''")[1].split('.')[0])
       return {
         data: response.data,
-        fileName
+        fileName,
       }
     }
     return response.data
@@ -51,7 +50,7 @@ service.interceptors.response.use(
       message: '',
       type: 'error',
       duration: 3000,
-      showClose: false
+      showClose: false,
     }
     switch (response.status) {
       // token 過期

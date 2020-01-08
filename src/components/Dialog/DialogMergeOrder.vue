@@ -65,10 +65,10 @@ export default {
     },
     getOrderId() {
       const orderId = {
-        orderId: this.checked
+        orderId: this.checked,
       }
       return orderId
-    }
+    },
   },
   methods: {
     getOrderPrice(order) {
@@ -96,7 +96,7 @@ export default {
     }, 500),
     neededTitle(info) {
       return info.length > 10 ? info : ''
-    }
+    },
   },
   watch: {
     'checked': {
@@ -104,20 +104,20 @@ export default {
         this.listTotal = []
         const vm = this
         this.getMergeOrder(vm)
-      }
-    }
+      },
+    },
   },
   data() {
     return {
       orderList: {},
       listTotal: [],
       checked: [],
-      loading: false
+      loading: false,
     }
   },
   components: {
-    ScrollBar
-  }
+    ScrollBar,
+  },
 }
 </script>
 <style lang="sass" scoped>
