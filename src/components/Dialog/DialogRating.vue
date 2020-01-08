@@ -28,7 +28,7 @@ export default {
       loading: false,
       storeEvaluation: {},
       storeComments: [],
-      myComment: {}
+      myComment: {},
     }
   },
   mounted() {
@@ -37,7 +37,7 @@ export default {
   },
   components: {
     TotalCommentItem,
-    MyCommentItem
+    MyCommentItem,
   },
   methods: {
     getAllEvaluations() {
@@ -46,7 +46,7 @@ export default {
       const storeId = this.$store.state.prop.storeId
       axios.all([
         rating.getAllEvaluations(storeId),
-        rating.getMyEvaluations(orderId)
+        rating.getMyEvaluations(orderId),
       ]).then(axios.spread((allEvaluations, myEvaluation) => {
         this.storeComment(allEvaluations)
         this.storeEvaluation = allEvaluations
@@ -74,7 +74,7 @@ export default {
       } else {
         vm.$message({
           message: '已撰寫評論項目尚未評分',
-          type: 'warning'
+          type: 'warning',
         })
       }
     }, 300),
@@ -95,23 +95,23 @@ export default {
       this.collectLoads().forEach(load => {
         callUpdate.push(rating.updateEvaluation(load.orderRecordId, {
           score: load.score,
-          comment: load.comment
+          comment: load.comment,
         }))
       })
       axios.all(callUpdate).then(() => {
         this.$message({
           message: '評論成功',
-          type: 'success'
+          type: 'success',
         })
         this.$bus.$emit('refreshMyorder', false)
         this.$bus.$emit('refreshSystem')
         this.$bus.$emit('refreshTotalComments')
       })
-    }
+    },
   },
   beforeDestroy() {
     this.$bus.$off('refreshTotalComments')
-  }
+  },
 }
 </script>
 <style lang="sass" scoped>

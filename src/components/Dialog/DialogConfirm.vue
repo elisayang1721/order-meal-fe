@@ -26,7 +26,7 @@ export default {
       store.delStore(id).then(() => {
         this.$message({
           message: '刪除店家成功',
-          type: 'success'
+          type: 'success',
         })
         this.$bus.$emit('refresh')
         this.closeDialog()
@@ -34,8 +34,8 @@ export default {
         this.$bus.$emit('refresh')
         this.closeDialog()
       })
-    }
-  }
+    },
+  },
 }
 </script>
 <style lang="sass" scoped>

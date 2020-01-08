@@ -32,16 +32,16 @@ export default {
       store.getStoreMenu(this.storeId).then(res => {
         this.menu = res.list
       })
-    }
+    },
   },
   data() {
     return {
-      menu: []
+      menu: [],
     }
   },
   components: {
-    ScrollBar
-  }
+    ScrollBar,
+  },
 }
 </script>
 <style lang="sass">

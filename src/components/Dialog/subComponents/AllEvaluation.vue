@@ -26,12 +26,12 @@ export default {
   data() {
     return {
       storeEvaluations: {},
-      loading: false
+      loading: false,
     }
   },
   components: {
     ScrollBar,
-    TotalCommentItem
-  }
+    TotalCommentItem,
+  },
 }
 </script>

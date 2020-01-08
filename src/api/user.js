@@ -6,28 +6,28 @@ export default {
     return Axios({
       url: '/authToken',
       method: 'post',
-      data
+      data,
     })
   },
   deptRefs() {
     // 取得部門對照
     return Axios({
       url: '/deptRefs',
-      method: 'get'
+      method: 'get',
     })
   },
   logOut() {
     // 登出
     return Axios({
       url: '/logout',
-      method: 'post'
+      method: 'post',
     })
   },
   monthlyExpenses() {
     // 取得當月花費
     return Axios({
       url: '/monthlyExpenses',
-      method: 'get'
+      method: 'get',
     })
-  }
+  },
 }

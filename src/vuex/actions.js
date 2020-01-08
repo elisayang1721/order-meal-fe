@@ -6,7 +6,7 @@ const actions = {
   },
   closeDialog: ({ commit }, close) => {
     commit(types.CLOSE_DIALOG, close || '')
-  }
+  },
 }
 
 export default actions

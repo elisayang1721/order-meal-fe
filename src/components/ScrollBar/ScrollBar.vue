@@ -11,18 +11,18 @@ export default {
   props: {
     overscroll: {
       type: Boolean,
-      default: undefined
+      default: undefined,
     },
     needGoTop: {
       type: Boolean,
-      default: null
-    }
+      default: null,
+    },
   },
   data() {
     return {
       scroll: null,
       position: [],
-      goTopButton: null
+      goTopButton: null,
     }
   },
   mounted() {
@@ -36,9 +36,9 @@ export default {
         let option = {
           plugins: {
             overscroll: {
-              effect: 'glow'
-            }
-          }
+              effect: 'glow',
+            },
+          },
         }
         if (this.overscroll) {
           ScrollBar.use(OverscrollPlugin)
@@ -48,9 +48,9 @@ export default {
                 onScroll(position) {
                   vm.checkIfReachEnd(position)
                 },
-                effect: 'glow'
-              }
-            }
+                effect: 'glow',
+              },
+            },
           }
         }
         this.scroll = ScrollBar.init(this.$el, option)
@@ -90,7 +90,7 @@ export default {
       } else {
         this.position.push(poistion.y)
       }
-    }
+    },
   },
   watch: {
     'scroll.scrollTop': {
@@ -105,7 +105,7 @@ export default {
           }
         }
       },
-      deep: true
+      deep: true,
     },
     'scroll.track.yAxis._isShown': {
       handler(val) {
@@ -114,13 +114,13 @@ export default {
             this.goTopButton.classList.remove('goTopShow')
           }
         }
-      }
-    }
+      },
+    },
   },
   beforeDestroy() {
     this.uninit_GoTop()
     this.uninit()
-  }
+  },
 }
 </script>
 <style lang="sass" scoped>

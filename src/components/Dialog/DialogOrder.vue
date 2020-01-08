@@ -55,7 +55,7 @@ export default {
     } else {
       axios.all([
         store.getStoreMenu(this.$store.state.prop.storeId),
-        order.getSingleOrderRecord(this.$store.state.prop.orderId)
+        order.getSingleOrderRecord(this.$store.state.prop.orderId),
       ]).then(axios.spread((menu, item) => {
         this.menuList = menu.list
         this.orderItem = item
@@ -70,7 +70,7 @@ export default {
   computed: {
     getLoad() {
       const load = {
-        orders: []
+        orders: [],
       }
       Object.keys(this.orderSet).forEach(key => {
         this.orderSet[key].forEach(obj => {
@@ -80,7 +80,7 @@ export default {
         })
       })
       return load
-    }
+    },
   },
   methods: {
     ...mapActions(['closeDialog']),
@@ -99,7 +99,7 @@ export default {
             menuItemId: item.meals.length === 1 ? item.meals[0].id : null,
             amount: 0,
             remark: null,
-            isFocus: false
+            isFocus: false,
           }
           if (this.$store.state.prop.action === 'edit') {
             item.meals.forEach(meal => {
@@ -129,7 +129,7 @@ export default {
     errorMessage: debounce(vm => {
       vm.$message({
         message: '請至少點選一樣',
-        type: 'error'
+        type: 'error',
       })
     }, 500),
     confirm() {
@@ -157,7 +157,7 @@ export default {
       }
       this.$message({
         message,
-        type: 'success'
+        type: 'success',
       })
       this.$bus.$emit('refreshSystem')
       this.$bus.$emit('refreshMyorder', true)
@@ -183,7 +183,7 @@ export default {
           list.isFocus = false
         })
       })
-    }
+    },
   },
   data() {
     return {
@@ -192,9 +192,9 @@ export default {
       loading: false,
       orderItem: {},
       isOrder: Number,
-      isMenuType: ''
+      isMenuType: '',
     }
-  }
+  },
 }
 </script>
 <style lang="sass" scoped>

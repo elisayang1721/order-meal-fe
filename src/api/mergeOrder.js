@@ -7,7 +7,7 @@ export default {
     // [C-22] 取得合併訂單總計
     return Axios({
       url: `/mergeOrderOptions/sum?${apiUrl}`,
-      method: 'get'
+      method: 'get',
     })
   },
   exportExcel(data) {
@@ -16,14 +16,14 @@ export default {
       url: '/mergeOrderOptions/export',
       method: 'post',
       data,
-      responseType: 'blob'
+      responseType: 'blob',
     })
   },
   updateMergeOptions() {
     // [c-22] 取得合併訂單選項
     return Axios({
       url: '/mergeOrderOptions',
-      method: 'get'
+      method: 'get',
     })
-  }
+  },
 }

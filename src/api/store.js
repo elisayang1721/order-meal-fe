@@ -7,7 +7,7 @@ export default {
     // 刪除店家
     return Axios({
       url: `/stores/${id}`,
-      method: 'delete'
+      method: 'delete',
     })
   },
   updateStore(id, data) {
@@ -15,7 +15,7 @@ export default {
     return Axios({
       url: `/stores/${id}`,
       method: 'patch',
-      data
+      data,
     })
   },
   addStore(data) {
@@ -23,14 +23,14 @@ export default {
     return Axios({
       url: '/stores',
       method: 'post',
-      data
+      data,
     })
   },
   getStoreId(id) {
     // 取得單筆店家(完整)
     return Axios({
       url: `/storeDetails/${id}`,
-      method: 'get'
+      method: 'get',
     })
   },
   getStoreList(data) {
@@ -38,28 +38,28 @@ export default {
     // 取得店家列表
     return Axios({
       url: `/stores?${apiUrl}`,
-      method: 'get'
+      method: 'get',
     })
   },
   getStoreType() {
     // 取得店家服務類型
     return Axios({
       url: '/storeTypes',
-      method: 'get'
+      method: 'get',
     })
   },
   getStoreMenu(id) {
     // 取得店家菜單
     return Axios({
       url: `/stores/${id}/menus`,
-      method: 'get'
+      method: 'get',
     })
   },
   getAllStoreMenu() {
     // 取得所有店家菜單
     return Axios({
       url: '/transform',
-      method: 'get'
+      method: 'get',
     })
-  }
+  },
 }

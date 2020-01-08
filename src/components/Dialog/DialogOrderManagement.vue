@@ -88,7 +88,7 @@ export default {
     checkLimitedPrice() {
       // eslint-disable-next-line no-restricted-globals
       return this.orderInfo.limitedPrice && !isNaN(this.orderInfo.limitedPrice)
-    }
+    },
   },
   methods: {
     ...mapActions(['closeDialog']),
@@ -113,12 +113,12 @@ export default {
         finishedOn: vm.orderInfo.finishedOn,
         limitedPrice: vm.orderInfo.limitedPrice,
         bulletin: vm.orderInfo.bulletin,
-        status: vm.orderInfo.status
+        status: vm.orderInfo.status,
       }
       orderForm.updateOrderForm(vm.orderInfo.id, load).then(() => {
         vm.$message({
           message: '訂單更新成功',
-          type: 'success'
+          type: 'success',
         })
         vm.closeDialog()
         vm.$bus.$emit('refreshSystem')
@@ -138,12 +138,12 @@ export default {
         } else if (!this.orderInfo.finishedOn && !this.orderInfo.limitedPrice) {
           this.$message({
             message: '請至少填寫一項截止設定',
-            type: 'warning'
+            type: 'warning',
           })
         } else {
           this.$message({
             message: '請填入正確截止金額',
-            type: 'warning'
+            type: 'warning',
           })
         }
       } else {
@@ -162,22 +162,22 @@ export default {
       if (val) {
         this.orderInfo.status = val > this.orderInfo.totalPrice
       }
-    }
+    },
   },
   data() {
     return {
       initData: {},
       orderInfo: {},
-      loading: false
+      loading: false,
     }
   },
   components: {
-    DialogDetail
+    DialogDetail,
   },
   beforeDestroy() {
     this.$bus.$off('updateOrderAmount')
     this.$bus.$off('refreshOrderForm')
-  }
+  },
 }
 </script>
 <style lang="sass" scoped>

@@ -42,28 +42,16 @@ export default {
     })
   },
   sockets: {
-    connect() {
-      this.$socket.client.emit('join', {
-        userName: this.userData.memberName,
-        companyCode: this.userData.companyCode,
-        systemCode: 'oms',
-        deptId: this.userData.deptId,
-        groupId: null,
-        account: this.userData.account,
-        socketId: this.$socket.client.id,
-        connected_on: new Date()
-      })
-    },
     kickout() {
       this.logout()
-    }
+    },
   },
   methods: {
     ...mapActions(['showDialog']),
     switchRoute(path) {
       if (this.$route.path !== path) {
         this.$router.push({
-          path
+          path,
         })
       } else {
         window.location.reload()
@@ -72,7 +60,7 @@ export default {
     toggleDialog() {
       const load = {
         name: 'MergeOrder',
-        title: '合併訂單'
+        title: '合併訂單',
       }
       this.showDialog(load)
     },
@@ -82,10 +70,10 @@ export default {
         this.$bus.$emit('clearToken')
         this.$message({
           message: '登出成功',
-          type: 'success'
+          type: 'success',
         })
         this.$router.push({
-          path: '/401'
+          path: '/401',
         })
       })
     },
@@ -98,19 +86,19 @@ export default {
       this.$bus.$emit('refreshRecordsList')
       this.$bus.$emit('refreshOrderForm')
       this.$bus.$emit('refreshSystem')
-    }
+    },
   },
   data() {
     return {
       userData: {},
       userExpenses: 0,
-      webTitle: document.title
+      webTitle: document.title,
     }
   },
   beforeDestroy() {
     this.$bus.$off('refreshUserExpenses')
     this.$socket.$unsubscribe(`${this.userData.companyCode}_oms`)
-  }
+  },
 }
 </script>
 <style lang="sass" scoped>

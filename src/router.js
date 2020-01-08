@@ -1,3 +1,7 @@
+// socket.io client side setting
+import VueSocketIOExt from 'vue-socket.io-extended'
+import io from 'socket.io-client'
+
 import Vue from 'vue'
 import Router from 'vue-router'
 import { deepClone } from '@js/model'
@@ -17,11 +21,16 @@ export default new Router({
     {
       path: '/',
       component: Main,
+      beforeEnter: (to, from, next) => {
+        const socket = io(process.env.VUE_APP_SOCKET_URL)
+        Vue.use(VueSocketIOExt, socket)
+        next()
+      },
       children: [
         {
           path: '',
           name: 'OrderMain',
-          component: OrderMain
+          component: OrderMain,
         },
         {
           path: '/admin',
@@ -34,15 +43,15 @@ export default new Router({
             } else {
               Message({
                 message: '您無權限訪問此頁面',
-                type: 'error'
+                type: 'error',
               })
               const route = deepClone(from)
               route.name = 'OrderMain'
               next(route)
             }
-          }
-        }
-      ]
+          },
+        },
+      ],
     },
     {
       path: '/401',
@@ -56,7 +65,7 @@ export default new Router({
         } else {
           next()
         }
-      }
+      },
     },
     {
       path: '/browser',
@@ -72,7 +81,7 @@ export default new Router({
           route.name = 'OrderMain'
           next(route)
         }
-      }
-    }
-  ]
+      },
+    },
+  ],
 })

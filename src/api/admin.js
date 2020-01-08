@@ -7,14 +7,14 @@ export default {
     // 取得管理員列表
     return Axios({
       url: `/admins?${apiUrl}`,
-      method: 'get'
+      method: 'get',
     })
   },
   getAdminId(id) {
     // 取得單筆管理員
     return Axios({
       url: `/admins/${id}`,
-      method: 'get'
+      method: 'get',
     })
   },
   addAdmin(data) {
@@ -22,7 +22,7 @@ export default {
     return Axios({
       url: '/admins',
       method: 'post',
-      data
+      data,
     })
   },
   updateAdmin(id, data) {
@@ -30,8 +30,8 @@ export default {
     return Axios({
       url: `/admins/${id}`,
       method: 'patch',
-      data
+      data,
 
     })
-  }
+  },
 }
