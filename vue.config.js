@@ -6,13 +6,14 @@ const compress = new CompressionPlugin({
   minRatio: 0.8,
   test: /\.(js|css)$/, // 符合的檔名
   threshold: 10240, // 對超過 10k的檔案進行壓縮
-  deleteOriginalAssets: false // 不刪除原本檔案
+  deleteOriginalAssets: false, // 不刪除原本檔案
 })
 
 module.exports = {
   publicPath: './',
   devServer: {
-    port: 2019
+    port: 2019,
+    // https: true
   },
   chainWebpack: config => {
     // pug
@@ -33,17 +34,17 @@ module.exports = {
         '@css': '@/assets/css',
         '@mix': '@/assets/mixins',
         '@js': '@/assets/js',
-        '@api': '@/api'
-      }
+        '@api': '@/api',
+      },
     },
-    plugins: [compress]
+    plugins: [compress],
   },
   productionSourceMap: false,
   css: {
     loaderOptions: {
       sass: {
-        data: '@import "@css/mixins.sass";'
-      }
-    }
-  }
+        data: '@import "@css/mixins.sass";',
+      },
+    },
+  },
 }

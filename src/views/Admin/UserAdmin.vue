@@ -72,23 +72,23 @@ export default {
       statusList: [
         {
           isEnabled: null,
-          text: '全部'
+          text: '全部',
         },
         {
           isEnabled: true,
-          text: '啟用中'
+          text: '啟用中',
         },
         {
           isEnabled: false,
-          text: '已停用'
-        }
+          text: '已停用',
+        },
       ],
       isEnabled: null,
       totalSize: null,
       pageNum: 1,
       pageSize: 10,
       adminData: [],
-      loading: false
+      loading: false,
     }
   },
   mounted() {
@@ -102,10 +102,10 @@ export default {
       const load = {
         isEnabled: this.isEnabled,
         page: this.pageNum,
-        pageSize: this.pageSize
+        pageSize: this.pageSize,
       }
       return load
-    }
+    },
   },
   methods: {
     ...mapActions(['showDialog']),
@@ -129,19 +129,19 @@ export default {
     toggleDialog(action, row = null) {
       let load
       const prop = {
-        action
+        action,
       }
       if (action === 'add') {
         load = {
           name: 'Admin',
-          title: '新增管理員：'
+          title: '新增管理員：',
         }
       }
       if (action === 'edit') {
         prop.id = row.id
         load = {
           name: 'Admin',
-          title: `編輯管理員： ${row.name}`
+          title: `編輯管理員： ${row.name}`,
         }
       }
       injectState(prop)
@@ -155,7 +155,7 @@ export default {
         className = 'fontGray'
       }
       return className
-    }
+    },
   },
   beforeDestroy() {
     this.$bus.$off('refresh')
@@ -166,9 +166,9 @@ export default {
         this.pageNum = 1
         this.triggerDebounce()
       },
-      deep: true
-    }
-  }
+      deep: true,
+    },
+  },
 }
 </script>
 <style lang="sass" scoped>

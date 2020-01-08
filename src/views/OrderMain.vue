@@ -16,13 +16,13 @@ import { mapActions } from 'vuex'
 export default {
   name: 'OrderMain',
   methods: {
-    ...mapActions(['showDialog'])
+    ...mapActions(['showDialog']),
   },
   components: {
     OrdersHistory,
     OrderSystem,
-    ScrollBar
-  }
+    ScrollBar,
+  },
 }
 </script>
 <style lang="sass" scoped>

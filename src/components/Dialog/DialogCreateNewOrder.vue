@@ -101,15 +101,15 @@ export default {
         searchByTypes: [],
         sort: 'DESC',
         sortName: 'avgScore',
-        page: 1
-      }
+        page: 1,
+      },
     }
   },
   mounted() {
     this.loading = true
     axios.all([
       store.getStoreType(),
-      orderForm.getStoreInfos(this.getPayLoad)
+      orderForm.getStoreInfos(this.getPayLoad),
     ]).then(axios.spread((storeTypes, storeList) => {
       this.storeTypes = storeTypes.list
       if (storeList.list.length >= 13) {
@@ -131,7 +131,7 @@ export default {
           sort: this.condition.sort,
           inWeek: this.condition.searchByTime ? this.condition.searchByTime : '',
           page: this.condition.page,
-          pageSize: 13
+          pageSize: 13,
         }
       } else {
         load = {
@@ -142,11 +142,11 @@ export default {
           inWeek: this.condition.searchByTime ? this.condition.searchByTime : '',
           types: this.condition.searchByTypes.join(','),
           page: this.condition.page,
-          pageSize: 13
+          pageSize: 13,
         }
       }
       return load
-    }
+    },
   },
   methods: {
     toggleAside(id, component, name = null) {
@@ -232,7 +232,7 @@ export default {
     },
     reformString(str) {
       return str.trim().replace(' ', ',').replace(/,+/g, ',')
-    }
+    },
   },
   watch: {
     'storeList': {
@@ -240,18 +240,18 @@ export default {
         if (!this.isFinishLoaded) {
           this.reachEnd()
         }
-      }
+      },
     },
     'condition.searchByMeals': {
       handler() {
         this.triggerDebounce()
-      }
+      },
     },
     'condition.searchByName': {
       handler() {
         this.triggerDebounce()
-      }
-    }
+      },
+    },
 
   },
   components: {
@@ -260,11 +260,11 @@ export default {
     MenuList,
     StoreInfo,
     AllEvaluation,
-    RatingBar
+    RatingBar,
   },
   destroyed() {
     window.removeEventListener('keyup', this.keyup)
-  }
+  },
 }
 </script>
 <style lang="sass" scoped>

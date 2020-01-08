@@ -17,7 +17,7 @@ export default {
   name: 'TotalCommentItem',
   props: ['item'],
   components: {
-    RatingBar
-  }
+    RatingBar,
+  },
 }
 </script>

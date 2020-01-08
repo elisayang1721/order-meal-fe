@@ -16,21 +16,21 @@ export default {
       tabs: [
         {
           name: 'MyOrdersFrame',
-          title: '我的點餐記錄'
+          title: '我的點餐記錄',
         },
         {
           name: 'OrdersHistoryFrame',
-          title: '訂單歷史記錄'
-        }
+          title: '訂單歷史記錄',
+        },
       ],
-      active: ''
+      active: '',
     }
   },
   components: {
     Tab,
     MyOrdersFrame,
-    OrdersHistoryFrame
-  }
+    OrdersHistoryFrame,
+  },
 }
 </script>
 <style lang="sass" scoped>

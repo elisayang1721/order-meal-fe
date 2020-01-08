@@ -37,11 +37,11 @@ export default {
   data() {
     return {
       goTop: false,
-      isNeededFooter: false
+      isNeededFooter: false,
     }
   },
   components: {
-    ScrollBar
+    ScrollBar,
   },
   computed: {
     ...mapState(['dialog']),
@@ -59,7 +59,7 @@ export default {
     },
     ratingClassCheck() {
       return this.componentName === 'DialogRating' && this.isNeededFooter
-    }
+    },
   },
   mounted() {
     window.addEventListener('keyup', this.handleKeyup)
@@ -103,7 +103,7 @@ export default {
       if (key === 'Escape') {
         this.closeDialog()
       }
-    }
+    },
   },
   watch: {
     'dialog': {
@@ -115,20 +115,20 @@ export default {
           }
         }
       },
-      deep: true
+      deep: true,
     },
     '$store.state.dialog': {
       handler(val) {
         if (!val.length) {
           this.goTop = false
         }
-      }
-    }
+      },
+    },
   },
   beforeDestroy() {
     window.removeEventListener('keyup', this.handleKeyup)
     this.$bus.$off('AddFooter')
-  }
+  },
 }
 </script>
 <style lang="sass" scope>

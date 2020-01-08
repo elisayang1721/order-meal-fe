@@ -49,9 +49,9 @@ export default {
         dateTime: null,
         expiredAmount: null,
         bulletin: null,
-        value: null
+        value: null,
       },
-      memberName: ''
+      memberName: '',
     }
   },
   computed: {
@@ -61,7 +61,7 @@ export default {
         finishedOn: this.condition.dateTime,
         limitedPrice: this.condition.expiredAmount,
         bulletin: this.condition.bulletin,
-        status: true
+        status: true,
       }
       return load
     },
@@ -75,10 +75,10 @@ export default {
       const nowTime = new Date().getTime()
       const setTime = new Date(this.condition.dateTime.replace(/\s/, 'T')).getTime()
       return setTime > nowTime
-    }
+    },
   },
   components: {
-    ScrollBar
+    ScrollBar,
   },
   methods: {
     ...mapActions(['closeDialog']),
@@ -86,7 +86,7 @@ export default {
       orderForm.addOrderForm(vm.getLoad).then(() => {
         vm.$message({
           message: '新增訂單成功',
-          type: 'success'
+          type: 'success',
         })
         vm.$bus.$emit('refreshSystem')
         vm.$bus.$emit('refreshRecordsList')
@@ -111,7 +111,7 @@ export default {
         }
         this.$message({
           message,
-          type: 'warning'
+          type: 'warning',
         })
       }
     },
@@ -119,12 +119,12 @@ export default {
       if (this.condition.dateTime === null) {
         this.condition.dateTime = new Date()
       }
-    }
+    },
   },
   mounted() {
     const userData = JSON.parse(sessionStorage.getItem('userData'))
     this.memberName = userData.memberName
-  }
+  },
 }
 </script>
 <style lang="sass" scoped>

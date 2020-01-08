@@ -22,39 +22,39 @@ export default {
   props: {
     'score': {
       type: Number,
-      default: null
+      default: null,
     },
     'isSelectable': {
       type: Boolean,
-      default: true
+      default: true,
     },
     'type': {
       type: String,
-      default: 'Num'
-    }
+      default: 'Num',
+    },
   },
   data() {
     return {
       faces: [
         {
-          isHighLighted: false
+          isHighLighted: false,
         },
         {
-          isHighLighted: false
+          isHighLighted: false,
         },
         {
-          isHighLighted: false
+          isHighLighted: false,
         },
         {
-          isHighLighted: false
+          isHighLighted: false,
         },
         {
-          isHighLighted: false
-        }
+          isHighLighted: false,
+        },
       ],
       currentIdx: null,
       isSubmit: false,
-      rateScore: null
+      rateScore: null,
     }
   },
   mounted() {
@@ -121,7 +121,7 @@ export default {
       this.currentIdx = i + 1
       this.rateScore = i + 1
       this.isSubmit = true
-    }
+    },
   },
   watch: {
     'score': {
@@ -131,9 +131,9 @@ export default {
         } else {
           this.setIndex()
         }
-      }
-    }
-  }
+      },
+    },
+  },
 }
 </script>
 <style lang="sass" scoped>

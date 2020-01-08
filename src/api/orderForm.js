@@ -6,7 +6,7 @@ export default {
     // 取得進行中訂單列表
     return Axios({
       url: '/onGoingOrders',
-      method: 'get'
+      method: 'get',
     })
   },
   getStoreInfos(data) {
@@ -15,14 +15,14 @@ export default {
     // 取得店家簡介列表
     return Axios({
       url: `/storeInfos?${apiUrl}`,
-      method: 'get'
+      method: 'get',
     })
   },
   getStoreInfoId(id) {
     // 取得單筆店家簡介
     return Axios({
       url: `/storeInfos/${id}`,
-      method: 'get'
+      method: 'get',
     })
   },
   updateOrderForm(id, data) {
@@ -30,7 +30,7 @@ export default {
     return Axios({
       url: `/orders/${id}`,
       method: 'patch',
-      data
+      data,
     })
   },
   addOrderForm(data) {
@@ -38,7 +38,7 @@ export default {
     return Axios({
       url: '/orders',
       method: 'post',
-      data
+      data,
     })
-  }
+  },
 }

@@ -12,7 +12,7 @@ export default {
   name: 'EditBlock',
   data() {
     return {
-      isBtnShow: false
+      isBtnShow: false,
     }
   },
   methods: {
@@ -27,7 +27,7 @@ export default {
     },
     confirmDelete() {
       this.$emit('confirmDelete')
-    }
-  }
+    },
+  },
 }
 </script>

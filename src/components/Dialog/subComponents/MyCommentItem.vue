@@ -23,14 +23,14 @@ export default {
       const load = {
         score: this.$refs.ratingBar.rateScore,
         comment: this.item.comment,
-        orderRecordId: this.item.orderRecordId
+        orderRecordId: this.item.orderRecordId,
       }
       return load
-    }
+    },
   },
   components: {
-    RatingBar
-  }
+    RatingBar,
+  },
 }
 </script>
 <style lang="sass" scoped>
