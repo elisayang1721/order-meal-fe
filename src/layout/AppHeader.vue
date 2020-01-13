@@ -35,10 +35,7 @@ export default {
     this.userData = JSON.parse(sessionStorage.getItem('userData'))
     this.getMonthlyExpenses()
 
-    // this.$socket.$subscribe(`${this.userData.companyCode}_oms`, this.handleOrderStatusChange)
-    this.$socket.$subscribe(`${this.userData.companyCode}_oms`, () => {
-      console.log('socket connect')
-    })
+    this.$socket.$subscribe(`${this.userData.companyCode}_oms`, this.handleOrderStatusChange)
 
     this.$bus.$on('refreshUserExpenses', () => {
       this.getMonthlyExpenses()
