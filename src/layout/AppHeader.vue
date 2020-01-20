@@ -108,6 +108,7 @@ export default {
       })
     },
     handleOrderStatusChange() {
+      console.log('in statusChange')
       this.$bus.$emit('refreshRecordsList')
       this.$bus.$emit('refreshOrderForm')
       this.$bus.$emit('refreshSystem')
