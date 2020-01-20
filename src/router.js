@@ -22,7 +22,8 @@ export default new Router({
       path: '/',
       component: Main,
       beforeEnter: (to, from, next) => {
-        const socket = io(process.env.VUE_APP_SOCKET_URL)
+        const { companyCode } = JSON.parse(sessionStorage.getItem('userData'))
+        const socket = io(`${process.env.VUE_APP_SOCKET_URL}/${companyCode}_oms`)
         Vue.use(VueSocketIOExt, socket)
         next()
       },
