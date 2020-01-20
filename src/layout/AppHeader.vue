@@ -61,7 +61,7 @@ export default {
     })
 
     this.$socket.$subscribe(`${this.userData.companyCode}_oms`, this.handleOrderStatusChange)
-
+    console.log(`${process.env.VUE_APP_SOCKET_URL}/${companyCode}_oms`)
     this.$bus.$on('refreshUserExpenses', () => {
       this.getMonthlyExpenses()
     })
