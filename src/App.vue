@@ -8,6 +8,10 @@
 import Dialog from '@c/Dialog/Dialog'
 import axios from 'axios'
 import user from '@api/user'
+// socket.io client side setting
+import VueSocketIOExt from 'vue-socket.io-extended'
+import io from 'socket.io-client'
+import Vue from 'vue'
 import AppHeader from '@/layout/AppHeader'
 
 export default {
@@ -125,6 +129,9 @@ export default {
           this.$router.push(returnurl)
           return
         }
+        const { companyCode } = res
+        const socket = io(`${process.env.VUE_APP_SOCKET_URL}/${companyCode}_oms`)
+        Vue.use(VueSocketIOExt, socket)
 
         this.$socket.client.emit('join', {
           userName: res.memberName,
