@@ -1,7 +1,3 @@
-// socket.io client side setting
-import VueSocketIOExt from 'vue-socket.io-extended'
-import io from 'socket.io-client'
-
 import Vue from 'vue'
 import Router from 'vue-router'
 import { deepClone } from '@js/model'
@@ -21,12 +17,6 @@ export default new Router({
     {
       path: '/',
       component: Main,
-      beforeEnter: (to, from, next) => {
-        const { companyCode } = JSON.parse(sessionStorage.getItem('userData'))
-        const socket = io(`${process.env.VUE_APP_SOCKET_URL}/${companyCode}_oms`)
-        Vue.use(VueSocketIOExt, socket)
-        next()
-      },
       children: [
         {
           path: '',
