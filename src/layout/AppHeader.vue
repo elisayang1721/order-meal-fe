@@ -61,7 +61,6 @@ export default {
     })
 
     this.$socket.$subscribe(`${this.userData.companyCode}_oms`, this.handleOrderStatusChange)
-    console.log(`${process.env.VUE_APP_SOCKET_URL}/${companyCode}_oms`)
     this.$bus.$on('refreshUserExpenses', () => {
       this.getMonthlyExpenses()
     })
@@ -108,7 +107,6 @@ export default {
       })
     },
     handleOrderStatusChange() {
-      console.log('in statusChange')
       this.$bus.$emit('refreshRecordsList')
       this.$bus.$emit('refreshOrderForm')
       this.$bus.$emit('refreshSystem')
