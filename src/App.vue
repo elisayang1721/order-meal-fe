@@ -28,8 +28,8 @@ export default {
       this.devApi()
     }
     if (process.env.NODE_ENV === 'production') {
+      this.urlTitle()
       if (this.$route.query.token) {
-        this.urlTitle()
         this.channel()
         const token = this.$route.query.token
         this.emsToken = token
@@ -107,6 +107,7 @@ export default {
       if (sessionStorage.userTitle) {
         document.title = sessionStorage.userTitle
       } else {
+        console.log(this.webTitle)
         document.title = this.webTitle
       }
     },
