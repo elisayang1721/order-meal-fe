@@ -61,7 +61,6 @@ export default {
     })
 
     this.$socket.$subscribe(`${this.userData.companyCode}_oms`, this.handleOrderStatusChange)
-
     this.$bus.$on('refreshUserExpenses', () => {
       this.getMonthlyExpenses()
     })
