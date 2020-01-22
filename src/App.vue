@@ -53,11 +53,6 @@ export default {
       this.emsChannel = ''
     })
   },
-  sockets: {
-    connect() {
-      // console.log('Your socket  has connected!')
-    },
-  },
   methods: {
     devApi() {
       const data = {
@@ -125,18 +120,6 @@ export default {
           this.$router.push(returnurl)
           return
         }
-
-        this.$socket.client.emit('join', {
-          userName: res.memberName,
-          companyCode: res.companyCode,
-          systemCode: 'oms',
-          deptId: res.deptId,
-          groupId: null,
-          account: res.account,
-          socketId: this.$socket.client.id,
-          connected_on: new Date(),
-        })
-
         // vue-router 3.1 版本後 push/replace 返回promise，但promise被reject，未被catch
         this.$router.push('/').catch(() => {})
         this.loading = false

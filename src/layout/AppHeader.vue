@@ -28,15 +28,40 @@
 <script>
 import user from '@api/user'
 import { mapActions } from 'vuex'
+// socket.io client side setting
+import VueSocketIOExt from 'vue-socket.io-extended'
+import io from 'socket.io-client'
+import Vue from 'vue'
 
 export default {
   name: 'AppHeader',
-  mounted() {
+  async mounted() {
     this.userData = JSON.parse(sessionStorage.getItem('userData'))
     this.getMonthlyExpenses()
 
-    this.$socket.$subscribe(`${this.userData.companyCode}_oms`, this.handleOrderStatusChange)
+    const {
+      companyCode,
+      memberName,
+      deptId,
+      account,
+    } = this.userData
+    const socket = io(`${process.env.VUE_APP_SOCKET_URL}/${companyCode}_oms`)
+    Vue.use(VueSocketIOExt, socket)
+    await this.$nextTick()
 
+    this.$socket.client.emit('join', {
+      userName: memberName,
+      companyCode,
+      systemCode: 'oms',
+      deptId,
+      groupId: null,
+      account,
+      socketId: this.$socket.client.id,
+      connected_on: new Date(),
+    })
+
+    this.$socket.$subscribe(`${this.userData.companyCode}_oms`, this.handleOrderStatusChange)
+    console.log(`${process.env.VUE_APP_SOCKET_URL}/${companyCode}_oms`)
     this.$bus.$on('refreshUserExpenses', () => {
       this.getMonthlyExpenses()
     })
@@ -83,6 +108,7 @@ export default {
       })
     },
     handleOrderStatusChange() {
+      console.log('in statusChange')
       this.$bus.$emit('refreshRecordsList')
       this.$bus.$emit('refreshOrderForm')
       this.$bus.$emit('refreshSystem')
