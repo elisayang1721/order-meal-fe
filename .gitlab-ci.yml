@@ -1,4 +1,4 @@
-image: sl8520/gitlab-ci-pipeline-for-laravel
+image: bcksysrds/gitlab-ci-pipeline-for-laravel
 
 stages:
   - build
@@ -98,6 +98,6 @@ deploy-production:
     - *change_file_permissions
     - *change_file_owner
     - rsync -av --delete --exclude=.git --password-file=/etc/rsync.secret ./dist/ root@${RSYNC_HOST_PRODUCTION}::${RSYNC_MODULE_PRODUCTION}
-#   when: manual
+  when: manual
   only:
     - master
