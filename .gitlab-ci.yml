@@ -1,4 +1,4 @@
-image: sl8520/gitlab-ci-pipeline-for-laravel
+image: bcksysrds/gitlab-ci-pipeline-for-laravel
 
 stages:
   - build
