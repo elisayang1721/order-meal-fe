@@ -99,7 +99,7 @@
               .showForm
                 .formViewFix(v-if="storeInfo.menuJson")
                   .menu.tableFrame
-                    .row
+                    .row.heading
                       .cell
                         span 品名
                       .cell
