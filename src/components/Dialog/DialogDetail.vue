@@ -1,6 +1,6 @@
 <template lang="pug">
   #detail.tableFrame(v-loading="loading")
-    .row
+    .row.heading
       .cell
         span 品項
       .cell
