@@ -29,29 +29,30 @@
                 span － 藍色文字表示該項目的說明
             i.el-icon-question
     template(v-if="ordersDetail.length")
-      .row(v-for="(item, idx) in ordersDetail" :key="idx")
-        .cell
-          span {{checkItemName(item.itemName)}}
-        .cell
-          span {{item.totalAmount}}
-        .cell
-          span {{item.price.format()}}
-        .cell.flexFix.subscriberInfo(:key="orderTableKey")
-          .subscriberCell(v-for="(obj, i) in item.orderRecords" :key="obj.id"
-            :class="recordClass(obj)"
-            @click="getDebounce(obj)")
-            template(v-if="obj.remark")
-              el-tooltip( effect="dark" placement="top-start")
-                div(slot="content") {{obj.remark}}
+      .memList
+        .row(v-for="(item, idx) in ordersDetail" :key="idx")
+          .cell
+            span {{checkItemName(item.itemName)}}
+          .cell
+            span {{item.totalAmount}}
+          .cell
+            span {{item.price.format()}}
+          .cell.flexFix.subscriberInfo(:key="orderTableKey")
+            .subscriberCell(v-for="(obj, i) in item.orderRecords" :key="obj.id"
+              :class="recordClass(obj)"
+              @click="getDebounce(obj)")
+              template(v-if="obj.remark")
+                el-tooltip( effect="dark" placement="top-start")
+                  div(slot="content") {{obj.remark}}
+                  el-button
+                    span {{`${obj.memberName} x${obj.amount}`}}
+                    span.font-blue {{obj.remark}}
+                    EditBlock(@edit='edit(obj.id)' @confirmDelete="confirmDelete(obj.id)")
+              template(v-else)
                 el-button
                   span {{`${obj.memberName} x${obj.amount}`}}
                   span.font-blue {{obj.remark}}
                   EditBlock(@edit='edit(obj.id)' @confirmDelete="confirmDelete(obj.id)")
-            template(v-else)
-              el-button
-                span {{`${obj.memberName} x${obj.amount}`}}
-                span.font-blue {{obj.remark}}
-                EditBlock(@edit='edit(obj.id)' @confirmDelete="confirmDelete(obj.id)")
     template(v-else)
       .noComment 目前尚未有任何點餐
 </template>
@@ -177,15 +178,12 @@ export default {
 /deep/.el-icon-question
   margin-left: 5px
 #detail
-  border: 1px solid $tableLineColor
-  border-right: 0
-#detail
   .row
+    .cell
+      padding: 0.4rem
     &:first-child
       .cell
         padding: 0.6rem 0.4rem
-    .cell
-      padding: 0.4rem
   .noComment
     border-right: 1px solid #e6dedb
 .editBlock
