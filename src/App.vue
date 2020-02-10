@@ -107,7 +107,6 @@ export default {
       if (sessionStorage.userTitle) {
         document.title = sessionStorage.userTitle
       } else {
-        console.log(this.webTitle)
         document.title = this.webTitle
       }
     },
