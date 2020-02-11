@@ -52,7 +52,7 @@
   display: flex
   width: 100%
   color: #5f5c5c
-  &:first-child
+  &.heading
     background: $tableHeadColor
     color: #fff
     .cell
@@ -76,8 +76,10 @@
     &:last-child
       flex: 3
     &.menuType
+      color: $darkGray
       font-weight: 700
-      background: #efebea
+      background: #eae5e4
+      border-top: 1px solid $tableLineColor
     .subscriberCell
       width: calc(100% / 5)
       height: 60px
@@ -159,10 +161,8 @@
       &:last-child
         flex: 2
       &.price
-        padding: .6rem .6rem 0 .6rem
         .input-radio
           margin-right: 20px
-          margin-bottom: 5px
       &.toolTip
         &:hover
           .remark
@@ -288,7 +288,7 @@
         height: 36px
         line-height: 36px
         background-color: #fff !important
-        border-color: #d0c9c9
+        border-color: $inputLineColor
       .el-input__icon
         line-height: 36px
     &+.searchInputWrap

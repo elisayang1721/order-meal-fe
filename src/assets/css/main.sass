@@ -20,7 +20,7 @@ html,body
 .fontYel
   color: #eab059
 .fontGray
-  color: #c4bcbc
+  color: #b2aeae
 
 // el ui 
 .el-button
@@ -49,17 +49,45 @@ html,body
     line-height: 42px
   th,td
     text-align: center
+  tr
+    &:nth-child(odd)
+      background: #f8f8f8
   .address
     cursor: pointer
     font-size: 1.5rem
     transition: all .2s 
     &:hover 
       padding-bottom: 1rem
-
+.el-table--enable-row-hover
+  .el-table__body
+    tr
+      &:hover
+        >td
+          background-color: #fefaed
+.el-table
+  &::before
+    background-color: $tableLineColor
+.el-table--border, .el-table--group
+  &::after
+    background-color: $tableLineColor
+.el-table--border, .el-table--group
+  border: 1px solid $tableLineColor
+.el-table--border
+  border-right: none
+  border-bottom: none
+  td
+    border-right: 1px solid $tableLineColor
+.el-table
+  td
+    border-bottom: 1px solid $tableLineColor
+  th
+    &.is-leaf
+      border-bottom: 1px solid $tableLineColor
+  
 .el-input, .el-textarea
   flex: 1
   .el-input__inner, .el-textarea__inner,.el-time-panel__footer,.el-picker-panel__footer
-    border-color: $tableLineColor
+    border-color: $inputLineColor
     color: #4a4a4a
     +Bgc(#f7f5f5)
     &::placeholder 
@@ -196,7 +224,7 @@ html,body
 
 .orderManagementBtn
   +Bgc(#f7f3f3)
-  border-color: #ab9694
+  border-color: #c2b3b2
   color: #866e6c
   &:hover,
   &:active,
@@ -209,10 +237,16 @@ html,body
   +Bgc($c1)
   border: 1px solid $tableLineColor
   border-right: 0
+  .memList
+    .row
+      &:nth-child(odd)
+        background: #f8f8f8
+      &:hover
+        background: #fefaed
 
 // raido checkout 樣式
 .el-checkbox__inner
-  border-color: #d0c9c9
+  border-color: $inputLineColor
   background: #fff
   &:hover
     border-color: $tableHeadColor
@@ -222,7 +256,7 @@ html,body
 
 .el-radio
   .el-radio__inner
-    border-color: #d0c9c9
+    border-color: $inputLineColor
     background: #fff
 .el-radio__label
   font-size: 15px
