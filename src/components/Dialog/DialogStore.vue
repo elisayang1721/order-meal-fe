@@ -99,24 +99,25 @@
               .showForm
                 .formViewFix(v-if="storeInfo.menuJson")
                   .menu.tableFrame
-                    .row
+                    .row.heading
                       .cell
                         span 品名
                       .cell
                         span 價格
                     template(v-for="obj in storeInfo.menuJson.list")
                       .row
-                        .cell.menuType
-                          span {{obj.menuType}}
-                      .row(v-for="(item, i) in obj.items" :key="item.cate")
-                        .cell
-                          span {{item.cate}}
-                        .cell.menuItem
-                          template(v-if="item.meals.length === 1")
-                            span {{formatPrice(item.meals[0].price)}}
-                          template(v-else)
-                            span(v-for="meal in item.meals"
-                            :key="meal.id") {{`${meal.name}  ${formatPrice(meal.price)}`}}
+                          .cell.menuType
+                            span {{obj.menuType}}
+                      .memList
+                        .row(v-for="(item, i) in obj.items" :key="item.cate")
+                          .cell
+                            span {{item.cate}}
+                          .cell.menuItem
+                            template(v-if="item.meals.length === 1")
+                              span {{formatPrice(item.meals[0].price)}}
+                            template(v-else)
+                              span(v-for="meal in item.meals"
+                              :key="meal.id") {{`${meal.name}  ${formatPrice(meal.price)}`}}
 
     .commonBtnGroup
       el-button(type="danger" @click="closeDialog") 取消

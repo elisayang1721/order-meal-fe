@@ -1,6 +1,6 @@
 <template lang="pug">
   #order.tableFrame(v-loading="loading")
-    .row
+    .row.heading
       .cell
         span 名稱
       .cell
@@ -13,27 +13,28 @@
       .row
         .cell.menuType
           span {{obj.menuType}}
-      .row(v-for="(item, i) in obj.items" :key="item.cate")
-        .cell
-          span {{item.cate}}
-        .cell.price
-          template(v-if="item.meals.length === 1")
-            span {{`${item.meals[0].price.format()}`}}
-          template(v-else)
-            el-radio-group(v-model="orderSet[obj.menuType][i].menuItemId")
-              el-radio.input-radio(v-for="meal in item.meals" :label="meal.id" :key="meal.id"
-                @change="setAmount(obj.menuType,i)") {{`${meal.name} ${meal.price.format()}`}}
-        .cell.toolTip
-          el-input-number(v-model="orderSet[obj.menuType][i].amount"
-            :min="0" :max="99" :disabled="!orderSet[obj.menuType][i].menuItemId"
-            :class="{focus: orderSet[obj.menuType][i].isFocus}"
-            @change="checkAmount(obj.menuType, i,item.meals.length)")
-          template(v-if="!orderSet[obj.menuType][i].menuItemId")
-            .remark 請先點選左側項目
-        .cell(@mouseover="checkOrder(obj.menuType,i)" @mouseout="resetOrderSet()")
-          el-input(v-model="orderSet[obj.menuType][i].remark"
-          maxlength="25"
-          :disabled="checkIfOrdered(obj.menuType,i)")
+      .memList
+        .row(v-for="(item, i) in obj.items" :key="item.cate")
+          .cell
+            span {{item.cate}}
+          .cell.price
+            template(v-if="item.meals.length === 1")
+              span {{`${item.meals[0].price.format()}`}}
+            template(v-else)
+              el-radio-group(v-model="orderSet[obj.menuType][i].menuItemId")
+                el-radio.input-radio(v-for="meal in item.meals" :label="meal.id" :key="meal.id"
+                  @change="setAmount(obj.menuType,i)") {{`${meal.name} ${meal.price.format()}`}}
+          .cell.toolTip
+            el-input-number(v-model="orderSet[obj.menuType][i].amount"
+              :min="0" :max="99" :disabled="!orderSet[obj.menuType][i].menuItemId"
+              :class="{focus: orderSet[obj.menuType][i].isFocus}"
+              @change="checkAmount(obj.menuType, i,item.meals.length)")
+            template(v-if="!orderSet[obj.menuType][i].menuItemId")
+              .remark 請先點選左側項目
+          .cell(@mouseover="checkOrder(obj.menuType,i)" @mouseout="resetOrderSet()")
+            el-input(v-model="orderSet[obj.menuType][i].remark"
+            maxlength="25"
+            :disabled="checkIfOrdered(obj.menuType,i)")
 </template>
 <script>
 import store from '@api/store'
@@ -224,10 +225,10 @@ export default {
   &.is-disabled
     .el-input-number__decrease, .el-input-number__increase
       color: #d0c9c9
-      background: #f3f0ef
+      background: #f1edeb
   .el-input-number__decrease.is-disabled, .el-input-number__increase.is-disabled
       color: #d0c9c9
-      background: #f3f0ef
+      background: #f1edeb
   .el-input-number__decrease
     left: 0
     border-right: 1px solid $tableLineColor
@@ -245,7 +246,7 @@ export default {
     height: 28px
     line-height: 28px
     background: #f7f7f7
-    border-color: $tableLineColor
+    border-color: #d0c9c9
 /deep/.el-radio-group
   display: inline-flex
   flex-wrap: wrap
