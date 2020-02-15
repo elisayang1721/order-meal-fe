@@ -49,7 +49,6 @@ export default {
     Vue.use(VueSocketIOExt, socket)
     await this.$nextTick()
 
-    console.log(`${process.env.VUE_APP_SOCKET_URL}/${companyCode}_oms`)
     this.$socket.client.emit('join', {
       userName: memberName,
       companyCode,
@@ -62,7 +61,6 @@ export default {
     })
 
     this.$socket.$subscribe(`${companyCode}_oms`, this.handleOrderStatusChange)
-    console.log(this.$socket)
     this.$bus.$on('refreshUserExpenses', () => {
       this.getMonthlyExpenses()
     })
