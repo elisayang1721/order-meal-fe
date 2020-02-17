@@ -65,7 +65,7 @@ service.interceptors.response.use(
         break
       // 429 too many request dont trigger error message
       case 429:
-        errorMsg.message = '請求太頻繁。'
+        errorMsg.message = response.data.error.msg
         errorMsg.duration = 0
         errorMsg.showClose = true
         break
