@@ -50,7 +50,6 @@ export default {
   mounted() {
     this.init()
   },
-  computed: {},
   methods: {
     ...mapActions(['closeDialog']),
     init() {
@@ -63,33 +62,21 @@ export default {
     getData(id) {
       admin.getAdminId(id).then(res => {
         const resData = res
-        resData.companyAccount = resData.companyCode + '_' + resData.account
+        resData.companyAccount = resData.account
         for (const prop in resData) {
           this.adminData[prop] = resData[prop]
         }
       })
     },
     addAdmin: debounce(vm => {
-      let message = ''
-      let shouldIAdd = true
-      const params = vm.adminData
-      if (!params.companyAccount.length) {
-        message = '請輸入管理員帳號'
-        shouldIAdd = false
-      }
-      if (!vm.regExpId(params.companyAccount)) {
-        message = '帳號格式有誤，請輸入"公司代號"_"員工編號"'
-        shouldIAdd = false
-      }
-
-      if (shouldIAdd) {
-        admin.addAdmin(params).then(() => {
+      const { companyAccount } = vm.adminData
+      if (vm.checkAccountValid(companyAccount)) {
+        admin.addAdmin(vm.adminData).then(() => {
           vm.submitSuccess()
         })
       } else {
         vm.$message({
-          showClose: true,
-          message,
+          message: '帳號格式請輸入"員工編號"',
           type: 'error',
         })
       }
@@ -129,9 +116,9 @@ export default {
       this.$bus.$emit('refresh')
       this.closeDialog()
     },
-    regExpId(text) {
-      const regex = /_/g
-      return regex.test(text)
+    checkAccountValid(account) {
+      const pattern = /^\d+$/
+      return pattern.test(account)
     },
   },
   data() {
