@@ -13,9 +13,17 @@
           :class="{'order': componentName === 'DialogOrder','rating': ratingClassCheck }")
           ScrollBar.scroll(:needGoTop="goTop")
             .viewFix(:class="sliceName()")
-              component(:is="componentName" :ref="componentName")
+              component(
+                :is="componentName"
+                :ref="componentName"
+                @getOrderCost="getOrderCost"
+              )
           template(v-if="componentName === 'DialogOrder' || isNeededFooter")
             .submitWrap
+              template(
+                v-if="componentName === 'DialogOrder'"
+              )
+                .amount {{ `金額小計： ${totalAmount.format()}` }}
               el-button(
                 type="danger"
                 @click="close") {{componentName === 'DialogRating' ? '關閉' : '取消'}}
@@ -38,6 +46,7 @@ export default {
     return {
       goTop: false,
       isNeededFooter: false,
+      totalAmount: 0,
     }
   },
   components: {
@@ -67,6 +76,9 @@ export default {
   },
   methods: {
     ...mapActions(['closeDialog']),
+    getOrderCost(val) {
+      this.totalAmount = val
+    },
     close() {
       this.isNeededFooter = false
       this.closeDialog()
@@ -138,6 +150,8 @@ export default {
   z-index: 2000
   .commonBtnGroup
     border-bottom: 1px solid $tableLineColor
+    .el-button
+      width: 70px
   .dialogContent
     position: relative
     +Bgc($ligntGray)
@@ -196,4 +210,8 @@ export default {
     box-shadow: 0 -5px 5px rgba(230, 230, 230, 0.4)
     padding: .6rem 1rem
     background: $c1
+    .el-button
+      width: 80px
+    .amount
+      margin-right: 20px
 </style>
