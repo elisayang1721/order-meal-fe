@@ -22,13 +22,18 @@
               span {{`${item.meals[0].price.format()}`}}
             template(v-else)
               el-radio-group(v-model="orderSet[obj.menuType][i].menuItemId")
-                el-radio.input-radio(v-for="meal in item.meals" :label="meal.id" :key="meal.id"
-                  @change="setAmount(obj.menuType,i)") {{`${meal.name} ${meal.price.format()}`}}
+                el-radio.input-radio(
+                  v-for="meal in item.meals"
+                  :label="meal.id"
+                  :key="meal.id"
+                  @change="setAmount(obj.menuType, i)"
+                ) {{`${meal.name} ${meal.price.format()}`}}
           .cell.toolTip
             el-input-number(v-model="orderSet[obj.menuType][i].amount"
               :min="0" :max="99" :disabled="!orderSet[obj.menuType][i].menuItemId"
-              :class="{focus: orderSet[obj.menuType][i].isFocus}"
-              @change="checkAmount(obj.menuType, i,item.meals.length)")
+              :class="{ focus: orderSet[obj.menuType][i].isFocus }"
+              @change="checkAmount(obj.menuType, i, item.meals.length)"
+            )
             template(v-if="!orderSet[obj.menuType][i].menuItemId")
               .remark 請先點選左側項目
           .cell(@mouseover="checkOrder(obj.menuType,i)" @mouseout="resetOrderSet()")
@@ -51,6 +56,7 @@ export default {
       store.getStoreMenu(this.$store.state.prop.storeId).then(res => {
         this.menuList = res.list
         this.orderInfo()
+        this.$emit('getOrderCost', this.orderCost)
         this.loading = false
       })
     } else {
@@ -61,6 +67,7 @@ export default {
         this.menuList = menu.list
         this.orderItem = item
         this.orderInfo()
+        this.$emit('getOrderCost', this.orderCost)
         this.loading = false
       })).catch(() => {
         // handle 資料不同步問題
@@ -82,11 +89,26 @@ export default {
       })
       return load
     },
+    orderCost() {
+      let total = 0
+      let amount
+      let price
+
+      Object.keys(this.getLoad).forEach(key => {
+        this.getLoad[key].forEach(obj => {
+          amount = obj.amount
+          price = obj.meatPrice[obj.menuItemId]
+          total += amount * price
+        })
+      })
+      return total
+    },
   },
   methods: {
     ...mapActions(['closeDialog']),
     checkAmount(type, i, length) {
       this.orderSet[type][i].isFocus = false
+
       if (length !== 1 && !this.orderSet[type][i].amount) {
         this.orderSet[type][i].menuItemId = null
       }
@@ -96,11 +118,16 @@ export default {
       this.menuList.forEach(el => {
         orderSet[el.menuType] = orderSet[el.menuType] || []
         el.items.forEach(item => {
+          const price = {}
+          item.meals.forEach(meal => {
+            price[meal.id] = meal.price
+          })
           const payLoad = {
             menuItemId: item.meals.length === 1 ? item.meals[0].id : null,
             amount: 0,
             remark: null,
             isFocus: false,
+            meatPrice: price,
           }
           if (this.$store.state.prop.action === 'edit') {
             item.meals.forEach(meal => {
@@ -184,6 +211,14 @@ export default {
           list.isFocus = false
         })
       })
+    },
+  },
+  watch: {
+    'orderSet': {
+      handler() {
+        this.$emit('getOrderCost', this.orderCost)
+      },
+      deep: true,
     },
   },
   data() {
