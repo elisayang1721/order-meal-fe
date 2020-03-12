@@ -40,7 +40,7 @@
           .cell.flexFix.subscriberInfo(:key="orderTableKey")
             .subscriberCell(v-for="(obj, i) in item.orderRecords" :key="obj.id"
               :class="recordClass(obj)"
-              @click="getDebounce(obj)")
+              @click="getDebounce(obj, idx)")
               template(v-if="obj.remark")
                 el-tooltip( effect="dark" placement="top-start")
                   div(slot="content") {{obj.remark}}
@@ -55,6 +55,9 @@
                   EditBlock(@edit='edit(obj.id)' @confirmDelete="confirmDelete(obj.id)")
     template(v-else)
       .noComment 目前尚未有任何點餐
+    .selectAmount(
+      v-if="this.orderCost != 0"
+    ) {{ `選取餐點總計：${this.orderCost.format()}` }}
 </template>
 <script>
 import history from '@api/history'
@@ -80,10 +83,23 @@ export default {
         this.loading = false
       })
     },
-    getDebounce(obj) {
+    getDebounce(obj, idx) {
       const vm = this
-      if (this.userData.isAdmin || this.userData.memberName === this.owner) {
+      if (!this.orderOwnerEnter) {
+        this.orderCount(obj, idx, vm)
+      } else if (this.userData.isAdmin || this.userData.memberName === this.owner) {
         this.orderSubmit(obj, vm)
+      }
+    },
+    orderCount(obj, idx) {
+      obj.enable = !obj.enable
+      const price = this.ordersDetail[idx].price
+      const amount = obj.amount
+
+      if (obj.enable) {
+        this.orderCost += amount * price
+      } else {
+        this.orderCost -= amount * price
       }
     },
     orderSubmit: debounce((obj, vm) => {
@@ -95,7 +111,10 @@ export default {
     }, 300),
     checkPermission(name) {
       const role = this.userData.memberName
-      return this.userData.isAdmin || role === this.owner || role === name
+      if (this.orderOwnerEnter) {
+        return this.userData.isAdmin || role === this.owner || role === name
+      }
+      return role === name
     },
     recordClass(obj) {
       const classNames = []
@@ -104,6 +123,7 @@ export default {
         isFirst: 'bg-yellow',
         memberName: 'border-red',
         status: 'bg-active',
+        enable: 'enable',
       }
       if (obj.isFirst) {
         // 第一次
@@ -123,6 +143,9 @@ export default {
       // hover編輯區塊是否顯示
       if (this.checkPermission(obj.memberName)) {
         classNames.push('hasPermission')
+      }
+      if (obj.enable) {
+        classNames.push(classList.enable)
       }
       return classNames
     },
@@ -162,7 +185,14 @@ export default {
       owner: '',
       loading: false,
       orderTableKey: 0,
+      orderCost: 0,
     }
+  },
+  props: {
+    orderOwnerEnter: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     EditBlock,
