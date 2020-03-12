@@ -108,7 +108,6 @@ export default {
         prop.action = 'order'
       }
       injectState(prop)
-      // console.log(load)
       this.showDialog(load)
     },
     timer() {
