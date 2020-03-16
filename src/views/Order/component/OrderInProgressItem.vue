@@ -33,10 +33,11 @@
     .list.right
       .navHead(:class="{'manage':checkPermission}")
         span(:title="neededTitle") {{list.createdByName}}
-        el-button.orderManagementBtn(
-          v-if="checkPermission"
-          icon="el-icon-setting"
-          @click="toggleDialog('OrderManagement')") 訂單管理
+        .managerBtn
+          el-button.orderManagementBtn(
+            v-if="checkPermission"
+            icon="el-icon-setting"
+            @click="toggleDialog('OrderManagement')") 訂單管理
       .content
         el-button.detailBtn(icon="el-icon-document"
           :disabled="countDown === '已截止'"

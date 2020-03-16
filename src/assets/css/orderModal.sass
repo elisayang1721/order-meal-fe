@@ -140,7 +140,8 @@
               margin: 0
               margin-left: 3px
               width: auto
-            
+      &.enable
+        background: #a3f3f3           
     >div
       +Flex()
       position: relative
@@ -229,6 +230,7 @@
         .alignStart
           align-self: flex-start
     &.tableFrame
+      +Bgc($c1)
       border-bottom: none
   .confirmBlock
     border-top: 1px solid $tableLineColor
