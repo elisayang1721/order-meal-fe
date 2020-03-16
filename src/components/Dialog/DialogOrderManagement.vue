@@ -57,7 +57,7 @@
       el-button.recover-button(
         @click="reset") 復原
       el-button(type="success" @click="getDebounce($event)") 確認
-    DialogDetail
+    DialogDetail(:orderOwnerEnter="orderOwnerEnter")
 </template>
 <script>
 import history from '@api/history'
@@ -169,6 +169,7 @@ export default {
       initData: {},
       orderInfo: {},
       loading: false,
+      orderOwnerEnter: true,
     }
   },
   components: {
