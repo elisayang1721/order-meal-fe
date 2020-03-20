@@ -33,10 +33,11 @@ export default {
     getList() {
       this.loading = true
       order.getOrderRecordsList({ page: this.listPage }).then(res => {
+        console.log(res.list)
         if (res.list.length) {
           this.myOrdersList = this.myOrdersList ? [...this.myOrdersList, ...res.list] : res.list
         }
-        this.isFinishedLoad = res.totalSize < 10
+        this.isFinishedLoad = res.totalSize - ((this.listPage - 1)  * 10) < 11
         this.loading = false
       })
     },
@@ -50,15 +51,15 @@ export default {
       }, 3500)
     },
   },
-  watch: {
-    'myOrdersList': {
-      handler() {
-        if (!this.isFinishedLoad) {
-          this.reachEnd()
-        }
-      },
-    },
-  },
+  // watch: {
+  //   'myOrdersList': {
+  //     handler() {
+  //       if (!this.isFinishedLoad) {
+  //         this.reachEnd()
+  //       }
+  //     },
+  //   },
+  // },
   data() {
     return {
       myOrdersList: [],
