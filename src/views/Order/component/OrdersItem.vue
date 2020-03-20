@@ -4,6 +4,10 @@
       ul.left-area
         li {{dateFormatter}}
         li {{myOrderData.storeName}}
+        li.isUnreached(v-if="myOrderData.isUnreached")
+          span
+            i.el-icon-warning
+            | 本訂單未達外送金額，請另行用餐
       .right-area
         .owner 發起人：{{myOrderData.ownerName}}
         el-button.ratingBtn(
@@ -82,6 +86,15 @@ export default {
           align-items: center
           >li
             margin-right: 10px
+            &.isUnreached
+              >span
+                font-size: 14px
+                color: #f56c6c
+                background-color: #fdf6ec
+                padding: 3px 5px
+                border-radius: 3px
+                >i
+                  margin-right: 3px
         .owner
           +ellipsis()
       .content
