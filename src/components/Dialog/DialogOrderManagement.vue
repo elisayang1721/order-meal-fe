@@ -6,6 +6,15 @@
         .content
           ul.alignStart
             li
+              span 開始時間：
+              el-date-picker(v-model="orderInfo.publishedOn"
+                type="datetime"
+                placeholder="選擇日期時間"
+                format="yyyy-MM-dd HH:mm"
+                value-format="yyyy-MM-dd HH:mm"
+                @change="checkDateTime"
+                :disabled="orderInfo.limitedPrice ? true : false")
+            li
               span 截止時間：
               el-date-picker(v-model="orderInfo.finishedOn"
                 type="datetime"
@@ -110,6 +119,7 @@ export default {
     updateForm: debounce(vm => {
       const load = {
         storeId: vm.orderInfo.storeId,
+        publishedOn: vm.orderInfo.publishedOn,
         finishedOn: vm.orderInfo.finishedOn,
         limitedPrice: vm.orderInfo.limitedPrice,
         bulletin: vm.orderInfo.bulletin,
