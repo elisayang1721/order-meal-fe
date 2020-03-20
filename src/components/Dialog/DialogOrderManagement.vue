@@ -133,6 +133,7 @@ export default {
         vm.closeDialog()
         vm.$bus.$emit('refreshSystem')
         vm.$bus.$emit('refreshRecordsList')
+        vm.$bus.$emit('refreshMyorder', false)
       })
     }, 500),
     exportExcel: debounce(vm => {
