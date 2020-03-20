@@ -88,9 +88,6 @@ export default {
         && Number(this.condition.expiredAmount) > 0
     },
     checkDateTime() {
-      if (!this.condition.dateTime) {
-        return false
-      }
       const nowTime = new Date().getTime()
       let endTime = 0
 
