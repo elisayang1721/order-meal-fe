@@ -34,12 +34,11 @@ export default {
     })
   },
   addOrderForm(data) {
-    console.log(data)
     // 新增訂單
-    // return Axios({
-    //   url: '/orders',
-    //   method: 'post',
-    //   data,
-    // })
+    return Axios({
+      url: '/orders',
+      method: 'post',
+      data,
+    })
   },
 }

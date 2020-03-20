@@ -73,6 +73,7 @@ export default {
     getLoad() {
       const load = {
         storeId: this.storeId,
+        publishedOn: this.condition.publishedOn,
         finishedOn: this.condition.finishedOn,
         limitedPrice: this.condition.expiredAmount,
         bulletin: this.condition.bulletin,
@@ -88,19 +89,12 @@ export default {
     },
     checkDateTime() {
       const nowTime = new Date().getTime()
-      let startTime = 0
       let endTime = 0
 
       if (this.condition.finishedOn != null) {
         endTime = new Date(this.condition.finishedOn.replace(/\s/, 'T')).getTime()
-      }      
-      if (this.condition.publishedOn != null) {
-        startTime = new Date(this.condition.publishedOn.replace(/\s/, 'T')).getTime()
-        return endTime > startTime && endTime > nowTime && startTime > nowTime
       }
-      if (this.condition.publishedOn == null) {
-        return endTime > nowTime
-      }
+      return endTime > nowTime
     },
   },
   components: {
@@ -121,10 +115,8 @@ export default {
     }, 500),
     getDebounce() {
       const vm = this
-      console.log(this.checkDateTime)
       if (this.checkDateTime || this.checkLimitedPrice) {
-        console.log('wj/ eji4')
-        // this.createOrder(vm)
+        this.createOrder(vm)
       } else {
         let message
         if (!this.condition.finishedOn && !this.condition.expiredAmount) {
