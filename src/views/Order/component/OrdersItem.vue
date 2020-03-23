@@ -78,10 +78,10 @@ export default {
         width: 100%
         background-color: $tableHeadColor
         font-size: 17px
-        height: 42px
-        line-height: 42px
+        height: auto
+        line-height: 1
         color: #fff
-        padding: 0px 15px
+        padding: 8px 15px
         >ul
           align-items: center
           >li
