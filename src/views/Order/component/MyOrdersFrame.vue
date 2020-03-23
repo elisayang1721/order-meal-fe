@@ -33,7 +33,6 @@ export default {
     getList() {
       this.loading = true
       order.getOrderRecordsList({ page: this.listPage }).then(res => {
-        console.log(res.list)
         if (res.list.length) {
           this.myOrdersList = this.myOrdersList ? [...this.myOrdersList, ...res.list] : res.list
         }
@@ -49,21 +48,13 @@ export default {
       setTimeout(() => {
         this.newOrder = false
       }, 3500)
+      this.reachEnd()
     },
   },
-  // watch: {
-  //   'myOrdersList': {
-  //     handler() {
-  //       if (!this.isFinishedLoad) {
-  //         this.reachEnd()
-  //       }
-  //     },
-  //   },
-  // },
   data() {
     return {
       myOrdersList: [],
-      isFinishedLoad: false,
+      isFinishedLoad: true,
       loading: false,
       listPage: 1,
       newOrder: false,
