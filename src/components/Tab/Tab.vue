@@ -15,6 +15,7 @@ export default {
   },
   mounted() {
     this.init()
+    this.$bus.$on('triggerMyorder', this.init)
   },
   methods: {
     init() {
@@ -30,6 +31,9 @@ export default {
     return {
       active: '',
     }
+  },
+  beforeDestroy() {
+    this.$bus.$off('triggerMyorder')
   },
 }
 </script>
