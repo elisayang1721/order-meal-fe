@@ -110,6 +110,7 @@ export default {
       this.$bus.$emit('refreshRecordsList')
       this.$bus.$emit('refreshOrderForm')
       this.$bus.$emit('refreshSystem')
+      this.$bus.$emit('refreshMyorder', false)
     },
   },
   data() {
