@@ -140,6 +140,7 @@ export default {
         case 'finish':
           this.condition.finishedOn = new Date()
           break
+        default:
       }
     },
   },
