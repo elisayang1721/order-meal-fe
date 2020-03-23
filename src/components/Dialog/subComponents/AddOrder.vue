@@ -46,6 +46,8 @@
           maxlength="255"
           show-word-limit)
     .confirmBlock
+      .helpBar
+        | ※ 開始時間非必填，截止時間或金額則一填寫。
       el-button(type="success" @click="getDebounce") 確認
 </template>
 <script>
@@ -151,4 +153,9 @@ export default {
 }
 </script>
 <style lang="sass" scoped>
+  .confirmBlock
+    justify-content: space-between
+    .helpBar
+      font-size: .9rem
+      color: #5f5c5c
 </style>
