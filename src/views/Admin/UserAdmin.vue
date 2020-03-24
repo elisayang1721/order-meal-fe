@@ -5,7 +5,7 @@
         p 狀態：
         el-select(
           v-model="isEnabled"
-          placeholder="全部")
+          placeholder="啟用中")
           el-option(
             v-for="item in statusList"
             :key="item.isEnabled"
@@ -83,7 +83,7 @@ export default {
           text: '已停用',
         },
       ],
-      isEnabled: null,
+      isEnabled: true,
       totalSize: null,
       pageNum: 1,
       pageSize: 10,
@@ -174,11 +174,14 @@ export default {
 <style lang="sass" scoped>
 /deep/.el-input
   .el-input__inner
+    height: 36px
+    line-height: 36px
     background-color: $c1
 ::v-deep.el-select
   .el-input
     .el-select__caret
       color: $brownC1
+      line-height: 36px
     &.is-focus, &:hover
       .el-input__inner
         border-color: #a59796
