@@ -17,7 +17,7 @@
           @click="switchRoute('/admin')") 管理中心
       li
         el-link.user(icon="el-icon-user-solid"
-          :underline="false") {{`${userData.memberName} [${userData.account}]`}}
+          :underline="false") {{`${userData.memberName}【${userData.account}】`}}
       li
         el-link.user(icon="el-icon-wallet"
           :underline="false") 當月花費總額： {{this.userExpenses}}
@@ -112,6 +112,8 @@ export default {
       this.$bus.$emit('refreshRecordsList')
       this.$bus.$emit('refreshOrderForm')
       this.$bus.$emit('refreshSystem')
+      this.$bus.$emit('refreshMyorder', false)
+      this.$bus.$emit('triggerMyorder')
     },
   },
   data() {

@@ -5,16 +5,30 @@
         span {{`發起 ${storeName} 點餐`}}
     .row
       .cell
-        span 截止時間
+        span 開始時間
       .cell
         el-date-picker(
-          v-model="condition.dateTime"
+          v-model="condition.publishedOn"
           type="datetime"
           placeholder="選擇日期時間"
           format="yyyy-MM-dd  HH:mm"
           value-format="yyyy-MM-dd HH:mm"
-          @focus="focusDatePicker"
-          :disabled="condition.expiredAmount ? true : false")
+          @focus="focusDatePicker('publish')"
+          :disabled="condition.expiredAmount ? true : false"
+        )
+    .row
+      .cell
+        span 截止時間
+      .cell
+        el-date-picker(
+          v-model="condition.finishedOn"
+          type="datetime"
+          placeholder="選擇日期時間"
+          format="yyyy-MM-dd  HH:mm"
+          value-format="yyyy-MM-dd HH:mm"
+          @focus="focusDatePicker('finish')"
+          :disabled="condition.expiredAmount ? true : false"
+        )
     .row
       .cell
         span 截止金額
@@ -46,7 +60,8 @@ export default {
   data() {
     return {
       condition: {
-        dateTime: null,
+        publishedOn: null,
+        finishedOn: null,
         expiredAmount: null,
         bulletin: null,
         value: null,
@@ -58,7 +73,8 @@ export default {
     getLoad() {
       const load = {
         storeId: this.storeId,
-        finishedOn: this.condition.dateTime,
+        publishedOn: this.condition.publishedOn,
+        finishedOn: this.condition.finishedOn,
         limitedPrice: this.condition.expiredAmount,
         bulletin: this.condition.bulletin,
         status: true,
@@ -73,8 +89,12 @@ export default {
     },
     checkDateTime() {
       const nowTime = new Date().getTime()
-      const setTime = new Date(this.condition.dateTime.replace(/\s/, 'T')).getTime()
-      return setTime > nowTime
+      let endTime = 0
+
+      if (this.condition.finishedOn != null) {
+        endTime = new Date(this.condition.finishedOn.replace(/\s/, 'T')).getTime()
+      }
+      return endTime > nowTime
     },
   },
   components: {
@@ -95,16 +115,13 @@ export default {
     }, 500),
     getDebounce() {
       const vm = this
-      // const nowTime = new Date().getTime()
-      // const setTime = new Date(this.condition.dateTime.replace(/\s/, 'T'))
-
       if (this.checkDateTime || this.checkLimitedPrice) {
         this.createOrder(vm)
       } else {
         let message
-        if (!this.condition.dateTime && !this.condition.expiredAmount) {
+        if (!this.condition.finishedOn && !this.condition.expiredAmount) {
           message = '請至少填寫一項截止設定'
-        } else if (this.condition.dateTime && !this.checkDateTime) {
+        } else if (!this.checkDateTime) {
           message = '截止時間不能小於現在時間'
         } else {
           message = '請填入正確截止金額且截止金額不能小於0'
@@ -115,9 +132,15 @@ export default {
         })
       }
     },
-    focusDatePicker() {
-      if (this.condition.dateTime === null) {
-        this.condition.dateTime = new Date()
+    focusDatePicker(name) {
+      switch (name) {
+        case 'publish':
+          this.condition.publishedOn = new Date()
+          break
+        case 'finish':
+          this.condition.finishedOn = new Date()
+          break
+        default:
       }
     },
   },

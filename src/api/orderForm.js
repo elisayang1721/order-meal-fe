@@ -10,7 +10,6 @@ export default {
     })
   },
   getStoreInfos(data) {
-    // console.log(data)
     const apiUrl = assemblyParams(data)
     // 取得店家簡介列表
     return Axios({

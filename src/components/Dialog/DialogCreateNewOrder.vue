@@ -324,6 +324,7 @@ export default {
     border: 0
     &::before
       background-color: rgba(122,150,236,.25)
+      background-color: #E8E1D1
       border: 0
       opacity: 1
       transform: scale(1)
@@ -331,6 +332,7 @@ export default {
     color: #121212
     &::before
       background-color: rgba(122,150,236,.2)
+      background-color: #E8E1D1
       opacity: 1
       transform: scale(1)
 .el-checkbox__original2
