@@ -8,9 +8,9 @@ export function addComma(num) {
 export function assemblyParams(params) {
   // api url 組字串
   let str = ''
-
   Object.keys(params).forEach(key => {
-    if (params[key]) {
+    if (params[key] !== null && typeof params[key] !== 'undefined'
+      && params[key] !== '') {
       str += `${key}=${params[key]}&`
     }
   })
