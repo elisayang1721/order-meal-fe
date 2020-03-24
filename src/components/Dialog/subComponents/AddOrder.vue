@@ -126,7 +126,7 @@ export default {
         } else if (!this.checkDateTime) {
           message = '截止時間不能小於現在時間'
         } else {
-          message = '請填入正確截止金額且截止金額不能小於0'
+          message = '請填入正確截止金額且截止金額不能小於 0'
         }
         this.$message({
           message,

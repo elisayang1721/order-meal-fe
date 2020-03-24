@@ -9,8 +9,7 @@ export function assemblyParams(params) {
   // api url 組字串
   let str = ''
   Object.keys(params).forEach(key => {
-    if (params[key] !== null && typeof params[key] !== 'undefined'
-      && params[key] !== '') {
+    if (params[key] || params[key] === false) {
       str += `${key}=${params[key]}&`
     }
   })
