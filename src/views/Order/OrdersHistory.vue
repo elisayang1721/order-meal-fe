@@ -1,6 +1,9 @@
 <template lang="pug">
   #ordersHistory
-    Tab(:tabs="tabs")
+    Tab(
+      :tabs="tabs"
+      :name="name"
+    )
     keep-alive
       component(:is="active")
 </template>
@@ -24,6 +27,7 @@ export default {
         },
       ],
       active: '',
+      name: this.$options.name,
     }
   },
   components: {

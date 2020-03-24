@@ -12,10 +12,15 @@ export default {
   name: 'tab',
   props: {
     tabs: Array,
+    name: String,
   },
   mounted() {
     this.init()
-    this.$bus.$on('triggerMyorder', this.init)
+    this.$bus.$on('triggerMyorder', () => {
+      if (this.name === 'OrdersHistory') {
+        this.init()
+      }
+    })
   },
   methods: {
     init() {
