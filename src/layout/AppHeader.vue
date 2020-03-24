@@ -17,7 +17,7 @@
           @click="switchRoute('/admin')") 管理中心
       li
         el-link.user(icon="el-icon-user-solid"
-          :underline="false") {{`${userData.memberName} [${userData.account}]`}}
+          :underline="false") {{`${userData.memberName}【${userData.account}】`}}
       li
         el-link.user(icon="el-icon-wallet"
           :underline="false") 當月花費總額： {{this.userExpenses}}

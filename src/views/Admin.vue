@@ -1,6 +1,9 @@
 <template lang="pug">
   .common
-    Tab(:tabs="checkTabs")
+    Tab(
+      :tabs="checkTabs"
+      :name="name"
+    )
     component(:is="active")
 </template>
 <script>
@@ -23,6 +26,7 @@ export default {
           title: '管理員權限',
         },
       ],
+      name: this.$options.name,
     }
   },
   computed: {
