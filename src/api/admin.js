@@ -3,7 +3,6 @@ import Axios from './service'
 
 export default {
   getAdminList(data) {
-    console.log(data)
     const apiUrl = assemblyParams(data)
     // 取得管理員列表
     return Axios({
