@@ -36,7 +36,7 @@
         el-input(v-model="condition.expiredAmount"
           type="text"
           maxlength="4"
-          :disabled="condition.dateTime ? true : false")
+          :disabled="condition.finishedOn ? true : false")
     .row
       .cell
         span 公告事項
@@ -123,7 +123,7 @@ export default {
         let message
         if (!this.condition.finishedOn && !this.condition.expiredAmount) {
           message = '請至少填寫一項截止設定'
-        } else if (!this.checkDateTime) {
+        } else if (!this.checkDateTime && !this.condition.expiredAmount) {
           message = '截止時間不能小於現在時間'
         } else {
           message = '請填入正確截止金額且截止金額不能小於 0'
