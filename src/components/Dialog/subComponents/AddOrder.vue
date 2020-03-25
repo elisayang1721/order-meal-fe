@@ -135,7 +135,6 @@ export default {
       }
     },
     focusDatePicker(name) {
-      const time = this.condition[name]
       if (!this.condition[name]) {
         this.condition[name] = new Date()
       }
