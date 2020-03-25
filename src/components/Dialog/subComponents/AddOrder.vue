@@ -13,7 +13,7 @@
           placeholder="選擇日期時間"
           format="yyyy-MM-dd  HH:mm"
           value-format="yyyy-MM-dd HH:mm"
-          @focus="focusDatePicker('publish')"
+          @focus="focusDatePicker('publishedOn')"
           :disabled="condition.expiredAmount ? true : false"
         )
     .row
@@ -26,7 +26,7 @@
           placeholder="選擇日期時間"
           format="yyyy-MM-dd  HH:mm"
           value-format="yyyy-MM-dd HH:mm"
-          @focus="focusDatePicker('finish')"
+          @focus="focusDatePicker('finishedOn')"
           :disabled="condition.expiredAmount ? true : false"
         )
     .row
@@ -36,7 +36,7 @@
         el-input(v-model="condition.expiredAmount"
           type="text"
           maxlength="4"
-          :disabled="condition.dateTime ? true : false")
+          :disabled="condition.finishedOn ? true : false")
     .row
       .cell
         span 公告事項
@@ -123,7 +123,7 @@ export default {
         let message
         if (!this.condition.finishedOn && !this.condition.expiredAmount) {
           message = '請至少填寫一項截止設定'
-        } else if (!this.checkDateTime) {
+        } else if (!this.checkDateTime && !this.condition.expiredAmount) {
           message = '截止時間不能小於現在時間'
         } else {
           message = '請填入正確截止金額且截止金額不能小於 0'
@@ -135,14 +135,8 @@ export default {
       }
     },
     focusDatePicker(name) {
-      switch (name) {
-        case 'publish':
-          this.condition.publishedOn = new Date()
-          break
-        case 'finish':
-          this.condition.finishedOn = new Date()
-          break
-        default:
+      if (!this.condition[name]) {
+        this.condition[name] = new Date()
       }
     },
   },
