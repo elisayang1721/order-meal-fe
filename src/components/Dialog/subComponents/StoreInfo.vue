@@ -31,6 +31,11 @@
           span {{store.remark}}
       .row
         .cell
+          span 低消
+        .cell
+          span {{ store.minDeliveryPrice }}
+      .row
+        .cell
           span 最後修改人
         .cell
           span {{store.updatedBy}}
@@ -54,6 +59,12 @@ export default {
     getStoreInfo() {
       orderForm.getStoreInfoId(this.storeId).then(res => {
         this.store = res
+        Object.keys(this.store).forEach(key => {
+          const minDeliveryPrice = this.store.minDeliveryPrice
+          if (key === 'minDeliveryPrice') {
+            this.store.minDeliveryPrice = minDeliveryPrice != null ? minDeliveryPrice.format() : '無'
+          }
+        })
       })
     },
   },
