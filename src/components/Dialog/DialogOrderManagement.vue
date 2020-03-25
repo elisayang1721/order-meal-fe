@@ -105,7 +105,6 @@ export default {
       this.loading = true
       history.getRecordsId(this.$store.state.prop.id).then(res => {
         this.orderInfo = res
-        console.log(this.orderInfo)
         this.initData = deepClone(this.orderInfo)
         this.loading = false
       })
