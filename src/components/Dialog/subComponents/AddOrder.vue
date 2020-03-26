@@ -13,7 +13,7 @@
           placeholder="選擇日期時間"
           format="yyyy-MM-dd  HH:mm"
           value-format="yyyy-MM-dd HH:mm"
-          @focus="focusDatePicker('publish')"
+          @focus="focusDatePicker('publishedOn')"
           :disabled="condition.expiredAmount ? true : false"
         )
     .row
@@ -26,7 +26,7 @@
           placeholder="選擇日期時間"
           format="yyyy-MM-dd  HH:mm"
           value-format="yyyy-MM-dd HH:mm"
-          @focus="focusDatePicker('finish')"
+          @focus="focusDatePicker('finishedOn')"
           :disabled="condition.expiredAmount ? true : false"
         )
     .row
@@ -135,14 +135,8 @@ export default {
       }
     },
     focusDatePicker(name) {
-      switch (name) {
-        case 'publish':
-          this.condition.publishedOn = new Date()
-          break
-        case 'finish':
-          this.condition.finishedOn = new Date()
-          break
-        default:
+      if (!this.condition[name]) {
+        this.condition[name] = new Date()
       }
     },
   },
