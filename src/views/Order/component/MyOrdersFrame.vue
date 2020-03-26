@@ -36,7 +36,7 @@ export default {
         if (res.list.length) {
           this.myOrdersList = this.myOrdersList ? [...this.myOrdersList, ...res.list] : res.list
         }
-        this.isFinishedLoad = res.totalSize < 10
+        this.isFinishedLoad = res.totalSize - ((this.listPage - 1)  * 10) < 11
         this.loading = false
       })
     },
@@ -48,21 +48,13 @@ export default {
       setTimeout(() => {
         this.newOrder = false
       }, 3500)
-    },
-  },
-  watch: {
-    'myOrdersList': {
-      handler() {
-        if (!this.isFinishedLoad) {
-          this.reachEnd()
-        }
-      },
+      this.reachEnd()
     },
   },
   data() {
     return {
       myOrdersList: [],
-      isFinishedLoad: false,
+      isFinishedLoad: true,
       loading: false,
       listPage: 1,
       newOrder: false,

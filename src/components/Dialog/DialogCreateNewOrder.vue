@@ -308,31 +308,12 @@ export default {
   border: 0
   background: none
   z-index: 10
-  &::before
-    content: ''
-    +PosAbs(0,0,0,0,-1)
-    display: block
-    background: none
-    border-radius: 50%
-    transition-duration: .15s
-    transition-timing-function: cubic-bezier(0.4,0.0,0.2,1)
-    transform: scale(0)
-    transition-property: transform,opacity
   &:hover
     color: #121212
     background: none
     border: 0
-    &::before
-      background-color: rgba(122,150,236,.25)
-      border: 0
-      opacity: 1
-      transform: scale(1)
   &:focus
     color: #121212
-    &::before
-      background-color: rgba(122,150,236,.2)
-      opacity: 1
-      transform: scale(1)
 .el-checkbox__original2
   opacity: 0
   outline: 0
