@@ -318,7 +318,7 @@ export default {
           height: 100%
         .formatForm
           width: 45%
-          margin-right: 0.5rem
+          margin-right: .5rem
           position: relative
           .el-textarea
             height: 100%

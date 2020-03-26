@@ -134,7 +134,7 @@ export default {
   data() {
     return {
       emsToken: '',
-      emsChannel: null,
+      emsChannel: '',
       loading: false,
       hasToken: '',
       browser: true,
