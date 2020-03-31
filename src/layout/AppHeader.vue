@@ -45,30 +45,32 @@ export default {
       deptId,
       account,
     } = this.userData
-    const socket = io(`${process.env.VUE_APP_SOCKET_URL}/${companyCode}_oms`)
-    Vue.use(VueSocketIOExt, socket)
+    const socketIo = io(`${process.env.VUE_APP_SOCKET_URL}/${companyCode}_oms`)
+    Vue.use(VueSocketIOExt, socketIo)
     await this.$nextTick()
 
-    this.$socket.client.emit('join', {
-      userName: memberName,
-      companyCode,
-      systemCode: 'oms',
-      deptId,
-      groupId: null,
-      account,
-      socketId: this.$socket.client.id,
-      connected_on: new Date(),
+    socketIo.on('connect', () => {
+      // 連線時向 WebsocketService 告知
+      socketIo.emit('join', {
+        userName: memberName,
+        companyCode,
+        systemCode: 'oms',
+        deptId,
+        groupId: null,
+        account,
+        socketId: socketIo.id,
+        connected_on: new Date(),
+      })
+
+      socketIo.on('kickout', () => {
+        this.logout()
+      })
     })
 
     this.$socket.$subscribe(`${companyCode}_oms`, this.handleOrderStatusChange)
     this.$bus.$on('refreshUserExpenses', () => {
       this.getMonthlyExpenses()
     })
-  },
-  sockets: {
-    kickout() {
-      this.logout()
-    },
   },
   methods: {
     ...mapActions(['showDialog']),
