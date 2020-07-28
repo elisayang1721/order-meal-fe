@@ -97,7 +97,7 @@ deploy-production:
     - *init_rsync
     - *change_file_permissions
     - *change_file_owner
-    - rsync -av --delete --exclude=.git --password-file=/etc/rsync.secret ./dist/ root@${RSYNC_HOST_PRODUCTION}::${RSYNC_MODULE_PRODUCTION}
+    - rsync -av --delete --exclude=.git --password-file=/etc/rsync.secret ./dist/ root@${RSYNC_HOST_MASTER}::${RSYNC_MODULE_MASTER}
   when: manual
   only:
     - master
