@@ -54,7 +54,7 @@ build-staging:
   only:
     - staging
 
-build-production:
+build-master:
   stage: build
   cache:
     # key: ${CI_COMMIT_REF_SLUG}-npm
@@ -91,7 +91,7 @@ deploy-staging:
   only:
     - staging
 
-deploy-production:
+deploy-master:
   stage: deploy
   script:
     - *init_rsync
