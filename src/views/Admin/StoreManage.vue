@@ -133,7 +133,7 @@ export default {
         meals: this.reformString(this.condition.searchByMeals),
         page: this.pageNum,
         pageSize: this.pageSize,
-        sort: 'ASC',
+        sort: 'DESC',
         sortName: 'updatedOn',
         types: this.condition.searchAll ? [] : this.condition.searchByTypes,
       }
