@@ -8,7 +8,7 @@
       template(v-else)
         TotalCommentItem(v-for="(obj,i) in storeComments" :key="i" :item="obj")
     .ratingInner.myCommenInner
-      .innerHead 本次訂餐評論
+      .innerHead 本次點餐評論
       template(v-if="myComment.totalSize === 0")
         .noComment 目前尚未點餐
       template(v-else)
