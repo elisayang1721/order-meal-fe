@@ -138,7 +138,7 @@ export default {
       loading: false,
       hasToken: '',
       browser: true,
-      webTitle: '訂餐系統',
+      webTitle: '點餐系統',
     }
   },
   components: {
