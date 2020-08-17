@@ -32,8 +32,10 @@ export default {
       if (this.$route.query.token) {
         this.channel()
         const token = this.$route.query.token
+        const switchTo = this.$route.query.switchTo ? this.$route.query.switchTo : null
         this.emsToken = token
         const data = {
+          switchTo,
           emsToken: this.emsToken,
           channel: this.emsChannel,
         }
